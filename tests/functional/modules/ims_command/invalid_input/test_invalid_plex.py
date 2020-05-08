@@ -31,7 +31,7 @@ def test_batch_missing_plex(ansible_zos_module):
     batch_list = [{"command": "QUERY PGM", "route": ROUTE}]
     response = hosts.all.ims_command(batch=batch_list)
     for result in response.contacted.values():
-        assert em.MISSING_PLEX in result['msg']
+        assert em.MISSING_PLEX.lower() in result['msg']
         assert result['changed'] == False
 
 def test_batch_malformed_plex_multiple(ansible_zos_module):
@@ -44,7 +44,7 @@ def test_batch_malformed_plex_multiple(ansible_zos_module):
     response = hosts.all.ims_command(batch=batch_list)
     for result in response.contacted.values():
         pprint(result)
-        assert em.MISSING_PLEX in result['msg']
+        assert em.MISSING_PLEX.lower() in result['msg']
         assert result['changed'] == False
 
 def test_batch_correct_and_malformed_plex(ansible_zos_module):

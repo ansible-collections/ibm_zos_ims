@@ -50,7 +50,7 @@ def test_batch_missing_command(ansible_zos_module):
     batch_list = [{"plex": PLEX, "route": ROUTE}]
     response = hosts.all.ims_command(batch=batch_list)
     for result in response.contacted.values():
-        assert em.MISSING_COMMAND in result['msg']
+        assert em.MISSING_COMMAND.lower() in result['msg']
         assert result['changed'] == False
 
 def test_batch_malformed_command_multiple(ansible_zos_module):
