@@ -8,7 +8,7 @@ __metaclass__ = type
 
 
 # from ansible.module_utils.basic import AnsibleModule
-from ansible_collections_ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as ims_em
+from ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as ims_em
 import pytest
 import sys
 # from mock import call
@@ -41,7 +41,7 @@ class DummyModule(object):
         raise FailJsonException(msg=kwargs['msg'])
 
 # Used my some mock modules, should match import directly below
-IMPORT_NAME = 'ansible_collections_ibm_zos_ims.plugins.modules.ims_command'
+IMPORT_NAME = 'ibm_zos_ims.plugins.modules.ims_command'
 
 test_data_ims_command_structure = [
     ("query pgm show(all)", True, None),

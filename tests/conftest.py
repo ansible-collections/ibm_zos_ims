@@ -4,7 +4,7 @@
 # LICENSE: [GNU General Public License version 3](https://opensource.org/licenses/GPL-3.0)
 
 import pytest
-from ansible_collections_ibm_zos_ims.tests.helpers.ztest import ZTestHelper
+from ibm_zos_ims.tests.helpers.ztest import ZTestHelper
 import sys
 from mock import MagicMock
 import importlib

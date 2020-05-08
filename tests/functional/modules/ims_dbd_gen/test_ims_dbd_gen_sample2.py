@@ -11,7 +11,7 @@ import ansible.errors
 import ansible.utils
 import pytest
 from pprint import pprint
-from ansible_collections_ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import DBDInputParameters as ip
+from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import DBDInputParameters as ip
 
 __metaclass__ = type
 

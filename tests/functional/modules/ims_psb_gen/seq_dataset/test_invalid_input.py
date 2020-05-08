@@ -13,7 +13,7 @@ import sys
 CURR_DIR = os.path.dirname(__file__) + "/../helpers"
 sys.path.append(CURR_DIR)
 import run_validate_failure # pylint: disable=import-error
-from ansible_collections_ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import PSBInputParameters as ip
+from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import PSBInputParameters as ip
 
 __metaclass__ = type
 

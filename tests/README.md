@@ -242,7 +242,7 @@ pytest --host-pattern=all --zinventory=/home/myuser/test_config.yml
 
 To run test cases using the bash script, enter the following commands:  
 ```
-cd ansible_collections_ibm_zos_ims/tests
+cd ibm_zos_ims/tests
 ```  
 ```
 chmod +x run.sh
