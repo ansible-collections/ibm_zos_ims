@@ -16,10 +16,8 @@ ims_command -- Submit IMS Commands
 
 Synopsis
 --------
-- Submit Type 1 and Type 2 IMS Commands. User specifies a well formatted
-- IMS Command string along with PLEX and (optional) ROUTE information.
-- IMS will return a completion code, return code, and reason code along
-- with any relevant text indicating the status of the command ran.
+- Submit Type 1 and Type 2 IMS Commands. User specifies a well formatted IMS Command string along with PLEX and (optional) ROUTE information.
+- IMS will return a completion code, return code, and reason code along with any relevant text indicating the status of the command that was run.
 
 
 
@@ -32,7 +30,7 @@ Parameters
  
      
 batch
-  submit multiple ims commands
+  submit multiple IMS commands with a single invocation of the module.
 
 
   | **required**: False
@@ -52,7 +50,7 @@ batch
  
      
   plex
-    Define the PLEX in which the IMS Command will be submitted.
+    Specify the PLEX in which the IMS Command will be submitted.
 
 
     | **required**: True
@@ -62,7 +60,7 @@ batch
  
      
   route
-    Define the IMS System in which the IMS Command will be submitted.
+    Specify the IMS System in which the IMS Command will be submitted.
 
     Leaving this field empty will result in invoking all available routes within the specified PLEX.
 
@@ -85,7 +83,7 @@ command
  
      
 plex
-  Define the PLEX in which the IMS Command will be submitted.
+  Specify the PLEX in which the IMS Command will be submitted.
 
 
   | **required**: True
@@ -95,7 +93,7 @@ plex
  
      
 route
-  Define the IMS System in which the IMS Command will be submitted.
+  Specify the IMS System in which the IMS Command will be submitted.
 
   Leaving this field empty will result in invoking all available routes within the specified PLEX.
 
@@ -160,6 +158,12 @@ Examples
 
 
 
+Notes
+-----
+
+.. note::
+   This module requires Structured Call Interface (SCI) and Operations Manager (OM) to be active in the target IMSplex.
+
 
 
 
@@ -171,7 +175,7 @@ Return Values
       
                               
          changed
-            | ['Variable to indicate if this module effectively modified the target state']
+            | ['Indicates if this module effectively modified the target state.']
       
             | **returned**: always
             
@@ -182,7 +186,7 @@ Return Values
          
                               
          failed
-            | ['Variable to indicate the outcome of the module']
+            | ['Indicates the outcome of the module.']
       
             | **returned**: always
             
@@ -192,12 +196,12 @@ Return Values
       
          
                               
-         output
-            | ['The output provided by the specified IMS Command All the IMS return, reason, and completion codes from running the commands along with associated text']
+         ims_output
+            | ['The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.']
       
             | **returned**: sometimes
             
-            | **type**: dict
+            | **type**: list
 
       
                     
@@ -235,7 +239,7 @@ Return Values
                     
                               
            imsrc
-                | ['IMS general return code.']
+                | ['General IMS return code.']
       
             
                 | **type**: str
@@ -267,7 +271,7 @@ Return Values
          
                               
           subgroup_info
-              | ['Returns output from the OM instance in which the command was routed. Includes OM.']
+              | ['Returns output from the OM instance in which the command was routed.']
       
               | **returned**: always
             
@@ -299,7 +303,7 @@ Return Values
          
                               
           type_2_data
-              | ['Data resulting from the output of the IMS Command submitted.']
+              | ['Data resulting from the output of the IMS command submitted.']
       
               | **returned**: sometimes
             
@@ -319,7 +323,7 @@ Return Values
          
                               
            CCText
-                | ['Completion code text that briefly explains the meaning of the nonzero completion code.']
+                | ['Completion code text that describes the meaning of the nonzero completion code.']
       
             
                 | **type**: str
@@ -333,7 +337,7 @@ Return Values
          
                               
          original_command
-            | ['The command originally submitted by the user']
+            | ['The original command input to the module.']
       
             | **returned**: always
             
@@ -344,7 +348,7 @@ Return Values
          
                               
          msg
-            | ['The output message that the `ims_command` module generates']
+            | ['The output message that the `ims_command` module generates.']
       
             | **returned**: always
             
