@@ -1,3 +1,2 @@
-# ibm_zos_ims
-
-testing webhook with functional id
+# ansible_collections_ibm_zos_ims
+Ansible collection for IBM IMS 

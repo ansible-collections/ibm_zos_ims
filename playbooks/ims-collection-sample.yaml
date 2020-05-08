@@ -1,0 +1,132 @@
+###############################################################################
+# This sample playbook demonstrates using various modules included in the
+# Red Hat Ansible Certified Content for IBM Z IMS collection.
+#
+# Configure:
+#
+# Usage:
+#  ansible-playbook -i <inventory> <playbook>
+#
+# Example:
+#  ansible-playbook -i inventory ims-collection-sample.yaml
+#
+# Notes:
+#  This sample demonstrates various ways to perform tasks using Ansible z/OS
+#  IMS modules. Each module has options available on how automation can be
+#  controlled. This sample does not demonstrate all options, refer to
+#  documentation or ansible-doc for those options.
+#
+#  When running this playbook, review the comments on how ths sample will
+#  interact with your destination target, ensure you have the required
+#  source and destination data sets catalogued.
+#
+#  There are 4 IMS modules being involved in a single playbook. The gen modules
+#  are in order from dbdgen - > psbgen -> acbgen. The outputs from dbdgen(DBDLIB)
+#  and psbgen(PSBLIB) will be inputs to acbgen.
+#
+# Requirements:
+#   IBM z/OS IMS collection 1.0.0 or later
+#   IBM z/OS core collection 1.0.0 or later
+#
+# Configure:
+#   DBDGEN:
+#     src - A PDS, PDSE member, sequential data set, or Unix System Services file path.
+#     member_list - A list of member names if the source specified is a data set.
+#                   Is required if 'location' is 'DATA_SET' else its sequential data set.
+#     destination - The target output DBDLIB partitioned data set where the DBD members
+#                   will be generated to.
+#     sys_lib - Macro libraries that are needed to compile the DBD source.
+#   PSBGEN:
+#     src -
+#     member_list -
+#     destination -
+#     sys_lib -
+#   ACBGEN:
+#     JOB_CARD - it is defined in all.yml
+#     psb_lib - ACB receives input from IMS.PSBLIB data set.
+#     dbd_lib - ACB receives input from IMS.DBDLIB data set.
+#     acb_lib - The target output ACBLIB partitioned data set.
+#     res_lib -
+#     step_lib -
+#
+###############################################################################
+
+---
+- hosts: all
+  collections:
+    - ibm.ibm_zos_core
+    - ibm.ibm_zos_ims
+  gather_facts: no
+
+  environment: "{{ environment_vars }}"
+
+  tasks:
+    - name: DBDGEN
+      ims_dbd_gen:
+        src: IMSTESTL.ANSIBLE.DBD.SRC
+        location: DATA_SET
+        member_list:
+          [
+            DH41SK01,
+            DBFSAMD1,
+            DH41SK01,
+            DBFSAMD2,
+            DBFSAMD3,
+            HOSPVARD,
+            DSVNTZ30,
+            DX41SK01,
+            DX41SK03,
+            DX41SK05,
+            DX41SK06,
+            DX41SK07,
+            DX41SK08,
+            DX41SK09,
+            DX41SK02,
+            DX41SK04,
+          ]
+        "replace": true
+        dest: IMSTESTU.ANSI.DBDLIB2
+        sys_lib:
+          - IMSBLD.I15RTSMM.SDFSMAC
+          - SYS1.MACLIB
+    - name: PSBGEN
+      ims_psb_gen:
+        src: IMSTESTL.ANSIBLE.PSB.SRC
+        location: DATA_SET
+        member_list: [PSBGENL]
+        replace: true
+        # dest: IMSTESTU.OMAR1.PSBLIB
+        dest: IMSTESTU.ANSI.PSBLIB2
+        sys_lib:
+          - IMSBLD.I15RTSMM.SDFSMAC
+          - SYS1.MACLIB
+    # - name: ACBGEN
+    #   ims_acb_gen:
+    #     job_card: "{{ JOB_CARD }}"
+    #     command_input: BUILD
+    #     psb_name:
+    #       - PSBGENL
+    #     psb_lib:
+    #       - IMSTESTU.ANSI.PSBLIB2
+    #     dbd_lib:
+    #       - IMSTESTU.ANSI.DBDLIB2
+    #     acb_lib: IMSTESTU.ANSI.ACBLIB2
+    #     res_lib:
+    #       - IMSNEW.DIPTI.IM00.SDFSRESL
+    #     step_lib:
+    #       - IMSNEW.DIPTI.IM00.SDFSRESL
+    # - name: IMS Command
+    #   ims_command:
+    #     command: DISPLAY DB AUTODB
+    #     plex: PLEX1
+    #     route: IMS1
+
+    # - name: Modify ACBLIB
+    #   ims_command:
+    #     command: “{{ item }}”
+    #     plex: PLEX1
+    #     route: IMS1
+    #   loop:
+    #     - MODIFY PREPARE ACBLIB
+    #     - MODIFY COMMIT
+# ./playbookrunner.sh playbooks/inventory playbooks/ims-collection-sample.yaml
