@@ -1,2 +1,50 @@
-# ibm_zos_ims
-Ansible collection for IBM z/OS IMS
+
+IBM z/OS IMS collection
+========================
+
+The **IBM z/OS IMS collection**, also represented as **ibm\_zos\_ims**
+in this document, is part of the broader offering **Red Hat® Ansible
+Certified Content for IBM Z**. IBM z/OS IMS collection supports tasks
+such as  generating utilities for DBD, PSB and ACB, submitting IMS 
+commands for create, update, query, delete and display IMS commands.  
+
+
+Red Hat Ansible Certified Content for IBM Z
+===========================================
+
+**Red Hat® Ansible Certified Content for IBM Z** provides the ability to
+connect IBM Z® to clients\' wider enterprise automation strategy through
+the Ansible Automation Platform ecosystem. This enables development and
+operations automation on Z through a seamless, unified workflow
+orchestration with configuration management, provisioning, and
+application deployment in one easy-to-use platform.
+
+IBM IMS collection, as part of the broader offering **Red Hat®
+Ansible Certified Content for IBM Z**, is available on both, **Galaxy**
+as community supported and **Automation Hub** with enterprise support.
+
+For **guides** and **reference**, please visit [the documentation
+site](https://ansible-collections.github.io/ibm_zos_ims/).
+
+Features
+========
+
+The IBM IMS collection includes
+[modules](https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/modules/),
+[sample playbooks](https://github.com/ansible-collections/ibm_zos_ims/tree/master/playbooks/),
+and ansible-doc to automate tasks on IMS.
+
+Copyright
+=========
+
+© Copyright IBM Corporation 2020
+
+License
+=======
+
+Some portions of this collection are licensed under [GNU General Public
+License, Version 3.0](https://opensource.org/licenses/GPL-3.0), and
+other portions of this collection are licensed under [Apache License,
+Version 2.0](https://opensource.org/licenses/Apache-2.0).
+
+See individual files for applicable licenses.
