@@ -45,7 +45,7 @@ options:
         required: true
       plex:
         description:
-          - Specify the PLEX in which the IMS Command will be submitted.
+          - Specify the IMSPLEX in which the IMS Command will be submitted.
         type: str
         required: true
       route:
