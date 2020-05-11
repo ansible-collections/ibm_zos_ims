@@ -30,24 +30,29 @@
 #
 # Configure:
 #   DBDGEN:
-#     src - A PDS, PDSE member, sequential data set, or Unix System Services file path.
+#     src - A PDS, PDSE member, sequential data set, or USS file path.
 #     member_list - A list of member names if the source specified is a data set.
-#                   Is required if 'location' is 'DATA_SET' else its sequential data set.
-#     destination - The target output DBDLIB partitioned data set where the DBD members
-#                   will be generated to.
+#                   Is required if 'location' is 'DATA_SET' else its sequential
+#                   data set.
+#     destination - The target output DBDLIB partitioned data set where the DBD
+#                   members will be generated.
 #     sys_lib - Macro libraries that are needed to compile the DBD source.
 #   PSBGEN:
-#     src -
-#     member_list -
-#     destination -
-#     sys_lib -
+#     src - A PDS, PDSE member, sequential data set, or USS file path.
+#     member_list - A list of member names if the source specified is a data set.
+#                   Is required if 'location' is 'DATA_SET' else its sequential
+#                   data set.
+#     destination - The target output PSBLIB partitioned data set where the PSB
+#                   members will be generated.
+#     sys_lib - Macro libraries that are needed to compile the PSB source.
 #   ACBGEN:
 #     JOB_CARD - it is defined in all.yml
-#     psb_lib - ACB receives input from IMS.PSBLIB data set.
-#     dbd_lib - ACB receives input from IMS.DBDLIB data set.
+#     psb_lib - ACBGEN receives input from IMS.PSBLIB data set.
+#     dbd_lib - ACBGEN receives input from IMS.DBDLIB data set.
 #     acb_lib - The target output ACBLIB partitioned data set.
-#     res_lib -
-#     step_lib -
+#     step_lib - Points to IMS.SDFSRESL
+#     res_lib - Optional, points to an authorized library.
+#               Usually, points to step_lib (IMS.SDFSRESL)
 #
 ###############################################################################
 
@@ -89,44 +94,22 @@
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
+
     - name: PSBGEN
       ims_psb_gen:
         src: IMSTESTL.ANSIBLE.PSB.SRC
         location: DATA_SET
         member_list: [PSBGENL]
         replace: true
-        # dest: IMSTESTU.OMAR1.PSBLIB
         dest: IMSTESTU.ANSI.PSBLIB2
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
-    # - name: ACBGEN
-    #   ims_acb_gen:
-    #     job_card: "{{ JOB_CARD }}"
-    #     command_input: BUILD
-    #     psb_name:
-    #       - PSBGENL
-    #     psb_lib:
-    #       - IMSTESTU.ANSI.PSBLIB2
-    #     dbd_lib:
-    #       - IMSTESTU.ANSI.DBDLIB2
-    #     acb_lib: IMSTESTU.ANSI.ACBLIB2
-    #     res_lib:
-    #       - IMSNEW.DIPTI.IM00.SDFSRESL
-    #     step_lib:
-    #       - IMSNEW.DIPTI.IM00.SDFSRESL
-    # - name: IMS Command
-    #   ims_command:
-    #     command: DISPLAY DB AUTODB
-    #     plex: PLEX1
-    #     route: IMS1
 
-    # - name: Modify ACBLIB
-    #   ims_command:
-    #     command: “{{ item }}”
-    #     plex: PLEX1
-    #     route: IMS1
-    #   loop:
-    #     - MODIFY PREPARE ACBLIB
-    #     - MODIFY COMMIT
+    - name: IMS Command
+      ims_command:
+        command: DISPLAY DB AUTODB
+        plex: PLEX1
+        route: IMS1
+
 # ./playbookrunner.sh playbooks/inventory playbooks/ims-collection-sample.yaml
