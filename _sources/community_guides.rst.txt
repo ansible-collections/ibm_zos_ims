@@ -12,7 +12,7 @@ Review this content periodically to learn when and how to make contributions in
 the future.
 
 .. _git issues:
-   https://github.com/ansible-collections/ibm_zos_core/issues
+   https://github.com/ansible-collections/ibm_zos_ims/issues
 
 Helpful Links
 =============
