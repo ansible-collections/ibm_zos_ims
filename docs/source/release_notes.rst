@@ -12,6 +12,9 @@ Notes
   * Initial beta release of IBM z/OS IMS collection, referred to as ibm_zos_ims
     which is part of the broader offering
     Red Hat® Ansible Certified Content for IBM Z.
+  * New modules
+
+    * ims_dbdgen, ims_psbgen, ims_command
 
 Availability
   * Galaxy
