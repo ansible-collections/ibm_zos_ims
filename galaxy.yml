@@ -25,7 +25,6 @@ description: The Red Hat Ansible Certified Content for IBM Z IMS collection incl
 # Portions of this collection are licensed under GNU General Public License Version 3.0
 # and portions of this collection are licensed under Apache License, Version 2.0
 license:
-  - L(GNU General Public License Version 3.0,https://spdx.org/licenses/GPL-3.0-only.html)
   - L(Apache License, Version 2.0, https://spdx.org/licenses/Apache-2.0.html)
 
 # Tags

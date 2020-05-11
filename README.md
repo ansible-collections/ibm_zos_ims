@@ -42,9 +42,6 @@ Copyright
 License
 =======
 
-Some portions of this collection are licensed under [GNU General Public
-License, Version 3.0](https://opensource.org/licenses/GPL-3.0), and
-other portions of this collection are licensed under [Apache License,
-Version 2.0](https://opensource.org/licenses/Apache-2.0).
+This collection is licensed under [Apache License, Version 2.0](https://opensource.org/licenses/Apache-2.0).
 
 See individual files for applicable licenses.
