@@ -33,7 +33,7 @@ author:
 options:
   batch:
     description:
-      - submit multiple IMS commands with a single invocation of the module. 
+      - submit multiple IMS commands with a single invocation of the module.
     required: false
     type: list
     elements: dict
@@ -198,7 +198,7 @@ ims_output:
           type: str
 original_command:
   description:
-    The original command input to the module. 
+    The original command input to the module.
   type: str
   returned: always
 msg:
