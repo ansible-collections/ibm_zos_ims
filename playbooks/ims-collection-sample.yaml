@@ -20,13 +20,10 @@
 #  interact with your destination target, ensure you have the required
 #  source and destination data sets catalogued.
 #
-#  There are 4 IMS modules being involved in a single playbook. The gen modules
-#  are in order from dbdgen - > psbgen -> acbgen. The outputs from dbdgen(DBDLIB)
-#  and psbgen(PSBLIB) will be inputs to acbgen.
+#  There are 3 IMS modules being used in this playbook.
 #
 # Requirements:
 #   IBM z/OS IMS collection 1.0.0 or later
-#   IBM z/OS core collection 1.0.0 or later
 #
 # Configure:
 #   DBDGEN:
@@ -37,6 +34,8 @@
 #     destination - The target output DBDLIB partitioned data set where the DBD
 #                   members will be generated.
 #     sys_lib - Macro libraries that are needed to compile the DBD source.
+#
+#
 #   PSBGEN:
 #     src - A PDS, PDSE member, sequential data set, or USS file path.
 #     member_list - A list of member names if the source specified is a data set.
@@ -45,21 +44,17 @@
 #     destination - The target output PSBLIB partitioned data set where the PSB
 #                   members will be generated.
 #     sys_lib - Macro libraries that are needed to compile the PSB source.
-#   ACBGEN:
-#     JOB_CARD - it is defined in all.yml
-#     psb_lib - ACBGEN receives input from IMS.PSBLIB data set.
-#     dbd_lib - ACBGEN receives input from IMS.DBDLIB data set.
-#     acb_lib - The target output ACBLIB partitioned data set.
-#     step_lib - Points to IMS.SDFSRESL
-#     res_lib - Optional, points to an authorized library.
-#               Usually, points to step_lib (IMS.SDFSRESL)
 #
+#
+#   IMS command
+#     command - An IMS type-1 or type-2 command 
+#     plex - The target IMSplex in which the command will be submitted. 
+#     route - The target IMS system to run the command against. 
 ###############################################################################
 
 ---
 - hosts: all
   collections:
-    - ibm.ibm_zos_core
     - ibm.ibm_zos_ims
   gather_facts: no
 
