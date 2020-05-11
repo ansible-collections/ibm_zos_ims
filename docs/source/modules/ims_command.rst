@@ -50,7 +50,7 @@ batch
  
      
   plex
-    Specify the PLEX in which the IMS Command will be submitted.
+    Specify the IMSPLEX in which the IMS Command will be submitted.
 
 
     | **required**: True
@@ -83,7 +83,7 @@ command
  
      
 plex
-  Specify the PLEX in which the IMS Command will be submitted.
+  Specify the IMSPLEX in which the IMS Command will be submitted.
 
 
   | **required**: True
