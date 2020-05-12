@@ -35,11 +35,6 @@ Managed node
 
 * `Python on z/OS`_: 3.6 or later
 * `z/OS`_: V02.02.00 or later
-* `IBM Z Open Automation Utilities`_ (ZOAU)
-
-   * IBM z/OS IMS collections are dependent on specific versions of ZOAU.
-     For information about the required version of ZOAU, review the
-     `release notes`_.
 * `z/OS OpenSSH`_
 
 .. _Python on z/OS:
@@ -47,9 +42,6 @@ Managed node
 
 .. _z/OS:
    https://www.ibm.com/support/knowledgecenter/SSLTBW_2.2.0/com.ibm.zos.v2r2/zos-v2r2-home.html
-
-.. _IBM Z Open Automation Utilities:
-   requirements.html#id1
 
 .. _z/OS OpenSSH:
    https://www.ibm.com/support/knowledgecenter/SSLTBW_2.2.0/com.ibm.zos.v2r2.e0za100/ch1openssh.htm
@@ -81,21 +73,5 @@ for this platform. Rocket Software is currently the preferred version for z/OS.
 .. _Rocket Customer Portal:
    https://my.rocketsoftware.com/
 
-
-ZOAU
-----
-
-IBM Z Open Automation Utilities provide support for executing automation tasks
-on z/OS. With ZOAU, you can run traditional MVS commands, such as IEBCOPY,
-IDCAMS, and IKJEFT01, as well as perform a number of data set operations
-in the scripting language of your choice.
-
-**Installation**
-
-* For the ZOAU FMID, program directory, fix list, latest PTF, installation
-  and configuration instructions, refer to the ZOAU `product page`_.
-
-.. _product page:
-   https://www.ibm.com/support/knowledgecenter/en/SSKFYE_1.0.0/welcome_zoautil.html
 
 
