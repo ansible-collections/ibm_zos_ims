@@ -122,11 +122,6 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
-changed:
-  description:
-    Indicates if this module effectively modified the target state.
-  type: boolean
-  returned: always
 failed:
   description:
     Indicates the outcome of the module.

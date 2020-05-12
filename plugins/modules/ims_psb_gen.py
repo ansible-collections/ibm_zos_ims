@@ -168,7 +168,7 @@ EXAMPLES = r'''
       - SYS1.MACLIB
 '''
 
-RETURN = """
+RETURN = r"""
 batch_result:
   description:
     List of source and result pairs for every processed source.
@@ -211,11 +211,6 @@ stdout:
   returned: success
   type: str
   sample: PSBGEN execution was successful.
-changed:
-  description:
-    Indicates if any changes were made during module execution.
-  type: bool
-  returned: always
 """
 
 from ansible.module_utils.basic import AnsibleModule

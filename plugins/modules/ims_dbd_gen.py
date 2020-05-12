@@ -205,25 +205,25 @@ EXAMPLES = r'''
 
 RETURN = r'''
 batch_result:
-  description:
-    List of output for each DBDGEN run on each element in the list of input source if input is batch.
-  type: list
-  elements: dict
-  contains:
-    return_text:
-      description:
-        Status message.
-      returned: failure
-      type: str
-      sample: success or failure message.
-    src:
-      description:
-        input dbd src name processed.
-      returned: always
-      type: str
+    description:
+        List of output for each DBDGEN run on each element in the list of input source if input is batch.
+    type: list
+    elements: dict
+    contains:
+        return_text:
+          description:
+            Status message.
+          returned: failure
+          type: str
+          sample: success or failure message.
+        src:
+          description:
+            input dbd src name processed.
+          returned: always
+          type: str
 msg:
     description:
-      The message of the dbdgen execution result.
+        The message of the dbdgen execution result.
     returned: always
     type: str
     sample: DBDGEN execution was successful.
@@ -245,11 +245,6 @@ stdout:
     returned: success
     type: str
     sample: Dbdgen was successful
-changed:
-    description:
-      Indicates if any changes were made during module execution.
-    type: bool
-    returned: always
 '''
 
 from ansible.module_utils.basic import AnsibleModule

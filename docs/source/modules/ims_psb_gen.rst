@@ -338,15 +338,4 @@ Return Values
       
             
       
-         
-                              
-         changed
-            | ['Indicates if any changes were made during module execution.']
-      
-            | **returned**: always
-            
-            | **type**: bool
-
-      
-      
         

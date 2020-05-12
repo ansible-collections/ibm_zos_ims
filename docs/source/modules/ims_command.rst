@@ -174,17 +174,6 @@ Return Values
 
       
                               
-         changed
-            | ['Indicates if this module effectively modified the target state.']
-      
-            | **returned**: always
-            
-            | **type**: boolean
-
-      
-      
-         
-                              
          failed
             | ['Indicates the outcome of the module.']
       
