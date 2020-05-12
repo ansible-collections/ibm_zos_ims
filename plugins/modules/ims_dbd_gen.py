@@ -53,7 +53,7 @@ options:
   member_list:
     description:
       - A list of member names if the source specified is a data set.
-      - Is required if 'location' is 'DATA_SET'.
+      - Is required if I(location) is 'DATA_SET'.
       - If 'member_list' is empty and location is set to false, then src
         is expected to be a sequential data set.
     type: list
@@ -103,7 +103,7 @@ options:
         member_list:
           description:
             - A list of member names if the source specified is a data set.
-            - Is required if 'location' is 'DATA_SET'.
+            - Is required if I(location) is 'DATA_SET'.
             - If 'member_list' is empty and location is set to false, then src
               is expected to be a sequential data set.
           type: list

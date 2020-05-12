@@ -73,7 +73,7 @@ batch
   member_list
     A list of member names if the source specified is a data set.
 
-    Is required if 'location' is 'DATA_SET'.
+    Is required if *location* is 'DATA_SET'.
 
     If 'member_list' is empty and location is set to false, then src is expected to be a sequential data set.
 
@@ -147,7 +147,7 @@ location
 member_list
   A list of member names if the source specified is a data set.
 
-  Is required if 'location' is 'DATA_SET'.
+  Is required if *location* is 'DATA_SET'.
 
   If 'member_list' is empty and location is set to false, then src is expected to be a sequential data set.
 
