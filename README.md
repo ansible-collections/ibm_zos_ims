@@ -1,7 +1,7 @@
 IBM z/OS IMS collection
 ========================
 
-Test pipeline. The **IBM z/OS IMS collection**, also represented as **ibm\_zos\_ims**
+The **IBM z/OS IMS collection**, also represented as **ibm\_zos\_ims**
 in this document, is part of the broader offering **Red Hat® Ansible
 Certified Content for IBM Z**. The IBM z/OS IMS collection supports tasks
 such as generating IMS Database Descriptors (DBD) and Program 
