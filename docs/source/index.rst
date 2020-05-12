@@ -28,7 +28,7 @@ automation on Z through a seamless, unified workflow orchestration with
 configuration management, provisioning, and application deployment in one
 easy-to-use platform.
 
-IBM z/OS IMS collection, as part of the broader offering
+**The IBM z/OS IMS collection**, as part of the broader offering
 **Red Hat® Ansible Certified Content for IBM Z**, is available on Galaxy as 
 community supported.
 
