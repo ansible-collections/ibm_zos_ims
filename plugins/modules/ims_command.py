@@ -201,11 +201,6 @@ original_command:
     The original command input to the module. 
   type: str
   returned: always
-msg:
-  description:
-    The output message that the `ims_command` module generates.
-  type: str
-  returned: always
 '''
 
 import json

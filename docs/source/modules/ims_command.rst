@@ -345,15 +345,4 @@ Return Values
 
       
       
-         
-                              
-         msg
-            | ['The output message that the `ims_command` module generates.']
-      
-            | **returned**: always
-            
-            | **type**: str
-
-      
-      
         
