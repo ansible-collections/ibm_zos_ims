@@ -14,7 +14,7 @@ Notes
     Red Hat® Ansible Certified Content for IBM Z.
   * New modules
 
-    * ims_dbdgen, ims_psbgen, ims_command
+    * ims_dbd_gen, ims_psb_gen, ims_command
 
 Availability
   * Galaxy

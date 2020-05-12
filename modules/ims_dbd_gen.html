@@ -102,6 +102,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../playbooks.html">Playbooks</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Community guides</span></p>
 <ul>
@@ -210,7 +211,7 @@
 <dl>
 <dt>batch</dt><dd><p>Batch can be used to perform multiple operations in a single module call.</p>
 <p>Expects a list of the location(s) of the IMS Database Descriptor (DBD) source to be compiled.</p>
-<p>The source can reference a PDS or PDSE member, sequential data set or Unix System Services file path.</p>
+<p>The source can reference a PDS or PDSE member, sequential data set or UNIX System Services file path.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
 <div class="line"><strong>type</strong>: list</div>
@@ -223,7 +224,7 @@
 <div class="line"><strong>type</strong>: str</div>
 </div>
 </dd>
-<dt>location</dt><dd><p>The DBD source location, Supported options are DATA_SET or USS. The default is DATA_SET.</p>
+<dt>location</dt><dd><p>The DBD source location. Supported options are DATA_SET or USS. The default is DATA_SET.</p>
 <p>The DATA_SET option can be used for a PDS, PDSE, or sequential data set.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: True</div>
@@ -233,7 +234,7 @@
 </div>
 </dd>
 <dt>member_list</dt><dd><p>A list of member names if the source specified is a data set.</p>
-<p>Is required if ‘location’ is ‘DATA_SET’.</p>
+<p>Is required if <em>location</em> is ‘DATA_SET’.</p>
 <p>If ‘member_list’ is empty and location is set to false, then src is expected to be a sequential data set.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
@@ -247,7 +248,7 @@
 <div class="line"><strong>default</strong>: True</div>
 </div>
 </dd>
-<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.</p>
+<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.</p>
 <p>If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: True</div>
@@ -269,7 +270,7 @@
 <div class="line"><strong>type</strong>: str</div>
 </div>
 </dd>
-<dt>location</dt><dd><p>The DBD source location, Supported options are DATA_SET or USS. The default is DATA_SET.</p>
+<dt>location</dt><dd><p>The DBD source location. Supported options are DATA_SET or USS. The default is DATA_SET.</p>
 <p>The DATA_SET option can be used for a PDS, PDSE, or sequential data set.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
@@ -279,7 +280,7 @@
 </div>
 </dd>
 <dt>member_list</dt><dd><p>A list of member names if the source specified is a data set.</p>
-<p>Is required if ‘location’ is ‘DATA_SET’.</p>
+<p>Is required if <em>location</em> is ‘DATA_SET’.</p>
 <p>If ‘member_list’ is empty and location is set to false, then src is expected to be a sequential data set.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
@@ -294,7 +295,7 @@
 <div class="line"><strong>default</strong>: True</div>
 </div>
 </dd>
-<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.</p>
+<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.</p>
 <p>If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
@@ -311,7 +312,7 @@
 </div>
 <div class="section" id="examples">
 <h2><a class="toc-backref" href="#id3">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with single USS source.</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with a single USS source.</span>
   <span class="nt">ims_dbd_gen</span><span class="p">:</span>
     <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/tmp/src/somefile</span>
     <span class="nt">location</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">USS</span>
@@ -320,7 +321,7 @@
     <span class="nt">sys_lib</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SOME.DATA.SET.SDFSMAC</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SYS1.MACLIB</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with single sequential data set.source.</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with a single sequential data set.source.</span>
   <span class="nt">ims_dbd_gen</span><span class="p">:</span>
     <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SOME.DATA.SET.DBD</span>
     <span class="s">&#39;replace&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -329,7 +330,7 @@
     <span class="nt">sys_lib</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SOME.DATA.SET.SDFSMAC</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SYS1.MACLIB</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with single PDS source.</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with a single PDS source.</span>
   <span class="nt">ims_dbd_gen</span><span class="p">:</span>
     <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SOME.DATA.SET.DBD.SRC</span>
     <span class="s">&#39;replace&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -337,7 +338,7 @@
     <span class="nt">sys_lib</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SOME.DATA.SET.SDFSMAC</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SYS1.MACLIB</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with batch input uniform source type.</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with a batch input uniform source type.</span>
   <span class="nt">ims_dbd_gen</span><span class="p">:</span>
     <span class="nt">batch</span><span class="p">:</span>
       <span class="p p-Indicator">-</span>
@@ -352,7 +353,7 @@
     <span class="nt">sys_lib</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SOME.DATA.SET.SDFSMAC</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SYS1.MACLIB</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with batch input varied source type.</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS DBDGEN module with a batch input varied source type.</span>
   <span class="nt">ims_dbd_gen</span><span class="p">:</span>
     <span class="nt">batch</span><span class="p">:</span>
       <span class="p p-Indicator">-</span>
@@ -391,7 +392,7 @@
 <div><dl>
 <dt>batch_result</dt><dd><blockquote>
 <div><div class="line-block">
-<div class="line">[‘List of output for each DBDGEN run on each element in the list of input source if input is batch.’]</div>
+<div class="line">List of output for each DBDGEN run on each element in the list of input source if input is batch.</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>type</strong>: list</div>
@@ -399,32 +400,36 @@
 </div></blockquote>
 <dl>
 <dt>return_text</dt><dd><div class="line-block">
-<div class="line">[‘Status message.’]</div>
+<div class="line">Status message.</div>
 </div>
-<div class="line-block">
-<div class="line"><strong>returned</strong>: failure</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>type</strong>: str</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>sample</strong>: success or failure message.</div>
-</div>
-</dd>
-<dt>src</dt><dd><div class="line-block">
-<div class="line">[‘input dbd src name processed.’]</div>
-</div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
+<div class="line-block">
+<div class="line"><strong>sample</strong>: Invalid input source list being passed without content.</div>
+</div>
+</div></blockquote>
+</dd>
+<dt>src</dt><dd><div class="line-block">
+<div class="line">input dbd src name processed.</div>
+</div>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>returned</strong>: always</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>type</strong>: str</div>
+</div>
+</div></blockquote>
 </dd>
 </dl>
 </dd>
 <dt>msg</dt><dd><div class="line-block">
-<div class="line">[‘The message of the dbdgen execution result.’]</div>
+<div class="line">The message of the DBDGEN execution result.</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
@@ -437,7 +442,7 @@
 </div>
 </dd>
 <dt>rc</dt><dd><div class="line-block">
-<div class="line">[‘Module return code (0 means success)’]</div>
+<div class="line">Module return code (0 for success)</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
@@ -447,7 +452,7 @@
 </div>
 </dd>
 <dt>stderr</dt><dd><div class="line-block">
-<div class="line">[‘Module standard error’]</div>
+<div class="line">Module standard error</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: failure</div>
@@ -460,7 +465,7 @@
 </div>
 </dd>
 <dt>stdout</dt><dd><div class="line-block">
-<div class="line">[‘Module standard output’]</div>
+<div class="line">Module standard output</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: success</div>
@@ -469,17 +474,7 @@
 <div class="line"><strong>type</strong>: str</div>
 </div>
 <div class="line-block">
-<div class="line"><strong>sample</strong>: Dbdgen was successful</div>
-</div>
-</dd>
-<dt>changed</dt><dd><div class="line-block">
-<div class="line">[‘Indicates if any changes were made during module execution.’]</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>type</strong>: bool</div>
+<div class="line"><strong>sample</strong>: DBDGEN execution was successful</div>
 </div>
 </dd>
 </dl>

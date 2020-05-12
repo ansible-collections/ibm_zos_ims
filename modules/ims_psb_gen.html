@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Contributing" href="../community_guides.html" />
+    <link rel="next" title="Playbooks" href="../playbooks.html" />
     <link rel="prev" title="ims_dbd_gen – Generate IMS DBD" href="ims_dbd_gen.html" /> 
 </head>
 
@@ -102,6 +102,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../playbooks.html">Playbooks</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Community guides</span></p>
 <ul>
@@ -208,7 +209,7 @@
 <dl>
 <dt>batch</dt><dd><p>Batch can be used to perform multiple operations in a single module call.</p>
 <p>Expects a list of the location(s) of the IMS Program Specification Block (PSB) source to be compiled.</p>
-<p>The source can reference a PDS or PDSE member, sequential data set or Unix System Services file path.</p>
+<p>The source can reference a PDS or PDSE member, sequential data set or UNIX System Services file path.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
 <div class="line"><strong>type</strong>: list</div>
@@ -224,7 +225,7 @@
 </div>
 </dd>
 <dt>member_list</dt><dd><p>A list of member names if the source specified is a data set.</p>
-<p>Is required if ‘location’ is ‘DATA_SET’.</p>
+<p>Is required if <em>location</em> is ‘DATA_SET’.</p>
 <p>If ‘member_list’ is empty and location is set to ‘false’, then src is expected to be a sequential data set.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
@@ -245,7 +246,7 @@
 <div class="line"><strong>default</strong>: True</div>
 </div>
 </dd>
-<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.</p>
+<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.</p>
 <p>If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: True</div>
@@ -270,7 +271,7 @@
 </div>
 </dd>
 <dt>member_list</dt><dd><p>A list of member names if the source specified is a data set.</p>
-<p>Is required if ‘location’ is ‘DATA_SET’.</p>
+<p>Is required if <em>location</em> is ‘DATA_SET’.</p>
 <p>If ‘member_list’ is empty and location is set to ‘false’, then src is expected to be a sequential data set.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
@@ -291,7 +292,7 @@
 <div class="line"><strong>default</strong>: True</div>
 </div>
 </dd>
-<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.</p>
+<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.</p>
 <p>If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
@@ -357,7 +358,7 @@
 <div><dl>
 <dt>batch_result</dt><dd><blockquote>
 <div><div class="line-block">
-<div class="line">[‘List of source and result pairs for every processed source.’]</div>
+<div class="line">List of output for each PSBGEN run on each element in the list of input source if input is batch.</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>type</strong>: list</div>
@@ -365,9 +366,10 @@
 </div></blockquote>
 <dl>
 <dt>return_text</dt><dd><div class="line-block">
-<div class="line">[‘Status message.’]</div>
+<div class="line">Status message.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
 </div>
 <div class="line-block">
@@ -376,24 +378,24 @@
 <div class="line-block">
 <div class="line"><strong>sample</strong>: Invalid input source list being passed without content.</div>
 </div>
+</div></blockquote>
 </dd>
 <dt>src</dt><dd><div class="line-block">
-<div class="line">[‘input psb src  name processed.’]</div>
+<div class="line">input psb src name processed.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-<div class="line-block">
-<div class="line"><strong>sample</strong>: EXAMPLE.PSB.SRC</div>
-</div>
+</div></blockquote>
 </dd>
 </dl>
 </dd>
 <dt>msg</dt><dd><div class="line-block">
-<div class="line">[‘The message of the PSBGEN execution result.’]</div>
+<div class="line">The message of the PSBGEN execution result.</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
@@ -406,7 +408,7 @@
 </div>
 </dd>
 <dt>rc</dt><dd><div class="line-block">
-<div class="line">[‘Module return code.’]</div>
+<div class="line">Module return code (0 for success)</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
@@ -416,7 +418,7 @@
 </div>
 </dd>
 <dt>stderr</dt><dd><div class="line-block">
-<div class="line">[‘Module standard error.’]</div>
+<div class="line">Module standard error.</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: failure</div>
@@ -425,11 +427,11 @@
 <div class="line"><strong>type</strong>: str</div>
 </div>
 <div class="line-block">
-<div class="line"><strong>sample</strong>: Ouput data set for DNAME has invalid record format.</div>
+<div class="line"><strong>sample</strong>: Output data set for DDNAME has invalid record format.</div>
 </div>
 </dd>
 <dt>stdout</dt><dd><div class="line-block">
-<div class="line">[‘Module standard output.’]</div>
+<div class="line">Module standard output.</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: success</div>
@@ -439,16 +441,6 @@
 </div>
 <div class="line-block">
 <div class="line"><strong>sample</strong>: PSBGEN execution was successful.</div>
-</div>
-</dd>
-<dt>changed</dt><dd><div class="line-block">
-<div class="line">[‘Indicates if any changes were made during module execution.’]</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>type</strong>: bool</div>
 </div>
 </dd>
 </dl>
@@ -464,7 +456,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../community_guides.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../playbooks.html" class="btn btn-neutral float-right" title="Playbooks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="ims_dbd_gen.html" class="btn btn-neutral float-left" title="ims_dbd_gen – Generate IMS DBD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -86,6 +86,7 @@
 <p class="caption"><span class="caption-text">Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playbooks.html">Playbooks</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Community guides</span></p>
 <ul>
@@ -169,15 +170,12 @@
 <h1>IBM z/OS IMS collection<a class="headerlink" href="#ibm-z-os-ims-collection" title="Permalink to this headline">¶</a></h1>
 <p>The <strong>IBM z/OS IMS collection</strong>, also represented as <strong>ibm_zos_ims</strong>
 in this document, is part of the broader offering <strong>Red Hat® Ansible
-Certified Content for IBM Z</strong>. IBM z/OS IMS collection supports tasks
-such as creating data sets, submitting jobs, querying jobs,
-retrieving job output, encoding data sets, fetching data sets, operator
-commands, TSO commands, ping and querying operator actions.</p>
-<p>The <strong>IBM z/OS IMS collection</strong> serves as a dependency for other collections
-under the <strong>Red Hat® Ansible Certified Content for IBM Z</strong> umbrella and
-works closely with offerings such as <a class="reference external" href="https://github.com/ansible-collections/ibm_zos_ims">IBM z/OS IMS collection</a> to deliver
-a solution that will enable you to automate tasks on z/OS subsystems such
-as IMS.</p>
+Certified Content for IBM Z</strong>. The IBM z/OS IMS collection supports tasks
+such as generating IMS Database Descriptors (DBD) and Program
+Specification Blocks (PSB) and running IMS type-1 &amp; type-2 commands.</p>
+<p>The <strong>IBM z/OS IMS collection</strong> works closely with offerings such as the
+<a class="reference external" href="https://github.com/ansible-collections/ibm_zos_core">IBM z/OS core collection</a> to deliver a solution that will enable you to
+automate tasks on z/OS.</p>
 </div>
 <div class="section" id="red-hat-ansible-certified-content-for-ibm-z">
 <h1>Red Hat Ansible Certified Content for IBM Z<a class="headerlink" href="#red-hat-ansible-certified-content-for-ibm-z" title="Permalink to this headline">¶</a></h1>
@@ -187,9 +185,9 @@ Ansible Automation Platform ecosystem. This enables development and operations
 automation on Z through a seamless, unified workflow orchestration with
 configuration management, provisioning, and application deployment in one
 easy-to-use platform.</p>
-<p>IBM z/OS IMS collection, as part of the broader offering
-<strong>Red Hat® Ansible Certified Content for IBM Z</strong>, will be available on both,
-Galaxy as community supported and Automation Hub with enterprise support.</p>
+<p><strong>The IBM z/OS IMS collection</strong>, as part of the broader offering
+<strong>Red Hat® Ansible Certified Content for IBM Z</strong>, is available on Galaxy as
+community supported.</p>
 </div>
 <div class="section" id="features">
 <h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
@@ -203,7 +201,6 @@ ansible-doc to automate tasks on z/OS.</p>
 <div class="section" id="license">
 <h1>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h1>
 <p>This collection is licensed under <a class="reference external" href="https://opensource.org/licenses/Apache-2.0">Apache License, Version 2.0</a>.</p>
-<p>See individual files for applicable licenses.</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
@@ -220,6 +217,10 @@ ansible-doc to automate tasks on z/OS.</p>
 <li class="toctree-l3"><a class="reference internal" href="modules/ims_psb_gen.html">ims_psb_gen – Generate IMS PSB</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="playbooks.html">Playbooks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="playbooks.html#playbook-documentation">Playbook Documentation</a></li>
 </ul>
 </li>
 </ul>
