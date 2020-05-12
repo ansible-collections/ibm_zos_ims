@@ -6,7 +6,7 @@ Installation
 ============
 
 You can install the **IBM z/OS IMS collection** using one of these options:
-Ansible Galaxy, Ansible Automation Hub, or a local build.
+Ansible Galaxy or a local build.
 
 For more information on installing collections, see `using collections`_.
 
