@@ -213,9 +213,9 @@ batch_result:
         return_text:
           description:
             Status message.
-          returned: failure
+          returned: always
           type: str
-          sample: success or failure message.
+          sample: Invalid input source list being passed without content.
         src:
           description:
             input dbd src name processed.
@@ -223,13 +223,13 @@ batch_result:
           type: str
 msg:
     description:
-        The message of the dbdgen execution result.
+        The message of the DBDGEN execution result.
     returned: always
     type: str
     sample: DBDGEN execution was successful.
 rc:
     description:
-      Module return code (0 means success)
+      Module return code (0 for success)
     returned: always
     type: int
     sample: 0
@@ -244,7 +244,7 @@ stdout:
       Module standard output
     returned: success
     type: str
-    sample: Dbdgen was successful
+    sample: DBDGEN execution was successful
 '''
 
 from ansible.module_utils.basic import AnsibleModule

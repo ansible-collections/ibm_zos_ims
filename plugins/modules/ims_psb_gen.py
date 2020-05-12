@@ -170,23 +170,22 @@ EXAMPLES = r'''
 
 RETURN = r"""
 batch_result:
-  description:
-    List of source and result pairs for every processed source.
-  type: list
-  elements: dict
-  contains:
-    return_text:
-      description:
-        Status message.
-      returned: always
-      type: str
-      sample: 'Invalid input source list being passed without content.'
-    src:
-      description:
-        input psb src  name processed.
-      returned: always
-      type: str
-      sample: EXAMPLE.PSB.SRC
+    description: 
+        List of output for each PSBGEN run on each element in the list of input source if input is batch.
+    type: list
+    elements: dict
+    contains:
+        return_text:
+          description:
+            Status message.
+          returned: always
+          type: str
+          sample: Invalid input source list being passed without content.
+        src:
+          description:
+            input psb src name processed.
+          returned: always
+          type: str
 msg:
     description:
       The message of the PSBGEN execution result.
@@ -194,23 +193,23 @@ msg:
     type: str
     sample: PSBGEN execution was successful.
 rc:
-  description:
-    Module return code.
-  returned: always
-  type: int
-  sample: 0
+    description:
+      Module return code (0 for success)
+    returned: always
+    type: int
+    sample: 0
 stderr:
-  description:
-    Module standard error.
-  returned: failure
-  type: str
-  sample: Ouput data set for DNAME has invalid record format.
+    description:
+      Module standard error.
+    returned: failure
+    type: str
+    sample: Output data set for DDNAME has invalid record format.
 stdout:
-  description:
-    Module standard output.
-  returned: success
-  type: str
-  sample: PSBGEN execution was successful.
+    description:
+      Module standard output.
+    returned: success
+    type: str
+    sample: PSBGEN execution was successful.
 """
 
 from ansible.module_utils.basic import AnsibleModule
