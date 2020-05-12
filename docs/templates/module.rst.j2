@@ -148,7 +148,11 @@ See Also
       {%  set _sample       = results[entry].sample %}
 
       {{ entry | indent(level, True) }}
-      {{ "  " * level }}| {{ _description }}
+      {% if _description is iterable and _description is not string %}
+      {{ "  " * (level - level) }}| {{ _description[0] }}
+      {% else %}
+      {{ "  " * (level - level) }}| {{ _description }}
+      {% endif %}
       
       {% if _returned %}
 {{ "  " * level }}| **returned**: {{ _returned }}
