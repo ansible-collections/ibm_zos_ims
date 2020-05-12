@@ -191,11 +191,6 @@ ims_output:
           description:
             Completion code text that describes the meaning of the nonzero completion code.
           type: str
-original_command:
-  description:
-    The original command input to the module.
-  type: str
-  returned: always
 '''
 
 import json
@@ -472,7 +467,6 @@ def run_module():
             plex = batch_result['plex']
             route = batch_result['route']
             status, command_result_dict = execute_ims_command(command, plex, route, module)
-            command_result_dict['original_command'] = command
             if not status:
                 # If the command failed, set variable to true and continue batch commands
                 failure_occured = True
