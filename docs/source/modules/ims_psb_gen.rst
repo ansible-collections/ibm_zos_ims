@@ -249,8 +249,8 @@ Return Values
       
                               
          batch_result
-            | ['List of source and result pairs for every processed source.']
-      
+            | List of output for each PSBGEN run on each element in the list of input source if input is batch.
+            
             
             | **type**: list
 
@@ -258,8 +258,8 @@ Return Values
                     
                               
           return_text
-              | ['Status message.']
-      
+            | Status message.
+            
               | **returned**: always
             
               | **type**: str
@@ -272,24 +272,21 @@ Return Values
          
                               
           src
-              | ['input psb src  name processed.']
-      
+            | input psb src name processed.
+            
               | **returned**: always
             
               | **type**: str
 
-                  
-              | **sample**: EXAMPLE.PSB.SRC
       
-            
       
         
       
          
                               
          msg
-            | ['The message of the PSBGEN execution result.']
-      
+            | The message of the PSBGEN execution result.
+            
             | **returned**: always
             
             | **type**: str
@@ -302,8 +299,8 @@ Return Values
          
                               
          rc
-            | ['Module return code.']
-      
+            | Module return code (0 for success)
+            
             | **returned**: always
             
             | **type**: int
@@ -313,22 +310,22 @@ Return Values
          
                               
          stderr
-            | ['Module standard error.']
-      
+            | Module standard error.
+            
             | **returned**: failure
             
             | **type**: str
 
                   
-            | **sample**: Ouput data set for DNAME has invalid record format.
+            | **sample**: Output data set for DDNAME has invalid record format.
       
             
       
          
                               
          stdout
-            | ['Module standard output.']
-      
+            | Module standard output.
+            
             | **returned**: success
             
             | **type**: str

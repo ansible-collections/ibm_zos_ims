@@ -175,8 +175,8 @@ Return Values
       
                               
          failed
-            | ['Indicates the outcome of the module.']
-      
+            | Indicates the outcome of the module.
+            
             | **returned**: always
             
             | **type**: boolean
@@ -186,8 +186,8 @@ Return Values
          
                               
          ims_output
-            | ['The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.']
-      
+            | The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.
+            
             | **returned**: sometimes
             
             | **type**: list
@@ -196,8 +196,8 @@ Return Values
                     
                               
           ims_member_data
-              | ['Output from Type 1 commands.']
-      
+            | Output from Type 1 commands.
+            
               | **returned**: sometimes
             
               | **type**: dict
@@ -207,8 +207,8 @@ Return Values
          
                               
           ims_member_messages
-              | ['Messages from the IMS instance in which the command was routed.']
-      
+            | Messages from the IMS instance in which the command was routed.
+            
               | **returned**: sometimes
             
               | **type**: dict
@@ -218,8 +218,8 @@ Return Values
          
                               
           return_codes
-              | ['Return codes indicating the general result of running the IMS command.']
-      
+            | Return codes indicating the general result of running the IMS command.
+            
               | **returned**: always
             
               | **type**: dict
@@ -228,8 +228,8 @@ Return Values
                     
                               
            imsrc
-                | ['General IMS return code.']
-      
+            | General IMS return code.
+            
             
                 | **type**: str
 
@@ -238,8 +238,8 @@ Return Values
          
                               
            reason
-                | ['Return code indicating specific status of the command.']
-      
+            | Return code indicating specific status of the command.
+            
             
                 | **type**: str
 
@@ -248,8 +248,8 @@ Return Values
          
                               
            results
-                | ['Return code indicating the results of the command.']
-      
+            | Return code indicating the results of the command.
+            
             
                 | **type**: str
 
@@ -260,8 +260,8 @@ Return Values
          
                               
           subgroup_info
-              | ['Returns output from the OM instance in which the command was routed.']
-      
+            | Returns output from the OM instance in which the command was routed.
+            
               | **returned**: always
             
               | **type**: dict
@@ -270,8 +270,8 @@ Return Values
                     
                               
            ctl.rc
-                | ['Return code (i.e. 0000000).']
-      
+            | Return code (i.e. 0000000).
+            
             
                 | **type**: str
 
@@ -280,8 +280,8 @@ Return Values
          
                               
            ctl.rsn
-                | ['CTL reason code.']
-      
+            | CTL reason code.
+            
             
                 | **type**: str
 
@@ -292,8 +292,8 @@ Return Values
          
                               
           type_2_data
-              | ['Data resulting from the output of the IMS command submitted.']
-      
+            | Data resulting from the output of the IMS command submitted.
+            
               | **returned**: sometimes
             
               | **type**: dict
@@ -302,8 +302,8 @@ Return Values
                     
                               
            CC
-                | ['Completion code for the line of output. Completion code is always returned.']
-      
+            | Completion code for the line of output. Completion code is always returned.
+            
             
                 | **type**: str
 
@@ -312,8 +312,8 @@ Return Values
          
                               
            CCText
-                | ['Completion code text that describes the meaning of the nonzero completion code.']
-      
+            | Completion code text that describes the meaning of the nonzero completion code.
+            
             
                 | **type**: str
 
@@ -326,8 +326,8 @@ Return Values
          
                               
          original_command
-            | ['The original command input to the module.']
-      
+            | The original command input to the module.
+            
             | **returned**: always
             
             | **type**: str

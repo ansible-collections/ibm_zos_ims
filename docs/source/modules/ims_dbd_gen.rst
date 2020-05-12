@@ -284,8 +284,8 @@ Return Values
       
                               
          batch_result
-            | ['List of output for each DBDGEN run on each element in the list of input source if input is batch.']
-      
+            | List of output for each DBDGEN run on each element in the list of input source if input is batch.
+            
             
             | **type**: list
 
@@ -293,22 +293,22 @@ Return Values
                     
                               
           return_text
-              | ['Status message.']
-      
-              | **returned**: failure
+            | Status message.
+            
+              | **returned**: always
             
               | **type**: str
 
                   
-              | **sample**: success or failure message.
+              | **sample**: Invalid input source list being passed without content.
       
             
       
          
                               
           src
-              | ['input dbd src name processed.']
-      
+            | input dbd src name processed.
+            
               | **returned**: always
             
               | **type**: str
@@ -320,8 +320,8 @@ Return Values
          
                               
          msg
-            | ['The message of the dbdgen execution result.']
-      
+            | The message of the DBDGEN execution result.
+            
             | **returned**: always
             
             | **type**: str
@@ -334,8 +334,8 @@ Return Values
          
                               
          rc
-            | ['Module return code (0 means success)']
-      
+            | Module return code (0 for success)
+            
             | **returned**: always
             
             | **type**: int
@@ -345,8 +345,8 @@ Return Values
          
                               
          stderr
-            | ['Module standard error']
-      
+            | Module standard error
+            
             | **returned**: failure
             
             | **type**: str
@@ -359,14 +359,14 @@ Return Values
          
                               
          stdout
-            | ['Module standard output']
-      
+            | Module standard output
+            
             | **returned**: success
             
             | **type**: str
 
                   
-            | **sample**: Dbdgen was successful
+            | **sample**: DBDGEN execution was successful
       
             
       
