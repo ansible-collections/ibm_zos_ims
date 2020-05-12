@@ -325,12 +325,7 @@ Return Values
       
          
                               
-         original_command
-            | The original command input to the module.
-            
-            | **returned**: always
-            
-            | **type**: str
+         
 
       
       
