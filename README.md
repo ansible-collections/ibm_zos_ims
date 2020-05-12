@@ -4,9 +4,9 @@ IBM z/OS IMS collection
 
 The **IBM z/OS IMS collection**, also represented as **ibm\_zos\_ims**
 in this document, is part of the broader offering **Red Hat® Ansible
-Certified Content for IBM Z**. IBM z/OS IMS collection supports tasks
-such as  generating utilities for DBD, PSB and ACB, submitting IMS 
-commands for create, update, query, delete and display IMS commands.  
+Certified Content for IBM Z**. The IBM z/OS IMS collection supports tasks
+such as generating IMS Database Descriptors (DBD) and Program 
+Specification Blocks (PSB) and running IMS type-1 & type-2 commands.  
 
 
 Red Hat Ansible Certified Content for IBM Z
@@ -21,7 +21,7 @@ application deployment in one easy-to-use platform.
 
 IBM z/OS IMS collection, as part of the broader offering **Red Hat®
 Ansible Certified Content for IBM Z**, is currently available on **Galaxy**
-as community supported with future plans to be available on **Automation Hub** with enterprise support.
+as community supported.
 
 For **guides** and **reference**, please visit [the documentation
 site](https://ansible-collections.github.io/ibm_zos_ims/).
@@ -43,5 +43,3 @@ License
 =======
 
 This collection is licensed under [Apache License, Version 2.0](https://opensource.org/licenses/Apache-2.0).
-
-See individual files for applicable licenses.
