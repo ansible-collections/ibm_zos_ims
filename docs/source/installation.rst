@@ -34,8 +34,8 @@ Here are a few examples of installing the **IBM z/OS IMS collection**:
 By default, the `ansible-galaxy`_ command installs the latest available
 collection, but you can add a version identifier to install a specific version.
 Before installing a collection from Galaxy, review all the available versions.
-Periodically, new releases containing enhancements and features you might be
-interested in become available.
+Periodically, new releases containing enhancements and features that you might
+be interested in become available.
 
 Here's an example command for installing the **IBM z/OS IMS collection** for
 a specific version.
@@ -117,7 +117,7 @@ To configure a Galaxy server list in the ansible.cfg file:
   * Create a new section for each server name.
   * Set the url option for each server name.
 
-For Automation Hub, you additionally need to:
+To configure the server for Automation Hub, you must also:
 
   * Set the auth_url option for each server name.
   * Set the API token for each server name. For more information on API tokens,
@@ -126,7 +126,7 @@ For Automation Hub, you additionally need to:
 .. _Get API token from the version dropdown to copy your API token:
    https://cloud.redhat.com/ansible/automation-hub/token/
 
-The following example shows a configuration for Automation Hub, a private
+The following example shows a configuration for Automation Hub, a privately
 running Galaxy server, and Galaxy:
 
 .. code-block:: yaml

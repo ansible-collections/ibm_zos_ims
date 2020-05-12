@@ -26,7 +26,7 @@ author:
 options:
   src:
     description:
-      - The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.
+      - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
       - If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
     type: str
     default: no
@@ -69,14 +69,14 @@ options:
     description:
       - Batch can be used to perform multiple operations in a single module call.
       - Expects a list of the location(s) of the IMS Program Specification Block (PSB) source to be compiled.
-      - The source can reference a PDS or PDSE member, sequential data set or Unix System Services file path.
+      - The source can reference a PDS or PDSE member, sequential data set or UNIX System Services file path.
     type: list
     elements: dict
     required: false
     suboptions:
       src:
         description:
-          - The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.
+          - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
           - If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
         type: str
         default: no
