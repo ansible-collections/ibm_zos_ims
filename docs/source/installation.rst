@@ -27,7 +27,7 @@ Here are a few examples of installing the **IBM z/OS IMS collection**:
 
 .. code-block:: sh
 
-   $ ansible-galaxy collection install ibm.ibm_zos_ims\
+   $ ansible-galaxy collection install ibm.ibm_zos_ims
    $ ansible-galaxy collection install -f ibm.ibm_zos_ims
    $ ansible-galaxy collection install --force ibm.ibm_zos_ims
 
