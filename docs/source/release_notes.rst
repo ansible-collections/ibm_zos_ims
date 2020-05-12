@@ -21,4 +21,4 @@ Availability
   * GitHub
 
 Reference
-  * Supported by IBM Z Open Automation Utilities: 1.0.2 or later
+  
