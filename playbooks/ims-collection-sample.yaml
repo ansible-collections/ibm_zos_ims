@@ -13,12 +13,12 @@
 # Notes:
 #  This sample demonstrates various ways to perform tasks using Ansible z/OS
 #  IMS modules. Each module has options available on how automation can be
-#  controlled. This sample does not demonstrate all options, refer to
+#  controlled. This sample does not demonstrate all options; refer to the
 #  documentation or ansible-doc for those options.
 #
-#  When running this playbook, review the comments on how ths sample will
-#  interact with your destination target, ensure you have the required
-#  source and destination data sets catalogued.
+#  When running this playbook, review the comments on how this sample will
+#  interact with your destination target and ensure that you have the required
+#  source and destination data sets cataloged.
 #
 #  There are 3 IMS modules being used in this playbook.
 #
@@ -47,9 +47,9 @@
 #
 #
 #   IMS command
-#     command - An IMS type-1 or type-2 command 
-#     plex - The target IMSplex in which the command will be submitted. 
-#     route - The target IMS system to run the command against. 
+#     command - An IMS type-1 or type-2 command
+#     plex - The target IMSplex in which the command will be submitted.
+#     route - The target IMS system to run the command against.
 ###############################################################################
 
 ---
