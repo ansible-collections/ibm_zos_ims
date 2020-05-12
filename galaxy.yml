@@ -2,6 +2,7 @@
 namespace: ibm
 
 # Red Hat Ansible Certified Content for IBM Z
+# IBM z/OS IMS collection
 name: ibm_zos_ims
 
 # The collection version
@@ -20,12 +21,11 @@ authors:
   - Seema Phalke <seema.s.phalke@ibm.com> 
 
 # Description
-description: The Red Hat Ansible Certified Content for IBM Z IMS collection includes connection plugins, action plugins, modules and sample playbooks to automate tasks on Z such as creating data sets, retrieving job output, and submitting jobs.
+description: The Red Hat Ansible Certified Content for IBM Z IMS collection includes modules and sample playbooks to automate tasks for IBM IMS such as generating IMS Database Descriptors (DBD) and Program Specification Blocks (PSB) and running IMS type-1 & type-2 commands.
 
-# Portions of this collection are licensed under GNU General Public License Version 3.0
-# and portions of this collection are licensed under Apache License, Version 2.0
+# This collection is licensed under Apache License, Version 2.0
 license:
-  - L(Apache License, Version 2.0, https://spdx.org/licenses/Apache-2.0.html)
+  - "Apache-2.0"
 
 # Tags
 tags: [ibm, z, zos, z_os, core, zos_core, red_hat_ansible_certified_cotent_for_ibm_z, data_set, jcl, uss, mvs, ims, zos_ims] 
@@ -37,18 +37,17 @@ tags: [ibm, z, zos, z_os, core, zos_core, red_hat_ansible_certified_cotent_for_i
 repository: https://github.com/ansible-collections/ibm_zos_ims
 
 # The URL to any online docs
-documentation: https://github.com/ansible-collections/ibm_zos_ims/wiki 
+documentation: https://ansible-collections.github.io/ibm_zos_ims/index.html
 
 # The URL to the homepage of the collection/project
-# homepage: https://www.ibm.com/it-infrastructure/z/
+homepage: https://www.ibm.com/support/z-content-solutions/ansible/
 
 # The URL to the collection issue tracker
 issues: https://github.com/ansible-collections/ibm_zos_ims/issues
 
 # Ignore files and directories matching the following patterns
 build_ignore:
-  - Dockerfile
-  - Jenkinsfile
   - yamllint.yaml
   - ansible.cfg
   - .gitignore
+  - gh-pages
