@@ -35,7 +35,7 @@ batch
 
   Expects a list of the location(s) of the IMS Database Descriptor (DBD) source to be compiled.
 
-  The source can reference a PDS or PDSE member, sequential data set or Unix System Services file path.
+  The source can reference a PDS or PDSE member, sequential data set or UNIX System Services file path.
 
 
   | **required**: False
@@ -57,7 +57,7 @@ batch
  
      
   location
-    The DBD source location, Supported options are DATA_SET or USS. The default is DATA_SET.
+    The DBD source location. Supported options are DATA_SET or USS. The default is DATA_SET.
 
     The DATA_SET option can be used for a PDS, PDSE, or sequential data set.
 
@@ -96,7 +96,7 @@ batch
  
      
   src
-    The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.
+    The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
 
     If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.
 
@@ -131,7 +131,7 @@ dest
  
      
 location
-  The DBD source location, Supported options are DATA_SET or USS. The default is DATA_SET.
+  The DBD source location. Supported options are DATA_SET or USS. The default is DATA_SET.
 
   The DATA_SET option can be used for a PDS, PDSE, or sequential data set.
 
@@ -172,7 +172,7 @@ replace
  
      
 src
-  The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.
+  The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
 
   If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.
 
@@ -199,7 +199,7 @@ Examples
 .. code-block:: yaml+jinja
 
    
-   - name: Basic example of IMS DBDGEN module with single USS source.
+   - name: Basic example of IMS DBDGEN module with a single USS source.
      ims_dbd_gen:
        src: /tmp/src/somefile
        location: USS
@@ -208,7 +208,7 @@ Examples
        sys_lib:
          - SOME.DATA.SET.SDFSMAC
          - SYS1.MACLIB
-   - name: Basic example of IMS DBDGEN module with single sequential data set.source.
+   - name: Basic example of IMS DBDGEN module with a single sequential data set.source.
      ims_dbd_gen:
        src: SOME.DATA.SET.DBD
        'replace': true
@@ -217,7 +217,7 @@ Examples
        sys_lib:
          - SOME.DATA.SET.SDFSMAC
          - SYS1.MACLIB
-   - name: Basic example of IMS DBDGEN module with single PDS source.
+   - name: Basic example of IMS DBDGEN module with a single PDS source.
      ims_dbd_gen:
        src: SOME.DATA.SET.DBD.SRC
        'replace': true
@@ -225,7 +225,7 @@ Examples
        sys_lib:
          - SOME.DATA.SET.SDFSMAC
          - SYS1.MACLIB
-   - name: Basic example of IMS DBDGEN module with batch input uniform source type.
+   - name: Basic example of IMS DBDGEN module with a batch input uniform source type.
      ims_dbd_gen:
        batch:
          -
@@ -240,7 +240,7 @@ Examples
        sys_lib:
          - SOME.DATA.SET.SDFSMAC
          - SYS1.MACLIB
-   - name: Basic example of IMS DBDGEN module with batch input varied source type.
+   - name: Basic example of IMS DBDGEN module with a batch input varied source type.
      ims_dbd_gen:
        batch:
          -

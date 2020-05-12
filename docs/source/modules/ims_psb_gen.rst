@@ -33,7 +33,7 @@ batch
 
   Expects a list of the location(s) of the IMS Program Specification Block (PSB) source to be compiled.
 
-  The source can reference a PDS or PDSE member, sequential data set or Unix System Services file path.
+  The source can reference a PDS or PDSE member, sequential data set or UNIX System Services file path.
 
 
   | **required**: False
@@ -94,7 +94,7 @@ batch
  
      
   src
-    The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.
+    The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
 
     If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
 
@@ -168,7 +168,7 @@ replace
  
      
 src
-  The src field can reference a PDS, PDSE member, sequential data set, or Unix System Services file path.
+  The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
 
   If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
 
