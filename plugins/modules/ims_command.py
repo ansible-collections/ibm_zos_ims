@@ -72,6 +72,7 @@ options:
     required: false
 notes:
   - This module requires Structured Call Interface (SCI) and Operations Manager (OM) to be active in the target IMSplex.
+  - This module requires the C(STEPLIB) environment variable to be set with the IMS RESLIB concatenated to it. 
 '''
 
 EXAMPLES = '''
