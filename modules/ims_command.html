@@ -310,6 +310,7 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This module requires Structured Call Interface (SCI) and Operations Manager (OM) to be active in the target IMSplex.</p>
+<p>This module requires the <code class="docutils literal notranslate"><span class="pre">STEPLIB</span></code> environment variable to be set with the IMS RESLIB concatenated to it.</p>
 </div>
 </div>
 <div class="section" id="return-values">
@@ -321,87 +322,63 @@
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: boolean</div>
 </div>
 </dd>
-<dt>ims_output</dt><dd><blockquote>
-<div><div class="line-block">
+<dt>ims_output</dt><dd><div class="line-block">
 <div class="line">The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: sometimes</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: list</div>
 </div>
-</div></blockquote>
 <dl>
 <dt>ims_member_data</dt><dd><div class="line-block">
 <div class="line">Output from Type 1 commands.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><strong>returned</strong>: sometimes</div>
-</div>
 <div class="line-block">
+<div class="line"><strong>returned</strong>: sometimes</div>
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
 </dd>
 <dt>ims_member_messages</dt><dd><div class="line-block">
 <div class="line">Messages from the IMS instance in which the command was routed.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><strong>returned</strong>: sometimes</div>
-</div>
 <div class="line-block">
+<div class="line"><strong>returned</strong>: sometimes</div>
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
 </dd>
 <dt>return_codes</dt><dd><blockquote>
 <div><div class="line-block">
 <div class="line">Return codes indicating the general result of running the IMS command.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><strong>returned</strong>: always</div>
-</div>
 <div class="line-block">
+<div class="line"><strong>returned</strong>: always</div>
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
 </div></blockquote>
 <dl>
 <dt>imsrc</dt><dd><div class="line-block">
 <div class="line">General IMS return code.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 <dt>reason</dt><dd><div class="line-block">
 <div class="line">Return code indicating specific status of the command.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 <dt>results</dt><dd><div class="line-block">
 <div class="line">Return code indicating the results of the command.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 </dl>
 </dd>
@@ -409,33 +386,25 @@
 <div><div class="line-block">
 <div class="line">Returns output from the OM instance in which the command was routed.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><strong>returned</strong>: always</div>
-</div>
 <div class="line-block">
+<div class="line"><strong>returned</strong>: always</div>
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
 </div></blockquote>
 <dl>
 <dt>ctl.rc</dt><dd><div class="line-block">
 <div class="line">Return code (i.e. 0000000).</div>
 </div>
-<blockquote>
-<div><div class="line-block">
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 <dt>ctl.rsn</dt><dd><div class="line-block">
 <div class="line">CTL reason code.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 </dl>
 </dd>
@@ -443,47 +412,29 @@
 <div><div class="line-block">
 <div class="line">Data resulting from the output of the IMS command submitted.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><strong>returned</strong>: sometimes</div>
-</div>
 <div class="line-block">
+<div class="line"><strong>returned</strong>: sometimes</div>
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
 </div></blockquote>
 <dl>
 <dt>CC</dt><dd><div class="line-block">
 <div class="line">Completion code for the line of output. Completion code is always returned.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 <dt>CCText</dt><dd><div class="line-block">
 <div class="line">Completion code text that describes the meaning of the nonzero completion code.</div>
 </div>
-<blockquote>
-<div><div class="line-block">
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 </dl>
 </dd>
 </dl>
-</dd>
-<dt>original_command</dt><dd><div class="line-block">
-<div class="line">The original command input to the module.</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>type</strong>: str</div>
-</div>
 </dd>
 </dl>
 </div></blockquote>
