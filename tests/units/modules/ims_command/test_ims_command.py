@@ -47,9 +47,7 @@ test_data_ims_command_structure = [
     ("query pgm show(all)", True, None),
     ("Not A Real IMS Command)", True, None),
     ("QUERY PGM AA?AA)", True, None),
-    ('inv@lid character', False, ims_em.INVALID_COMMAND_MSG),
-    ('mor3 inval!d character$', False, ims_em.INVALID_COMMAND_MSG),
-    ('unpaired " quote', False, ims_em.INVALID_COMMAND_MSG)
+    ('', False, ims_em.MISSING_COMMAND)
 
 ]
 @pytest.mark.parametrize("raw_command, expected_flag, expected_msg", test_data_ims_command_structure)

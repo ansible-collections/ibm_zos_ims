@@ -31,7 +31,10 @@ def test_invalid_command_characters(ansible_zos_module, command, plex, route):
     hosts = ansible_zos_module
     response = hosts.all.ims_command(command=command, plex=plex, route=route)
     for result in response.contacted.values():
-        assert result['ims_output'][0]['msg'] == em.INVALID_COMMAND_MSG
+        pprint(result)
+        msg = result['ims_output'][0]['msg']
+        err = result['ims_output'][0]['err']
+        assert (msg == em.NON_ZERO_RC_MSG) or (err == em.INVALID_CHAR_IN_CMD)
 
 def test_malformed_command(ansible_zos_module):
     hosts = ansible_zos_module
