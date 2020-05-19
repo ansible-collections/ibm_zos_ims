@@ -221,6 +221,7 @@ def format_ims_command(raw_command):
       return is_valid, error_msg, None
 
     command = raw_command.strip()
+    command = command.replace("\"", "\'")
     return is_valid, None, command
 
 def format_plex(raw_plex):
