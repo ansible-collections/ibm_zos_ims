@@ -1,3 +1,5 @@
+# DBRC Possible Output Scenarios
+### Input
 The following is a sample input scenario of IMS DBRC commands:
 ```
 ims_dbrc:
@@ -13,6 +15,8 @@ ims_dbrc:
     recon3: IMSBANK.IMS1.RECON3
     dbdlib: IMSTESTL.IMS1.DBDLIB
 ```
+
+### Output
 There are three options for the corresponding output of the above sample input.
 
 The first option will simply return all the output from sysprint as is. 
