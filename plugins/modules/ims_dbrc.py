@@ -38,81 +38,96 @@ options:
     suboptions:
       command:
         description:
-          - This is the (well-formatted) DBRC API command to submit.
+          - This is the (well-formatted) DBRC command to submit.
         type: str
         required: true
-      plex:
+      dbdlib:
         description:
-          - Specify the IMSPLEX in which the IMS Command will be submitted.
+          - The data set that contains the database descriptions for the databases that are under the control of DBRC.
+        type: str
+        required: false
+      dynalloc:
+        description:
+          - The DYNALLOC data set that will be used to complete the DBRC execution.
+          - Required if `recon` is not specified.
+        type: str
+        required: false
+      genjcl:
+        description:
+          - The PDS, which contains the JCL and control statements for the utility that DBRC uses to generate a job.
         type: str
         required: true
-      route:
+      recon:
         description:
-          - Specify the IMS System in which the IMS Command will be submitted.
-          - Leaving this field empty will result in invoking all available routes within the specified PLEX.
+          - The RECON data sets that will be used to complete the DBRC execution.
+          - Required if `dynalloc` is not specified.
         type: list
         required: false
+      steplib:
+        description:
+          - Points to IMS.SDFSRESL, which contains the IMS nucleus and the required action modules.
+        type: str
+        required: true
   command:
     description:
-      - This is the (well-formatted) DBRC API command to submit.
+      - This is the (well-formatted) DBRC command to submit.
     type: str
     required: true
-  plex:
+  dbdlib:
     description:
-      - Specify the IMSPLEX in which the IMS Command will be submitted.
+      - The data set that contains the database descriptions for the databases that are under the control of DBRC.
+    type: str
+    required: false
+  dynalloc:
+    description:
+      - The DYNALLOC data set that will be used to complete the DBRC execution.
+      - Required if `recon` is not specified.
+    type: str
+    required: false
+  genjcl:
+    description:
+      - The PDS, which contains the JCL and control statements for the utility that DBRC uses to generate a job.
     type: str
     required: true
-  route:
+  recon:
     description:
-      - Specify the IMS System in which the IMS Command will be submitted.
-      - Leaving this field empty will result in invoking all available routes within the specified PLEX.
+      - The RECON data sets that will be used to complete the DBRC execution.
+      - Required if `dynalloc` is not specified.
     type: list
     required: false
+  steplib:
+    description:
+      - Points to IMS.SDFSRESL, which contains the IMS nucleus and the required action modules.
+    type: str
+    required: true
 '''
 
 EXAMPLES = '''
-- name: Query all programs for IMS1 in PLEX1
-  ims_command:
-    command: QUERY PGM SHOW(ALL)
-    plex: PLEX1
-    route: IMS1
+- name: Sample IMS DBRC Command
+  ims_dbrc:
+    command: LIST.RECON STATUS
+    steplib: IMSBANK.IMS1.SDFSRESL
+    dynalloc: IMSTESTL.IMS1.DYNALLOC
+    genjcl: IMSTESTL.IMS1.GENJCL
+    dbdlib: IMSTESTL.IMS1.DBDLIB
 
-- name: Query all programs for IMS1 and IMS2 in PLEX1
-  ims_command:
-    command: QUERY PGM SHOW(ALL)
-    plex: PLEX1
-    route: ['IMS1', 'IMS2']
-
-- name: Query all transactions for all routes in PLEX1
-  ims_command:
-    command: QUERY TRAN SHOW(ALL)
-    plex: PLEX1
-
-- name: Stop all transactions for IMS2 in PLEX1
-  ims_command:
-    command: UPDATE TRAN STOP(Q)
-    plex: PLEX1
-    route: IMS2
-
-- name: Create a DB called IMSDB1 for IMS3 in PLEX2
-  ims_command:
-    command: CREATE DB NAME(IMSDB1)
-    plex: PLEX2
-    route: IMS3
-
-- name: Batch call - query all pgms, create pgm, and query for new
-  ims_command:
+- name: Sample Batch IMS DBRC Commands
+  ims_dbrc:
     batch:
       -
-        command: QUERY PGM SHOW(ALL)
-        plex: PLEX1
-        route: IMS1
+        command: LIST.RECON STATUS
+        steplib: IMSBANK.IMS1.SDFSRESL
+        dynalloc: IMSTESTL.IMS1.DYNALLOC
+        genjcl: IMSTESTL.IMS1.GENJCL
+        dbdlib: IMSTESTL.IMS1.DBDLIB
+
       -
-        command: CREATE PGM NAME(EXAMPLE1)
-        plex: PLEX1
-        route: IMS1
-      -
-        command: QUERY PGM SHOW(ALL)
-        plex: PLEX1
-        route: IMS1
+        command: LIST.DB ALL
+        steplib: IMSBANK.IMS1.SDFSRESL
+        recon: 
+            - IMSTESTL.IMS1.RECON1
+            - IMSTESTL.IMS1.RECON2
+            - IMSTESTL.IMS1.RECON3
+        genjcl: IMSTESTL.IMS1.GENJCL
+        dbdlib: IMSTESTL.IMS1.DBDLIB
 '''
