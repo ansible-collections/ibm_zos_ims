@@ -74,7 +74,7 @@ options:
 '''
 
 EXAMPLES = '''
-- name: Sample IMS DBRC Command
+- name: Sample DBRC Single Command
   ims_dbrc:
     command: LIST.RECON STATUS
     steplib: IMSBANK.IMS1.SDFSRESL
@@ -82,23 +82,26 @@ EXAMPLES = '''
     genjcl: IMSTESTL.IMS1.GENJCL
     dbdlib: IMSTESTL.IMS1.DBDLIB
 
-- name: Sample Batch IMS DBRC Commands
+- name: Sample DBRC Multiple Commands
   ims_dbrc:
-    batch:
-      -
-        command: LIST.RECON STATUS
-        steplib: IMSBANK.IMS1.SDFSRESL
-        dynalloc: IMSTESTL.IMS1.DYNALLOC
-        genjcl: IMSTESTL.IMS1.GENJCL
-        dbdlib: IMSTESTL.IMS1.DBDLIB
+    command: 
+        - LIST.RECON STATUS
+        - LIST.DB ALL
+        - LIST.DBDS DBD(CUSTOMER)
+    steplib: IMSBANK.IMS1.SDFSRESL
+    dynalloc: IMSTESTL.IMS1.DYNALLOC
+    genjcl: IMSTESTL.IMS1.GENJCL
+    dbdlib: IMSTESTL.IMS1.DBDLIB
 
-      -
-        command: LIST.DB ALL
-        steplib: IMSBANK.IMS1.SDFSRESL
-        recon: 
-            - IMSTESTL.IMS1.RECON1
-            - IMSTESTL.IMS1.RECON2
-            - IMSTESTL.IMS1.RECON3
-        genjcl: IMSTESTL.IMS1.GENJCL
-        dbdlib: IMSTESTL.IMS1.DBDLIB
+- name: Sample DBRC Multiple Commands with RECON specified
+  ims_dbrc:
+    command: 
+        - LIST.RECON STATUS
+        - LIST.DB ALL
+    steplib: IMSBANK.IMS1.SDFSRESL
+    genjcl: IMSTESTL.IMS1.GENJCL
+    recon1: IMSBANK.IMS1.RECON1
+    recon2: IMSBANK.IMS1.RECON2
+    recon3: IMSBANK.IMS1.RECON3
+    dbdlib: IMSTESTL.IMS1.DBDLIB
 '''
