@@ -29,49 +29,10 @@ description:
 author:
   - Omar Elbarmawi (@oelbarmawi)
 options:
-  batch:
-    description:
-      - submit multiple IMS commands with a single invocation of the module.
-    required: false
-    type: list
-    elements: dict
-    suboptions:
-      command:
-        description:
-          - This is the (well-formatted) DBRC command to submit.
-        type: str
-        required: true
-      dbdlib:
-        description:
-          - The data set that contains the database descriptions for the databases that are under the control of DBRC.
-        type: str
-        required: false
-      dynalloc:
-        description:
-          - The DYNALLOC data set that will be used to complete the DBRC execution.
-          - Required if `recon` is not specified.
-        type: str
-        required: false
-      genjcl:
-        description:
-          - The PDS, which contains the JCL and control statements for the utility that DBRC uses to generate a job.
-        type: str
-        required: true
-      recon:
-        description:
-          - The RECON data sets that will be used to complete the DBRC execution.
-          - Required if `dynalloc` is not specified.
-        type: list
-        required: false
-      steplib:
-        description:
-          - Points to IMS.SDFSRESL, which contains the IMS nucleus and the required action modules.
-        type: str
-        required: true
   command:
     description:
       - This is the (well-formatted) DBRC command to submit.
-    type: str
+    type: list
     required: true
   dbdlib:
     description:
@@ -88,12 +49,22 @@ options:
     description:
       - The PDS, which contains the JCL and control statements for the utility that DBRC uses to generate a job.
     type: str
-    required: true
-  recon:
+    required: false
+  recon1:
     description:
-      - The RECON data sets that will be used to complete the DBRC execution.
+      - The RECON1 data set that will be used to complete the DBRC execution.
       - Required if `dynalloc` is not specified.
-    type: list
+    type: str
+    required: false
+  recon2:
+    description:
+      - The RECON2 data set that will be used to complete the DBRC execution.
+    type: str
+    required: false
+  recon3:
+    description:
+      - The RECON3 data set that will be used to complete the DBRC execution.
+    type: str
     required: false
   steplib:
     description:
