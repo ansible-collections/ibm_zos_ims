@@ -1,4 +1,4 @@
-# DBRC Possible Output Scenarios
+# DBRC Potential Output Scenarios
 ### Input
 The following is a sample input scenario of IMS DBRC commands:
 ```
