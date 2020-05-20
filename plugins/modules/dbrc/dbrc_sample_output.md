@@ -240,7 +240,8 @@ Another variation of the output would be to map each individual command to it's 
 }
 ```
 
-The final option is similar to the second option, but the data will be parsed so that each individual field in the output is mapped to its corresponding value where applicable.
+The final option is similar to the second option, but the data will be parsed so that each individual field in the output is mapped to its corresponding value where applicable.  
+**Note**: If we decide to take this route, we can make further adjustments to refine how exactly we want to map each field; given that some lines of output are not as clear cut as others when it comes to mapping. Also we can refine how to want to represent the values in yaml.
 ```
 {
     "changed": "true"
@@ -249,26 +250,23 @@ The final option is similar to the second option, but the data will be parsed so
             "COMMAND": "LIST.RECON STATUS",
             "DATA": [
                 {
-                    "RECON": "",
-                    "RECOVERY CONTROL "DATA" SET, IMS V15R1": "", 
                     "DMB#": "5",
                     "INIT TOKEN": "20139F1535085F",
-                    "FORCER": ""
                     "LOG DSN CHECK": "CHECK44",
-                    "STARTNEW": "NO",
+                    "STARTNEW": false,
                     "TAPE UNIT": "",
                     "DASD UNIT": "SYSALLDA TRACEOFF",
                     "SSID": "IMS1",
-                    "LIST DLOG": "NO",
-                    "CA/IC/LOG "DATA" SETS CATALOGED": "YES",
+                    "LIST DLOG": false,
+                    "CA/IC/LOG DATA SETS CATALOGED": true,
                     "MINIMUM VERSION": "13.1",
                     "CROSS DBRC SERVICE LEVEL ID": "00002",
-                    "REORG NUMBER VERIFICATION": "NO",
+                    "REORG NUMBER VERIFICATION": false,
                     "LOG RETENTION PERIOD": "00.001 00:00:00.0",
-                    "COMMAND AUTH": "NONE",
-                    "HLQ": "**NULL**",
-                    "RCNQUAL": "**NULL**",
-                    "CATALOG": "**NULL**",
+                    "COMMAND AUTH": null,
+                    "HLQ": null,
+                    "RCNQUAL": null,
+                    "CATALOG": null,
                     "ACCESS": "SERIAL",
                     "LIST": "STATIC",
                     "SIZALERT DSNUM": "15",
@@ -283,32 +281,41 @@ The final option is similar to the second option, but the data will be parsed so
                         "DEFAULT": "LOCORG NONE   PUNC YY",
                         "CURRENT": "LOCORG NONE   PUNC YY",
                     }
-                    "IMSPLEX": "** NONE **",
-                    "GROUP ID": "** NONE **",
+                    "IMSPLEX": null,
+                    "GROUP ID": null,
                     "DD INFO": [
                         {
                             "DDNAME": "RECON1",
                             "STATUS": "COPY1",
-                            ""DATA" SET NAME": "IMSBANK.IMS1.RECON1"
+                            "DATA SET NAME": "IMSBANK.IMS1.RECON1"
                         },
                         {
                             "DDNAME": "RECON2",
                             "STATUS": "COPY2",
-                            ""DATA" SET NAME": "IMSBANK.IMS1.RECON2"
+                            "DATA SET NAME": "IMSBANK.IMS1.RECON2"
                         },
                         {
                             "DDNAME": "RECON3",
                             "STATUS": "SPARE",
-                            ""DATA" SET NAME": "IMSBANK.IMS1.RECON3"
+                            "DATA SET NAME": "IMSBANK.IMS1.RECON3"
                         }
-                    ]
-                    "NUMBER OF REGISTERED "DATA"BASES": "5",
-                    "DSP0180I  NUMBER OF RECORDS LISTED IS        1": "",
-                    "DSP0203I  COMMAND COMPLETED WITH CONDITION CODE 00": "",
-                    "DSP0220I  COMMAND COMPLETION TIME 20.139 19:48:09.753357": "",
-                    "DSP0211I  COMMAND PROCESSING COMPLETE": "",
-                    "DSP0211I  HIGHEST CONDITION CODE": "00",
-                    "DSP0058I  RML COMMAND COMPLETED": ""
+                    ],
+                    "NUMBER OF REGISTERED DATABASES": "5",
+                    "MESSAGES": [
+                        "RECON",
+                        "RECOVERY CONTROL DATA SET, IMS V15R1",
+                        "FORCER",
+                        "DSP0180I  NUMBER OF RECORDS LISTED IS        1",
+                        "DSP0203I  COMMAND COMPLETED WITH CONDITION CODE 00",
+                        "DSP0220I  COMMAND COMPLETION TIME 20.139 19:48:09.753357",
+                        "DSP0211I  COMMAND PROCESSING COMPLETE",
+                        "DSP0211I  HIGHEST CONDITION CODE 00",
+                        "DSP0058I  RML COMMAND COMPLETED"
+                    ],
+                    "CONDITION CODES": {
+                        "COMPLETED WITH CONDITION CODE": "00",
+                        "HIGHEST CONDITION CODE": "00"
+                    }
                 }
             ],
             "msg": "Success"
@@ -323,24 +330,24 @@ The final option is similar to the second option, but the data will be parsed so
                     "DMB#": "2",
                     "TYPE": "IMS",
                     "SHARE LEVEL": "0"
-                    "GSGNAME": "**NULL**"
+                    "GSGNAME": null,
                     "USID": "0000000001",
                     "AUTHORIZED USID": "0000000000"
                     "RECEIVE USID": "0000000000"
                     "HARD USID": "0000000000",
                     "RECEIVE NEEDED USID": "0000000000",
-                    "DBRCVGRP": "**NULL**",
+                    "DBRCVGRP": null,
                     "FLAGS": {
-                        "BACKOUT NEEDED": "OFF",
-                        "READ ONLY": "OFF",
-                        "PROHIBIT AUTHORIZATION": "OFF",
-                        "RECOVERABLE": "YES",
+                        "BACKOUT NEEDED": false,
+                        "READ ONLY": false,
+                        "PROHIBIT AUTHORIZATION": false,
+                        "RECOVERABLE": true,
                         "EEQE COUNT": "0",
-                        "TRACKING SUSPENDED": "NO",
-                        "OFR REQUIRED": "NO",
-                        "REORG INTENT": "NO",
-                        "QUIESCE IN PROGRESS": "NO",
-                        "QUIESCE HELD": "NO",
+                        "TRACKING SUSPENDED": false,
+                        "OFR REQUIRED": false,
+                        "REORG INTENT": false,
+                        "QUIESCE IN PROGRESS": false,
+                        "QUIESCE HELD": false,
                     },
                     "COUNTERS": {
                         "RECOVERY NEEDED COUNT": "0",
@@ -356,23 +363,23 @@ The final option is similar to the second option, but the data will be parsed so
                     "DMB#": "3",
                     "TYPE": "IMS",
                     "SHARE LEVEL": "0"
-                    "GSGNAME": "**NULL**"
+                    "GSGNAME": null,
                     "USID": "0000000001",
                     "AUTHORIZED USID": "0000000000"
                     "RECEIVE USID": "0000000000"
                     "HARD USID": "0000000000",
                     "RECEIVE NEEDED USID": "0000000000",
-                    "DBRCVGRP": "**NULL**",
+                    "DBRCVGRP": null,
                     "FLAGS": {
-                        "BACKOUT NEEDED": "OFF",
-                        "READ ONLY": "OFF",
-                        "PROHIBIT AUTHORIZATION": "OFF",
-                        "RECOVERABLE": "YES",
-                        "TRACKING SUSPENDED": "NO",
-                        "OFR REQUIRED": "NO",
-                        "REORG INTENT": "NO",
-                        "QUIESCE IN PROGRESS": "NO",
-                        "QUIESCE HELD": "NO",
+                        "BACKOUT NEEDED": false,
+                        "READ ONLY": false,
+                        "PROHIBIT AUTHORIZATION": false,
+                        "RECOVERABLE": true,
+                        "TRACKING SUSPENDED": false,
+                        "OFR REQUIRED": false,
+                        "REORG INTENT": false,
+                        "QUIESCE IN PROGRESS": false,
+                        "QUIESCE HELD": false,
                     },
                     "COUNTERS": {
                         "RECOVERY NEEDED COUNT": "0",
@@ -391,7 +398,6 @@ The final option is similar to the second option, but the data will be parsed so
             "COMMAND": "LIST.DBDS DBD(CUSTOMER)",
             "DATA": [
                 {
-                    "DBDS": "",
                     "DSN": "IMSBANK.IMS1.CUSTOMER.DB",
                     "TYPE": "IMS",
                     "DBD": "CUSTOMER",
@@ -399,35 +405,41 @@ The final option is similar to the second option, but the data will be parsed so
                     "DSID": "001",
                     "DBORG": "HDAM",
                     "DSORG": "OSAM",
-                    "CAGRP": "**NULL**",
+                    "CAGRP": null,
                     "GENMAX": "2",
                     "IC AVAIL": "0",
                     "IC USED": "0",
                     "DSSN": "00000000",
-                    "NOREUSE": "",
                     "RECOVPD": "0",
-                    "DEFLTJCL": "**NULL**",
+                    "DEFLTJCL": null,
                     "ICJCL": "ICJCL",
                     "OICJCL": "OICJCL",
                     "RECOVJCL": "RECOVJCL",
                     "RECVJCL": "ICRCVJCL",
                     "FLAGS": {
-                        "IC NEEDED": "OFF",
-                        "IC RECOMMENDED": "ON",
-                        "RECOV NEEDED": "OFF",
-                        "RECEIVE NEEDED": "OFF"
+                        "IC NEEDED": false,
+                        "IC RECOMMENDED": true,
+                        "RECOV NEEDED": false,
+                        "RECEIVE NEEDED": false
                     }
                     "COUNTERS": {
                         "EEQE COUNT": "0",
-                    }                            
-                    "DSP0180I  NUMBER OF RECORDS LISTED IS        1": "",
-                    "DSP0203I  COMMAND COMPLETED WITH CONDITION CODE 00": "",
-                    "DSP0220I  COMMAND COMPLETION TIME 20.139 19:48:10.874690": "",
-                    "DSP0211I  COMMAND PROCESSING COMPLETE": "",
-                    "DSP0211I  HIGHEST CONDITION CODE": "00",
-                    "DSP0058I  RML COMMAND COMPLETED": ""
+                    }  
+                    "MESSAGES" : [
+                        "DBDS",
+                        "NOREUSE",
+                        "DSP0180I  NUMBER OF RECORDS LISTED IS        1",
+                        "DSP0203I  COMMAND COMPLETED WITH CONDITION CODE 00",
+                        "DSP0220I  COMMAND COMPLETION TIME 20.139 19:48:10.874690",
+                        "DSP0211I  COMMAND PROCESSING COMPLETE",
+                        "DSP0211I  HIGHEST CONDITION CODE 00",
+                        "DSP0058I  RML COMMAND COMPLETED"
+                    ],
+                    "CONDITION CODES": {
+                        "COMPLETED WITH CONDITION CODE": "00",
+                        "HIGHEST CONDITION CODE": "00"
+                    }
                 }
-
             ],
             "msg": "Success"
         }
