@@ -484,12 +484,13 @@ def run_module():
         result['ims_output'].append(command_result_dict)
         if not status:
             module.fail_json(**result)
+        else:
+            result['changed'] = True
 
     if failure_occured:
         result['msg'] = em.BATCH_FAILURE_MSG
         module.fail_json(**result)
 
-    # result['changed'] = True # TODO: Determine when the target state will "change". After command is submitted?
     result['msg'] = em.SUCCESS_MSG
     module.exit_json(**result)
 
