@@ -20,6 +20,9 @@ authors:
   - Omar Elbarmawi <omar@ibm.com>
   - Seema Phalke <seema.s.phalke@ibm.com> 
 
+dependencies:
+  "ibm.ibm_zos_core": ">=0.0.4"
+  
 # Description
 description: The Red Hat Ansible Certified Content for IBM Z IMS collection includes modules and sample playbooks to automate tasks for IBM IMS such as generating IMS Database Descriptors (DBD) and Program Specification Blocks (PSB) and running IMS type-1 & type-2 commands.
 
