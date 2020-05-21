@@ -3,7 +3,7 @@ Address LINK 'CSLULXSB'
  /********************************************************************/ 
  /* any parms are treated as an IMS operator command to issue.       */ 
  /********************************************************************/ 
-name='%s'
+name="%s"
 Parse upper var name theIMScmd '~' route                                     
                                                                         
  /********************************************************************/ 

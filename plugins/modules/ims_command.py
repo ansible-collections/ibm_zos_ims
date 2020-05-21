@@ -203,7 +203,7 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_m
 # from traceback import format_exc
 
 def format_ims_command(raw_command):
-    """Cleans and verifies the user input for IMS Command is valid.
+    """Cleans and verifies the user entered an IMS Command.
 
     Arguments:
         raw_command {str} -- Raw user input for `command` parameter.
@@ -213,21 +213,14 @@ def format_ims_command(raw_command):
         {str} -- Error message, or None for valid command.
         {str} -- Verified IMS Command.
     """
+    is_valid = True
     if not raw_command:
       is_valid = False
       error_msg = em.MISSING_COMMAND
       return is_valid, error_msg, None
 
     command = raw_command.strip()
-    pattern = r"[a-z0-9\(\)\*\s,?]+$"
-    match = re.match(pattern, command, flags=re.IGNORECASE)
-
-    if not match:
-        is_valid = False
-        error_msg = em.INVALID_COMMAND_MSG
-        return is_valid, error_msg, None
-
-    is_valid = True
+    command = command.replace('\"', '\"\"')
     return is_valid, None, command
 
 def format_plex(raw_plex):
@@ -370,6 +363,8 @@ def scan_for_rexx_error(rexx_output):
         match = re.search(pattern, rexx_output, flags=re.IGNORECASE)
         if match:
             return em.REXX_RETURN_CODE_MSG + match.group(1)
+        elif "invalid character" in rexx_output.lower():
+            return em.INVALID_CHAR_IN_CMD
 
 
 def execute_ims_command(command, plex, route, module):
@@ -404,12 +399,17 @@ def execute_ims_command(command, plex, route, module):
         json_output = json.loads(out, strict=False)
     except ValueError:
         result['msg'] = em.JSON_DECODE_ERROR_MSG
-        result['err'] = scan_for_rexx_error(out)
+        rexx_error = scan_for_rexx_error(out)
+        if rexx_error:
+          result['err'] = rexx_error
+        else:
+          result['err'] = err
         return False, result
 
     is_valid, err = verify_return_code(json_output)
     if not is_valid:
         json_output['msg'] = err
+        json_output['err'] = em.NON_ZERO_ERR_MSG
         return False, json_output
     if rc == None:
         json_output['msg'] = err
@@ -483,12 +483,13 @@ def run_module():
         result['ims_output'].append(command_result_dict)
         if not status:
             module.fail_json(**result)
+        else:
+            result['changed'] = True
 
     if failure_occured:
         result['msg'] = em.BATCH_FAILURE_MSG
         module.fail_json(**result)
 
-    # result['changed'] = True # TODO: Determine when the target state will "change". After command is submitted?
     result['msg'] = em.SUCCESS_MSG
     module.exit_json(**result)
 
