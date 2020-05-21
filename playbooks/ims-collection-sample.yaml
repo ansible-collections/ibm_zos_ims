@@ -108,14 +108,14 @@
         psb_name:
           - PSBGENL
         psb_lib:
-          - IMSTESTU.ANSI.PSBLIB2
+          - IMS.ANSIBLE.PSBLIB
         dbd_lib:
-          - IMSTESTU.ANSI.DBDLIB2
-        acb_lib: IMSTESTU.ANSI.ACBLIB1
+          - IMS.ANSIBLE.DBDLIB
+        acb_lib: IMS.ANSIBLE.ACBLIB
         res_lib:
-          - IMSNEW.DIPTI.IM00.SDFSRESL
+          - BANKIMS.IMS1.SDFSRESL
         steplib:
-          - IMSNEW.DIPTI.IM00.SDFSRESL
+          - BANKIMS.IMS1.SDFSRESL
 
     - name: IMS Command
       ims_command:
