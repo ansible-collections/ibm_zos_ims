@@ -47,7 +47,7 @@ test_data_ims_command_structure = [
     ("query pgm show(all)", True, None),
     ("Not A Real IMS Command)", True, None),
     ("QUERY PGM AA?AA)", True, None),
-    ('', False, ims_em.MISSING_COMMAND)
+    ('', False, ims_em.MISSING_COMMAND) 
 
 ]
 @pytest.mark.parametrize("raw_command, expected_flag, expected_msg", test_data_ims_command_structure)
