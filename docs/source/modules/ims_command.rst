@@ -12,7 +12,11 @@ ims_command -- Submit IMS Commands
 .. contents::
    :local:
    :depth: 1
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
 
 Synopsis
 --------
@@ -27,6 +31,10 @@ Parameters
 ----------
 
 
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
 batch
   submit multiple IMS commands with a single invocation of the module.
@@ -36,6 +44,10 @@ batch
   | **type**: list
 
 
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
   command
     This is the (well-formatted) command to submit to IMS Batch.
@@ -45,6 +57,10 @@ batch
     | **type**: str
 
 
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
   plex
     Specify the IMSPLEX in which the IMS Command will be submitted.
@@ -54,6 +70,10 @@ batch
     | **type**: str
 
 
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
   route
     Specify the IMS System in which the IMS Command will be submitted.
@@ -66,6 +86,10 @@ batch
 
 
 
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
 command
   This is the (well-formatted) command to submit to IMS Batch.
@@ -75,6 +99,10 @@ command
   | **type**: str
 
 
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
 plex
   Specify the IMSPLEX in which the IMS Command will be submitted.
@@ -84,6 +112,10 @@ plex
   | **type**: str
 
 
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
 route
   Specify the IMS System in which the IMS Command will be submitted.
@@ -157,8 +189,11 @@ Notes
 .. note::
    This module requires Structured Call Interface (SCI) and Operations Manager (OM) to be active in the target IMSplex.
 
+<<<<<<< HEAD
    This module requires the ``STEPLIB`` environment variable to be set with the IMS RESLIB concatenated to it.
 
+=======
+>>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
 
 
 
@@ -167,115 +202,152 @@ Notes
 Return Values
 -------------
 
+      
+                              
+         failed
+            | Indicates the outcome of the module.
+            
+            | **returned**: always
+            
+            | **type**: boolean
 
-   
+      
+      
+         
                               
-       failed
-        | Indicates the outcome of the module.
+         ims_output
+            | The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.
+            
+            | **returned**: sometimes
+            
+            | **type**: list
+
       
-        | **returned**: always
-        | **type**: boolean
-      
-      
+                    
                               
-       ims_output
-        | The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.
+          ims_member_data
+            | Output from Type 1 commands.
+            
+              | **returned**: sometimes
+            
+              | **type**: dict
+
       
-        | **returned**: sometimes
-        | **type**: list
-              
-   
+      
+         
                               
-        ims_member_data
-          | Output from Type 1 commands.
+          ims_member_messages
+            | Messages from the IMS instance in which the command was routed.
+            
+              | **returned**: sometimes
+            
+              | **type**: dict
+
       
-          | **returned**: sometimes
-          | **type**: dict
       
-      
+         
                               
-        ims_member_messages
-          | Messages from the IMS instance in which the command was routed.
+          return_codes
+            | Return codes indicating the general result of running the IMS command.
+            
+              | **returned**: always
+            
+              | **type**: dict
+
       
-          | **returned**: sometimes
-          | **type**: dict
-      
-      
+                    
                               
-        return_codes
-          | Return codes indicating the general result of running the IMS command.
-      
-          | **returned**: always
-          | **type**: dict
-              
-   
-                              
-         imsrc
+           imsrc
             | General IMS return code.
+            
+            
+                | **type**: str
+
       
-            | **type**: str
       
-      
+         
                               
-         reason
+           reason
             | Return code indicating specific status of the command.
+            
+            
+                | **type**: str
+
       
-            | **type**: str
       
-      
+         
                               
-         results
+           results
             | Return code indicating the results of the command.
+            
+            
+                | **type**: str
+
       
-            | **type**: str
       
         
       
-      
+         
                               
-        subgroup_info
-          | Returns output from the OM instance in which the command was routed.
+          subgroup_info
+            | Returns output from the OM instance in which the command was routed.
+            
+              | **returned**: always
+            
+              | **type**: dict
+
       
-          | **returned**: always
-          | **type**: dict
-              
-   
+                    
                               
-         ctl.rc
+           ctl.rc
             | Return code (i.e. 0000000).
+            
+            
+                | **type**: str
+
       
-            | **type**: str
       
-      
+         
                               
-         ctl.rsn
+           ctl.rsn
             | CTL reason code.
+            
+            
+                | **type**: str
+
       
-            | **type**: str
       
         
       
-      
+         
                               
-        type_2_data
-          | Data resulting from the output of the IMS command submitted.
+          type_2_data
+            | Data resulting from the output of the IMS command submitted.
+            
+              | **returned**: sometimes
+            
+              | **type**: dict
+
       
-          | **returned**: sometimes
-          | **type**: dict
-              
-   
+                    
                               
-         CC
+           CC
             | Completion code for the line of output. Completion code is always returned.
+            
+            
+                | **type**: str
+
       
-            | **type**: str
       
-      
+         
                               
-         CCText
+           CCText
             | Completion code text that describes the meaning of the nonzero completion code.
+            
+            
+                | **type**: str
+
       
-            | **type**: str
       
         
       
