@@ -213,9 +213,10 @@ def run_module():
   #Name of utility catalog populate uses
   program_name = "DFS3PU00"
     
-  #This is a program parameter. Default is false:
+  #This is a program parameter.
   #PARM=(DLI,DFS3PU00,DFSCPL00,,,,,,,,,,,Y,N,,,,,,,,,,,,'DFSDF=001')
   #If irlm is enabled the PARM looks like:  PARM=(DLI,DFS3PU00,DFSCP001,,,,,,,,,,,Y,Y,irlmid,,,,,,,,,,,'DFSDF=001')
+  #Default is false. What is irlmid? 
   is_irlm_enabled = module.params['irlm_enabled']
 
   #The rest of these are dd statements. Need to figure out how dd statements will be called:

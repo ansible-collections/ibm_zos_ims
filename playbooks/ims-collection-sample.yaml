@@ -53,7 +53,7 @@
 ###############################################################################
 
 ---
-- hosts: all
+- hosts: zsystem
   collections:
     - ibm.ibm_zos_ims
   gather_facts: no
@@ -63,7 +63,7 @@
   tasks:
     - name: DBDGEN
       ims_dbd_gen:
-        src: IMSTESTL.ANSIBLE.DBD.SRC
+        src: IMSTESTU.ANSI.DBD.SOURCE
         location: DATA_SET
         member_list:
           [
@@ -85,18 +85,18 @@
             DX41SK04,
           ]
         "replace": true
-        dest: IMSTESTU.ANSI.DBDLIB2
+        dest: IMS.ANSIBLE.DBDLIB
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
 
     - name: PSBGEN
       ims_psb_gen:
-        src: IMSTESTL.ANSIBLE.PSB.SRC
+        src: IMSTESTU.ANSI.PSB.SOURCE
         location: DATA_SET
         member_list: [PSBGENL]
         replace: true
-        dest: IMSTESTU.ANSI.PSBLIB2
+        dest: IMS.ANSIBLE.PSBLIB
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
