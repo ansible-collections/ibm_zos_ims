@@ -72,6 +72,7 @@ options:
     required: false
 notes:
   - This module requires Structured Call Interface (SCI) and Operations Manager (OM) to be active in the target IMSplex.
+  - This module requires the C(STEPLIB) environment variable to be set with the IMS RESLIB concatenated to it. 
 '''
 
 EXAMPLES = '''
@@ -191,11 +192,6 @@ ims_output:
           description:
             Completion code text that describes the meaning of the nonzero completion code.
           type: str
-original_command:
-  description:
-    The original command input to the module.
-  type: str
-  returned: always
 '''
 
 import json
@@ -472,7 +468,6 @@ def run_module():
             plex = batch_result['plex']
             route = batch_result['route']
             status, command_result_dict = execute_ims_command(command, plex, route, module)
-            command_result_dict['original_command'] = command
             if not status:
                 # If the command failed, set variable to true and continue batch commands
                 failure_occured = True

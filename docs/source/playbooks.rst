@@ -15,24 +15,23 @@ An `Ansible playbook`_ consists of organized instructions that define work for
 a managed node (host) to be managed with Ansible.
 
 A `playbooks directory`_ that contains a sample playbook is included in the
-**IBM z/OS IMS collection**. The sample playbook is for reference and can be run 
+**IBM z/OS IMS collection**. The sample playbook is for reference and can be run
 with the ``ansible-playbook`` command with some modification to the **inventory**,
-**ansible.cfg** and **group_vars** as well as updates to the module parameters 
+**ansible.cfg** and **group_vars** as well as updates to the module parameters
 to reference your IMS artifacts and configuration.
 
-To get started with configuring your environment for running playbooks, see the 
-`sample configuration and setup`_ section and the `sample playbooks`_ in the 
+To get started with configuring your environment for running playbooks, see the
+`sample configuration and setup`_ section and the `sample playbooks`_ in the
 **IBM z/OS core collection.**
 
 You can find the playbook content that is included with the collection in the
 same location where the collection is installed. For more information, refer to
-the `installation documentation`_. In the following examples, this document will
-refer to the installation path as ``~/.ansible/collections/ibm/ibm_zos_ims``.
+the `installation documentation`_. 
 
-The sample playbook that is included in the **IBM z/OS IMS collection** demonstrates 
-how to perform tasks using the modules included in the **Red Hat Ansible Certified 
-Content for IBM z/OS IMS collection.** The sample does not demonstrate all of the 
-available module options for the collection. To learn more about all the available 
+The sample playbook that is included in the **IBM z/OS IMS collection** demonstrates
+how to perform tasks using the modules included in the **Red Hat Ansible Certified
+Content for IBM z/OS IMS collection.** The sample does not demonstrate all of the
+available module options for the collection. To learn more about all the available
 options, refer to the ansible-doc or the `module reference`_.
 
 .. _Ansible playbook:

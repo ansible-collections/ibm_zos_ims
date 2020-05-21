@@ -13,12 +13,12 @@
 # Notes:
 #  This sample demonstrates various ways to perform tasks using Ansible z/OS
 #  IMS modules. Each module has options available on how automation can be
-#  controlled. This sample does not demonstrate all options, refer to
+#  controlled. This sample does not demonstrate all options; refer to the
 #  documentation or ansible-doc for those options.
 #
-#  When running this playbook, review the comments on how ths sample will
-#  interact with your destination target, ensure you have the required
-#  source and destination data sets catalogued.
+#  When running this playbook, review the comments on how this sample will
+#  interact with your destination target and ensure that you have the required
+#  source and destination data sets cataloged.
 #
 #  There are 3 IMS modules being used in this playbook.
 #
@@ -47,15 +47,16 @@
 #
 #
 #   IMS command
-#     command - An IMS type-1 or type-2 command 
-#     plex - The target IMSplex in which the command will be submitted. 
-#     route - The target IMS system to run the command against. 
+#     command - An IMS type-1 or type-2 command
+#     plex - The target IMSplex in which the command will be submitted.
+#     route - The target IMS system to run the command against.
 ###############################################################################
 
 ---
 - hosts: zsystem
   collections:
     - ibm.ibm_zos_ims
+    - ibm.ibm_zos_core
   gather_facts: no
 
   environment: "{{ environment_vars }}"
@@ -101,10 +102,25 @@
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
 
+    - name: ACBGEN
+      ims_acb_gen:
+        command_input: BUILD
+        psb_name:
+          - PSBGENL
+        psb_lib:
+          - IMSTESTU.ANSI.PSBLIB2
+        dbd_lib:
+          - IMSTESTU.ANSI.DBDLIB2
+        acb_lib: IMSTESTU.ANSI.ACBLIB1
+        res_lib:
+          - IMSNEW.DIPTI.IM00.SDFSRESL
+        steplib:
+          - IMSNEW.DIPTI.IM00.SDFSRESL
+
     - name: IMS Command
       ims_command:
         command: DISPLAY DB AUTODB
         plex: PLEX1
         route: IMS1
 
-# ./playbookrunner.sh playbooks/inventory playbooks/ims-collection-sample.yaml
+# ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml
