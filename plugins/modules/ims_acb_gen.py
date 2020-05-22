@@ -23,8 +23,8 @@ description:
   - The DBD and PSB control blocks will be merged and expanded into an IMS internal format called application control blocks (ACBs).
 
 author:
-  - "Dipti Gandhi (@ddgandhi)"
-  - "Jerry Li (@th365thli)"
+  - Dipti Gandhi (@ddgandhi)
+  - Jerry Li (@th365thli)
 options:
   command_input:
     description:
