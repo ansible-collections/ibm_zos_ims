@@ -85,9 +85,9 @@ EXAMPLES = '''
 - name: Sample DBRC Multiple Commands
   ims_dbrc:
     command: 
-        - LIST.RECON STATUS
-        - LIST.DB ALL
-        - LIST.DBDS DBD(CUSTOMER)
+      - LIST.RECON STATUS
+      - LIST.DB ALL
+      - LIST.DBDS DBD(CUSTOMER)
     steplib: IMSBANK.IMS1.SDFSRESL
     dynalloc: IMSTESTL.IMS1.DYNALLOC
     genjcl: IMSTESTL.IMS1.GENJCL
@@ -96,12 +96,51 @@ EXAMPLES = '''
 - name: Sample DBRC Multiple Commands with RECON specified
   ims_dbrc:
     command: 
-        - LIST.RECON STATUS
-        - LIST.DB ALL
+      - LIST.RECON STATUS
+      - LIST.DB ALL
     steplib: IMSBANK.IMS1.SDFSRESL
     genjcl: IMSTESTL.IMS1.GENJCL
     recon1: IMSBANK.IMS1.RECON1
     recon2: IMSBANK.IMS1.RECON2
     recon3: IMSBANK.IMS1.RECON3
     dbdlib: IMSTESTL.IMS1.DBDLIB
+'''
+
+RETURN = '''
+changed:
+  description:
+    Indicates if this module effectively modified the target state.
+  type: boolean
+  returned: always
+dbrc_output:
+  description:
+    The output provided by the specified DBRC Command(s).
+  type: list
+  returned: sometimes
+  contains:
+    command:
+      description:
+        The original command input to the module.
+      returned: always
+      type: str
+    data:
+      description:
+        Parsed fields from the output content that is mapped to its corresponding value.
+      returned: always
+      type: dict
+    output_content:
+      description:
+        Unformatted output response from the corresponding DBRC command.
+      returned: always
+      type: str
+failed:
+  description:
+    Indicates the outcome of the module.
+  type: boolean
+  returned: always
+msg:
+  description:
+    The output message that the `ims_dbrc` module generates.
+  type: str
+  returned: always
 '''
