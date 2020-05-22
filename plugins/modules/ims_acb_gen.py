@@ -15,12 +15,13 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r'''
 ---
 module: ims_acb_gen
-short_description: Generate ACBs for PSB and DBD
-description:
-  - When an application program is scheduled for execution, IMS™ must first have available database descriptor and PSB control blocks previously created.
-  - These control blocks can be created by the DBDGEN and PSBGEN procedures.
-  - These control blocks must then be merged and expanded into an IMS internal format called application control blocks (ACBs).
+short_description: Generate IMS ACB
 version_added: "2.9"
+description:
+  - The ims_acb_gen module generates an IMS application control block (ACB) necessary for an IMS application program to be scheduled and run. 
+  - The ims_dbd_gen and ims_psb_gen modules can be used to generate the associated IMS DBDs and PSBs to be used with the ims_acb_gen module. 
+  - The DBD and PSB control blocks will be merged and expanded into an IMS internal format called application control blocks (ACBs).
+
 author:
   - "Dipti Gandhi (@ddgandhi)"
   - "Jerry Li (@th365thli)"
