@@ -18,6 +18,7 @@ RESLIB = ip.RESLIB
 PSB_NAME = ip.PSB_NAME
 DBD_NAME = ip.DBD_NAME
 DBD_NAMES = ip.DBD_NAMES
+COMP = ip.COMP
 INVALID_PSBLIB = ip.INVALID_PSBLIB
 INVALID_DBDLIB = ip.INVALID_DBDLIB
 INVALID_ACBLIB = ip.INVALID_ACBLIB
@@ -28,6 +29,9 @@ INVALID_PSBS =ip.INVALID_PSBS
 INVALID_DBD = ip.INVALID_DBD
 INVALID_DBDS = ip.INVALID_DBDS
 INVALID_COMP = ip.INVALID_COMP
+INVALID_RECFOR = ip.INVALID_RECFOR
+EMPTY_PSBLIB = ip.EMPTY_PSBLIB
+EMPTY_DBDLIB = ip.EMPTY_DBDLIB
 DBD_DESTINATION = db.DESTINATION
 PSB_DESTINATION = psb.DESTINATION
 SYSLIB = db.SYSLIB
@@ -58,8 +62,7 @@ Work flow for Combination functional tests goes as follows:
 18. PSBLIB with no psbs and DBDLIB populated, BUILD PSB=ALL
 19. DBDLIB with no dbds and PSBLIB populated, BUILD PSB=ALL
 20. Invalid ACBLIB 
-21. ACBLIB with invalid record format PDSE
-22. ACBLIB with invalid record format FB
+21. ACBLIB with invalid record format FB
 """
 
 
@@ -110,14 +113,12 @@ comp, bld_psb, command_input='BUILD'):
         pprint(result)
         print("Changed:", result['changed'])
         assert result['changed'] == False
-        if result['rc']:     
-            assert result['rc'] != 0    
-        else:        
-            print(result['rc'])
-            print("Return code:", result['rc'])
-            assert result['rc'] != 0
-        #assertRaises(NameError, hosts.all.ims_acb_gen.build_psb_name_string)
-
+        # if result['rc']:     
+        #     assert result['rc'] != 0    
+        # else:        
+        #     print(result['rc'])
+        #     print("Return code:", result['rc'])
+        assert result['rc'] != 0
 
 def validate_delete(hosts, psb_name, dbd_name, psb_lib, dbd_lib, acb_lib, steplib, 
              res_lib, comp, command_input="DELETE"):
@@ -136,107 +137,124 @@ def validate_delete(hosts, psb_name, dbd_name, psb_lib, dbd_lib, acb_lib, stepli
         pprint(result)
         print("Changed:", result['changed'])
         assert result['changed'] == False 
-        if result['rc']:
-            assert result['rc'] != '0'    
-        else:
-            print("Return code: ", result['rc'])        
-            assert result['rc'] != '0'
-
-'''
-1. PSB name doesn't exists as string, BUILD PSB=PSB_NAME 
-if greater than 8 characters - bad name, certain symbols - check with Blake's code PSB and DBD
+        # if result['rc']:
+        #     assert result['rc'] != '0'    
+        # else:
+        #     print("Return code: ", result['rc'])        
+        assert result['rc'] != '0'
 
 
-'''
-def test_dbd_gen_build_invalid_psbName_str(ansible_zos_module):
+#1. PSB name doesn't exists as string, BUILD PSB=PSB_NAME 
+def test_acb_gen_build_invalid_psbName_str(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, INVALID_PSB, None, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, True)
 
-'''
-2. Invalid PSBs as list, BUILD PSB=PSB_NAME
-
-'''
-def test_dbd_gen_build_invalid_psbNames(ansible_zos_module):
+#2. Invalid PSBs as list, BUILD PSB=PSB_NAME
+def test_acb_gen_build_invalid_psbNames(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, INVALID_PSBS, None, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, True)
 
 #3. Invalid DBD, BUILD DBD=DBD_NAME
-def test_dbd_gen_build_invalid_dbdName(ansible_zos_module):
+def test_acb_gen_build_invalid_dbdName(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, None, INVALID_DBD, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, True)
 
 #4. Invalid DBDs, BUILD DBD=DBD_NAME
-def test_dbd_gen_build_invalid_dbdNames(ansible_zos_module):
+def test_acb_gen_build_invalid_dbdNames(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, None, INVALID_DBDS, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, True)
 
 
 #5. Invalid PSB and invalid DBD, BUILD PSB=PSB_NAME and BUILD DBD=DBD_NAME,BLDPSB=NO
-def test_dbd_gen_build_invalid_psbName_list(ansible_zos_module):
+def test_acb_gen_build_invalid_psbName_list(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, INVALID_PSB, None, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, True)
 
 
-def test_dbd_gen_build_invalid_psbName_invalid_dbdName(ansible_zos_module):
+def test_acb_gen_build_invalid_psbName_invalid_dbdName(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, INVALID_PSB, INVALID_DBD, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, False)
 
 #6. Valid PSB and invalid DBD, BUILD PSB=PSB_NAME and BUILD DBD=DBD_NAME,BLDPSB=YES
-def test_dbd_gen_build_valid_psbName_invalid_dbdName(ansible_zos_module):
+def test_acb_gen_build_valid_psbName_invalid_dbdName(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, PSB_NAME, INVALID_DBD, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, True)
 
 #7. Invalid PSB and valid DBD, BUILD PSB=PSB_NAME and BUILD DBD=DBD_NAME,BLDPSB=NO
-def test_dbd_gen_build_invalid_psbName_valid_dbdName(ansible_zos_module):
+def test_acb_gen_build_invalid_psbName_valid_dbdName(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, INVALID_PSB, DBD_NAME, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, False)
 
 #8. Invalid PSB, DELETE PSB=PSB_NAME
-def test_dbd_gen_delete_invalid_psbName(ansible_zos_module):
+def test_acb_gen_delete_invalid_psbName(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, INVALID_PSB, None, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None)
 
 #9. Invalid DBD, DELETE DBD=DBD_NAME
-def test_dbd_gen_delete_invalid_dbdName(ansible_zos_module):
+def test_acb_gen_delete_invalid_dbdName(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, None, INVALID_DBD, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None)
 
 #10. Invalid PSB and invalid DBD, DELETE PSB=PSB_NAME and DELETE DBD=DBD_NAME
-def test_dbd_gen_delete_invalid_psbName_invalid_dbdName(ansible_zos_module):
+def test_acb_gen_delete_invalid_psbName_invalid_dbdName(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, INVALID_PSB, INVALID_DBD, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None)
 
 #11. Valid PSB and invalid DBD, DELETE PSB=PSB_NAME and DELETE DBD=DBD_NAME
-def test_dbd_gen_delete_valid_psbName_invalid_dbdName(ansible_zos_module):
+def test_acb_gen_delete_valid_psbName_invalid_dbdName(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, PSB_NAME, INVALID_DBD, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None)
 
 #12. Invalid PSB and valid DBD, DELETE PSB=PSB_NAME and DELETE DBD=DBD_NAME
-def test_dbd_gen_delete_invalid_psbName_valid_dbdName(ansible_zos_module):
+def test_acb_gen_delete_invalid_psbName_valid_dbdName(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, INVALID_PSB, DBD_NAME, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None)
 
 #13. Invalid PSBLIB - LIB not exists
-def test_dbd_gen_delete_invalid_psblib(ansible_zos_module):
+def test_acb_gen_delete_invalid_psblib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, PSB_NAME, DBD_NAME, INVALID_PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None)
 
 #14. Invalid DBDLIB - LIB not exists
-def test_dbd_gen_delete_invalid_dbdlib(ansible_zos_module):
+def test_acb_gen_delete_invalid_dbdlib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, PSB_NAME, DBD_NAME, PSBLIB, INVALID_DBDLIB, ACBLIB, STEPLIB, RESLIB, None)
 
 #15. Invalid STEPLIB - LIB authorized and exists
-def test_dbd_gen_delete_invalid_steplib(ansible_zos_module):
+def test_acb_gen_delete_invalid_steplib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, PSB_NAME, DBD_NAME, PSBLIB, DBDLIB, ACBLIB, INVALID_STEPLIB, RESLIB, None)
 
 #16. Invalid RESLIB - LIB authorized and exists
-def test_dbd_gen_delete_invalid_reslib(ansible_zos_module):
+def test_acb_gen_delete_invalid_reslib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, PSB_NAME, DBD_NAME, PSBLIB, DBDLIB, ACBLIB, STEPLIB, INVALID_RESLIB, None)
 
 #17. Invalid COMP 
-def test_dbd_gen_build_invalid_comp(ansible_zos_module):
+def test_acb_gen_build_invalid_comp(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_build(hosts, INVALID_PSB, None, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, INVALID_COMP, True)
+    validate_build(hosts, PSB_NAME, None, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, INVALID_COMP, True)
+
+
+#18. PSBLIB with no psbs and DBDLIB populated, BUILD PSB=ALL
+def test_acb_gen_delete_no_psbs(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_delete(hosts, PSB_NAME, DBD_NAME, EMPTY_PSBLIB, DBDLIB, ACBLIB, STEPLIB, INVALID_RESLIB, None)
+
+
+#19. DBDLIB with no dbds and PSBLIB populated, BUILD PSB=ALL
+def test_acb_gen_delete_no_dbds(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_delete(hosts, PSB_NAME, DBD_NAME, PSBLIB, EMPTY_DBDLIB, ACBLIB, STEPLIB, INVALID_RESLIB, None)
+
+#20. Invalid ACBLIB 
+# def test_acb_gen_build_invalid_acblib(ansible_zos_module):
+#     hosts = ansible_zos_module
+#     validate_build(hosts, PSB_NAME, None, PSBLIB, DBDLIB, INVALID_ACBLIB, STEPLIB, RESLIB, COMP, False)
+
+#21. ACBLIB with invalid record format FB
+def test_acb_gen_build_acblib_recordFormat_FB(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_build(hosts, PSB_NAME, None, PSBLIB, DBDLIB, INVALID_RECFOR, STEPLIB, RESLIB, COMP, False)
+
+
