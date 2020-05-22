@@ -78,6 +78,7 @@ After installation, the collection content will resemble this hierarchy: :
    │              ├── docs/
    │              ├── playbooks/
    │              ├── plugins/
+                      ├── action/
    │                  ├── module_utils/
    │                  ├── modules/
 
