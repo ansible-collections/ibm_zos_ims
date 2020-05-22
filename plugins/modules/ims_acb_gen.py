@@ -62,12 +62,11 @@ options:
     type: str
   psb_lib:
     description:
-      - The ACB Maintenance utility receives input from IMS.PSBLIB data set.
-      - The ACB Maintenance utility does not change the PSB in IMS.PSBLIB. If changes are made in PSBs that require changes in the associated PSB,
-        make these changes before running the utility.
+      - The ACB Maintenance utility receives input from the IMS PSBLIB data set.
+      - The ACB Maintenance utility does not change the PSB(s) in PSBLIB. If changes are made in PSBs or DBDs that require changes in the associated PSBLIB,
+        make these changes before running the module.
       - Changes in PSBs might also require modifications to the affected application programs. For example, if a DBD has a segment name changed,
         all PSBs which are sensitive to that segment must have their SENSEG statements changed.
-      - Application programs which use this database might also need to be modified.
     required: true
     type: list
   dbd_lib:
