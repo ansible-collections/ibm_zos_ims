@@ -129,7 +129,6 @@ def str_or_list_of_str(contents, dependencies):
         )
     return contents
 
-
 ZOAU_TEMP_USS = "/tmp/test.jcl"
 
 
@@ -192,17 +191,21 @@ class ActionModule(ActionBase):
         dbd_name_str = ""
         if dbd_name:
             dbd_name_str, dbd = split_lines_dbd(command_input, dbd_name, bld_psb)
-            print("dbd-name:", dbd_name)
             if dbd_name_str:
                 dbd_name_str = '\n ' + dbd 
             else:
                 msg = 'A DBD named ' + str(dbd) + ' provided in the module input was not found.'
                 result['rc'] = -1
                 result['msg'] = msg 
-                return result 
-        
-        job_card = task_vars["JOB_CARD"]
-        env_steplib = task_vars["environment_vars"]["STEPLIB"]
+                return result   
+
+        env = task_vars.get("environment_vars")    
+        if env is not None:
+            env_steplib = env.get("STEPLIB")
+        else:    
+            env_steplib = task_vars.get("STEPLIB")
+        job_card = task_vars.get("JOB_CARD")
+
         dd_steplib = build_dd_steplib("STEPLIB", steplib, env_steplib)
 
         dd_reslib = ""
@@ -253,7 +256,6 @@ class ActionModule(ActionBase):
         # Make sure the source file is able to be found
         try:
             source = self._find_needle("files", source)
-            print(source)
         except AnsibleError as e:
             result["failed"] = True
             result["msg"] = to_text(e)
@@ -355,7 +357,7 @@ class ActionModule(ActionBase):
             return_code["msg_txt"] = 'ACBGEN execution unsuccessful.'
 
         newResult = dict(
-            content=job_content, changed=module_changed, rc=rc, msg=return_code["msg_txt"]
+            content=job_content, changed=module_changed, rc=rc, code=return_code['code'], msg=return_code["msg_txt"]
         )
 
         return newResult

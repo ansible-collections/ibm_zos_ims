@@ -52,3 +52,12 @@ class ZTestHelper(object):
             interpreter_string += 'export {0}={1} ;'.format(key, value) 
         interpreter_string += self._python_path
         return interpreter_string
+
+    def build_ims_dict(self):
+        ims_info = {
+            'STEPLIB': self._extra_args.get("extra_args").get("STEPLIB"),
+            'JOB_CARD': self._extra_args.get("extra_args").get("JOB_CARD"),
+        }
+        return ims_info
+
+
