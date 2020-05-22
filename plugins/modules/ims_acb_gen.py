@@ -78,8 +78,8 @@ options:
     type: list
   steplib:
     description:
-      - Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries 
-        that are concatenated to IMS.SDFSRESL, you must include a DFSRESLB DD statement. 
+      - Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries 
+        that are concatenated to SDFSRESL, you must specify the I(res_lib) option. 
     required: false
     type: list
   res_lib:
