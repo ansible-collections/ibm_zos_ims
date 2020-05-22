@@ -19,7 +19,8 @@ short_description: Generate IMS ACB
 version_added: "2.9"
 description:
   - The ims_acb_gen module generates an IMS application control block (ACB) necessary for an IMS application program to be scheduled and run. 
-  - The ims_dbd_gen and ims_psb_gen modules can be used to generate the associated IMS DBDs and PSBs to be used with the ims_acb_gen module. 
+  - The ims_dbd_gen and ims_psb_gen modules can be used to generate the associated IMS database descriptors (DBDs) and program specification 
+    block (PSBs) to be used with the ims_acb_gen module. 
   - The DBD and PSB control blocks will be merged and expanded into an IMS internal format called application control blocks (ACBs).
 
 author:
