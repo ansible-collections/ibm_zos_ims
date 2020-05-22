@@ -21,6 +21,7 @@ Control node
 * `Ansible version`_: 2.9 or later
 * `Python`_: 2.7 or later
 * `OpenSSH`_
+* `IBM z/OS core collection`_
 
 .. _Ansible version:
    https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
@@ -28,6 +29,8 @@ Control node
    https://www.python.org/downloads/release/latest
 .. _OpenSSH:
    https://www.openssh.com/
+.. _IBM z/OS core collection:
+   https://ansible-collections.github.io/ibm_zos_core/index.html
 
 
 Managed node
@@ -36,6 +39,7 @@ Managed node
 * `Python on z/OS`_: 3.6 or later
 * `z/OS`_: V02.02.00 or later
 * `z/OS OpenSSH`_
+* `IBM IMS V15 or later`_
 
 .. _Python on z/OS:
    requirements.html#id1
@@ -45,6 +49,9 @@ Managed node
 
 .. _z/OS OpenSSH:
    https://www.ibm.com/support/knowledgecenter/SSLTBW_2.2.0/com.ibm.zos.v2r2.e0za100/ch1openssh.htm
+
+.. _IBM IMS V15 or later:
+   https://www.ibm.com/support/knowledgecenter/SSEPH2_15.1.0/com.ibm.ims15.doc/ims_product_landing_v15.html
 
 .. _release notes:
    release_notes.html
