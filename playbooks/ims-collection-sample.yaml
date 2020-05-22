@@ -112,7 +112,7 @@
         dbd_lib:
           - IMSTESTU.ANSI.DBDLIB2
         acb_lib: IMSTESTU.ANSI.ACBLIB1
-        res_lib:
+        reslib:
           - IMSNEW.DIPTI.IM00.SDFSRESL
         steplib:
           - IMSNEW.DIPTI.IM00.SDFSRESL

@@ -44,12 +44,15 @@ Work flow for Combination functional tests goes as follows:
 15.Multi line PSB and DBD - BUILD with BLDPSB=YES 
 16.Multi line PSB list over 6 PSB's in the list  
 17.Multi line DBD list over 6 DBD's in the list
+18.STEPLIB=STEPLIB, RESLIB=None 
+19.RESLIB=None, STEPLIB=None(STEPLIB should be retrieved from environment_vars)
+20.STEPLIB=None(STEPLIB should be retrieved from environment_vars), RESLIB=RESLIB
 """
 
 # check in acblib if the member exists - dataset member exists (zos_dataset)
 def validate_build(hosts, psb_name, dbd_name, psb_lib, 
-dbd_lib, acb_lib, steplib, res_lib, 
-comp, bld_psb, command_input='BUILD'):
+dbd_lib, acb_lib, steplib, reslib, 
+compression, build_psb, command_input='BUILD'):
     response = hosts.all.ims_acb_gen(
         command_input=command_input,
         psb_name=psb_name,
@@ -58,9 +61,9 @@ comp, bld_psb, command_input='BUILD'):
         dbd_lib=dbd_lib,
         acb_lib=acb_lib,
         steplib=steplib,
-        res_lib=res_lib,
-        comp=comp,
-        bld_psb=bld_psb)
+        reslib=reslib,
+        compression=compression,
+        build_psb=build_psb)
     print("Result:", response)
     for result in response.contacted.values():
         pprint(result)
@@ -71,7 +74,7 @@ comp, bld_psb, command_input='BUILD'):
 
 
 def validate_delete(hosts, psb_name, dbd_name, psb_lib, dbd_lib, acb_lib, steplib, 
-             res_lib, comp, command_input="DELETE"):
+             reslib, compression, command_input="DELETE"):
     response = hosts.all.ims_acb_gen(
         command_input=command_input,
         psb_name=psb_name,
@@ -80,8 +83,8 @@ def validate_delete(hosts, psb_name, dbd_name, psb_lib, dbd_lib, acb_lib, stepli
         dbd_lib=dbd_lib,
         acb_lib=acb_lib,
         steplib=steplib,
-        res_lib=res_lib,
-        comp=comp)
+        reslib=reslib,
+        compression=compression)
     print("Result:", response)
     for result in response.contacted.values():
         pprint(result)
@@ -115,7 +118,7 @@ def test_acb_gen_build_dbdName_bldPsb_no(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, None, "HOSPVARD", PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, False)
 
-#6. BUILD DBD=DBD_NAME,BLDPSB=YES 
+#6. BUILD DBD=(HOSPVARD),BLDPSB=YES 
 def test_acb_gen_build_dbdName_bldPsb_yes(ansible_zos_module):
     hosts = ansible_zos_module
     validate_build(hosts, None, "HOSPVARD", PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None, True)
@@ -184,4 +187,17 @@ def test_acb_gen_delete_dbdNames_list(ansible_zos_module):
     hosts = ansible_zos_module
     validate_delete(hosts, None, DBD_NAMES, PSBLIB, DBDLIB, ACBLIB, STEPLIB, RESLIB, None)
 
+#18.STEPLIB=STEPLIB, RESLIB=None 
+def test_acb_gen_build_psbName_no_reslib(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_build(hosts, PSB_NAME, None, PSBLIB, DBDLIB, ACBLIB, STEPLIB, None, None, False)
 
+#19.RESLIB=None, STEPLIB=None(STEPLIB should be retrieved from environment_vars)
+def test_acb_gen_delete_dbdName_no_reslib_env_steplib(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_delete(hosts, None, DBD_NAME, PSBLIB, DBDLIB, ACBLIB, None, None, None)
+
+#20.STEPLIB=None(STEPLIB should be retrieved from environment_vars), RESLIB=RESLIB
+def test_acb_gen_build_dbdName_only_reslib(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_build(hosts, PSB_NAME, None, PSBLIB, DBDLIB, ACBLIB, None, RESLIB, None, False)

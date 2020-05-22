@@ -95,8 +95,8 @@ Work flow for Combination functional tests goes as follows:
        
 
 def validate_build(hosts, psb_name, dbd_name, psb_lib, 
-dbd_lib, acb_lib, steplib, res_lib, 
-comp, bld_psb, command_input='BUILD'):
+dbd_lib, acb_lib, steplib, reslib, 
+compression, build_psb, command_input='BUILD'):
     response = hosts.all.ims_acb_gen(
         command_input=command_input,
         psb_name=psb_name,
@@ -105,9 +105,9 @@ comp, bld_psb, command_input='BUILD'):
         dbd_lib=dbd_lib,
         acb_lib=acb_lib,
         steplib=steplib,
-        res_lib=res_lib,
-        comp=comp,
-        bld_psb=bld_psb)
+        reslib=reslib,
+        compression=compression,
+        build_psb=build_psb)
     print("Result:", response)
     for result in response.contacted.values():
         pprint(result)
@@ -121,7 +121,7 @@ comp, bld_psb, command_input='BUILD'):
         assert result['rc'] != 0
 
 def validate_delete(hosts, psb_name, dbd_name, psb_lib, dbd_lib, acb_lib, steplib, 
-             res_lib, comp, command_input="DELETE"):
+             reslib, compression, command_input="DELETE"):
     response = hosts.all.ims_acb_gen(
         command_input=command_input,
         psb_name=psb_name,
@@ -130,8 +130,8 @@ def validate_delete(hosts, psb_name, dbd_name, psb_lib, dbd_lib, acb_lib, stepli
         dbd_lib=dbd_lib,
         acb_lib=acb_lib,
         steplib=steplib,
-        res_lib=res_lib,
-        comp=comp)
+        reslib=reslib,
+        compression=compression)
     print("Result:", response)
     for result in response.contacted.values():
         pprint(result)

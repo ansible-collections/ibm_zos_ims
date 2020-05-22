@@ -39,7 +39,7 @@ def test_ims_acb_gen_sample_build(ansible_zos_module):
         psb_lib=PSBLIB,
         dbd_lib=DBDLIB,
         acb_lib=ACBLIB,
-        res_lib=RESLIB,
+        reslib=RESLIB,
         steplib=STEPLIB,
     )
     print("Result:", results)
@@ -60,7 +60,7 @@ def test_ims_acb_gen_sample_delete(ansible_zos_module):
         psb_lib=PSBLIB,
         dbd_lib=DBDLIB,
         acb_lib=ACBLIB,
-        res_lib=RESLIB,
+        reslib=RESLIB,
         steplib=STEPLIB,
     )
     print("Result:", results)

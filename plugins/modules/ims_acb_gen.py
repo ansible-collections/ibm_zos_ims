@@ -36,7 +36,7 @@ options:
     choices:
       - BUILD
       - DELETE
-  comp:
+  compression:
     description:
       - PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
       - The default is none.
@@ -79,18 +79,18 @@ options:
   steplib:
     description:
       - Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries 
-        that are concatenated to SDFSRESL, you must specify the I(res_lib) parameter. 
+        that are concatenated to SDFSRESL, you must specify the I(reslib) parameter. 
       - The steplib parameter can also be specified in the target inventory's environment_vars. 
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.  
     required: false
     type: list
-  res_lib:
+  reslib:
     description:
       - Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated to it in the 
-        res_lib field must be authorized through the Authorized Program Facility (APF).
+        reslib field must be authorized through the Authorized Program Facility (APF).
     required: false 
     type: list
-  bld_psb:
+  build_psb:
     description:
       - Specifies whether ims_acb_gen rebuilds all PSBs that reference a changed DBD in the I(dbdname) parameter.
       - TRUE indicates that ims_acb_gen rebuilds all PSBs that reference the changed DBD on the I(dbdname) parameter.
@@ -102,8 +102,8 @@ notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars. 
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
   - If only the I(steplib) parameter is specified, then only the I(steplib) concatination will be used to resolve the IMS RESLIB dataset. 
-  - If both I(steplib) and I(res_lib) are specified, then both parameters will be used by the ACB Maintenenace Utility and I(res_lib) will be used to resolve the IMS RESLIB dataset. 
-  - Specifying only I(res_lib) without I(steplib) is not supported. 
+  - If both I(steplib) and I(reslib) are specified, then both parameters will be used by the ACB Maintenenace Utility and I(reslib) will be used to resolve the IMS RESLIB dataset. 
+  - Specifying only I(reslib) without I(steplib) is not supported. 
   - The ACB Maintenenace utility SYSUT3/SYSUT4 DD options are not supported by this module.
 '''
 
@@ -111,7 +111,7 @@ EXAMPLES = r'''
 - name: Example of creating ACBs for specific PSBs.
   ims_acb_gen:
     command_input: BUILD
-    COMP: PRECOMP,POSTCOMP
+    COMPRESSION: PRECOMP,POSTCOMP
     psb_name:
       - PSB1
       - PSB2
@@ -127,13 +127,13 @@ EXAMPLES = r'''
       - SOME.IMS.DBDLIB2
       - SOME.IMS.DBDLIB3
     acb_lib: SOME.IMS.ACBLIB
-    res_lib:
+    reslib:
       - SOME.IMS.SDFSRESL1
       - SOME.IMS.SDFSRESL2
     steplib:
       - SOME.IMS.SDFSRESL1
       - SOME.IMS.SDFSRESL2
-    bld_psb: false  
+    build_psb: false  
 
 - name: Example of creating blocks for all PSBs in the psb_lib data set.
   ims_acb_gen:
@@ -158,7 +158,7 @@ EXAMPLES = r'''
       - DBD5
       - DBD6
     acb_lib: SOME.IMS.ACBLIB
-    res_lib:
+    reslib:
       - SOME.IMS.SDFSRESL1
 '''
 
@@ -194,15 +194,15 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_gen_utils impo
 def run_module():
     module_args = dict(
         command_input=dict(type="str", required=True),
-        comp=dict(type="str", required=False, default=""),
+        compression=dict(type="str", required=False, default=""),
         psb_name=dict(type="list", elements="str", required=False),
         dbd_name=dict(type="list", elements="str", required=False),
         acb_lib=dict(type="str", required=True),
         psb_lib=dict(type="list", required=True),
         dbd_lib=dict(type="list", required=True),
-        res_lib=dict(type="list", required=False),
+        reslib=dict(type="list", required=False),
         steplib=dict(type="list", required=False),
-        bld_psb=dict(type="bool", required=False, default=True),
+        build_psb=dict(type="bool", required=False, default=True),
     )
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
     result = dict(rc="0", jobId="")

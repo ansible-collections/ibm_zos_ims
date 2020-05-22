@@ -34,7 +34,7 @@ environment:
   # Java environment
   JAVA_HOME: /usr/lpp/java/java180/J8.0_64
 extra_args:
-    STEPLIB: IMSBLD.I15RTSMM.COMRESL1
+    STEPLIB: IMSNEW.DIPTI.IM00.SDFSRESL
     JOB_CARD: |-
       //ANSIBLE JOB 'testing',
       //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
