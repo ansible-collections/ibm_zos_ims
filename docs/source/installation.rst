@@ -136,7 +136,7 @@ For Automation Hub, you additionally need to:
 .. _Get API token from the version dropdown to copy your API token:
    https://cloud.redhat.com/ansible/automation-hub/token/
 
-The following example shows a configuration for Automation Hub, a privately
+The following example shows a configuration for Automation Hub, a private
 running Galaxy server, and Galaxy:
 
 .. code-block:: yaml
