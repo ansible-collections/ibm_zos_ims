@@ -108,7 +108,7 @@ notes:
 '''
 
 EXAMPLES = r'''
-- name: Example of creating ACBs for specific PSBs
+- name: Example of creating ACBs for specific PSBs.
   ims_acb_gen:
     command_input: BUILD
     COMP: PRECOMP,POSTCOMP
@@ -133,8 +133,8 @@ EXAMPLES = r'''
     steplib:
       - SOME.IMS.SDFSRESL1
       - SOME.IMS.SDFSRESL2
-    bld_psb: no  
-- name: Example of creating blocks for all PSBs
+    bld_psb: false  
+- name: Example of creating blocks for all PSBs in the psb_lib data set.
   ims_acb_gen:
     command_input: BUILD
     psb_name: ALL
@@ -143,7 +143,7 @@ EXAMPLES = r'''
     dbd_lib:
       - SOME.IMS.DBDLIB1
     acb_lib: SOME.IMS.ACBLIB
-- name: Example of deleting a PSB and DBDs
+- name: Example of deleting PSBs and DBDs
   ims_acb_gen:
     command_input: DELETE
     psb_name:
@@ -162,23 +162,23 @@ EXAMPLES = r'''
 
 RETURN = r'''
 msg:
-  description: The message of the ACBGEN execution result.
+  description: Execution result message from the ims_acb_gen module.
   returned: always
   type: str
   sample: ACBGEN execution is successful.
 content:
-  description: The response resulting from the execution of the utility.
+  description: The response from the execution of the ACB Maintenance Utility.
   returned: on success
   type: list
 rc:
-  description: The return code for the ansible module.
+  description: The resulting return code from the ACB Maintenance Utility.
   returned: always
   type: str
   sample: '0'
 changed:
   description:
     - Indicates if any changes were made during module execution.
-    - True is always returned unless either a module or JCL failure has occurred.
+    - True is always returned unless a module or failure has occurred.
   returned: always
   type: bool
 '''
