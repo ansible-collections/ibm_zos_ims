@@ -42,17 +42,8 @@ Here is an example an example of installing a pre-release collection:
    $ ansible-galaxy collection install ibm.ibm_zos_ims:==1.0.0-beta2
 
 
-
-
-
-
-
-
-
-
-
-If you have installed a prior
-version, you must overwrite an existing collection with the ``--force`` option.
+If you have installed a prior version, you must overwrite an existing 
+collection with the ``--force`` option.
 
 Here are a few examples of installing the **IBM z/OS IMS collection**:
 
@@ -61,19 +52,6 @@ Here are a few examples of installing the **IBM z/OS IMS collection**:
    $ ansible-galaxy collection install ibm.ibm_zos_ims
    $ ansible-galaxy collection install -f ibm.ibm_zos_ims
    $ ansible-galaxy collection install --force ibm.ibm_zos_ims
-
-By default, the `ansible-galaxy`_ command installs the latest available
-collection, but you can add a version identifier to install a specific version.
-Before installing a collection from Galaxy, review all the available versions.
-Periodically, new releases containing enhancements and features that you might
-be interested in become available.
-
-Here's an example command for installing the **IBM z/OS IMS collection** for
-a specific version.
-
-.. code-block:: sh
-
-   $ ansible-galaxy collection install ibm.ibm_zos_ims::1.0.0
 
 The collection installation progress will be output to the console. Note the
 location of the installation so that you can review other content included with
