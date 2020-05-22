@@ -45,8 +45,8 @@ options:
     default: none
   psb_name:
     description:
-      - The name of the PSB. Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
-      - This option specifies either "ALL" or a list of psb names.
+      - The name of the PSB(s). Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
+      - This field requires "ALL" or a list of psb names to be specified.
     required: false
     type: list
   dbd_name:
