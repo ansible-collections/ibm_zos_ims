@@ -248,9 +248,9 @@ def test_acb_gen_delete_no_dbds(ansible_zos_module):
     validate_delete(hosts, PSB_NAME, DBD_NAME, PSBLIB, EMPTY_DBDLIB, ACBLIB, STEPLIB, INVALID_RESLIB, None)
 
 #20. Invalid ACBLIB 
-# def test_acb_gen_build_invalid_acblib(ansible_zos_module):
-#     hosts = ansible_zos_module
-#     validate_build(hosts, PSB_NAME, None, PSBLIB, DBDLIB, INVALID_ACBLIB, STEPLIB, RESLIB, COMP, False)
+def test_acb_gen_build_invalid_acblib(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_build(hosts, PSB_NAME, None, PSBLIB, DBDLIB, INVALID_ACBLIB, STEPLIB, RESLIB, COMP, False)
 
 #21. ACBLIB with invalid record format FB
 def test_acb_gen_build_acblib_recordFormat_FB(ansible_zos_module):
