@@ -29,8 +29,8 @@ options:
   command_input:
     description:
       - This field specifies two command options(BUILD/DELETE).
-      - BUILD   Specifies that blocks are built for the named PSBs, which refer to the named DBDs.
-      - DELETE  Specifies that blocks are deleted from the ACBLIB data set. The named PSBs and all PSBs that refer to the named DBDs are deleted.
+      - BUILD - Specifies that blocks are built for the named PSBs, which refer to the named DBDs.
+      - DELETE - Specifies that blocks are deleted from the ACBLIB data set. The named PSBs and all PSBs that refer to the named DBDs are deleted.
     required: true
     type: str
     choices:
@@ -42,6 +42,7 @@ options:
       - The default is none.
     type: str
     required: false
+    default: none
   psb_name:
     description:
       - The name of the PSB. Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
