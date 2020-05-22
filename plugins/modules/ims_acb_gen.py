@@ -51,13 +51,13 @@ options:
     type: list
   dbd_name:
     description:
-      - The name of the DBD. Specifies that blocks are built or deleted for this DBD, and for all PSBs that reference this DBD either directly or indirectly through logical relationships.
+      - The name of the DBD(s). Specifies that blocks are built or deleted for this DBD, and for all PSBs that reference this DBD either directly or indirectly through logical relationships.
     required: false
     type: list
   acb_lib:
     description:
       - The ACB Maintenance utility maintains the prebuilt blocks (ACB) library (IMS.ACBLIB). The ACB library is a consolidated library of program (PSB) and database (DBD) descriptions.
-      - Through control statements, you can direct the maintenance utility to build all control blocks for all PSBs, for a specific PSB, or for all PSBs that reference a specific DBD.
+      - The IMS acb_lib must be used exclusively. The module can only be executed using an ACB library which is not concurrently allocated to an active IMS system.
     required: true
     type: str
   psb_lib:
