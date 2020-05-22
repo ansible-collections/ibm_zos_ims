@@ -79,13 +79,15 @@ options:
   steplib:
     description:
       - Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries 
-        that are concatenated to SDFSRESL, you must specify the I(res_lib) option. 
+        that are concatenated to SDFSRESL, you must specify the I(res_lib) parameter. 
+      - The steplib parameter can also be specified in the target inventory's environment_vars. 
+      - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.  
     required: false
     type: list
   res_lib:
     description:
-      - Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated to it on the 
-        DFSRESLB DD statement must be authorized through the Authorized Program Facility (APF).
+      - Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated to it in the 
+        res_lib field must be authorized through the Authorized Program Facility (APF).
     required: false 
     type: list
   bld_psb:
@@ -97,11 +99,12 @@ options:
     type: bool
     default: true
 notes:
-  - steplib param is optional where user can provide it as a input or else it is taken from environment variables 
-  - If user provides only steplib, then only STEPLIB DDs will be provided
-  - If user provides both steplib and res_lib(dfsreslb), then both STEPLIB and DFSRESLB DDs will be provided
-  - The user is not allowed to supply only res_lib(dfsreslb)
-  - SYSUT3/SYSUT4 DD options are not supported.
+  - The I(steplib) parameter can also be specified in the target inventory's environment_vars. 
+  - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
+  - If only the I(steplib) parameter is specified, then only the I(steplib) concatination will be used to resolve the IMS RESLIB dataset. 
+  - If both I(steplib) and I(res_lib) are specified, then both parameters will be used by the ACB Maintenenace Utility and I(res_lib) will be used to resolve the IMS RESLIB dataset. 
+  - Specifying only I(res_lib) without I(steplib) is not supported. 
+  - The ACB Maintenenace utility SYSUT3/SYSUT4 DD options are not supported by this module.
 '''
 
 EXAMPLES = r'''
