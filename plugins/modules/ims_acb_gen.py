@@ -92,9 +92,9 @@ options:
     type: list
   bld_psb:
     description:
-      - Specifies whether ACBGEN rebuilds all PSBs that reference a changed DBD in the BUILD DBD=(dbdname) statement.
-      - YES indicates that ACBGEN rebuilds all PSBs that reference the changed DBD on the BUILD DBD=(dbdname) statement.
-      - NO indicates that ACBGEN does not rebuild PSBs that reference the changed DBD if the changed DBD does not change the physical structure of the database.
+      - Specifies whether ims_acb_gen rebuilds all PSBs that reference a changed DBD in the I(dbdname) parameter.
+      - YES indicates that ims_acb_gen rebuilds all PSBs that reference the changed DBD on the I(dbdname) parameter.
+      - NO indicates that ims_acb_gen does not rebuild PSBs that reference the changed DBD if the changed DBD does not change the physical structure of the database.
     required: false
     type: bool
     default: true
@@ -108,7 +108,7 @@ notes:
 '''
 
 EXAMPLES = r'''
-- name: Example of creating blocks for specific PSB
+- name: Example of creating ACBs for specific PSBs
   ims_acb_gen:
     command_input: BUILD
     COMP: PRECOMP,POSTCOMP
