@@ -28,11 +28,14 @@ author:
 options:
   command_input:
     description:
-      - This option specifies two command options(BUILD/DELETE).
+      - This field specifies two command options(BUILD/DELETE).
       - BUILD   Specifies that blocks are built for the named PSBs, which refer to the named DBDs.
       - DELETE  Specifies that blocks are deleted from the ACBLIB data set. The named PSBs and all PSBs that refer to the named DBDs are deleted.
     required: true
     type: str
+    choices:
+      - BUILD
+      - DELETE
   comp:
     description:
       - PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
