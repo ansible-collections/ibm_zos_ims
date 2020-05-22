@@ -134,6 +134,7 @@ EXAMPLES = r'''
       - SOME.IMS.SDFSRESL1
       - SOME.IMS.SDFSRESL2
     bld_psb: false  
+
 - name: Example of creating blocks for all PSBs in the psb_lib data set.
   ims_acb_gen:
     command_input: BUILD
@@ -143,6 +144,7 @@ EXAMPLES = r'''
     dbd_lib:
       - SOME.IMS.DBDLIB1
     acb_lib: SOME.IMS.ACBLIB
+    
 - name: Example of deleting PSBs and DBDs
   ims_acb_gen:
     command_input: DELETE
