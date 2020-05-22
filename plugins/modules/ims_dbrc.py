@@ -144,3 +144,45 @@ msg:
   type: str
   returned: always
 '''
+
+import json
+import re
+from ansible.module_utils.basic import AnsibleModule
+from os import chmod, path, remove
+from tempfile import NamedTemporaryFile
+
+def run_module():
+    module_args = dict(
+        command=dict(type='list', required=True),
+        dbdlib=dict(type='str', required=False),
+        dynalloc=dict(type='str', required=False),
+        genjcl=dict(type='str', required=False),
+        recon1=dict(type='str', required=False),
+        recon2=dict(type='str', required=False),
+        recon3=dict(type='str', required=False),
+        steplib=dict(type='str', required=True)
+    )
+
+    result = dict(
+        changed=False,
+        msg='',
+        failed=True,
+        dbrc_output=[]
+    )
+
+    module = AnsibleModule(
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
+
+    #result['msg'] = em.BATCH_FAILURE_MSG
+    module.fail_json(**result)
+
+    #result['msg'] = em.SUCCESS_MSG
+    module.exit_json(**result)
+
+def main():
+    run_module()
+
+if __name__ == '__main__':
+    main()
