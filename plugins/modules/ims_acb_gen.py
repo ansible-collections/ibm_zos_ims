@@ -63,7 +63,7 @@ options:
   psb_lib:
     description:
       - The ACB Maintenance utility receives input from the IMS PSBLIB data set.
-      - The ACB Maintenance utility does not change the PSB(s) in PSBLIB. If changes are made in PSBs or DBDs that require changes in the associated PSBLIB,
+      - The ACB Maintenance utility does not change the PSB(s) in PSBLIB. If changes are made in PSBs or DBDs that require changes in the associated PSB,
         make these changes before running the module.
       - Changes in PSBs might also require modifications to the affected application programs. For example, if a DBD has a segment name changed,
         all PSBs which are sensitive to that segment must have their SENSEG statements changed.
@@ -71,9 +71,9 @@ options:
     type: list
   dbd_lib:
     description:
-      - The ACB Maintenance utility receives input from IMS.DBDLIB data set.
-      - The ACB Maintenance utility does not change the DBD in IMS.DBDLIB. If changes are made in DBDs that require changes in the associated DBD,
-        make these changes before running the utility.
+      - The ACB Maintenance utility receives input from the IMS DBDLIB data set.
+      - The ACB Maintenance utility does not change the DBD(s) in DBDLIB. If changes are made in PSBs or DBDs that require changes in the associated DBD,
+        make these changes before running the module.
     required: true
     type: list
   steplib:
