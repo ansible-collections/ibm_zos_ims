@@ -127,7 +127,7 @@ To configure a Galaxy server list in the ansible.cfg file:
   * Create a new section for each server name.
   * Set the url option for each server name.
 
-To configure the server for Automation Hub, you must also:
+For Automation Hub, you additionally need to:
 
   * Set the auth_url option for each server name.
   * Set the API token for each server name. For more information on API tokens,
