@@ -7,12 +7,7 @@ from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import ACBInpu
 import pytest
 __metaclass__ = type
 
-# task_vars={
-#     'environment_vars': {
-#     'STEPLIB': "IMSNEW.DIPTI.IM00.SDFSRESL"
-#     }, 
-#     'JOB_CARD': "//ANSIBLE JOB 'testing',\n//  CLASS=H,MSGLEVEL=(1,1),REGION=0M,\n//  MSGCLASS=H,NOTIFY=&SYSUID" 
-#     }
+
 COMMAND_INPUT_BUILD = ip.COMMAND_INPUT_BUILD
 COMMAND_INPUT_DELETE = ip.COMMAND_INPUT_DELETE
 PSBLIB = ip.PSBLIB
@@ -27,7 +22,6 @@ DBD_NAMES = ip.DBD_NAMES
 COMP_PRE = ip.COMP_PRE
 COMP_POST = ip.COMP_POST
 COMP = ip.COMP
-
 
 
 def test_ims_acb_gen_sample_build(ansible_zos_module):
@@ -46,7 +40,6 @@ def test_ims_acb_gen_sample_build(ansible_zos_module):
     for result in results.contacted.values():
         pprint(result)
         print("Changed:", result['changed'])
-        print("result['code']: ", result['code'])
         assert result['changed'] == True
         assert result['rc'] <= '4'
 
