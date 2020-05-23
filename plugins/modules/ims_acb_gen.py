@@ -106,6 +106,9 @@ notes:
   - If both I(steplib) and I(reslib) are specified, then both parameters will be used by the ACB Maintenenace Utility and I(reslib) will be used to resolve the IMS RESLIB dataset. 
   - Specifying only I(reslib) without I(steplib) is not supported. 
   - The ACB Maintenenace utility SYSUT3/SYSUT4 DD options are not supported by this module.
+  - The current implementation of the ims_acb_gen module requires a jobcard to be specified using the JOB_CARD variable in the target inventory's group variables. 
+    See the sample L(group_vars,https://github.com/ansible-collections/ibm_zos_ims/blob/master/playbooks/group_vars/all.yml) provided with our sample playbook for an example of 
+    the JOB_CARD variable. 
 '''
 
 EXAMPLES = r'''
@@ -171,7 +174,7 @@ msg:
   sample: ACBGEN execution is successful.
 content:
   description: The response from the execution of the ACB Maintenance Utility.
-  returned: on success
+  returned: always
   type: list
 rc:
   description: The resulting return code from the ACB Maintenance Utility.
