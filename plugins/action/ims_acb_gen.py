@@ -243,8 +243,6 @@ class ActionModule(ActionBase):
         tmp_file = NamedTemporaryFile(delete=delete_on_close)
         with open(tmp_file.name, "w") as f:
             f.write(acbgen_jcl)
-        for line in tmp_file:
-            print(line)
 
         result = {}
         module_args = self._task.args.copy()
