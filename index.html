@@ -171,8 +171,9 @@
 <p>The <strong>IBM z/OS IMS collection</strong>, also represented as <strong>ibm_zos_ims</strong>
 in this document, is part of the broader offering <strong>Red Hat® Ansible
 Certified Content for IBM Z</strong>. The IBM z/OS IMS collection supports tasks
-such as generating IMS Database Descriptors (DBD) and Program
-Specification Blocks (PSB) and running IMS type-1 &amp; type-2 commands.</p>
+such as generating IMS Database Descriptors (DBD), Program Specification
+Blocks (PSB), Application Control Blocks (ACB), and running IMS type-1
+&amp; type-2 commands.</p>
 <p>The <strong>IBM z/OS IMS collection</strong> works closely with offerings such as the
 <a class="reference external" href="https://github.com/ansible-collections/ibm_zos_core">IBM z/OS core collection</a> to deliver a solution that will enable you to
 automate tasks on z/OS.</p>
@@ -191,8 +192,8 @@ community supported.</p>
 </div>
 <div class="section" id="features">
 <h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
-<p>The IBM z/OS IMS collection includes <a class="reference external" href="https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/modules/">modules</a>, <a class="reference external" href="https://github.com/ansible-collections/ibm_zos_ims/tree/master/playbooks/">sample playbooks</a>, and
-ansible-doc to automate tasks on z/OS.</p>
+<p>The IBM z/OS IMS collection includes <a class="reference external" href="https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/action/">action plugins</a>, <a class="reference external" href="https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/modules/">modules</a>,
+<a class="reference external" href="https://github.com/ansible-collections/ibm_zos_ims/tree/master/playbooks/">sample playbooks</a>, and ansible-doc to automate tasks on z/OS.</p>
 </div>
 <div class="section" id="copyright">
 <h1>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h1>
@@ -212,6 +213,7 @@ ansible-doc to automate tasks on z/OS.</p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#module-reference">Module reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/ims_acb_gen.html">ims_acb_gen – Generate IMS ACB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/ims_command.html">ims_command – Submit IMS Commands</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/ims_dbd_gen.html">ims_dbd_gen – Generate IMS DBD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/ims_psb_gen.html">ims_psb_gen – Generate IMS PSB</a></li>
