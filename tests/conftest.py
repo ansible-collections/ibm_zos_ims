@@ -21,14 +21,14 @@ def z_python_interpreter(request):
     helper = ZTestHelper.from_yaml_file(path)
     interpreter_str = helper.build_interpreter_string()
     inventory = helper.get_inventory_info()
-    yield (interpreter_str, inventory)
-
+    ims_vars = helper.build_ims_dict()
+    yield (interpreter_str, inventory, ims_vars)
 
 @pytest.fixture(scope='function')
 def ansible_zos_module(request, z_python_interpreter):
     """ Initialize pytest-ansible plugin with values from 
     our YAML config and inject interpreter path into inventory. """
-    interpreter, inventory = z_python_interpreter
+    interpreter, inventory, ims_variables = z_python_interpreter
     # next two lines perform similar action to ansible_adhoc fixture
     plugin = request.config.pluginmanager.getplugin("ansible")
     adhoc = plugin.initialize(request.config, request, **inventory)
@@ -36,6 +36,8 @@ def ansible_zos_module(request, z_python_interpreter):
     hosts = adhoc['options']['inventory_manager']._inventory.hosts
     for host in hosts.values():
         host.vars['ansible_python_interpreter'] = interpreter
+        host.vars['STEPLIB'] = ims_variables["STEPLIB"] 
+        host.vars['JOB_CARD'] = ims_variables["JOB_CARD"]
     yield adhoc
 
 

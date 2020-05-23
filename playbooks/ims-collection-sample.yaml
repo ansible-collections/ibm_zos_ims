@@ -56,6 +56,7 @@
 - hosts: all
   collections:
     - ibm.ibm_zos_ims
+    - ibm.ibm_zos_core
   gather_facts: no
 
   environment: "{{ environment_vars }}"
@@ -101,10 +102,25 @@
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
 
+    - name: ACBGEN
+      ims_acb_gen:
+        command_input: BUILD
+        psb_name:
+          - PSBGENL
+        psb_lib:
+          - IMSTESTU.ANSI.PSBLIB2
+        dbd_lib:
+          - IMSTESTU.ANSI.DBDLIB2
+        acb_lib: IMSTESTU.ANSI.ACBLIB1
+        reslib:
+          - IMSNEW.DIPTI.IM00.SDFSRESL
+        steplib:
+          - IMSNEW.DIPTI.IM00.SDFSRESL
+
     - name: IMS Command
       ims_command:
         command: DISPLAY DB AUTODB
         plex: PLEX1
         route: IMS1
 
-# ./playbookrunner.sh playbooks/inventory playbooks/ims-collection-sample.yaml
+# ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml
