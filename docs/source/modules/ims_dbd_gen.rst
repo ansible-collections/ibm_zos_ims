@@ -12,7 +12,7 @@ ims_dbd_gen -- Generate IMS DBD
 .. contents::
    :local:
    :depth: 1
-   
+
 
 Synopsis
 --------
@@ -28,7 +28,6 @@ Parameters
 ----------
 
 
- 
      
 batch
   Batch can be used to perform multiple operations in a single module call.
@@ -42,7 +41,6 @@ batch
   | **type**: list
 
 
- 
      
   dbd_name
     Target name of the generated DBD member.
@@ -54,7 +52,6 @@ batch
     | **type**: str
 
 
- 
      
   location
     The DBD source location. Supported options are DATA_SET or USS. The default is DATA_SET.
@@ -68,7 +65,6 @@ batch
     | **choices**: DATA_SET, USS
 
 
- 
      
   member_list
     A list of member names if the source specified is a data set.
@@ -82,7 +78,6 @@ batch
     | **type**: list
 
 
- 
      
   replace
     When 'replace' is 'true', an existing DBD member matching the name in the input DBD source will be overwitten.
@@ -93,7 +88,6 @@ batch
     | **default**: True
 
 
- 
      
   src
     The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
@@ -106,7 +100,6 @@ batch
 
 
 
- 
      
 dbd_name
   Target name of the generated DBD member.
@@ -118,7 +111,6 @@ dbd_name
   | **type**: str
 
 
- 
      
 dest
   The target output DBDLIB partitioned data set where the DBD members will be generated to.
@@ -128,7 +120,6 @@ dest
   | **type**: str
 
 
- 
      
 location
   The DBD source location. Supported options are DATA_SET or USS. The default is DATA_SET.
@@ -142,7 +133,6 @@ location
   | **choices**: DATA_SET, USS
 
 
- 
      
 member_list
   A list of member names if the source specified is a data set.
@@ -156,7 +146,6 @@ member_list
   | **type**: list
 
 
- 
      
 replace
   When 'replace' is 'true', an existing DBD member matching the name in the
@@ -169,7 +158,6 @@ replace
   | **default**: True
 
 
- 
      
 src
   The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
@@ -181,7 +169,6 @@ src
   | **type**: str
 
 
- 
      
 sys_lib
   A list of required macro libraries that are needed to compile the DBD source. These libraries will be used as the sys_lib at compile time.
@@ -281,93 +268,74 @@ Notes
 Return Values
 -------------
 
+
+   
+                              
+       batch_result
+        | List of output for each DBDGEN run on each element in the list of input source if input is batch.
+      
+        | **type**: list
+              
+   
+                              
+        return_text
+          | Status message.
+      
+          | **returned**: always
+          | **type**: str
+          | **sample**: Invalid input source list being passed without content.
+
+            
+      
       
                               
-         batch_result
-            | List of output for each DBDGEN run on each element in the list of input source if input is batch.
-            
-            
-            | **type**: list
-
+        src
+          | input dbd src name processed.
       
-                    
-                              
-          return_text
-            | Status message.
-            
-              | **returned**: always
-            
-              | **type**: str
-
-                  
-              | **sample**: Invalid input source list being passed without content.
-      
-            
-      
-         
-                              
-          src
-            | input dbd src name processed.
-            
-              | **returned**: always
-            
-              | **type**: str
-
-      
+          | **returned**: always
+          | **type**: str
       
         
       
-         
+      
                               
-         msg
-            | The message of the DBDGEN execution result.
-            
-            | **returned**: always
-            
-            | **type**: str
+       msg
+        | The message of the DBDGEN execution result.
+      
+        | **returned**: always
+        | **type**: str
+        | **sample**: DBDGEN execution was successful.
 
-                  
-            | **sample**: DBDGEN execution was successful.
-      
             
       
-         
+      
                               
-         rc
-            | Module return code (0 for success)
-            
-            | **returned**: always
-            
-            | **type**: int
-
+       rc
+        | Module return code (0 for success)
+      
+        | **returned**: always
+        | **type**: int
       
       
-         
                               
-         stderr
-            | Module standard error
-            
-            | **returned**: failure
-            
-            | **type**: str
+       stderr
+        | Module standard error
+      
+        | **returned**: failure
+        | **type**: str
+        | **sample**: Output data set for DDNAME has invalid record format.
 
-                  
-            | **sample**: Output data set for DDNAME has invalid record format.
-      
             
       
-         
+      
                               
-         stdout
-            | Module standard output
-            
-            | **returned**: success
-            
-            | **type**: str
-
-                  
-            | **sample**: DBDGEN execution was successful
+       stdout
+        | Module standard output
       
+        | **returned**: success
+        | **type**: str
+        | **sample**: DBDGEN execution was successful
+
             
       
         
