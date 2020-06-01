@@ -1,0 +1,14 @@
+---
+- hosts: zsystem
+  collections:
+    - ibm.ibm_zos_ims
+    - ibm.ibm_zos_core
+  gather_facts: no
+    
+  environment: "{{ environment_vars }}"
+    
+  tasks:
+    - name: test ims_catalog_populate
+      ims_catalog_populate: 
+        acblib: 
+          [imstestl.ims1.acblib]
