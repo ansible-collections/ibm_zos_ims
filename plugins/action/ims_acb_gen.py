@@ -129,7 +129,6 @@ def str_or_list_of_str(contents, dependencies):
         )
     return contents
 
-
 ZOAU_TEMP_USS = "/tmp/test.jcl"
 
 
@@ -149,15 +148,15 @@ class ActionModule(ActionBase):
         # Retrieve properties set by the user
         module_defs = dict(
             command_input=dict(arg_type="str", required=True),
-            comp=dict(arg_type="str", required=False, default=""),
+            compression=dict(arg_type="str", required=False, default=""),
             psb_name=dict(arg_type=str_or_list_of_str, required=False),
             dbd_name=dict(arg_type=str_or_list_of_str, elements="str", required=False),
             acb_lib=dict(arg_type="str", required=True),
             psb_lib=dict(arg_type="list", elements="str", required=True),
             dbd_lib=dict(arg_type="list", elements="str", required=True),
-            res_lib=dict(arg_type="list", elements="str", required=False),
+            reslib=dict(arg_type="list", elements="str", required=False),
             steplib=dict(arg_type="list", elements="str", required=False),
-            bld_psb=dict(arg_type="bool", required=False, default=True),
+            build_psb=dict(arg_type="bool", required=False, default=True),
         )
 
         # Parse the properties
@@ -165,15 +164,15 @@ class ActionModule(ActionBase):
         parsed_args = parser.parse_args(module_args)
 
         command_input = parsed_args.get("command_input")
-        comp = parsed_args.get("comp")
+        compression = parsed_args.get("compression")
         psb_name = parsed_args.get("psb_name")
         dbd_name = parsed_args.get("dbd_name")
         acb_lib = parsed_args.get("acb_lib")
         psb_lib = parsed_args.get("psb_lib")
         dbd_lib = parsed_args.get("dbd_lib")
-        res_lib = parsed_args.get("res_lib")
+        reslib = parsed_args.get("reslib")
         steplib = parsed_args.get("steplib")
-        bld_psb = parsed_args.get("bld_psb")
+        build_psb = parsed_args.get("build_psb")
 
         psb_name_str = ""
         if psb_name:
@@ -191,23 +190,27 @@ class ActionModule(ActionBase):
         
         dbd_name_str = ""
         if dbd_name:
-            dbd_name_str, dbd = split_lines_dbd(command_input, dbd_name, bld_psb)
-            print("dbd-name:", dbd_name)
+            dbd_name_str, dbd = split_lines_dbd(command_input, dbd_name, build_psb)
             if dbd_name_str:
                 dbd_name_str = '\n ' + dbd 
             else:
                 msg = 'A DBD named ' + str(dbd) + ' provided in the module input was not found.'
                 result['rc'] = -1
                 result['msg'] = msg 
-                return result 
-        
-        job_card = task_vars["JOB_CARD"]
-        env_steplib = task_vars["environment_vars"]["STEPLIB"]
+                return result   
+
+        env = task_vars.get("environment_vars")    
+        if env is not None:
+            env_steplib = env.get("STEPLIB")
+        else:    
+            env_steplib = task_vars.get("STEPLIB")
+        job_card = task_vars.get("JOB_CARD")
+
         dd_steplib = build_dd_steplib("STEPLIB", steplib, env_steplib)
 
         dd_reslib = ""
-        if res_lib:
-            dd_reslib = build_dd("DFSRESLB", res_lib)
+        if reslib:
+            dd_reslib = build_dd("DFSRESLB", reslib)
         # Create string for the JCL contents and fill in the values
         acbgen_jcl = """{8}
 //*
@@ -223,7 +226,7 @@ class ActionModule(ActionBase):
 //SYSIN    DD *{6}{7}
 /*
 """.format(
-            comp,
+            compression,
             dd_steplib,
             dd_reslib,
             build_dd("IMS", psb_lib),
@@ -240,8 +243,6 @@ class ActionModule(ActionBase):
         tmp_file = NamedTemporaryFile(delete=delete_on_close)
         with open(tmp_file.name, "w") as f:
             f.write(acbgen_jcl)
-        for line in tmp_file:
-            print(line)
 
         result = {}
         module_args = self._task.args.copy()
@@ -253,7 +254,6 @@ class ActionModule(ActionBase):
         # Make sure the source file is able to be found
         try:
             source = self._find_needle("files", source)
-            print(source)
         except AnsibleError as e:
             result["failed"] = True
             result["msg"] = to_text(e)

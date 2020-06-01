@@ -33,3 +33,9 @@ environment:
   PATH: "/usr/lpp/zoautil/v100/bin:/usr/lpp/rsusr/ported/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/usr/lpp/izoda/v110/anaconda/bin"
   # Java environment
   JAVA_HOME: /usr/lpp/java/java180/J8.0_64
+extra_args:
+    STEPLIB: IMSNEW.DIPTI.IM00.SDFSRESL
+    JOB_CARD: |-
+      //ANSIBLE JOB 'testing',
+      //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
+      //  MSGCLASS=H,NOTIFY=&SYSUID  
