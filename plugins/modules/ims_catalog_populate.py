@@ -30,6 +30,8 @@ ANSIBLE_METADATA = {
 #More concise descriptions overall for each of the parameters.
 
 DOCUMENTATION = r'''
+---
+
 module: ims_catalog_populate
 short_description: Add datasets to the IMS Catalog
 version_added: "2.9"
@@ -176,10 +178,10 @@ options:
     required: false
   managed_acbs:
     description:
-      - Use the MANAGEDACBS control statement to perform the following actions
-      - Set up IMS to manage the runtime application control blocks for your databases and program views.
-      - Update an IMS system that manages ACBs with new or modified ACBs from an ACB library data set.
-      - Save ACBs from an ACB library to a staging data set for later importing into an IMS system that manages ACBs.
+      - Use the MANAGEDACBS control statement to perform the following actions:
+        Set up IMS to manage the runtime application control blocks for your databases and program views.
+        Update an IMS system that manages ACBs with new or modified ACBs from an ACB library data set.
+        Save ACBs from an ACB library to a staging data set for later importing into an IMS system that manages ACBs.
     type: dict
     required: false
     suboptions:
@@ -287,111 +289,141 @@ RETURN = r'''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import (
+    MissingZOAUImport,
+)
 import pprint
 
-def main():
-  run_module()
+try:
+    from zoautil_py import Datasets, types
+except Exception:
+    Datasets = MissingZOAUImport()
+    types = MissingZOAUImport()
+
 
 def run_module():
-  module_args = dict(
-    irlm_enabled=dict(type="bool", required=False),
-    irlm_id=dict(type="str", required=False),
-    reslib=dict(type="str", required=False),
-    buffer_pool_param_dataset=dict(type="str", required=False),
-    primary_log_dataset=dict(type="str", required=False),
-    secondary_log_dataset=dict(type="str", required=False),
-    psb_lib=dict(type="list", required=False),
-    dbd_lib=dict(type="list", required=False),
-    check_timestamp=dict(type="bool", required=False),
-    acb_lib=dict(type="list", required=True),
-    bootstrap_dataset=dict(type="str", required=False),
-    directory_datasets=dict(type="list", required=False),
-    temp_acb_dataset=dict(type="str", required=False),
-    directory_staging_dataset=dict(type="str", required=False),
-    proclib=dict(type="str", required=False),
-    steplib=dict(type="str", required=False),
-    sysabend=dict(type="str", required=False),
-    sysprint=dict(type="str", required=False),
-    duplist=dict(type="bool", required=False),
-    errormax=dict(type="int", required=False),
-    resource_chkp_freq=dict(type="int", required=False),
-    segment_chkp_freq=dict(type="int", required=False),
-    isrtlist=dict(type="bool", required=False),
-    managed_acbs=dict(type="dict", required=False),
-    no_isrtlist=dict(type="bool", required=False)
-  )
-
-  module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
+    module_args = dict(
+      irlm_enabled=dict(type="bool", required=False),
+      irlm_id=dict(type="str", required=False),
+      reslib=dict(type="str", required=False),
+      buffer_pool_param_dataset=dict(type="str", required=False),
+      primary_log_dataset=dict(type="str", required=False),
+      secondary_log_dataset=dict(type="str", required=False),
+      psb_lib=dict(type="list", required=False),
+      dbd_lib=dict(type="list", required=False),
+      check_timestamp=dict(type="bool", required=False),
+      acb_lib=dict(type="list", required=True),
+      bootstrap_dataset=dict(type="str", required=False),
+      directory_datasets=dict(type="list", required=False),
+      temp_acb_dataset=dict(type="str", required=False),
+      directory_staging_dataset=dict(type="str", required=False),
+      proclib=dict(type="str", required=False),
+      steplib=dict(type="str", required=False),
+      sysabend=dict(type="str", required=False),
+      sysprint=dict(type="str", required=False),
+      duplist=dict(type="bool", required=False),
+      errormax=dict(type="int", required=False),
+      resource_chkp_freq=dict(type="int", required=False),
+      segment_chkp_freq=dict(type="int", required=False),
+      isrtlist=dict(type="bool", required=False),
+      managed_acbs=dict(type="dict", required=False),
+      no_isrtlist=dict(type="bool", required=False)
     )
 
-  program_name = "DFS3PU00"
+    module = AnsibleModule(
+          argument_spec=module_args,
+          supports_check_mode=True
+      )
     
-  parsed_args = validate_input(module_args)
+    result = dict(
+        changed=False,
+        msg='',
+        rc=0
+    )
 
-  pprint.pprint(parsed_args)
+    parsed_args = validate_input(module, result)
+    program_name = "DFS3PU00"
+    is_irlm_enabled = parsed_args['irlm_enabled']
+    irlm_id = parsed_args['irlm_id']
+    reslib = parsed_args['reslib']
+    buffer_pool = parsed_args['buffer_pool_param_dataset']
+    primary_log = parsed_args['primary_log_dataset']
+    sec_log = parsed_args['secondary_log_dataset']
+    psb_lib = parsed_args['psb_lib']
+    dbd_lib = parsed_args['dbd_lib']
+    acb_lib = parsed_args['acb_lib'] 
+    check_timestamp = parsed_args['check_timestamp'] 
+    bootstrap_dataset = parsed_args['bootstrap_dataset']
+    directory_datasets = parsed_args['directory_datasets']
+    temp_acb_dataset = parsed_args['temp_acb_dataset']
+    directory_staging_dataset = parsed_args['directory_staging_dataset']
+    proclib = parsed_args['proclib']
+    steplib = parsed_args['steplib']
+    sysabend = parsed_args['sysabend']
+    sysprint = parsed_args['sysprint']
+    managed_acbs = parsed_args['managed_acbs']
 
-  is_irlm_enabled = parsed_args['irlm_enabled']
-  irlm_id = parsed_args['irlm_id']
-  reslib = parsed_args['reslib']
-  buffer_pool = parsed_args['buffer_pool_param_dataset']
-  primary_log = parsed_args['primary_log_dataset']
-  sec_log = parsed_args['secondary_log_dataset']
-  psb_lib = parsed_args['psb_lib']
-  dbd_lib = parsed_args['dbd_lib']
-  acb_lib = parsed_args['acb_lib'] 
-  check_timestamp = parsed_args['check_timestamp'] 
-  bootstrap_dataset = parsed_args['bootstrap_dataset']
-  directory_datasets = parsed_args['directory_datasets']
-  temp_acb_dataset = parsed_args['temp_acb_dataset']
-  directory_staging_dataset = parsed_args['directory_staging_dataset']
-  proclib = parsed_args['proclib']
-  steplib = parsed_args['steplib']
-  sysabend = parsed_args['sysabend']
-  sysprint = parsed_args['sysprint']
-  managed_acbs = parsed_args['managed_acbs']
 
-  module.exit_json(**parsed_args)
+
+    
+    module.exit_json(**result)
 
 
   
 
-def validate_input(module_args):
-  module_defs = dict(
-    irlm_enabled=dict(arg_type="bool", required=False),
-    irlm_id=dict(arg_type="str", required=False),
-    reslib=dict(tyarg_typepe="str", required=False),
-    buffer_pool_param_dataset=dict(arg_type="str", required=False),
-    primary_log_dataset=dict(arg_type="str", required=False),
-    secondary_log_dataset=dict(arg_type="str", required=False),
-    psb_lib=dict(arg_type="list", elements="data_set", required=False),
-    dbd_lib=dict(arg_type="list", elements="data_set", required=False),
-    check_timestamp=dict(arg_type="bool", required=False),
-    acb_lib=dict(arg_type="list", elements="data_set", required=True),
-    bootstrap_dataset=dict(arg_type="str", required=False),
-    directory_datasets=dict(arg_type="list", elements="data_set", required=False),
-    temp_acb_dataset=dict(arg_type="str", required=False),
-    directory_staging_dataset=dict(arg_type="str", required=False),
-    proclib=dict(arg_type="str", required=False),
-    steplib=dict(arg_type="str", required=False),
-    sysabend=dict(arg_type="str", required=False),
-    sysprint=dict(arg_type="str", required=False),
-    duplist=dict(arg_type="bool", required=False),
-    errormax=dict(arg_type="int", required=False),
-    resource_chkp_freq=dict(arg_type="int", required=False),
-    segment_chkp_freq=dict(arg_type="int", required=False),
-    isrtlist=dict(arg_type="bool", required=False),
-    managed_acbs=dict(arg_type="dict", required=False),
-    no_isrtlist=dict(arg_type="bool", required=False)
-  )
+def validate_input(module, result):
+    try:
+      module_defs = dict(
+        irlm_enabled=dict(arg_type="bool", required=False),
+        irlm_id=dict(arg_type="str", required=False),
+        reslib=dict(arg_type="str", required=False),
+        buffer_pool_param_dataset=dict(arg_type="str", required=False),
+        primary_log_dataset=dict(arg_type="str", required=False),
+        secondary_log_dataset=dict(arg_type="str", required=False),
+        psb_lib=dict(arg_type="list", elements="data_set", required=False),
+        dbd_lib=dict(arg_type="list", elements="data_set", required=False),
+        check_timestamp=dict(arg_type="bool", required=False),
+        acb_lib=dict(arg_type="list", elements="data_set", required=True),
+        bootstrap_dataset=dict(arg_type="str", required=False),
+        directory_datasets=dict(arg_type="list", elements="data_set", required=False),
+        temp_acb_dataset=dict(arg_type="str", required=False),
+        directory_staging_dataset=dict(arg_type="str", required=False),
+        proclib=dict(arg_type="str", required=False),
+        steplib=dict(arg_type="str", required=False),
+        sysabend=dict(arg_type="str", required=False),
+        sysprint=dict(arg_type="str", required=False),
+        duplist=dict(arg_type="bool", required=False),
+        errormax=dict(arg_type="int", required=False),
+        resource_chkp_freq=dict(arg_type="int", required=False),
+        segment_chkp_freq=dict(arg_type="int", required=False),
+        isrtlist=dict(arg_type="bool", required=False),
+        managed_acbs=dict(arg_type="dict", required=False),
+        no_isrtlist=dict(arg_type="bool", required=False),
+      )
 
-  parser = BetterArgParser(module_defs)
-  parsed_args = parser.parse_args(module_args)
-  return parsed_args
+      parser = BetterArgParser(module_defs)
+      parsed_args = parser.parse_args(module.params)
 
-  
+      if parsed_args['directory_staging_dataset'] is not None:
+        validate_directory_staging_dataset(parsed_args['directory_staging_dataset'], result, module)
 
 
+      return parsed_args
+    except ValueError as error:
+      result['msg'] = error.args
+      result['rc']=1
+      module.fail_json(**result)
+
+def validate_directory_staging_dataset(dset, result, module):
+    if len(dset) > 20:
+      result['msg'] = "You cannot specify more than 20 IMS directory datasets"
+      module.fail_json(**result)
+
+def main():
+    run_module()
+
+if __name__ == '__main__':
+    main()
 
 

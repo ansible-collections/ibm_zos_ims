@@ -1,9 +1,12 @@
+ZOAU_ROOT: /usr/mvsbuilds/mvsutil
+PYTHON_ROOT: /usr/lpp/izoda/v110/
+JAVA_ROOT: /usr/lpp/java
+
 environment_vars:
     LIBPATH: '/usr/lpp/izoda/v110/anaconda/lib:/u/omvsadm/mvsutil/lib:/lib:/usr/lib:.'
-    ZOAU_ROOT: '/usr/lpp/zoautil/v100'
-    ZOAUTIL_DIR: '/usr/lpp/zoautil/v100'
-    PYTHONPATH: '/usr/lpp/izoda/v110/anaconda/lib:/u/omvsadm/mvsutil/lib:/lib:/usr/lib'
-    PYTHON_HOME: '/usr/lpp/izoda/v110/anaconda'
+    ZOAUTIL_DIR: '{{ ZOAU_ROOT }}'
+    PYTHONPATH: '{{ PYTHON_ROOT }}/anaconda/lib:/u/omvsadm/mvsutil/lib:/lib:/usr/lib'
+    PYTHON_HOME: '{{ PYTHON_ROOT}}/anaconda'
     _BPXK_JOBLOG: STDERR 
     # environment variables for mvsutils/mvscmd
     _BPXK_AUTOCVT: ON
@@ -12,9 +15,10 @@ environment_vars:
     _TAG_REDIR_IN: txt
     _TAG_REDIR_OUT: txt
     TOOLS_ROOT: '/usr/lpp/rsusr/ported'
-    PATH: '/u/omvsadm/mvsutil/bin:/usr/lpp/rsusr/ported/bin:/usr/lpp/java/java180/J8.0_64/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/usr/lpp/izoda/v110/anaconda/bin'
-    JAVA_HOME: /usr/lpp/java/java180/J8.0_64
+    PATH: '{{ ZOAU_ROOT }}/bin:/usr/lpp/rsusr/ported/bin:{{ JAVA_ROOT }}/java180/J8.0_64/bin:/bin:/var/bin:{{ JAVA_ROOT }}/J8.0/bin:{{ PYTHON_ROOT }}/anaconda/bin'
+    JAVA_HOME: '{{ JAVA_ROOT }}/java180/J8.0_64'
     STEPLIB: IMSBLD.I15RTSMM.COMRESL1
+    LANG: C
 
 JOB_CARD: |-
     //ANSIBLE JOB 'testing',
