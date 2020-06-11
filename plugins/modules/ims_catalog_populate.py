@@ -74,14 +74,12 @@ options:
   psb_lib:
     description:
       - Defines IMS.PSBLIB datasets
-    type: list
-    elements: str
+    type: str
     required: false
   dbd_lib:
     description:
       - Defines IMS.DBDLIB datasets
-    type: list
-    elements: str
+    type: str
     required: false
   check_timestamp:
     description:
@@ -288,11 +286,18 @@ RETURN = r'''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import (
+    DDStatement,
+    FileDefinition,
+    DatasetDefinition,
+    StdoutDefinition,
+)
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import (
     MissingZOAUImport,
 )
+import tempfile
 import pprint
 
 try:
@@ -300,6 +305,8 @@ try:
 except Exception:
     Datasets = MissingZOAUImport()
     types = MissingZOAUImport()
+
+module = None
 
 
 def run_module():
@@ -310,8 +317,8 @@ def run_module():
       buffer_pool_param_dataset=dict(type="str", required=False),
       primary_log_dataset=dict(type="str", required=False),
       secondary_log_dataset=dict(type="str", required=False),
-      psb_lib=dict(type="list", required=False),
-      dbd_lib=dict(type="list", required=False),
+      psb_lib=dict(type="str", required=False),
+      dbd_lib=dict(type="str", required=False),
       check_timestamp=dict(type="bool", required=False),
       acb_lib=dict(type="list", required=True),
       bootstrap_dataset=dict(type="str", required=False),
@@ -331,66 +338,182 @@ def run_module():
       no_isrtlist=dict(type="bool", required=False)
     )
 
+    global module
     module = AnsibleModule(
           argument_spec=module_args,
           supports_check_mode=True
       )
     
-    result = dict(
-        changed=False,
-        msg='',
-        rc=0
-    )
+    result = {}
+    result["changed"] = False
 
+    #Validate inputs are correctly formatted datasets
     parsed_args = validate_input(module, result)
-    program_name = "DFS3PU00"
-    is_irlm_enabled = parsed_args['irlm_enabled']
-    irlm_id = parsed_args['irlm_id']
-    reslib = parsed_args['reslib']
-    buffer_pool = parsed_args['buffer_pool_param_dataset']
-    primary_log = parsed_args['primary_log_dataset']
-    sec_log = parsed_args['secondary_log_dataset']
-    psb_lib = parsed_args['psb_lib']
-    dbd_lib = parsed_args['dbd_lib']
-    acb_lib = parsed_args['acb_lib'] 
-    check_timestamp = parsed_args['check_timestamp'] 
-    bootstrap_dataset = parsed_args['bootstrap_dataset']
-    directory_datasets = parsed_args['directory_datasets']
-    temp_acb_dataset = parsed_args['temp_acb_dataset']
-    directory_staging_dataset = parsed_args['directory_staging_dataset']
-    proclib = parsed_args['proclib']
-    steplib = parsed_args['steplib']
-    sysabend = parsed_args['sysabend']
-    sysprint = parsed_args['sysprint']
-    managed_acbs = parsed_args['managed_acbs']
 
+    dDStatementList = []
+    imsDatasetList = []
+    acbDatasetList = []
 
-
+    if parsed_args['reslib']:
+      dfsreslbDDStatement = DDStatement("dfsreslb", DatasetDefinition(parsed_args['reslib']))
+      dDStatementList.append(dfsreslbDDStatement)
+    if parsed_args['buffer_pool_param__dataset']:
+      dfsvsampDDStatement = DDStatement("DFSVSAMP", DatasetDefinition(parsed_args['buffer_pool_param_dataset']))
+      dDStatementList.append(dfsvsampDDStatement)
+    if parsed_args['primary_log_dataset']:
+      iefrderDDStatement = DDStatement("IEFRDER", DatasetDefinition(parsed_args['primary_log_dataset']))
+      dDStatementList.append(iefrderDDStatement)
+    if parsed_args['secondary_log_dataset']:
+      iefrder2DDStatement = DDStatement("IEFRDER2", DatasetDefinition(parsed_args['secondary_log_dataset']))
+      dDStatementList.append(iefrder2DDStatement)
     
+    #Check DBD and PSB libs. If they exist, we attach to an ims dd statement. 
+    if parsed_args['psb_lib']:
+      psbDataset = DatasetDefinition(parsed_args['psb_lib'])
+      imsDatasetList.append(psbDataset)
+    if parsed_args['dbd_lib']:
+      dbdDatset = DatasetDefinition(parsed_args['dbd_lib'])
+      imsDatasetList.append(dbdDatset)
+    if imsDatasetList:
+      imsDDStatement = DDStatement("ims", imsDatasetList)
+      dDStatementList.append(imsDDStatement)
+
+    if parsed_args['acb_lib']:
+      #Check if check_timestamp is false. If so, then we include all the datasets in a single DD Statement
+      if parsed_args['check_timestamp'] is False:
+        for i in parsed_args['acb_lib']:
+          acbDataset = DatasetDefinition(i)
+          acbDatasetList.append(acbDataset)
+        acbDDStatement = DDStatement("IMSACBA", acbDatasetList)
+        dDStatementList.append(acbDDStatement)
+      #If check_timestamp is true, then we generate a dd statement for each dataset
+      else:
+        count = 1
+        for i in parsed_args['acb_lib']:
+          if count >= 10:
+            acbDDStatement = DDStatement("IMSACB{}".format(count), DatasetDefinition(i))
+            dDStatementList.append(acbDDStatement)
+            count += 1
+          else:
+            acbDDStatement = DDStatement("IMSACB0{}".format(count), DatasetDefinition(i))
+            dDStatementList.append(acbDDStatement)
+            count += 1
+        count = 1
+
+    if parsed_args['steplibdd'] is not None:
+      steplibdd = DDStatement("steplib", DatasetDefinition(parsed_args['steplib']))
+    
+    
+
+
+
+    # try:
+    #     temp_data_set_name = _create_temp_data_set("OMVSADM")
+    #     _write_data_set(
+    #         temp_data_set_name, " DELETE {0}".format(psb_lib[0].upper())
+    #     )
+    #     sysin = DDStatement("sysin", DatasetDefinition(temp_data_set_name))
+    #     sysprint = DDStatement("sysprint", StdoutDefinition())
+    #     response = MVSCmd.execute_authorized("idcams", [sysin, sysprint])
+    #     result["responseobj"] = {
+    #         "rc": response.rc,
+    #         "stdout": response.stdout,
+    #         "stderr": response.stderr,
+    #     }
+    # except Exception as e:
+    #     module.fail_json(msg=repr(e), **result)
+    # finally:
+    #     _delete_data_set(temp_data_set_name)
+
     module.exit_json(**result)
 
+def _create_temp_data_set(hlq):
+    """Create a temporary data set.
 
-  
+    Arguments:
+        hlq {str} -- The HLQ to use for the temporary data set's name.
+
+    Returns:
+        str -- The name of the temporary data set.
+    """
+    temp_data_set_name = Datasets.temp_name(hlq)
+    _create_data_set(
+        temp_data_set_name, {"type": "SEQ", "size": "5M", "format": "FB", "length": 80},
+    )
+    return temp_data_set_name
+
+def _create_data_set(name, extra_args=None):
+    """A wrapper around zoautil_py
+    Dataset.create() to raise exceptions on failure.
+
+    Arguments:
+        name {str} -- The name of the data set to create.
+
+    Raises:
+        DatasetCreateError: When data set creation fails.
+    """
+    if extra_args is None:
+        extra_args = {}
+    rc = Datasets.create(name, **extra_args)
+    if rc > 0:
+        raise DatasetCreateError(name, rc)
+    return
+
+def _write_data_set(name, contents):
+    """Write text to a data set.
+
+    Arguments:
+        name {str} -- The name of the data set.
+        contents {str} -- The text to write to the data set.
+
+    Raises:
+        DatasetWriteError: When write to the data set fails.
+    """
+    # rc = Datasets.write(name, contents)
+    temp = tempfile.NamedTemporaryFile(delete=False)
+    with open(temp.name, "w") as f:
+        f.write(contents)
+    rc, stdout, stderr = module.run_command(
+        "cp -O u {0} \"//'{1}'\"".format(temp.name, name)
+    )
+    if rc != 0:
+        raise DatasetWriteError(name, rc, stderr)
+    return
+
+def _delete_data_set(name):
+    """A wrapper around zoautil_py
+    Dataset.delete() to raise exceptions on failure.
+
+    Arguments:
+        name {str} -- The name of the data set to delete.
+
+    Raises:
+        DatasetDeleteError: When data set deletion fails.
+    """
+    rc = Datasets.delete(name)
+    if rc > 0:
+        raise DatasetDeleteError(name, rc)
+    return
 
 def validate_input(module, result):
     try:
       module_defs = dict(
         irlm_enabled=dict(arg_type="bool", required=False),
         irlm_id=dict(arg_type="str", required=False),
-        reslib=dict(arg_type="str", required=False),
-        buffer_pool_param_dataset=dict(arg_type="str", required=False),
-        primary_log_dataset=dict(arg_type="str", required=False),
-        secondary_log_dataset=dict(arg_type="str", required=False),
-        psb_lib=dict(arg_type="list", elements="data_set", required=False),
-        dbd_lib=dict(arg_type="list", elements="data_set", required=False),
+        reslib=dict(arg_type="data_set", required=False),
+        buffer_pool_param_dataset=dict(arg_type="data_set", required=False),
+        primary_log_dataset=dict(arg_type="data_set", required=False),
+        secondary_log_dataset=dict(arg_type="data_set", required=False),
+        psb_lib=dict(arg_type="data_set", required=False),
+        dbd_lib=dict(arg_type="data_set", required=False),
         check_timestamp=dict(arg_type="bool", required=False),
         acb_lib=dict(arg_type="list", elements="data_set", required=True),
-        bootstrap_dataset=dict(arg_type="str", required=False),
+        bootstrap_dataset=dict(arg_type="data_set", required=False),
         directory_datasets=dict(arg_type="list", elements="data_set", required=False),
-        temp_acb_dataset=dict(arg_type="str", required=False),
-        directory_staging_dataset=dict(arg_type="str", required=False),
-        proclib=dict(arg_type="str", required=False),
-        steplib=dict(arg_type="str", required=False),
+        temp_acb_dataset=dict(arg_type="data_set", required=False),
+        directory_staging_dataset=dict(arg_type="data_set", required=False),
+        proclib=dict(arg_type="data_set", required=False),
+        steplib=dict(arg_type="data_set", required=False),
         sysabend=dict(arg_type="str", required=False),
         sysprint=dict(arg_type="str", required=False),
         duplist=dict(arg_type="bool", required=False),
@@ -419,6 +542,17 @@ def validate_directory_staging_dataset(dset, result, module):
     if len(dset) > 20:
       result['msg'] = "You cannot specify more than 20 IMS directory datasets"
       module.fail_json(**result)
+
+class Error(Exception):
+    def __init__(self, *args):
+        super(Error, self).__init__(*args)
+
+class DatasetWriteError(Error):
+    def __init__(self, data_set, rc, message=""):
+        self.msg = 'An error occurred during write of data set "{0}". RC={1}. {2}'.format(
+            data_set, rc, message
+        )
+        super(DatasetWriteError, self).__init__(self.msg)
 
 def main():
     run_module()

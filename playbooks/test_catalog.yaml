@@ -12,7 +12,5 @@
       ims_catalog_populate: 
         acb_lib: 
           [imstestl.ims1.acblib]
-        directory_staging_dataset:
-          [
-            imstestl.ims1.testb
-          ]
+        psb_lib: 
+          [zos.raw.test]
