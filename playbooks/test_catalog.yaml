@@ -12,5 +12,4 @@
       ims_catalog_populate: 
         acb_lib: 
           [imstestl.ims1.acblib]
-        psb_lib: 
-          [zos.raw.test]
+        psb_lib: zos.raw.test

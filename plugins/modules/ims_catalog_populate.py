@@ -350,6 +350,7 @@ def run_module():
     #Validate inputs are correctly formatted datasets
     parsed_args = validate_input(module, result)
 
+    #DD statement Generation
     dDStatementList = []
     imsDatasetList = []
     acbDatasetList = []
@@ -357,7 +358,7 @@ def run_module():
     if parsed_args['reslib']:
       dfsreslbDDStatement = DDStatement("dfsreslb", DatasetDefinition(parsed_args['reslib']))
       dDStatementList.append(dfsreslbDDStatement)
-    if parsed_args['buffer_pool_param__dataset']:
+    if parsed_args['buffer_pool_param_dataset']:
       dfsvsampDDStatement = DDStatement("DFSVSAMP", DatasetDefinition(parsed_args['buffer_pool_param_dataset']))
       dDStatementList.append(dfsvsampDDStatement)
     if parsed_args['primary_log_dataset']:
@@ -367,7 +368,7 @@ def run_module():
       iefrder2DDStatement = DDStatement("IEFRDER2", DatasetDefinition(parsed_args['secondary_log_dataset']))
       dDStatementList.append(iefrder2DDStatement)
     
-    #Check DBD and PSB libs. If they exist, we attach to an ims dd statement. 
+    #Generate DD statements for DBD and PSB libs. If they exist, we attach to an ims dd statement. 
     if parsed_args['psb_lib']:
       psbDataset = DatasetDefinition(parsed_args['psb_lib'])
       imsDatasetList.append(psbDataset)
@@ -378,6 +379,7 @@ def run_module():
       imsDDStatement = DDStatement("ims", imsDatasetList)
       dDStatementList.append(imsDDStatement)
 
+    #Generate DD statements for ACB lib. Behavior is different depending on check_timestamps
     if parsed_args['acb_lib']:
       #Check if check_timestamp is false. If so, then we include all the datasets in a single DD Statement
       if parsed_args['check_timestamp'] is False:
@@ -400,7 +402,7 @@ def run_module():
             count += 1
         count = 1
 
-    if parsed_args['steplibdd'] is not None:
+    if parsed_args['steplib'] is not None:
       steplibdd = DDStatement("steplib", DatasetDefinition(parsed_args['steplib']))
     
     
