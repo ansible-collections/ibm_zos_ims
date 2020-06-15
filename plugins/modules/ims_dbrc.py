@@ -147,42 +147,246 @@ msg:
 
 import json
 import re
-from ansible.module_utils.basic import AnsibleModule
 from os import chmod, path, remove
 from tempfile import NamedTemporaryFile
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import ( # pylint: disable=import-error
+  DDStatement,
+  FileDefinition,
+  DatasetDefinition,
+  StdoutDefinition,
+)
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
+import tempfile
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
+  MissingZOAUImport,
+) 
+
+try:
+  from zoautil_py import Datasets, types # pylint: disable=import-error
+except Exception:
+  Datasets = MissingZOAUImport()
+  types = MissingZOAUImport()
+
+# class DatasetDeleteError(Error):
+#   def __init__(self, data_set, rc):
+#     self.msg = 'An error occurred during deletion of data set "{0}". RC={1}'.format(
+#       data_set, rc
+#     )
+#     super(DatasetDeleteError, self).__init__(self.msg)
+
+# class DatasetCreateError(Error):
+#   def __init__(self, data_set, rc):
+#     self.msg = 'An error occurred during creation of data set "{0}". RC={1}'.format(
+#       data_set, rc
+#     )
+#     super(DatasetCreateError, self).__init__(self.msg)
+
+
+# class DatasetWriteError(Error):
+#   def __init__(self, data_set, rc, message=""):
+#     self.msg = 'An error occurred during write of data set "{0}". RC={1}. {2}'.format(
+#       data_set, rc, message
+#     )
+#     super(DatasetWriteError, self).__init__(self.msg)
+
+# def _create_data_set(name, extra_args=None):
+#   """A wrapper around zoautil_py
+#   Dataset.create() to raise exceptions on failure.
+
+#   Arguments:
+#       name {str} -- The name of the data set to create.
+
+#   Raises:
+#       DatasetCreateError: When data set creation fails.
+#   """
+#   if extra_args is None:
+#     extra_args = {}
+#   rc = Datasets.create(name, **extra_args)
+#   if rc > 0:
+#     raise DatasetCreateError(name, rc)
+#   return
+
+
+# def _delete_data_set(name):
+#   """A wrapper around zoautil_py
+#   Dataset.delete() to raise exceptions on failure.
+
+#   Arguments:
+#       name {str} -- The name of the data set to delete.
+
+#   Raises:
+#       DatasetDeleteError: When data set deletion fails.
+#   """
+#   rc = Datasets.delete(name)
+#   if rc > 0:
+#     raise DatasetDeleteError(name, rc)
+#   return
+
+
+# def _create_temp_data_set(hlq):
+#   """Create a temporary data set.
+
+#   Arguments:
+#       hlq {str} -- The HLQ to use for the temporary data set's name.
+
+#   Returns:
+#       str -- The name of the temporary data set.
+#   """
+#   temp_data_set_name = Datasets.temp_name(hlq)
+#   _create_data_set(
+#     temp_data_set_name, {"type": "SEQ", "size": "5M", "format": "FB", "length": 80},
+#   )
+#   return temp_data_set_name
+
+# def _write_data_set(name, contents):
+#   """Write text to a data set.
+
+#   Arguments:
+#       name {str} -- The name of the data set.
+#       contents {str} -- The text to write to the data set.
+
+#   Raises:
+#       DatasetWriteError: When write to the data set fails.
+#   """
+#   # rc = Datasets.write(name, contents)
+#   temp = tempfile.NamedTemporaryFile(delete=False)
+#   with open(temp.name, "w") as f:
+#     f.write(contents)
+#   rc, stdout, stderr = module.run_command(
+#     "cp -O u {0} \"//'{1}'\"".format(temp.name, name)
+#   )
+#   if rc != 0:
+#     raise DatasetWriteError(name, rc, stderr)
+#   return
+
+def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
+  # User did not provide dynalloc 
+  if not dynalloc:
+    # TODO: Determine if each of the RECONs need to be present or just 1 minimum
+    if not recon1 or recon2 or recon3:
+      return False
+  return True
+  
 
 def run_module():
-    module_args = dict(
-        command=dict(type='list', required=True),
-        dbdlib=dict(type='str', required=False),
-        dynalloc=dict(type='str', required=False),
-        genjcl=dict(type='str', required=False),
-        recon1=dict(type='str', required=False),
-        recon2=dict(type='str', required=False),
-        recon3=dict(type='str', required=False),
-        steplib=dict(type='str', required=True)
-    )
+  global module
+  module_args = dict(
+    command=dict(type='list', required=True),
+    dbdlib=dict(type='str', required=False),
+    dynalloc=dict(type='str', required=False),
+    genjcl=dict(type='str', required=False),
+    recon1=dict(type='str', required=False),
+    recon2=dict(type='str', required=False),
+    recon3=dict(type='str', required=False),
+    steplib=dict(type='str', required=True)
+  )
 
-    result = dict(
-        changed=False,
-        msg='',
-        failed=True,
-        dbrc_output=[]
-    )
+  result = dict(
+    changed=False,
+    msg='',
+    failed=True,
+    dbrc_output=[]
+  )
+  
+  module = AnsibleModule(
+    argument_spec=module_args,
+    supports_check_mode=True
+  )
+  
+  """
+  //DSPURX00 JOB MSGLEVEL=1,MSGCLASS=E,CLASS=K,
+  //   LINES=999999,TIME=1440,REGION=0M,       
+  //   MEMLIMIT=NOLIMIT                        
+  /*JOBPARM  SYSAFF=*                          
+  //DSPURX00 EXEC PGM=DSPURX00                 
+  //STEPLIB  DD DISP=SHR,                      
+  //      DSN=IMSTESTU.IMS1501.MARKER          
+  //         DD DISP=SHR,                      
+  //      DSN=IMSTESTL.IMS1.EXITLIB            
+  //         DD DISP=SHR,                      
+  //      DSN=IMSTESTL.IMS1.DYNALLOC           
+  //         DD DISP=SHR,                      
+  //      DSN=IMSTESTG.IMS15R.TSTRES           
+  //         DD DISP=SHR,                      
+  //      DSN=IMSBLD.IMS15R.USERLIB            
+  //         DD DISP=SHR,                      
+  //      DSN=IMSBLD.I15RTSMM.CRESLIB          
+  //RECON1   DD DISP=SHR,
+  //      DSN=IMSTESTL.IMS1.RECON1
+  //RECON2   DD DISP=SHR,
+  //      DSN=IMSTESTL.IMS1.RECON2
+  //RECON3   DD DISP=SHR,
+  //      DSN=IMSTESTL.IMS1.RECON3
+  //JCLPDS   DD DISP=SHR,                      
+  //      DSN=IMSTESTL.IMS1.GENJCL
+  //IMS      DD DISP=SHR,         
+  //      DSN=IMSTESTL.IMS1.DBDLIB
+  //SYSIN    DD *                 
+  ...
+  /*                    
+  //SYSPRINT DD SYSOUT=*
+  """
 
-    module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
-    )
+  # sysprint = DDStatement(
+  #     "sysprint",
+  #     DatasetDefinition(
+  #         "USER.PRIVATE.TESTZS",
+  #         disposition="NEW",
+  #         primary="10",
+  #         primary_unit="trk",
+  #         secondary="2",
+  #         secondary_unit="trk",
+  #         type="seq",
+  #     ),
+  # )
 
-    #result['msg'] = em.BATCH_FAILURE_MSG
+  try:
+    steplib_datasets = [
+      DatasetDefinition("IMSTESTU.IMS1501.MARKER"),
+      DatasetDefinition("IMSBANK2.IMS1.EXITLIB"),
+      DatasetDefinition("IMSTESTL.IMS1.DYNALLOC"),
+      DatasetDefinition("IMSTESTG.IMS15R.TSTRES"),
+      DatasetDefinition("IMSBLD.IMS15R.USERLIB"),
+      # DatasetDefinition("IMSBANK2.IMS1.SDFSRESL"),
+      #IMSBLD.I15RTSMM.SDFSRESL
+      DatasetDefinition("IMSBLD.I15RTSMM.CRESLIB")
+    ]
+    steplib = DDStatement("steplib", steplib_datasets)
+    recon1 = DDStatement("recon1", DatasetDefinition("IMSBANK2.IMS1.RECON1"))
+    recon2 = DDStatement("recon2", DatasetDefinition("IMSBANK2.IMS1.RECON2"))
+    recon3 = DDStatement("recon3", DatasetDefinition("IMSBANK2.IMS1.RECON3"))
+    jclpds = DDStatement("jclpds", DatasetDefinition("IMSTESTL.IMS1.GENJCL"))
+    ims = DDStatement("ims", DatasetDefinition("IMSBANK2.IMS1.DBDLIB"))
+    sysin = DDStatement("sysin", DatasetDefinition("LIST.RECON STATUS"))
+    sysprint = DDStatement("sysprint", StdoutDefinition())
+    # command_data_set = _create_temp_data_set("OMVSADM")
+    # _write_data_set(command_data_set, "LIST.RECON STATUS")
+    # dbrc_command = DDStatement("", DatasetDefinition(command_data_set))
+
+    response = MVSCmd.execute_authorized("DSPURX00", [steplib, recon1, recon2, recon3, jclpds, ims, sysin, sysprint])
+    # response = MVSCmd.execute_authorized("dspurx00", [steplib, recon1, recon2, recon3, ims, sysin, sysprint])
+    result["responseobj"] = {
+      "rc": response.rc,
+      "stdout": response.stdout,
+      "stderr": response.stderr
+    }
+  except Exception as e:
+    result['msg'] = repr(e)
     module.fail_json(**result)
+  finally:
+      # _delete_data_set(command_data_set)
+      pass
+  module.exit_json(**result)
 
-    #result['msg'] = em.SUCCESS_MSG
-    module.exit_json(**result)
+  #result['msg'] = em.BATCH_FAILURE_MSG
+  module.fail_json(**result)
+
+  #result['msg'] = em.SUCCESS_MSG
+  module.exit_json(**result)
 
 def main():
-    run_module()
+  run_module()
 
 if __name__ == '__main__':
-    main()
+  main()
