@@ -155,8 +155,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
   FileDefinition,
   DatasetDefinition,
   StdoutDefinition,
-  StdinDefinition,
-  SteplibDefinition
+  StdinDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
 import tempfile
@@ -348,12 +347,12 @@ def run_module():
 
   try:
     steplib_datasets = [
-      SteplibDefinition("IMSTESTU.IMS1501.MARKER"),
-      SteplibDefinition("IMSBANK2.IMS1.EXITLIB"),
-      # SteplibDefinition("IMSTESTL.IMS1.DYNALLOC"),
-      SteplibDefinition("IMSTESTG.IMS15R.TSTRES"),
-      SteplibDefinition("IMSBLD.IMS15R.USERLIB"),
-      SteplibDefinition("IMSBLD.I15RTSMM.CRESLIB")
+      DatasetDefinition("IMSTESTU.IMS1501.MARKER"),
+      DatasetDefinition("IMSBANK2.IMS1.EXITLIB"),
+      # DatasetDefinition("IMSTESTL.IMS1.DYNALLOC"),
+      DatasetDefinition("IMSTESTG.IMS15R.TSTRES"),
+      DatasetDefinition("IMSBLD.IMS15R.USERLIB"),
+      DatasetDefinition("IMSBLD.I15RTSMM.CRESLIB")
     ]
     steplib = DDStatement("steplib", steplib_datasets)
     recon1 = DDStatement("recon1", DatasetDefinition("IMSBANK2.IMS1.RECON1"))
