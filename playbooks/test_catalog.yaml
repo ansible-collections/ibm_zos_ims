@@ -10,6 +10,7 @@
   tasks:
     - name: test ims_catalog_populate
       ims_catalog_populate: 
-        acb_lib: 
-          [imstestl.ims1.acblib]
-        psb_lib: zos.raw.test
+        acb_lib: [
+          IMSTESTL.IMS1.ACBLIB
+        ]
+        

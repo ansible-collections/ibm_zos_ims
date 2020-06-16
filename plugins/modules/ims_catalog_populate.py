@@ -286,22 +286,23 @@ RETURN = r'''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import (
-    DDStatement,
-    FileDefinition,
-    DatasetDefinition,
-    StdoutDefinition,
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import ( # pylint: disable=import-error
+  DDStatement,
+  FileDefinition,
+  DatasetDefinition,
+  StdoutDefinition,
 )
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import (
-    MissingZOAUImport,
-)
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
+import tempfile
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
+  MissingZOAUImport,
+) 
 import tempfile
 import pprint
 
 try:
-    from zoautil_py import Datasets, types
+    from zoautil_py import Datasets, types # pylint: disable=import-error
 except Exception:
     Datasets = MissingZOAUImport()
     types = MissingZOAUImport()
@@ -356,7 +357,7 @@ def run_module():
     acbDatasetList = []
 
     if parsed_args['reslib']:
-      dfsreslbDDStatement = DDStatement("dfsreslb", DatasetDefinition(parsed_args['reslib']))
+      dfsreslbDDStatement = DDStatement("DFSRESLB", DatasetDefinition(parsed_args['reslib']))
       dDStatementList.append(dfsreslbDDStatement)
     if parsed_args['buffer_pool_param_dataset']:
       dfsvsampDDStatement = DDStatement("DFSVSAMP", DatasetDefinition(parsed_args['buffer_pool_param_dataset']))
@@ -390,20 +391,79 @@ def run_module():
         dDStatementList.append(acbDDStatement)
       #If check_timestamp is true, then we generate a dd statement for each dataset
       else:
-        count = 1
+        acbCount = 1
         for i in parsed_args['acb_lib']:
-          if count >= 10:
-            acbDDStatement = DDStatement("IMSACB{}".format(count), DatasetDefinition(i))
+          if acbCount >= 10:
+            acbDDStatement = DDStatement("IMSACB{0}".format(acbCount), DatasetDefinition(i))
             dDStatementList.append(acbDDStatement)
-            count += 1
+            acbCount += 1
           else:
-            acbDDStatement = DDStatement("IMSACB0{}".format(count), DatasetDefinition(i))
+            acbDDStatement = DDStatement("IMSACB0{0}".format(acbCount), DatasetDefinition(i))
             dDStatementList.append(acbDDStatement)
-            count += 1
-        count = 1
+            acbCount += 1
+        acbCount = 1
+      
+    if parsed_args['bootstrap_dataset']:
+      btstrDataset = DDStatement("IMSDBSDS", DatasetDefinition(parsed_args['bootstrap_dataset']))
+      dDStatementList.append(btstrDataset)
+    
+    if parsed_args['directory_datasets']:
+      directoryCount = 1
+      for i in parsed_args['directory_datasets']:
+        if acbCount >= 10:
+          directoryDDStatement = DDStatement("IMSD00{0}".format(directoryCount), DatasetDefinition(i))
+          dDStatementList.append(directoryDDStatement)
+        else:
+          directoryDDStatement = DDStatement("IMSD000{0}".format(directoryCount), DatasetDefinition(i))
+          dDStatementList.append(directoryDDStatement)
+    
+    if parsed_args['temp_acb_dataset']:
+      tempDDStatement = DDStatement("IMSDG001", DatasetDefinition(parsed_args['temp_acb_dataset']))
+      dDStatementList.append(tempDDStatement)
+    
+    if parsed_args['directory_staging_dataset']:
+      dirDDStatement = DDStatement("IMDSTAG", DatasetDefinition(parsed_args['directory_staging_dataset']))
+      dDStatementList.append(dirDDStatement)
+    
+    if parsed_args['sysabend']:
+      abendDDStatement = DDStatement('SYSABEND', DatasetDefinition(parsed_args['sysabend']))
+      dDStatementList.append(abendDDStatement)
 
-    if parsed_args['steplib'] is not None:
-      steplibdd = DDStatement("steplib", DatasetDefinition(parsed_args['steplib']))
+    if parsed_args['proclib']:
+      proclibDDStatement = DDStatement("PROCLIB", DatasetDefinition(parsed_args['proclib']))
+      dDStatementList.append(proclibDDStatement)
+
+    if parsed_args['steplib']:
+      steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(parsed_args['steplib']))
+      dDStatementList.append(steplibDDStatement)
+
+    #Add sysprint dd statement
+    sysprint = DDStatement("sysprint", StdoutDefinition())
+    dDStatementList.append(sysprint)
+
+    irlm_id = ""
+    irlm_flag = "N"
+    if parsed_args['irlm_enabled']:
+      if parsed_args['irlm_id']:
+        irlm_id = parsed_args['irlm_id']
+        irlm_flag = "Y"
+      else: 
+        result['msg'] = "You must specify an irlm id"
+        module.fail_json(**result)
+
+    paramString = "DLI,DFS3PU00,DFSCPL00,,,,,,,,,,,N,{0},{1},,,,,,,,,,,'DFSDF=CAT'".format(irlm_flag, irlm_id)
+
+    try:
+        response = MVSCmd.execute("DFS3PU00", dDStatementList, paramString)
+        result["responseobj"] = {
+            "rc": response.rc,
+            "stdout": response.stdout,
+            "stderr": response.stderr,
+        }
+    except Exception as e:
+        module.fail_json(msg=repr(e), **result)
+    finally:
+        module.exit_json(**result)
     
     
 
@@ -531,7 +591,7 @@ def validate_input(module, result):
       parsed_args = parser.parse_args(module.params)
 
       if parsed_args['directory_staging_dataset'] is not None:
-        validate_directory_staging_dataset(parsed_args['directory_staging_dataset'], result, module)
+        validate_directory_staging_dataset(parsed_args['directory_datasets'], result, module)
 
 
       return parsed_args
@@ -555,6 +615,20 @@ class DatasetWriteError(Error):
             data_set, rc, message
         )
         super(DatasetWriteError, self).__init__(self.msg)
+
+class DatasetDeleteError(Error):
+    def __init__(self, data_set, rc):
+        self.msg = 'An error occurred during deletion of data set "{0}". RC={1}'.format(
+            data_set, rc
+        )
+        super(DatasetDeleteError, self).__init__(self.msg)
+
+class DatasetCreateError(Error):
+    def __init__(self, data_set, rc):
+        self.msg = 'An error occurred during creation of data set "{0}". RC={1}'.format(
+            data_set, rc
+        )
+        super(DatasetCreateError, self).__init__(self.msg)
 
 def main():
     run_module()
