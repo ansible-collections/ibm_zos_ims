@@ -155,6 +155,8 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
   FileDefinition,
   DatasetDefinition,
   StdoutDefinition,
+  StdinDefinition,
+  SteplibDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
 import tempfile
@@ -168,97 +170,100 @@ except Exception:
   Datasets = MissingZOAUImport()
   types = MissingZOAUImport()
 
-# class DatasetDeleteError(Error):
-#   def __init__(self, data_set, rc):
-#     self.msg = 'An error occurred during deletion of data set "{0}". RC={1}'.format(
-#       data_set, rc
-#     )
-#     super(DatasetDeleteError, self).__init__(self.msg)
+class Error(Exception):
+    def __init__(self, *args):
+        super(Error, self).__init__(*args)
+class DatasetDeleteError(Error):
+  def __init__(self, data_set, rc):
+    self.msg = 'An error occurred during deletion of data set "{0}". RC={1}'.format(
+      data_set, rc
+    )
+    super(DatasetDeleteError, self).__init__(self.msg)
 
-# class DatasetCreateError(Error):
-#   def __init__(self, data_set, rc):
-#     self.msg = 'An error occurred during creation of data set "{0}". RC={1}'.format(
-#       data_set, rc
-#     )
-#     super(DatasetCreateError, self).__init__(self.msg)
-
-
-# class DatasetWriteError(Error):
-#   def __init__(self, data_set, rc, message=""):
-#     self.msg = 'An error occurred during write of data set "{0}". RC={1}. {2}'.format(
-#       data_set, rc, message
-#     )
-#     super(DatasetWriteError, self).__init__(self.msg)
-
-# def _create_data_set(name, extra_args=None):
-#   """A wrapper around zoautil_py
-#   Dataset.create() to raise exceptions on failure.
-
-#   Arguments:
-#       name {str} -- The name of the data set to create.
-
-#   Raises:
-#       DatasetCreateError: When data set creation fails.
-#   """
-#   if extra_args is None:
-#     extra_args = {}
-#   rc = Datasets.create(name, **extra_args)
-#   if rc > 0:
-#     raise DatasetCreateError(name, rc)
-#   return
+class DatasetCreateError(Error):
+  def __init__(self, data_set, rc):
+    self.msg = 'An error occurred during creation of data set "{0}". RC={1}'.format(
+      data_set, rc
+    )
+    super(DatasetCreateError, self).__init__(self.msg)
 
 
-# def _delete_data_set(name):
-#   """A wrapper around zoautil_py
-#   Dataset.delete() to raise exceptions on failure.
+class DatasetWriteError(Error):
+  def __init__(self, data_set, rc, message=""):
+    self.msg = 'An error occurred during write of data set "{0}". RC={1}. {2}'.format(
+      data_set, rc, message
+    )
+    super(DatasetWriteError, self).__init__(self.msg)
 
-#   Arguments:
-#       name {str} -- The name of the data set to delete.
+def _create_data_set(name, extra_args=None):
+  """A wrapper around zoautil_py
+  Dataset.create() to raise exceptions on failure.
 
-#   Raises:
-#       DatasetDeleteError: When data set deletion fails.
-#   """
-#   rc = Datasets.delete(name)
-#   if rc > 0:
-#     raise DatasetDeleteError(name, rc)
-#   return
+  Arguments:
+      name {str} -- The name of the data set to create.
+
+  Raises:
+      DatasetCreateError: When data set creation fails.
+  """
+  if extra_args is None:
+    extra_args = {}
+  rc = Datasets.create(name, **extra_args)
+  if rc > 0:
+    raise DatasetCreateError(name, rc)
+  return
 
 
-# def _create_temp_data_set(hlq):
-#   """Create a temporary data set.
+def _delete_data_set(name):
+  """A wrapper around zoautil_py
+  Dataset.delete() to raise exceptions on failure.
 
-#   Arguments:
-#       hlq {str} -- The HLQ to use for the temporary data set's name.
+  Arguments:
+      name {str} -- The name of the data set to delete.
 
-#   Returns:
-#       str -- The name of the temporary data set.
-#   """
-#   temp_data_set_name = Datasets.temp_name(hlq)
-#   _create_data_set(
-#     temp_data_set_name, {"type": "SEQ", "size": "5M", "format": "FB", "length": 80},
-#   )
-#   return temp_data_set_name
+  Raises:
+      DatasetDeleteError: When data set deletion fails.
+  """
+  rc = Datasets.delete(name)
+  if rc > 0:
+    raise DatasetDeleteError(name, rc)
+  return
 
-# def _write_data_set(name, contents):
-#   """Write text to a data set.
 
-#   Arguments:
-#       name {str} -- The name of the data set.
-#       contents {str} -- The text to write to the data set.
+def _create_temp_data_set(hlq):
+  """Create a temporary data set.
 
-#   Raises:
-#       DatasetWriteError: When write to the data set fails.
-#   """
-#   # rc = Datasets.write(name, contents)
-#   temp = tempfile.NamedTemporaryFile(delete=False)
-#   with open(temp.name, "w") as f:
-#     f.write(contents)
-#   rc, stdout, stderr = module.run_command(
-#     "cp -O u {0} \"//'{1}'\"".format(temp.name, name)
-#   )
-#   if rc != 0:
-#     raise DatasetWriteError(name, rc, stderr)
-#   return
+  Arguments:
+      hlq {str} -- The HLQ to use for the temporary data set's name.
+
+  Returns:
+      str -- The name of the temporary data set.
+  """
+  temp_data_set_name = Datasets.temp_name(hlq)
+  _create_data_set(
+    temp_data_set_name, {"type": "SEQ", "size": "5M", "format": "FB", "length": 80},
+  )
+  return temp_data_set_name
+
+def _write_data_set(name, contents):
+  """Write text to a data set.
+
+  Arguments:
+      name {str} -- The name of the data set.
+      contents {str} -- The text to write to the data set.
+
+  Raises:
+      DatasetWriteError: When write to the data set fails.
+  """
+  # rc = Datasets.write(name, contents)
+  temp = tempfile.NamedTemporaryFile(delete=False)
+  with open(temp.name, "w") as f:
+    f.write(contents)
+  rc, stdout, stderr = module.run_command(
+    "cp -O u {0} \"//'{1}'\"".format(temp.name, name)
+  )
+  if rc != 0:
+    raise DatasetWriteError(name, rc, stderr)
+  return
 
 def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
   # User did not provide dynalloc 
@@ -343,14 +348,12 @@ def run_module():
 
   try:
     steplib_datasets = [
-      DatasetDefinition("IMSTESTU.IMS1501.MARKER"),
-      DatasetDefinition("IMSBANK2.IMS1.EXITLIB"),
-      DatasetDefinition("IMSTESTL.IMS1.DYNALLOC"),
-      DatasetDefinition("IMSTESTG.IMS15R.TSTRES"),
-      DatasetDefinition("IMSBLD.IMS15R.USERLIB"),
-      # DatasetDefinition("IMSBANK2.IMS1.SDFSRESL"),
-      #IMSBLD.I15RTSMM.SDFSRESL
-      DatasetDefinition("IMSBLD.I15RTSMM.CRESLIB")
+      SteplibDefinition("IMSTESTU.IMS1501.MARKER"),
+      SteplibDefinition("IMSBANK2.IMS1.EXITLIB"),
+      # SteplibDefinition("IMSTESTL.IMS1.DYNALLOC"),
+      SteplibDefinition("IMSTESTG.IMS15R.TSTRES"),
+      SteplibDefinition("IMSBLD.IMS15R.USERLIB"),
+      SteplibDefinition("IMSBLD.I15RTSMM.CRESLIB")
     ]
     steplib = DDStatement("steplib", steplib_datasets)
     recon1 = DDStatement("recon1", DatasetDefinition("IMSBANK2.IMS1.RECON1"))
@@ -358,14 +361,10 @@ def run_module():
     recon3 = DDStatement("recon3", DatasetDefinition("IMSBANK2.IMS1.RECON3"))
     jclpds = DDStatement("jclpds", DatasetDefinition("IMSTESTL.IMS1.GENJCL"))
     ims = DDStatement("ims", DatasetDefinition("IMSBANK2.IMS1.DBDLIB"))
-    sysin = DDStatement("sysin", DatasetDefinition("LIST.RECON STATUS"))
+    sysin = DDStatement("sysin", StdinDefinition("  LIST.RECON STATUS"))
     sysprint = DDStatement("sysprint", StdoutDefinition())
-    # command_data_set = _create_temp_data_set("OMVSADM")
-    # _write_data_set(command_data_set, "LIST.RECON STATUS")
-    # dbrc_command = DDStatement("", DatasetDefinition(command_data_set))
 
-    response = MVSCmd.execute_authorized("DSPURX00", [steplib, recon1, recon2, recon3, jclpds, ims, sysin, sysprint])
-    # response = MVSCmd.execute_authorized("dspurx00", [steplib, recon1, recon2, recon3, ims, sysin, sysprint])
+    response = MVSCmd.execute("dspurx00", [steplib, recon1, recon2, recon3, jclpds, ims, sysin, sysprint])
     result["responseobj"] = {
       "rc": response.rc,
       "stdout": response.stdout,
@@ -375,7 +374,7 @@ def run_module():
     result['msg'] = repr(e)
     module.fail_json(**result)
   finally:
-      # _delete_data_set(command_data_set)
+      # _delete_data_set(sysin_data_set)
       pass
   module.exit_json(**result)
 
