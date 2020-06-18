@@ -1,5 +1,38 @@
 import re 
-#from pprint import pprint
+from pprint import pprint
+
+ZOAUTIL_TEMP_USS = "/tmp/test.jcl"
+ZOAUTIL_TEMP_USS2 = "/tmp/test2.jcl"
+
+
+def submit_uss_jcl(module):
+    (conv_rc, stdout, stderr) = module.run_command('iconv -f ISO8859-1 -t IBM-1047 %s > %s' %(ZOAUTIL_TEMP_USS, ZOAUTIL_TEMP_USS2),use_unsafe_shell=True)
+    if conv_rc == 0:
+        pprint('Submitting JCL in USS')
+        rc, stdout, stderr = module.run_command(['submit', '-j', ZOAUTIL_TEMP_USS2])
+        print(rc)
+        if rc != 0:
+            raise SubmitJCLError('SUBMIT JOB FAILED:  Stderr :' + stderr)
+        if 'Error' in stderr:
+            raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
+        if 'Not accepted by JES' in stderr:
+            raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
+        if stdout !=  '':
+            jobId = stdout.replace("\n", "").strip()
+        else:
+            raise SubmitJCLError('SUBMIT JOB FAILED: ' + 'NO JOB ID IS RETURNED. PLEASE CHECK THE JCL.')
+        pprint('this is the job id')
+        pprint(jobId)
+    else:
+        module.fail_json(msg='The Local file encoding conversion failed. Please check the source file.'+ stderr, **result)
+    return jobId
+
+class Error(Exception):
+    pass
+
+class SubmitJCLError(Error):
+    def __init__(self, jobs):
+        self.msg = 'An error occurred during submission of jobs "{0}"'.format(jobs)
 
 def data_set_exists(name, run_command):
     """Checks for existence of data set."""

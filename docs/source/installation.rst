@@ -20,8 +20,30 @@ from the Ansible community.
 
 Galaxy provides prepackaged units of work known as collections. You can use the
 `ansible-galaxy`_ command with the option ``install`` to install a collection on
-your system (control node) hosted in Galaxy. If you have installed a prior
-version, you must overwrite an existing collection with the ``--force`` option.
+your system (control node) hosted in Galaxy. 
+
+By default, the `ansible-galaxy`_ command installs the latest available
+collection, but you can add a version identifier to install a specific version.
+Before installing a collection from Galaxy, review all the available versions.
+Periodically, new releases containing enhancements and features you might be
+interested in become available.
+
+The ansible-galaxy command ignores any pre-release versions unless
+the ``==`` range identifier is set to that pre-release version.
+A pre-release version is denoted by appending a hyphen and a series of
+dot separated identifiers immediately following the patch version. The
+**IBM z/OS IMS collection** releases collections with the pre-release
+naming convention such as **1.0.0-beta2** that would require a range identifier.
+
+Here is an example an example of installing a pre-release collection:
+
+.. code-block:: sh
+
+   $ ansible-galaxy collection install ibm.ibm_zos_ims:==1.0.0-beta2
+
+
+If you have installed a prior version, you must overwrite an existing 
+collection with the ``--force`` option.
 
 Here are a few examples of installing the **IBM z/OS IMS collection**:
 
@@ -30,19 +52,6 @@ Here are a few examples of installing the **IBM z/OS IMS collection**:
    $ ansible-galaxy collection install ibm.ibm_zos_ims
    $ ansible-galaxy collection install -f ibm.ibm_zos_ims
    $ ansible-galaxy collection install --force ibm.ibm_zos_ims
-
-By default, the `ansible-galaxy`_ command installs the latest available
-collection, but you can add a version identifier to install a specific version.
-Before installing a collection from Galaxy, review all the available versions.
-Periodically, new releases containing enhancements and features that you might
-be interested in become available.
-
-Here's an example command for installing the **IBM z/OS IMS collection** for
-a specific version.
-
-.. code-block:: sh
-
-   $ ansible-galaxy collection install ibm.ibm_zos_ims::1.0.0
 
 The collection installation progress will be output to the console. Note the
 location of the installation so that you can review other content included with
@@ -69,6 +78,7 @@ After installation, the collection content will resemble this hierarchy: :
    │              ├── docs/
    │              ├── playbooks/
    │              ├── plugins/
+   │                  ├── action/
    │                  ├── module_utils/
    │                  ├── modules/
 
@@ -117,7 +127,7 @@ To configure a Galaxy server list in the ansible.cfg file:
   * Create a new section for each server name.
   * Set the url option for each server name.
 
-To configure the server for Automation Hub, you must also:
+For Automation Hub, you additionally need to:
 
   * Set the auth_url option for each server name.
   * Set the API token for each server name. For more information on API tokens,
@@ -126,7 +136,7 @@ To configure the server for Automation Hub, you must also:
 .. _Get API token from the version dropdown to copy your API token:
    https://cloud.redhat.com/ansible/automation-hub/token/
 
-The following example shows a configuration for Automation Hub, a privately
+The following example shows a configuration for Automation Hub, a private
 running Galaxy server, and Galaxy:
 
 .. code-block:: yaml
