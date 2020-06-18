@@ -79,13 +79,14 @@ def validate_input(module, result):
         steplib=dict(arg_type="data_set", required = False),
         sysabend=dict(arg_type="data_set", required = False),
         sysprint=dict(arg_type="data_set", required=False),
-        duplist=dict(arg_type="bool", required=False),
-        errormax=dict(arg_type="int", required=False),
-        resource_chkp_freq=dict(arg_type="int", required=False),
-        segment_chkp_freq=dict(arg_type="int", required=False),
-        isrtlist=dict(arg_type="bool", required=False),
-        managed_acbs=dict(arg_type="dict", required=False),
-        no_isrtlist=dict(arg_type="bool", required=False)
+        control_statements=dict(arg_type="dict", options=dict(duplist=dict(arg_type="bool", required=False),
+                                                              errormax=dict(arg_type="int", required=False),
+                                                              resource_chkp_freq=dict(arg_type="int", required=False),
+                                                              segment_chkp_freq=dict(arg_type="int", required=False),
+                                                              isrtlist=dict(arg_type="bool", required=False),
+                                                              managed_acbs=dict(arg_type="dict", required=False),
+                                                              no_isrtlist=dict(arg_type="bool", required=False)),
+                                        required=False)
       )
 
       parser = BetterArgParser(module_defs)
