@@ -169,100 +169,100 @@ except Exception:
   Datasets = MissingZOAUImport()
   types = MissingZOAUImport()
 
-class Error(Exception):
-    def __init__(self, *args):
-        super(Error, self).__init__(*args)
-class DatasetDeleteError(Error):
-  def __init__(self, data_set, rc):
-    self.msg = 'An error occurred during deletion of data set "{0}". RC={1}'.format(
-      data_set, rc
-    )
-    super(DatasetDeleteError, self).__init__(self.msg)
+# class Error(Exception):
+#     def __init__(self, *args):
+#         super(Error, self).__init__(*args)
+# class DatasetDeleteError(Error):
+#   def __init__(self, data_set, rc):
+#     self.msg = 'An error occurred during deletion of data set "{0}". RC={1}'.format(
+#       data_set, rc
+#     )
+#     super(DatasetDeleteError, self).__init__(self.msg)
 
-class DatasetCreateError(Error):
-  def __init__(self, data_set, rc):
-    self.msg = 'An error occurred during creation of data set "{0}". RC={1}'.format(
-      data_set, rc
-    )
-    super(DatasetCreateError, self).__init__(self.msg)
-
-
-class DatasetWriteError(Error):
-  def __init__(self, data_set, rc, message=""):
-    self.msg = 'An error occurred during write of data set "{0}". RC={1}. {2}'.format(
-      data_set, rc, message
-    )
-    super(DatasetWriteError, self).__init__(self.msg)
-
-def _create_data_set(name, extra_args=None):
-  """A wrapper around zoautil_py
-  Dataset.create() to raise exceptions on failure.
-
-  Arguments:
-      name {str} -- The name of the data set to create.
-
-  Raises:
-      DatasetCreateError: When data set creation fails.
-  """
-  if extra_args is None:
-    extra_args = {}
-  rc = Datasets.create(name, **extra_args)
-  if rc > 0:
-    raise DatasetCreateError(name, rc)
-  return
+# class DatasetCreateError(Error):
+#   def __init__(self, data_set, rc):
+#     self.msg = 'An error occurred during creation of data set "{0}". RC={1}'.format(
+#       data_set, rc
+#     )
+#     super(DatasetCreateError, self).__init__(self.msg)
 
 
-def _delete_data_set(name):
-  """A wrapper around zoautil_py
-  Dataset.delete() to raise exceptions on failure.
+# class DatasetWriteError(Error):
+#   def __init__(self, data_set, rc, message=""):
+#     self.msg = 'An error occurred during write of data set "{0}". RC={1}. {2}'.format(
+#       data_set, rc, message
+#     )
+#     super(DatasetWriteError, self).__init__(self.msg)
 
-  Arguments:
-      name {str} -- The name of the data set to delete.
+# def _create_data_set(name, extra_args=None):
+#   """A wrapper around zoautil_py
+#   Dataset.create() to raise exceptions on failure.
 
-  Raises:
-      DatasetDeleteError: When data set deletion fails.
-  """
-  rc = Datasets.delete(name)
-  if rc > 0:
-    raise DatasetDeleteError(name, rc)
-  return
+#   Arguments:
+#       name {str} -- The name of the data set to create.
+
+#   Raises:
+#       DatasetCreateError: When data set creation fails.
+#   """
+#   if extra_args is None:
+#     extra_args = {}
+#   rc = Datasets.create(name, **extra_args)
+#   if rc > 0:
+#     raise DatasetCreateError(name, rc)
+#   return
 
 
-def _create_temp_data_set(hlq):
-  """Create a temporary data set.
+# def _delete_data_set(name):
+#   """A wrapper around zoautil_py
+#   Dataset.delete() to raise exceptions on failure.
 
-  Arguments:
-      hlq {str} -- The HLQ to use for the temporary data set's name.
+#   Arguments:
+#       name {str} -- The name of the data set to delete.
 
-  Returns:
-      str -- The name of the temporary data set.
-  """
-  temp_data_set_name = Datasets.temp_name(hlq)
-  _create_data_set(
-    temp_data_set_name, {"type": "SEQ", "size": "5M", "format": "FB", "length": 80},
-  )
-  return temp_data_set_name
+#   Raises:
+#       DatasetDeleteError: When data set deletion fails.
+#   """
+#   rc = Datasets.delete(name)
+#   if rc > 0:
+#     raise DatasetDeleteError(name, rc)
+#   return
 
-def _write_data_set(name, contents):
-  """Write text to a data set.
 
-  Arguments:
-      name {str} -- The name of the data set.
-      contents {str} -- The text to write to the data set.
+# def _create_temp_data_set(hlq):
+#   """Create a temporary data set.
 
-  Raises:
-      DatasetWriteError: When write to the data set fails.
-  """
-  # rc = Datasets.write(name, contents)
-  temp = tempfile.NamedTemporaryFile(delete=False)
-  with open(temp.name, "w") as f:
-    f.write(contents)
-  rc, stdout, stderr = module.run_command(
-    "cp -O u {0} \"//'{1}'\"".format(temp.name, name)
-  )
-  if rc != 0:
-    raise DatasetWriteError(name, rc, stderr)
-  return
+#   Arguments:
+#       hlq {str} -- The HLQ to use for the temporary data set's name.
+
+#   Returns:
+#       str -- The name of the temporary data set.
+#   """
+#   temp_data_set_name = Datasets.temp_name(hlq)
+#   _create_data_set(
+#     temp_data_set_name, {"type": "SEQ", "size": "5M", "format": "FB", "length": 80},
+#   )
+#   return temp_data_set_name
+
+# def _write_data_set(name, contents):
+#   """Write text to a data set.
+
+#   Arguments:
+#       name {str} -- The name of the data set.
+#       contents {str} -- The text to write to the data set.
+
+#   Raises:
+#       DatasetWriteError: When write to the data set fails.
+#   """
+#   # rc = Datasets.write(name, contents)
+#   temp = tempfile.NamedTemporaryFile(delete=False)
+#   with open(temp.name, "w") as f:
+#     f.write(contents)
+#   rc, stdout, stderr = module.run_command(
+#     "cp -O u {0} \"//'{1}'\"".format(temp.name, name)
+#   )
+#   if rc != 0:
+#     raise DatasetWriteError(name, rc, stderr)
+#   return
 
 def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
   # User did not provide dynalloc 
@@ -271,7 +271,31 @@ def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
     if not recon1 or recon2 or recon3:
       return False
   return True
+
+def parse_output(raw_output):
+  original_output = [elem.strip() for elem in raw_output.split("\n")]
+  replacement_values = {
+    "** NONE **": None,
+    "**NULL**": None,
+    "NONE": None,
+    "YES": True,
+    "NO": False,
+    "ON": True,
+    "OFF": False
+  }
+  output_fields = {}
+  for line in original_output:
+    for elem in list(filter(None, line.split("  "))):
+      items = elem.split("=")
+      if len(items) == 2:
+        value = items[1].strip()
+        if value in replacement_values:
+          value = replacement_values[value]
+        output_fields[items[0].strip()] = value
+  return output_fields, original_output
   
+def remove_space(elem):
+  return elem != ' '
 
 def run_module():
   global module
@@ -299,6 +323,7 @@ def run_module():
   )
   
   """
+  Original:
   //DSPURX00 JOB MSGLEVEL=1,MSGCLASS=E,CLASS=K,
   //   LINES=999999,TIME=1440,REGION=0M,       
   //   MEMLIMIT=NOLIMIT                        
@@ -330,20 +355,38 @@ def run_module():
   ...
   /*                    
   //SYSPRINT DD SYSOUT=*
-  """
 
-  # sysprint = DDStatement(
-  #     "sysprint",
-  #     DatasetDefinition(
-  #         "USER.PRIVATE.TESTZS",
-  #         disposition="NEW",
-  #         primary="10",
-  #         primary_unit="trk",
-  #         secondary="2",
-  #         secondary_unit="trk",
-  #         type="seq",
-  #     ),
-  # )
+  Modified:
+  //DSPURX00 JOB MSGLEVEL=1,MSGCLASS=E,CLASS=K,
+  //   LINES=999999,TIME=1440,REGION=0M,
+  //   MEMLIMIT=NOLIMIT
+  /*JOBPARM  SYSAFF=*
+  //DSPURX00 EXEC PGM=DSPURX00
+  //STEPLIB  DD DISP=SHR,
+  //      DSN=IMSTESTU.IMS1501.MARKER
+  //         DD DISP=SHR,
+  //      DSN=IMSBANK2.IMS1.EXITLIB
+  //         DD DISP=SHR,
+  //      DSN=IMSTESTG.IMS15R.TSTRES
+  //         DD DISP=SHR,
+  //      DSN=IMSBLD.IMS15R.USERLIB
+  //         DD DISP=SHR,
+  //      DSN=IMSBLD.I15RTSMM.CRESLIB
+  //RECON1   DD DISP=SHR,
+  //      DSN=IMSBANK2.IMS1.RECON1
+  //RECON2   DD DISP=SHR,
+  //      DSN=IMSBANK2.IMS1.RECON2
+  //RECON3   DD DISP=SHR,
+  //      DSN=IMSBANK2.IMS1.RECON3
+  //JCLPDS   DD DISP=SHR,                      
+  //      DSN=IMSTESTL.IMS1.GENJCL
+  //IMS      DD DISP=SHR,         
+  //      DSN=IMSBANK2.IMS1.DBDLIB
+  //SYSIN    DD *                 
+  //LIST.RECON STATUS
+  /*                    
+  //SYSPRINT DD SYSOUT=*
+  """
 
   try:
     steplib_datasets = [
@@ -364,23 +407,20 @@ def run_module():
     sysprint = DDStatement("sysprint", StdoutDefinition())
 
     response = MVSCmd.execute("dspurx00", [steplib, recon1, recon2, recon3, jclpds, ims, sysin, sysprint])
+    fields, original_output = parse_output(response.stdout)
     result["responseobj"] = {
       "rc": response.rc,
-      "stdout": response.stdout,
+      "fields": fields,
+      "stdout": original_output,
       "stderr": response.stderr
     }
+
   except Exception as e:
     result['msg'] = repr(e)
     module.fail_json(**result)
   finally:
       # _delete_data_set(sysin_data_set)
       pass
-  module.exit_json(**result)
-
-  #result['msg'] = em.BATCH_FAILURE_MSG
-  module.fail_json(**result)
-
-  #result['msg'] = em.SUCCESS_MSG
   module.exit_json(**result)
 
 def main():
