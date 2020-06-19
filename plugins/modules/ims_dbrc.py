@@ -169,101 +169,6 @@ except Exception:
   Datasets = MissingZOAUImport()
   types = MissingZOAUImport()
 
-# class Error(Exception):
-#     def __init__(self, *args):
-#         super(Error, self).__init__(*args)
-# class DatasetDeleteError(Error):
-#   def __init__(self, data_set, rc):
-#     self.msg = 'An error occurred during deletion of data set "{0}". RC={1}'.format(
-#       data_set, rc
-#     )
-#     super(DatasetDeleteError, self).__init__(self.msg)
-
-# class DatasetCreateError(Error):
-#   def __init__(self, data_set, rc):
-#     self.msg = 'An error occurred during creation of data set "{0}". RC={1}'.format(
-#       data_set, rc
-#     )
-#     super(DatasetCreateError, self).__init__(self.msg)
-
-
-# class DatasetWriteError(Error):
-#   def __init__(self, data_set, rc, message=""):
-#     self.msg = 'An error occurred during write of data set "{0}". RC={1}. {2}'.format(
-#       data_set, rc, message
-#     )
-#     super(DatasetWriteError, self).__init__(self.msg)
-
-# def _create_data_set(name, extra_args=None):
-#   """A wrapper around zoautil_py
-#   Dataset.create() to raise exceptions on failure.
-
-#   Arguments:
-#       name {str} -- The name of the data set to create.
-
-#   Raises:
-#       DatasetCreateError: When data set creation fails.
-#   """
-#   if extra_args is None:
-#     extra_args = {}
-#   rc = Datasets.create(name, **extra_args)
-#   if rc > 0:
-#     raise DatasetCreateError(name, rc)
-#   return
-
-
-# def _delete_data_set(name):
-#   """A wrapper around zoautil_py
-#   Dataset.delete() to raise exceptions on failure.
-
-#   Arguments:
-#       name {str} -- The name of the data set to delete.
-
-#   Raises:
-#       DatasetDeleteError: When data set deletion fails.
-#   """
-#   rc = Datasets.delete(name)
-#   if rc > 0:
-#     raise DatasetDeleteError(name, rc)
-#   return
-
-
-# def _create_temp_data_set(hlq):
-#   """Create a temporary data set.
-
-#   Arguments:
-#       hlq {str} -- The HLQ to use for the temporary data set's name.
-
-#   Returns:
-#       str -- The name of the temporary data set.
-#   """
-#   temp_data_set_name = Datasets.temp_name(hlq)
-#   _create_data_set(
-#     temp_data_set_name, {"type": "SEQ", "size": "5M", "format": "FB", "length": 80},
-#   )
-#   return temp_data_set_name
-
-# def _write_data_set(name, contents):
-#   """Write text to a data set.
-
-#   Arguments:
-#       name {str} -- The name of the data set.
-#       contents {str} -- The text to write to the data set.
-
-#   Raises:
-#       DatasetWriteError: When write to the data set fails.
-#   """
-#   # rc = Datasets.write(name, contents)
-#   temp = tempfile.NamedTemporaryFile(delete=False)
-#   with open(temp.name, "w") as f:
-#     f.write(contents)
-#   rc, stdout, stderr = module.run_command(
-#     "cp -O u {0} \"//'{1}'\"".format(temp.name, name)
-#   )
-#   if rc != 0:
-#     raise DatasetWriteError(name, rc, stderr)
-#   return
-
 def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
   # User did not provide dynalloc 
   if not dynalloc:
@@ -271,31 +176,46 @@ def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
     if not recon1 or recon2 or recon3:
       return False
   return True
+  
+def extract_values(elements):
+	replacement_values = {
+		"** NONE **": None,
+		"**NULL**": None,
+		"NONE": None,
+		"YES": True,
+		"NO": False,
+		"ON": True,
+		"OFF": False
+  	}
+	fields = {}
+	i = 0
+	while i < len(elements) - 1:
+		key_list = list(filter(None, elements[i].split("  ")))
+		value_list = list(filter(None, elements[i + 1].split("  ")))
+
+		last_key_index = len(key_list) - 1
+		if len(value_list) == 1 and i > 0 and i < len(elements) - 1: 
+			fields[key_list[last_key_index].strip()] = None
+		else:
+			value = value_list[0].strip()
+			if value in replacement_values:
+				value = replacement_values[value]
+			fields[key_list[last_key_index].strip()] = value
+		i += 1
+
+	return fields
 
 def parse_output(raw_output):
-  original_output = [elem.strip() for elem in raw_output.split("\n")]
-  replacement_values = {
-    "** NONE **": None,
-    "**NULL**": None,
-    "NONE": None,
-    "YES": True,
-    "NO": False,
-    "ON": True,
-    "OFF": False
-  }
-  output_fields = {}
-  for line in original_output:
-    for elem in list(filter(None, line.split("  "))):
-      items = elem.split("=")
-      if len(items) == 2:
-        value = items[1].strip()
-        if value in replacement_values:
-          value = replacement_values[value]
-        output_fields[items[0].strip()] = value
-  return output_fields, original_output
+	original_output = [elem.strip() for elem in raw_output.split("\n")]
+	output_fields = {}
+	for line in original_output:
+		if "=" in line:
+			elements = line.split("=")
+			output_fields.update(extract_values(elements))
+	return output_fields, original_output
   
-def remove_space(elem):
-  return elem != ' '
+# def remove_space(elem):
+#   return elem != ' '
 
 def run_module():
   global module
@@ -403,7 +323,7 @@ def run_module():
     recon3 = DDStatement("recon3", DatasetDefinition("IMSBANK2.IMS1.RECON3"))
     jclpds = DDStatement("jclpds", DatasetDefinition("IMSTESTL.IMS1.GENJCL"))
     ims = DDStatement("ims", DatasetDefinition("IMSBANK2.IMS1.DBDLIB"))
-    sysin = DDStatement("sysin", StdinDefinition("  LIST.RECON STATUS"))
+    sysin = DDStatement("sysin", [StdinDefinition("  LIST.RECON STATUS"), StdinDefinition("  LIST.DB ALL")])
     sysprint = DDStatement("sysprint", StdoutDefinition())
 
     response = MVSCmd.execute("dspurx00", [steplib, recon1, recon2, recon3, jclpds, ims, sysin, sysprint])
