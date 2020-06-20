@@ -176,7 +176,7 @@ def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
     if not recon1 or recon2 or recon3:
       return False
   return True
-  
+
 def extract_values(elements):
 	replacement_values = {
 		"** NONE **": None,
@@ -194,13 +194,22 @@ def extract_values(elements):
 		value_list = list(filter(None, elements[i + 1].split("  ")))
 
 		last_key_index = len(key_list) - 1
+		key = key_list[last_key_index].strip()
+		if len(key_list) == 1 and i > 0 and i < len(elements) - 1:
+			# print(elements, key_list)
+			unformatted_key = key_list[0]
+			try:
+				start_index = re.search(r'\d+\s', unformatted_key).end()
+				key = unformatted_key[start_index:].strip()
+			except:
+				key = unformatted_key.strip()
 		if len(value_list) == 1 and i > 0 and i < len(elements) - 1: 
-			fields[key_list[last_key_index].strip()] = None
+			fields[key] = None
 		else:
 			value = value_list[0].strip()
 			if value in replacement_values:
 				value = replacement_values[value]
-			fields[key_list[last_key_index].strip()] = value
+			fields[key] = value
 		i += 1
 
 	return fields
@@ -208,10 +217,14 @@ def extract_values(elements):
 def parse_output(raw_output):
 	original_output = [elem.strip() for elem in raw_output.split("\n")]
 	output_fields = {}
+	output_fields['messages'] = []
+	pattern = r'DSP\d{4}I'
 	for line in original_output:
 		if "=" in line:
 			elements = line.split("=")
 			output_fields.update(extract_values(elements))
+		elif re.search(pattern, line, re.IGNORECASE):
+			output_fields['messages'].append(line)
 	return output_fields, original_output
   
 # def remove_space(elem):
@@ -241,89 +254,25 @@ def run_module():
     argument_spec=module_args,
     supports_check_mode=True
   )
-  
-  """
-  Original:
-  //DSPURX00 JOB MSGLEVEL=1,MSGCLASS=E,CLASS=K,
-  //   LINES=999999,TIME=1440,REGION=0M,       
-  //   MEMLIMIT=NOLIMIT                        
-  /*JOBPARM  SYSAFF=*                          
-  //DSPURX00 EXEC PGM=DSPURX00                 
-  //STEPLIB  DD DISP=SHR,                      
-  //      DSN=IMSTESTU.IMS1501.MARKER          
-  //         DD DISP=SHR,                      
-  //      DSN=IMSTESTL.IMS1.EXITLIB            
-  //         DD DISP=SHR,                      
-  //      DSN=IMSTESTL.IMS1.DYNALLOC           
-  //         DD DISP=SHR,                      
-  //      DSN=IMSTESTG.IMS15R.TSTRES           
-  //         DD DISP=SHR,                      
-  //      DSN=IMSBLD.IMS15R.USERLIB            
-  //         DD DISP=SHR,                      
-  //      DSN=IMSBLD.I15RTSMM.CRESLIB          
-  //RECON1   DD DISP=SHR,
-  //      DSN=IMSTESTL.IMS1.RECON1
-  //RECON2   DD DISP=SHR,
-  //      DSN=IMSTESTL.IMS1.RECON2
-  //RECON3   DD DISP=SHR,
-  //      DSN=IMSTESTL.IMS1.RECON3
-  //JCLPDS   DD DISP=SHR,                      
-  //      DSN=IMSTESTL.IMS1.GENJCL
-  //IMS      DD DISP=SHR,         
-  //      DSN=IMSTESTL.IMS1.DBDLIB
-  //SYSIN    DD *                 
-  ...
-  /*                    
-  //SYSPRINT DD SYSOUT=*
-
-  Modified:
-  //DSPURX00 JOB MSGLEVEL=1,MSGCLASS=E,CLASS=K,
-  //   LINES=999999,TIME=1440,REGION=0M,
-  //   MEMLIMIT=NOLIMIT
-  /*JOBPARM  SYSAFF=*
-  //DSPURX00 EXEC PGM=DSPURX00
-  //STEPLIB  DD DISP=SHR,
-  //      DSN=IMSTESTU.IMS1501.MARKER
-  //         DD DISP=SHR,
-  //      DSN=IMSBANK2.IMS1.EXITLIB
-  //         DD DISP=SHR,
-  //      DSN=IMSTESTG.IMS15R.TSTRES
-  //         DD DISP=SHR,
-  //      DSN=IMSBLD.IMS15R.USERLIB
-  //         DD DISP=SHR,
-  //      DSN=IMSBLD.I15RTSMM.CRESLIB
-  //RECON1   DD DISP=SHR,
-  //      DSN=IMSBANK2.IMS1.RECON1
-  //RECON2   DD DISP=SHR,
-  //      DSN=IMSBANK2.IMS1.RECON2
-  //RECON3   DD DISP=SHR,
-  //      DSN=IMSBANK2.IMS1.RECON3
-  //JCLPDS   DD DISP=SHR,                      
-  //      DSN=IMSTESTL.IMS1.GENJCL
-  //IMS      DD DISP=SHR,         
-  //      DSN=IMSBANK2.IMS1.DBDLIB
-  //SYSIN    DD *                 
-  //LIST.RECON STATUS
-  /*                    
-  //SYSPRINT DD SYSOUT=*
-  """
 
   try:
     steplib_datasets = [
       DatasetDefinition("IMSTESTU.IMS1501.MARKER"),
       DatasetDefinition("IMSBANK2.IMS1.EXITLIB"),
-      # DatasetDefinition("IMSTESTL.IMS1.DYNALLOC"),
+      # DatasetDefinition(module.params['dynalloc']),
       DatasetDefinition("IMSTESTG.IMS15R.TSTRES"),
       DatasetDefinition("IMSBLD.IMS15R.USERLIB"),
-      DatasetDefinition("IMSBLD.I15RTSMM.CRESLIB")
+      DatasetDefinition(module.params['steplib'])
     ]
     steplib = DDStatement("steplib", steplib_datasets)
-    recon1 = DDStatement("recon1", DatasetDefinition("IMSBANK2.IMS1.RECON1"))
-    recon2 = DDStatement("recon2", DatasetDefinition("IMSBANK2.IMS1.RECON2"))
-    recon3 = DDStatement("recon3", DatasetDefinition("IMSBANK2.IMS1.RECON3"))
-    jclpds = DDStatement("jclpds", DatasetDefinition("IMSTESTL.IMS1.GENJCL"))
-    ims = DDStatement("ims", DatasetDefinition("IMSBANK2.IMS1.DBDLIB"))
-    sysin = DDStatement("sysin", [StdinDefinition("  LIST.RECON STATUS"), StdinDefinition("  LIST.DB ALL")])
+    recon1 = DDStatement("recon1", DatasetDefinition(module.params['recon1']))
+    recon2 = DDStatement("recon2", DatasetDefinition(module.params['recon2']))
+    recon3 = DDStatement("recon3", DatasetDefinition(module.params['recon3']))
+    jclpds = DDStatement("jclpds", DatasetDefinition(module.params['genjcl']))
+    ims = DDStatement("ims", DatasetDefinition(module.params['dbdlib']))
+    dbrc_commands = [StdinDefinition("  " + cmd) for cmd in module.params['command']]
+    sysin = DDStatement("sysin", dbrc_commands)
+    # sysin = DDStatement("sysin", StdinDefinition(data))
     sysprint = DDStatement("sysprint", StdoutDefinition())
 
     response = MVSCmd.execute("dspurx00", [steplib, recon1, recon2, recon3, jclpds, ims, sysin, sysprint])
