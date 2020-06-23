@@ -418,7 +418,7 @@ options:
     required: false
   sysprint:
     description:
-      - Defines the output messagea dataset
+      - Defines the output message dataset
     type: str
     required: false
   control_statements:
@@ -575,7 +575,8 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
   FileDefinition,
   DatasetDefinition,
   StdoutDefinition,
-  StdinDefinition
+  StdinDefinition,
+  DummyDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
@@ -635,35 +636,35 @@ def run_module():
     imsDatasetList = []
     acbDatasetList = []
 
-    if parsed_args['reslib']:
-      dfsreslbDDStatement = DDStatement("DFSRESLB", DatasetDefinition(parsed_args['reslib']))
+    if parsed_args.get('reslib'):
+      dfsreslbDDStatement = DDStatement("DFSRESLB", DatasetDefinition(parsed_args.get('reslib')))
       dDStatementList.append(dfsreslbDDStatement)
-    if parsed_args['buffer_pool_param_dataset']:
-      dfsvsampDDStatement = DDStatement("DFSVSAMP", DatasetDefinition(parsed_args['buffer_pool_param_dataset']))
+    if parsed_args.get('buffer_pool_param_dataset'):
+      dfsvsampDDStatement = DDStatement("DFSVSAMP", DatasetDefinition(parsed_args.get('buffer_pool_param_dataset')))
       dDStatementList.append(dfsvsampDDStatement)
-    if parsed_args['primary_log_dataset']:
-      iefrderDDStatement = DDStatement("IEFRDER", DatasetDefinition(**{k: v for k, v in parsed_args['primary_log_dataset'].items() if v is not None}))
+    if parsed_args.get('primary_log_dataset'):
+      iefrderDDStatement = DDStatement("IEFRDER", DatasetDefinition(**{k: v for k, v in parsed_args.get('primary_log_dataset').items() if v is not None}))
       dDStatementList.append(iefrderDDStatement)
-    if parsed_args['secondary_log_dataset']:
-      iefrder2DDStatement = DDStatement("IEFRDER2", DatasetDefinition(**{k: v for k, v in parsed_args['secondary_log_dataset'].items() if v is not None}))
+    if parsed_args.get('secondary_log_dataset'):
+      iefrder2DDStatement = DDStatement("IEFRDER2", DatasetDefinition(**{k: v for k, v in parsed_args.get('secondary_log_dataset').items() if v is not None}))
       dDStatementList.append(iefrder2DDStatement)
     
     #Generate DD statements for DBD and PSB libs. If they exist, we attach to an ims dd statement. 
-    if parsed_args['psb_lib']:
-      psbDataset = DatasetDefinition(parsed_args['psb_lib'])
+    if parsed_args.get('psb_lib'):
+      psbDataset = DatasetDefinition(parsed_args.get('psb_lib'))
       imsDatasetList.append(psbDataset)
-    if parsed_args['dbd_lib']:
-      dbdDatset = DatasetDefinition(parsed_args['dbd_lib'])
+    if parsed_args('dbd_lib'):
+      dbdDatset = DatasetDefinition(parsed_args.get('dbd_lib'))
       imsDatasetList.append(dbdDatset)
     if imsDatasetList:
       imsDDStatement = DDStatement("ims", imsDatasetList)
       dDStatementList.append(imsDDStatement)
 
     #Generate DD statements for ACB lib. Behavior is different depending on check_timestamps
-    if parsed_args['acb_lib']:
+    if parsed_args.get('acb_lib'):
       #Check if check_timestamp is false. If so, then we include all the datasets in a single DD Statement
-      if parsed_args['check_timestamp'] is False:
-        for i in parsed_args['acb_lib']:
+      if parsed_args.get('check_timestamp') is False:
+        for i in parsed_args.get('acb_lib'):
           acbDataset = DatasetDefinition(i)
           acbDatasetList.append(acbDataset)
         acbDDStatement = DDStatement("IMSACBA", acbDatasetList)
@@ -671,7 +672,7 @@ def run_module():
       #If check_timestamp is true, then we generate a dd statement for each dataset
       else:
         acbCount = 1
-        for i in parsed_args['acb_lib']:
+        for i in parsed_args.get('acb_lib'):
           if acbCount >= 10:
             acbDDStatement = DDStatement("IMSACB{0}".format(acbCount), DatasetDefinition(i))
             dDStatementList.append(acbDDStatement)
@@ -682,13 +683,13 @@ def run_module():
             acbCount += 1
         acbCount = 1
       
-    if parsed_args['bootstrap_dataset']:
-      btstrDataset = DDStatement("IMSDBSDS", DatasetDefinition(parsed_args['bootstrap_dataset']))
+    if parsed_args.get('bootstrap_dataset'):
+      btstrDataset = DDStatement("IMSDBSDS", DatasetDefinition(parsed_args.get('bootstrap_dataset')))
       dDStatementList.append(btstrDataset)
     
-    if parsed_args['directory_datasets']:
+    if parsed_args.get('directory_datasets'):
       directoryCount = 1
-      for i in parsed_args['directory_datasets']:
+      for i in parsed_args.get('directory_datasets'):
         if acbCount >= 10:
           directoryDDStatement = DDStatement("IMSD00{0}".format(directoryCount), DatasetDefinition(i))
           dDStatementList.append(directoryDDStatement)
@@ -696,36 +697,39 @@ def run_module():
           directoryDDStatement = DDStatement("IMSD000{0}".format(directoryCount), DatasetDefinition(i))
           dDStatementList.append(directoryDDStatement)
     
-    if parsed_args['temp_acb_dataset']:
-      tempDDStatement = DDStatement("IMSDG001", DatasetDefinition(parsed_args['temp_acb_dataset']))
+    if parsed_args.get('temp_acb_dataset'):
+      tempDDStatement = DDStatement("IMSDG001", DatasetDefinition(parsed_args.get('temp_acb_dataset')))
       dDStatementList.append(tempDDStatement)
     
-    if parsed_args['directory_staging_dataset']:
-      dirDDStatement = DDStatement("IMDSTAG", DatasetDefinition(parsed_args['directory_staging_dataset']))
+    if parsed_args.get('directory_staging_dataset'):
+      dirDDStatement = DDStatement("IMDSTAG", DatasetDefinition(parsed_args.get('directory_staging_dataset')))
       dDStatementList.append(dirDDStatement)
     
-    if parsed_args['sysabend']:
-      abendDDStatement = DDStatement('SYSABEND', DatasetDefinition(parsed_args['sysabend']))
+    if parsed_args.get('sysabend'):
+      abendDDStatement = DDStatement('SYSABEND', DatasetDefinition(parsed_args.get('sysabend')))
       dDStatementList.append(abendDDStatement)
 
-    if parsed_args['proclib']:
-      proclibDDStatement = DDStatement("PROCLIB", DatasetDefinition(parsed_args['proclib']))
+    if parsed_args.get('proclib'):
+      proclibDDStatement = DDStatement("PROCLIB", DatasetDefinition(parsed_args.get('proclib')))
       dDStatementList.append(proclibDDStatement)
 
-    if parsed_args['steplib']:
-      steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(parsed_args['steplib']))
+    if parsed_args.get('steplib'):
+      steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(parsed_args.get('steplib')))
       dDStatementList.append(steplibDDStatement)
 
     #Add sysprint dd statement
-    
-    if parsed_args['sysprint'] is None:
+    if parsed_args.get('sysprint') is None:
       sysDefinition = StdoutDefinition()
     else:
-      sysDefinition = DatasetDefinition(parsed_args['sysprint'])
+      sysDefinition = DatasetDefinition(parsed_args.get('sysprint'))
     sysprintDDStatement = DDStatement("sysprint", sysDefinition)
     dDStatementList.append(sysprintDDStatement)
-    
-    if parsed_args['sysabend'] is None:
+
+    #Add dummy dd statement
+    dummyDDStatement = DDStatement("ACBCATWK", DummyDefinition())
+
+    #add sysabend dd statement
+    if parsed_args.get('sysabend') is None:
       sysDefinition = StdoutDefinition()
     else:
       sysDefinition = DatasetDefinition(parsed_args['sysabend'])
@@ -733,8 +737,8 @@ def run_module():
     dDStatementList.append(sysabendDDStatement)
 
     controlList=[]
-    if parsed_args['control_statements']:
-      controlList = parse_control_statements(parsed_args['control_statements'])
+    if parsed_args.get('control_statements'):
+      controlList = parse_control_statements(parsed_args.get('control_statements'))
 
     ctrlStateDDStatement = DDStatement("SYSINP", StdinDefinition(controlList))
     dDStatementList.append(ctrlStateDDStatement)
@@ -744,9 +748,9 @@ def run_module():
 
     irlm_id = ""
     irlm_flag = "N"
-    if parsed_args['irlm_enabled']:
-      if parsed_args['irlm_id']:
-        irlm_id = parsed_args['irlm_id']
+    if parsed_args.get('irlm_enabled'):
+      if parsed_args.get('irlm_id'):
+        irlm_id = parsed_args.get('irlm_id')
         irlm_flag = "Y"
       else: 
         result['msg'] = "You must specify an irlm id"
@@ -754,39 +758,19 @@ def run_module():
 
     paramString = "DLI,DFS3PU00,DFSCPL00,,,,,,,,,,,N,{0},{1},,,,,,,,,,,'DFSDF=CAT'".format(irlm_flag, irlm_id)
 
-    # try:
-    #     response = MVSCmd.execute("DFS3PU00", dDStatementList, paramString)
-    #     result["responseobj"] = {
-    #         "rc": response.rc,
-    #         "stdout": response.stdout,
-    #         "stderr": response.stderr,
-    #     }
-    # except Exception as e:
-    #     module.fail_json(msg=repr(e), **result)
-    # finally:
-    module.exit_json(**result)
+    try:
+        response = MVSCmd.execute("DFS3PU00", dDStatementList, paramString, debug=True, verbose=True)
+        result["responseobj"] = {
+            "rc": response.rc,
+            "stdout": response.stdout,
+            "stderr": response.stderr,
+        }
+    except Exception as e:
+        module.fail_json(msg=repr(e), **result)
+    finally:
+        module.exit_json(**result)
     
-    
-
-
-
-    # try:
-    #     temp_data_set_name = _create_temp_data_set("OMVSADM")
-    #     _write_data_set(
-    #         temp_data_set_name, " DELETE {0}".format(psb_lib[0].upper())
-    #     )
-    #     sysin = DDStatement("sysin", DatasetDefinition(temp_data_set_name))
-    #     sysprint = DDStatement("sysprint", StdoutDefinition())
-    #     response = MVSCmd.execute_authorized("idcams", [sysin, sysprint])
-    #     result["responseobj"] = {
-    #         "rc": response.rc,
-    #         "stdout": response.stdout,
-    #         "stderr": response.stderr,
-    #     }
-    # except Exception as e:
-    #     module.fail_json(msg=repr(e), **result)
-    # finally:
-    #     _delete_data_set(temp_data_set_name)
+  
 
     module.exit_json(**result)
 

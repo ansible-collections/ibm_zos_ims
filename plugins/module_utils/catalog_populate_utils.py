@@ -42,7 +42,7 @@ def validate_input(module, result):
         reslib=dict(arg_type="data_set", required=False),
         buffer_pool_param_dataset=dict(arg_type="data_set", required=False),
         primary_log_dataset=dict(arg_type="dict", options=dict(dataset_name=dict(arg_type="data_set", required=True),
-                                                               dispositon=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+                                                               disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
                                                                primary=dict(arg_type="int", required=False),
                                                                primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
                                                                secondary=dict(arg_type="int", required=False),
@@ -55,7 +55,7 @@ def validate_input(module, result):
                                                               ),
                                        required=False),
         secondary_log_dataset=dict(arg_type="dict", options=dict(dataset_name=dict(arg_type="data_set", required=True),
-                                                                 dispositon=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+                                                                 disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
                                                                  primary=dict(arg_type="int", required=False),
                                                                  primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
                                                                  secondary=dict(arg_type="int", required=False),
@@ -112,8 +112,8 @@ def validate_input(module, result):
       parser = BetterArgParser(module_defs)
       parsed_args = parser.parse_args(module.params)
 
-      if parsed_args['directory_staging_dataset'] is not None:
-        validate_directory_staging_dataset(parsed_args['directory_datasets'], result, module)
+      if parsed_args.get('directory_staging_dataset') is not None:
+        validate_directory_staging_dataset(parsed_args.get('directory_datasets'), result, module)
 
 
       return parsed_args
@@ -130,54 +130,54 @@ def validate_directory_staging_dataset(dset, result, module):
 
 def parse_control_statements(controlStatements):
     controlStr=[]
-    if controlStatements['duplist']:
+    if controlStatements.get('duplist'):
         controlStr.append("DUPLIST")
-    if controlStatements['errormax']:
+    if controlStatements.get('errormax'):
         controlStr.append("ERRORMAX="+ str(controlStatements['errormax']))
-    if controlStatements['resource_chkp_freq']:
-        controlStr.append("RESOURCE_CHKP_FREQ="+str(controlStatements['resource_chkp_freq']))
-    if controlStatements['segment_chkp_freq']:
-        controlStr.append("SEGMENT_CHKP_FREQ="+str(controlStatements['resource_chkp_freq']))
-    if controlStatements['isrtlist']:
+    if controlStatements.get('resource_chkp_freq'):
+        controlStr.append("RESOURCE_CHKP_FREQ="+str(controlStatements.get('resource_chkp_freq')))
+    if controlStatements.get('segment_chkp_freq'):
+        controlStr.append("SEGMENT_CHKP_FREQ="+str(controlStatements.get('resource_chkp_freq')))
+    if controlStatements.get('isrtlist'):
         controlStr.append("ISRTLIST")
-    if controlStatements['no_isrtlist']:
+    if controlStatements.get('no_isrtlist'):
         controlStr.append("NOISRTLIST")
 
     managed_acbs_string=[]
-    managed_acbs=controlStatements['managed_acbs']
+    managed_acbs=controlStatements.get('managed_acbs')
     if managed_acbs:
       managed_acbs_string.append("MANAGEDACBS=")
-      if managed_acbs['setup']:
+      if managed_acbs.get('setup'):
         managed_acbs_string.append("SETUP")
         controlStr.append("".join(managed_acbs_string))
         print("util printing control string: " + " ".join(controlStr))
         return controlStr
-      if managed_acbs['stage']:
+      if managed_acbs.get('stage'):
         managed_acbs_string.append("STAGE")
-        if managed_acbs['stage']['gsamdbd']:
-          managed_acbs_string.append(",GSAM=" + managed_acbs['stage']['gsamdbd'])
-        if managed_acbs['stage']['latest']:
+        if managed_acbs.get('stage').get('gsamdbd'):
+          managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
+        if managed_acbs.get('stage').get('latest'):
           managed_acbs_string.append(",LATEST")
-        elif managed_acbs['stage']["uncond"]:
+        elif managed_acbs.get('stage').get("uncond"):
           managed_acbs_string.append(",UNCOND")
-        if managed_acbs['stage']["delete"]:
+        if managed_acbs.get('stage').get("delete"):
           managed_acbs_string.append(",DELETE")
-        if managed_acbs['stage']['GSAMPCB']:
+        if managed_acbs.get('stage').get('GSAMPCB'):
           managed_acbs_string.append(",GSAMPCB")
         controlStr.append("".join(managed_acbs_string))
         print("util printing control string: " + " ".join(controlStr))
         return controlStr
-      if managed_acbs['update']:
+      if managed_acbs.get('update'):
         managed_acbs_string.append("UPDATE")
-        if managed_acbs['update']['gsamdbd']:
-          managed_acbs_string.append(",GSAM=" + managed_acbs['stage']['gsamdbd'])
-        if managed_acbs['update']['latest']:
+        if managed_acbs.get('update').get('gsamdbd'):
+          managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
+        if managed_acbs.get('update').get('latest'):
           managed_acbs_string.append(",LATEST")
-        elif managed_acbs['update']["uncond"]:
+        elif managed_acbs.get('update').get("uncond"):
           managed_acbs_string.append(",UNCOND")
-        if managed_acbs['update']["share"]:
+        if managed_acbs.get('update').get("share"):
           managed_acbs_string.append(",SHARE")
-        if managed_acbs['update']['GSAMPCB']:
+        if managed_acbs.get('update').get('GSAMPCB'):
           managed_acbs_string.append(",GSAMPCB")
         controlStr.append("".join(managed_acbs_string))
         print("util printing control string: " + controlStr)
