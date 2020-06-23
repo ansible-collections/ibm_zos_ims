@@ -575,10 +575,11 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
   FileDefinition,
   DatasetDefinition,
   StdoutDefinition,
+  StdinDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_populate_utils import validate_input # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_populate_utils import validate_input, parse_control_statements # pylint: disable=import-error
 # import ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.dataset_utils
 import tempfile
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
@@ -730,6 +731,16 @@ def run_module():
       sysDefinition = DatasetDefinition(parsed_args['sysabend'])
     sysabendDDStatement = DDStatement("sysabend", sysDefinition)
     dDStatementList.append(sysabendDDStatement)
+
+    
+    if parsed_args['control_statements']:
+      controlList = parse_control_statements(parsed_args['control_statements'])
+
+    ctrlStateDDStatement = DDStatement("SYSINP", StdinDefinition(controlList))
+    dDStatementList.append(ctrlStateDDStatement)
+      
+
+
 
     irlm_id = ""
     irlm_flag = "N"

@@ -41,5 +41,11 @@
           primary_unit: CYL
           secondary: 75
           secondary_unit: CYL
+        control_statements:
+          duplist: true
+          errormax: 5
+          managed_acbs:
+            setup: true
+
         
         

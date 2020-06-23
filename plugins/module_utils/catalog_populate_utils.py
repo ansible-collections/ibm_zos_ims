@@ -106,3 +106,61 @@ def validate_directory_staging_dataset(dset, result, module):
     if len(dset) > 20:
       result['msg'] = "You cannot specify more than 20 IMS directory datasets"
       module.fail_json(**result)
+
+
+def parse_control_statements(controlStatements):
+    controlStr=[]
+    if controlStatements['duplist']:
+        controlStr.append("DUPLIST")
+    if controlStatements['errormax']:
+        controlStr.append("ERRORMAX="+controlStatements['errormax'])
+    if controlStatements['resource_chkp_freq']:
+        controlStr.append("RESOURCE_CHKP_FREQ="+controlStatements['resource_chkp_freq'])
+    if controlStatements['segment_chkp_freq']:
+        controlStr.append("SEGMENT_CHKP_FREQ="+controlStatements['resource_chkp_freq'])
+    if controlStatements['isrtlist']:
+        controlStr.append("ISRTLIST")
+
+    managed_acbs_string=[]
+    managed_acbs=controlStatements['managed_acbs']
+    if managed_acbs:
+      managed_acbs_string.append("MANAGEDACBS=")
+      if managed_acbs['setup']:
+        managed_acbs_string.append("SETUP")
+        controlStr.append("".join(managed_acbs_string))
+        print("util printing control string: " + controlStr)
+        return controlStr
+      if managed_acbs['stage']:
+        managed_acbs_string.append("STAGE")
+        if managed_acbs['stage']['gsamdbd']:
+          managed_acbs_string.append(",GSAM=" + managed_acbs['stage']['gsamdbd'])
+        if managed_acbs['stage']['latest']:
+          managed_acbs_string.append(",LATEST")
+        elif managed_acbs['stage']["uncond"]:
+          managed_acbs_string.append(",UNCOND")
+        if managed_acbs['stage']["delete"]:
+          managed_acbs_string.append(",DELETE")
+        if managed_acbs['stage']['GSAMPCB']:
+          managed_acbs_string.append(",GSAMPCB")
+        controlStr.append("".join(managed_acbs_string))
+        print("util printing control string: " + controlStr)
+        return controlStr
+      if managed_acbs['update']:
+        managed_acbs_string.append("UPDATE")
+        if managed_acbs['update']['gsamdbd']:
+          managed_acbs_string.append(",GSAM=" + managed_acbs['stage']['gsamdbd'])
+        if managed_acbs['update']['latest']:
+          managed_acbs_string.append(",LATEST")
+        elif managed_acbs['update']["uncond"]:
+          managed_acbs_string.append(",UNCOND")
+        if managed_acbs['update']["delete"]:
+          managed_acbs_string.append(",DELETE")
+        if managed_acbs['update']['GSAMPCB']:
+          managed_acbs_string.append(",GSAMPCB")
+        controlStr.append("".join(managed_acbs_string))
+        print("util printing control string: " + controlStr)
+        return controlStr
+    
+    controlStr.append("".join(managed_acbs_string))
+    print("util printing control string: " + controlStr)
+    return controlStr
