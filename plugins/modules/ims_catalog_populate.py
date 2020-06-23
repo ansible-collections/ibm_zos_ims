@@ -732,7 +732,7 @@ def run_module():
     sysabendDDStatement = DDStatement("sysabend", sysDefinition)
     dDStatementList.append(sysabendDDStatement)
 
-    
+    controlList=[]
     if parsed_args['control_statements']:
       controlList = parse_control_statements(parsed_args['control_statements'])
 

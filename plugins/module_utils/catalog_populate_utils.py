@@ -84,7 +84,27 @@ def validate_input(module, result):
                                                               resource_chkp_freq=dict(arg_type="int", required=False),
                                                               segment_chkp_freq=dict(arg_type="int", required=False),
                                                               isrtlist=dict(arg_type="bool", required=False),
-                                                              managed_acbs=dict(arg_type="dict", required=False),
+                                                              managed_acbs=dict(arg_type="dict", 
+                                                                required=False, 
+                                                                options=dict(setup=dict(arg_type="bool", required=False),
+                                                                             stage=dict(arg_type=dict, required=False, 
+                                                                               options=dict(latest=dict(arg_type="bool", required=False),
+                                                                                       uncond=dict(arg_type="bool", required=False),
+                                                                                       delete=dict(arg_type="bool", required=False),
+                                                                                       gsampcb=dict(arg_type="bool", required=False),
+                                                                                       gsamdbd=dict(arg_type="str", required=False)
+                                                                                    )
+                                                                                ),
+                                                                              update=dict(arg_type=dict, required=False, 
+                                                                                options=dict(latest=dict(arg_type="bool", required=False),
+                                                                                       uncond=dict(arg_type="bool", required=False),
+                                                                                       share=dict(arg_type="bool", required=False),
+                                                                                       gsampcb=dict(arg_type="bool", required=False),
+                                                                                       gsamdbd=dict(arg_type="str", required=False)
+                                                                                    )
+                                                                              )
+                                                                      )
+                                                                  ),
                                                               no_isrtlist=dict(arg_type="bool", required=False)),
                                         required=False)
       )
@@ -113,13 +133,15 @@ def parse_control_statements(controlStatements):
     if controlStatements['duplist']:
         controlStr.append("DUPLIST")
     if controlStatements['errormax']:
-        controlStr.append("ERRORMAX="+controlStatements['errormax'])
+        controlStr.append("ERRORMAX="+ str(controlStatements['errormax']))
     if controlStatements['resource_chkp_freq']:
-        controlStr.append("RESOURCE_CHKP_FREQ="+controlStatements['resource_chkp_freq'])
+        controlStr.append("RESOURCE_CHKP_FREQ="+str(controlStatements['resource_chkp_freq']))
     if controlStatements['segment_chkp_freq']:
-        controlStr.append("SEGMENT_CHKP_FREQ="+controlStatements['resource_chkp_freq'])
+        controlStr.append("SEGMENT_CHKP_FREQ="+str(controlStatements['resource_chkp_freq']))
     if controlStatements['isrtlist']:
         controlStr.append("ISRTLIST")
+    if controlStatements['no_isrtlist']:
+        controlStr.append("NOISRTLIST")
 
     managed_acbs_string=[]
     managed_acbs=controlStatements['managed_acbs']
@@ -128,7 +150,7 @@ def parse_control_statements(controlStatements):
       if managed_acbs['setup']:
         managed_acbs_string.append("SETUP")
         controlStr.append("".join(managed_acbs_string))
-        print("util printing control string: " + controlStr)
+        print("util printing control string: " + " ".join(controlStr))
         return controlStr
       if managed_acbs['stage']:
         managed_acbs_string.append("STAGE")
@@ -143,7 +165,7 @@ def parse_control_statements(controlStatements):
         if managed_acbs['stage']['GSAMPCB']:
           managed_acbs_string.append(",GSAMPCB")
         controlStr.append("".join(managed_acbs_string))
-        print("util printing control string: " + controlStr)
+        print("util printing control string: " + " ".join(controlStr))
         return controlStr
       if managed_acbs['update']:
         managed_acbs_string.append("UPDATE")
@@ -153,8 +175,8 @@ def parse_control_statements(controlStatements):
           managed_acbs_string.append(",LATEST")
         elif managed_acbs['update']["uncond"]:
           managed_acbs_string.append(",UNCOND")
-        if managed_acbs['update']["delete"]:
-          managed_acbs_string.append(",DELETE")
+        if managed_acbs['update']["share"]:
+          managed_acbs_string.append(",SHARE")
         if managed_acbs['update']['GSAMPCB']:
           managed_acbs_string.append(",GSAMPCB")
         controlStr.append("".join(managed_acbs_string))
@@ -162,5 +184,5 @@ def parse_control_statements(controlStatements):
         return controlStr
     
     controlStr.append("".join(managed_acbs_string))
-    print("util printing control string: " + controlStr)
+    print("util printing control string: " + " ".join(controlStr))
     return controlStr
