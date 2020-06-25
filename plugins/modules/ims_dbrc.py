@@ -214,18 +214,44 @@ def extract_values(elements):
 
 	return fields
 
+# def parse_command_contents(output_map, key):
+	# output_map[key]['messages'] = []
+	# dsp_pattern = r'DSP\d{4}I'
+	# if "=" in line:
+	# 	elements = line.split("=")
+	# 	output_map.update(extract_values(elements))
+	# elif re.search(dsp_pattern, line, re.IGNORECASE):
+	# 	output_map['messages'].append(line)
+
+def format_command(raw_command):
+	if raw_command[0] == "0":
+		return raw_command[1:].strip()
+	return raw_command.strip()
+
 def parse_output(raw_output):
-	original_output = [elem.strip() for elem in raw_output.split("\n")]
-	output_fields = {}
-	output_fields['messages'] = []
-	pattern = r'DSP\d{4}I'
-	for line in original_output:
-		if "=" in line:
-			elements = line.split("=")
-			output_fields.update(extract_values(elements))
-		elif re.search(pattern, line, re.IGNORECASE):
-			output_fields['messages'].append(line)
-	return output_fields, original_output
+  original_output = [elem.strip() for elem in raw_output.split("\n")]
+  output_fields = {}
+  command = ''
+  separation_pattern = r'-{5,}'
+  rec_ctrl_pattern = r'recovery control\s*page\s\d+'
+  dsp_pattern = r'DSP\d{4}I'
+  for index, line in enumerate(original_output):
+    if re.search(rec_ctrl_pattern, line, re.IGNORECASE) \
+      and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
+      command = format_command(original_output[index + 1])
+      output_fields[command] = {}
+      output_fields[command]['MESSAGES'] = []
+      pass
+    elif re.search(separation_pattern, line, re.IGNORECASE):
+			# TODO: Implement something for separation dashes ?
+      pass
+    elif "=" in line:
+      elements = line.split("=")
+      output_fields[command].update(extract_values(elements))
+    elif re.search(dsp_pattern, line, re.IGNORECASE):
+      output_fields[command]['MESSAGES'].append(line)
+	
+  return output_fields, original_output
   
 # def remove_space(elem):
 #   return elem != ' '
@@ -270,7 +296,7 @@ def run_module():
     recon3 = DDStatement("recon3", DatasetDefinition(module.params['recon3']))
     jclpds = DDStatement("jclpds", DatasetDefinition(module.params['genjcl']))
     ims = DDStatement("ims", DatasetDefinition(module.params['dbdlib']))
-    dbrc_commands = [StdinDefinition("  " + cmd) for cmd in module.params['command']]
+    dbrc_commands = [StdinDefinition("\n".join(module.params['command']))]
     sysin = DDStatement("sysin", dbrc_commands)
     # sysin = DDStatement("sysin", StdinDefinition(data))
     sysprint = DDStatement("sysprint", StdoutDefinition())
