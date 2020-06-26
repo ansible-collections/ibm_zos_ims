@@ -71,6 +71,9 @@ class IMSDbrc():
             return raw_command[1:].strip()
         return raw_command.strip()
 
+    def _get_indentifier(self, raw_output_line):
+        return raw_output_line.split("  ")[0].strip()
+
     def _parse_output(self, raw_output):
         original_output = [elem.strip() for elem in raw_output.split("\n")]
         output_fields = {}
@@ -78,19 +81,24 @@ class IMSDbrc():
         separation_pattern = r'-{5,}'
         rec_ctrl_pattern = r'recovery control\s*page\s\d+'
         dsp_pattern = r'DSP\d{4}I'
+        output_index = 0
         for index, line in enumerate(original_output):
             if re.search(rec_ctrl_pattern, line, re.IGNORECASE) \
                 and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
                 command = self._format_command(original_output[index + 1])
                 output_fields[command] = {}
                 output_fields[command]['MESSAGES'] = []
-                pass
+                output_fields[command]['OUTPUT'] = [{}]
+                output_index = 0
             elif re.search(separation_pattern, line, re.IGNORECASE):
-                    # TODO: Implement a list of elements for each block within dashes
-                pass
+                if output_fields[command]['OUTPUT'][output_index]:
+                    output_fields[command]['OUTPUT'].append({})
+                    output_index += 1
+                output_id = {"IDENTIFIER": self._get_indentifier(original_output[index + 1])}
+                output_fields[command]['OUTPUT'][output_index].update(output_id)
             elif "=" in line:
                 elements = line.split("=")
-                output_fields[command].update(self._extract_values(elements))
+                output_fields[command]['OUTPUT'][output_index].update(self._extract_values(elements))
             elif re.search(dsp_pattern, line, re.IGNORECASE):
                 output_fields[command]['MESSAGES'].append(line)
 
@@ -116,5 +124,7 @@ class IMSDbrc():
         dbrc_utility_fields = self._build_command()
         response = MVSCmd.execute("dspurx00", dbrc_utility_fields)
         fields, original_output = self._parse_output(response.stdout)
+        # fields, original_output = self._parse_output(TEST_INPUT)
         res = {"dbrc_fields": fields, "original_output": original_output}
         return res
+
