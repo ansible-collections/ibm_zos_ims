@@ -14,7 +14,12 @@ def test_ims_dbrc_sample(ansible_zos_module):
             "LIST.BKOUT ALL",
             "LIST.LOG",
             "LIST.CAGRP"],
-        steplib="IMSBLD.I15RTSMM.CRESLIB",
+        steplib=[
+            "IMSTESTU.IMS1501.MARKER",
+            "IMSBANK2.IMS1.EXITLIB",
+            "IMSTESTG.IMS15R.TSTRES",
+            "IMSBLD.IMS15R.USERLIB",
+            "IMSBLD.I15RTSMM.CRESLIB"],
         dbdlib="IMSBANK2.IMS1.DBDLIB",
         genjcl="IMSTESTL.IMS1.GENJCL",
         recon1="IMSBANK2.IMS1.RECON1",

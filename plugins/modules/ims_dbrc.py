@@ -68,8 +68,8 @@ options:
     required: false
   steplib:
     description:
-      - Points to IMS.SDFSRESL, which contains the IMS nucleus and the required action modules.
-    type: str
+      - List of STEPLIB datasets that contain the IMS nucleus and the required action modules.
+    type: list
     required: true
 '''
 
@@ -150,24 +150,7 @@ import re
 from os import chmod, path, remove
 from tempfile import NamedTemporaryFile
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import ( # pylint: disable=import-error
-  DDStatement,
-  FileDefinition,
-  DatasetDefinition,
-  StdoutDefinition,
-  StdinDefinition
-)
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
-import tempfile
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
-  MissingZOAUImport,
-) 
-
-try:
-  from zoautil_py import Datasets, types # pylint: disable=import-error
-except Exception:
-  Datasets = MissingZOAUImport()
-  types = MissingZOAUImport()
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSDbrc import IMSDbrc  # pylint: disable=import-error
 
 def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
   # User did not provide dynalloc 
@@ -176,85 +159,6 @@ def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
     if not recon1 or recon2 or recon3:
       return False
   return True
-
-def extract_values(elements):
-	replacement_values = {
-		"** NONE **": None,
-		"**NULL**": None,
-		"NONE": None,
-		"YES": True,
-		"NO": False,
-		"ON": True,
-		"OFF": False
-  	}
-	fields = {}
-	i = 0
-	while i < len(elements) - 1:
-		key_list = list(filter(None, elements[i].split("  ")))
-		value_list = list(filter(None, elements[i + 1].split("  ")))
-
-		last_key_index = len(key_list) - 1
-		key = key_list[last_key_index].strip()
-		if len(key_list) == 1 and i > 0 and i < len(elements) - 1:
-			# print(elements, key_list)
-			unformatted_key = key_list[0]
-			try:
-				start_index = re.search(r'\d+\s', unformatted_key).end()
-				key = unformatted_key[start_index:].strip()
-			except:
-				key = unformatted_key.strip()
-		if len(value_list) == 1 and i > 0 and i < len(elements) - 1: 
-			fields[key] = None
-		else:
-			value = value_list[0].strip()
-			if value in replacement_values:
-				value = replacement_values[value]
-			fields[key] = value
-		i += 1
-
-	return fields
-
-# def parse_command_contents(output_map, key):
-	# output_map[key]['messages'] = []
-	# dsp_pattern = r'DSP\d{4}I'
-	# if "=" in line:
-	# 	elements = line.split("=")
-	# 	output_map.update(extract_values(elements))
-	# elif re.search(dsp_pattern, line, re.IGNORECASE):
-	# 	output_map['messages'].append(line)
-
-def format_command(raw_command):
-	if raw_command[0] == "0":
-		return raw_command[1:].strip()
-	return raw_command.strip()
-
-def parse_output(raw_output):
-  original_output = [elem.strip() for elem in raw_output.split("\n")]
-  output_fields = {}
-  command = ''
-  separation_pattern = r'-{5,}'
-  rec_ctrl_pattern = r'recovery control\s*page\s\d+'
-  dsp_pattern = r'DSP\d{4}I'
-  for index, line in enumerate(original_output):
-    if re.search(rec_ctrl_pattern, line, re.IGNORECASE) \
-      and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
-      command = format_command(original_output[index + 1])
-      output_fields[command] = {}
-      output_fields[command]['MESSAGES'] = []
-      pass
-    elif re.search(separation_pattern, line, re.IGNORECASE):
-			# TODO: Implement something for separation dashes ?
-      pass
-    elif "=" in line:
-      elements = line.split("=")
-      output_fields[command].update(extract_values(elements))
-    elif re.search(dsp_pattern, line, re.IGNORECASE):
-      output_fields[command]['MESSAGES'].append(line)
-	
-  return output_fields, original_output
-  
-# def remove_space(elem):
-#   return elem != ' '
 
 def run_module():
   global module
@@ -266,7 +170,7 @@ def run_module():
     recon1=dict(type='str', required=False),
     recon2=dict(type='str', required=False),
     recon3=dict(type='str', required=False),
-    steplib=dict(type='str', required=True)
+    steplib=dict(type='list', required=True)
   )
 
   result = dict(
@@ -282,32 +186,20 @@ def run_module():
   )
 
   try:
-    steplib_datasets = [
-      DatasetDefinition("IMSTESTU.IMS1501.MARKER"),
-      DatasetDefinition("IMSBANK2.IMS1.EXITLIB"),
-      # DatasetDefinition(module.params['dynalloc']),
-      DatasetDefinition("IMSTESTG.IMS15R.TSTRES"),
-      DatasetDefinition("IMSBLD.IMS15R.USERLIB"),
-      DatasetDefinition(module.params['steplib'])
-    ]
-    steplib = DDStatement("steplib", steplib_datasets)
-    recon1 = DDStatement("recon1", DatasetDefinition(module.params['recon1']))
-    recon2 = DDStatement("recon2", DatasetDefinition(module.params['recon2']))
-    recon3 = DDStatement("recon3", DatasetDefinition(module.params['recon3']))
-    jclpds = DDStatement("jclpds", DatasetDefinition(module.params['genjcl']))
-    ims = DDStatement("ims", DatasetDefinition(module.params['dbdlib']))
-    dbrc_commands = [StdinDefinition("\n".join(module.params['command']))]
-    sysin = DDStatement("sysin", dbrc_commands)
-    # sysin = DDStatement("sysin", StdinDefinition(data))
-    sysprint = DDStatement("sysprint", StdoutDefinition())
+    response = IMSDbrc(
+      commands=module.params['command'],
+      steplib=module.params['steplib'],
+      dbdlib=module.params['dbdlib'],
+      genjcl=module.params['genjcl'],
+      recon1=module.params['recon1'],
+      recon2=module.params['recon2'],
+      recon3=module.params['recon3']).execute()
 
-    response = MVSCmd.execute("dspurx00", [steplib, recon1, recon2, recon3, jclpds, ims, sysin, sysprint])
-    fields, original_output = parse_output(response.stdout)
     result["responseobj"] = {
-      "rc": response.rc,
-      "fields": fields,
-      "stdout": original_output,
-      "stderr": response.stderr
+      # "rc": response.rc,
+      "fields": response["dbrc_fields"],
+      "stdout": response["original_output"]
+      # "stderr": response.stderr
     }
 
   except Exception as e:
