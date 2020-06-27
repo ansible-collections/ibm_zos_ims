@@ -154,18 +154,11 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
 
     if dest_member == '' and src_member == '':
         return 1, '', 'Either source member or destination member should be set.'
-    # if dest member is provided then use that to link the output else
-    # use the same as source member name
-    if dest_member == '':
-        member = src_member
-    else:
-        member = dest_member
-
     if not overwrite:
         # check if destination data set already has member
-        rc = data_set_member_exists(dest+'('+member+')', run_command)
+        rc = data_set_member_exists(dest+'('+dest_member+')', run_command)
         if rc:
-            return 3, '', 'Destination data set member already exists: ' + member +'.'
+            return 3, '', 'Destination data set member already exists: ' + dest_member +'.'
 
     # store sys_libs
     syslibCommand = ''
@@ -188,7 +181,7 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
 
     # input is seqential data set
     ldcommand = 'ld -o '
-    ldcommand = 'ld -o "//\''+dest+'('+member+')'+'\'" ' + tmpFile
+    ldcommand = 'ld -o "//\''+dest+'('+dest_member+')'+'\'" ' + tmpFile
 
     # link the generated output to source
     out += "Attempt to run link command."
@@ -201,9 +194,9 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
     run_command('rm ' + tmpFile)
 
     # check with member is present in the destination data set after assemble and compile
-    rc = data_set_member_exists(dest+'('+member+')', run_command)
+    rc = data_set_member_exists(dest+'('+dest_member+')', run_command)
     if not rc:
-        return 4, '', 'Error when processing. Destination data set does not have member: ' + member +'.'
+        return 4, '', 'Error when processing. Destination data set does not have member: ' + dest_member +'.'
 
     # return success
     out += 'run_gen_data_set succeeded for source: ' + source
@@ -260,8 +253,19 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                     module.log('Generating ' + dest+' for source: ' +src + ' with members: ')
                     # loop through members
                     members_text = ''
-                    for member in source['member_list']:
-                        if member == '':
+                    for item in source['member_list']:
+                        if type(item) == str:
+                            # set target name same as src
+                            src_member = item
+                            target_name = item
+                        # elif type(item) == dict:
+                        # else:
+                        #     throw error
+                        else:
+                            src_member, target_name = [(k,v) for k,v in item.items()][0]
+
+
+                        if src_member == '':
                             # result['ims_output'].append({
                             #     'return_code': 2,
                             #     'src': src,
@@ -276,7 +280,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                             return src, return_code, return_text, failed
                         #Check if member exists
                         rc = data_set_member_exists(
-                            src+'('+member+')', run_command)
+                            src+'('+src_member+')', run_command)
                         if not rc:
                             # result['ims_output'].append({
                             #     'return_code': 2,
@@ -288,13 +292,13 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                             #     msg='Failed to validate data source.', **result)
                             failed = True
                             return_code = 2
-                            return_text = 'Data source could not be validated. Data set member does not exist: ' + member
+                            return_text = 'Data source could not be validated. Data set member does not exist: ' + src_member
                             return src, return_code, return_text, failed
 
                             #TODO Failed to validate DBD source - {0} instead of DBD to handle both
 
                         rc, out, stderr = run_gen_data_set(
-                            src, member, dest, '', syslib_list, overwrite, run_command)
+                            src, src_member, dest, target_name, syslib_list, overwrite, run_command)
 
                         if rc != 0:
                             # result['ims_output'].append({
@@ -312,7 +316,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                             return src, return_code, return_text, failed
                         module.log(msg=out)
                         # save member name for printing output
-                        members_text = members_text + '(' + member + ') '
+                        members_text = members_text + '(' + src_member + ') '
                         return_text = 'Generated ' + dest+' for source: ' + \
                             src + ' with members: ' + members_text
                         module.log(return_text)

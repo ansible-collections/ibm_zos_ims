@@ -253,12 +253,14 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_gen_utils impo
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
+
         src=dict(type='str', required=False),
         location=dict(type='str', default='DATA_SET', choices=['DATA_SET', 'USS']),
         replace=dict(type='bool', required=False, default=True),
 
         # TODO member_list is required if location is 'DATA_SET'
-        member_list=dict(type='list', elements='str', required=False),
+        member_list=dict(type='list', required=False),
+        # member_list=dict(type='list', elements='str', required=False),
 
         dbd_name=dict(type='str', required=False),
 
@@ -272,7 +274,8 @@ def run_module():
             replace=dict(type='bool', required=False, default=True),
 
             # TODO member_list is required if location is 'DATA_SET'
-            member_list=dict(type='list', elements='str', required=False), 
+            member_list=dict(type='list', required=False),
+            # member_list=dict(type='list', elements='str', required=False),
 
             dbd_name=dict(type='str', required=False),
 
