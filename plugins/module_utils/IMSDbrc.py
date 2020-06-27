@@ -29,14 +29,52 @@ class IMSDbrc():
         "OFF": False
     }
 
-    def __init__(self, commands, steplib, dbdlib=None, genjcl=None, recon1=None, recon2=None, recon3=None):
+    def __init__(self, commands, steplib, dynalloc=None, dbdlib=None, genjcl=None, recon1=None, recon2=None, recon3=None):
         self.commands = commands
         self.steplib_list = steplib
+        self.dynalloc = dynalloc
         self.dbdlib = dbdlib
         self.genjcl = genjcl
         self.recon1 = recon1
         self.recon2 = recon2
         self.recon3 = recon3
+        self._assert_valid_inputs()
+
+    def _assert_valid_inputs(self):
+        self._assert_valid_input_types()
+        self._assert_dynalloc_recon_requirement()
+
+    def _assert_dynalloc_recon_requirement(self):
+        # TODO: Determine if each of the RECONs need to be present or just 1 minimum
+        if not self.dynalloc and not (self.recon1 or self.recon2 or self.recon3):
+            raise ValueError("'dynalloc' or ('recon1', 'recon2', 'recon3') must be specified.")
+
+    def _assert_valid_input_types(self):
+        if isinstance(self.commands, str):
+            self.commands = [self.commands]
+        elif not isinstance(self.commands, list) and any(not isinstance(cmd, str) for cmd in self.commands):
+            raise TypeError("'commands' must be a string or list of strings.")
+
+        if isinstance(self.steplib_list, str):
+            self.steplib_list = [self.steplib_list]
+        elif not isinstance(self.steplib_list, list) and any(not isinstance(steplib, str) for steplib in self.steplib_list):
+            raise TypeError("'steplib' must be a string or list of strings.")
+
+        if not isinstance(self.dbdlib, str):
+            raise TypeError("'dbdlib' must be a string.")
+
+        if not isinstance(self.genjcl, str):
+            raise TypeError("'genjcl' must be a string.")
+
+        if not isinstance(self.recon1, str):
+            raise TypeError("'recon1' must be a string.")
+        
+        if not isinstance(self.recon2, str):
+            raise TypeError("'recon2' must be a string.")
+        
+        if not isinstance(self.recon3, str):
+            raise TypeError("'recon3' must be a string.")
+        
     
     def _extract_values(self, elements):
         fields = {}

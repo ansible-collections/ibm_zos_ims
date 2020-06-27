@@ -3,8 +3,6 @@
 # Copyright (c) IBM Corporation 2019, 2020
 # Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
-from __future__ import absolute_import
-
 __metaclass__ = type
 
 ANSIBLE_METADATA = {
@@ -145,20 +143,8 @@ msg:
   returned: always
 '''
 
-import json
-import re
-from os import chmod, path, remove
-from tempfile import NamedTemporaryFile
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSDbrc import IMSDbrc  # pylint: disable=import-error
-
-def verify_dynalloc_recon_requirement(dynalloc, recon1, recon2, recon3):
-  # User did not provide dynalloc 
-  if not dynalloc:
-    # TODO: Determine if each of the RECONs need to be present or just 1 minimum
-    if not recon1 or recon2 or recon3:
-      return False
-  return True
 
 def run_module():
   global module
@@ -177,7 +163,8 @@ def run_module():
     changed=False,
     msg='',
     failed=True,
-    dbrc_output=[]
+    dbrc_output={},
+    unformatted_output=[]
   )
   
   module = AnsibleModule(
@@ -195,12 +182,11 @@ def run_module():
       recon2=module.params['recon2'],
       recon3=module.params['recon3']).execute()
 
-    result["responseobj"] = {
-      # "rc": response.rc,
-      "fields": response["dbrc_fields"],
-      "stdout": response["original_output"]
-      # "stderr": response.stderr
-    }
+    result['dbrc_output'] = response['dbrc_fields']
+    result['unformatted_output'] = response['original_output']
+    result['changed'] = True
+    result['failed'] = False
+    result['msg'] = 'Success'
 
   except Exception as e:
     result['msg'] = repr(e)
