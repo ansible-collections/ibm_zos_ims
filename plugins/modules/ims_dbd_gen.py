@@ -53,11 +53,14 @@ options:
   member_list:
     description:
       - A list of member names if the source specified is a data set.
+      - Optionally, a target name for the generated DBD member can be specified
+        in the list as 'source_member : target_name'. If no target name is 
+        specified, the target name will be set to the same as source.
       - Is required if I(location) is 'DATA_SET'.
       - If 'member_list' is empty and location is set to false, then src
         is expected to be a sequential data set.
     type: list
-    elements: str
+    elements: str or dict with single key-value pair
     default: no
     required: false
   dbd_name:
@@ -103,11 +106,15 @@ options:
         member_list:
           description:
             - A list of member names if the source specified is a data set.
+            - Optionally, a target name for the generated DBD member can be
+            specified in the list as 'source_member : target_name'. If no
+            target name is specified, the target name will be set to the same
+            as source.
             - Is required if I(location) is 'DATA_SET'.
             - If 'member_list' is empty and location is set to false, then src
               is expected to be a sequential data set.
           type: list
-          elements: str
+          elements: str or dict with single key-value pair
           default: no
           required: false
         dbd_name:
@@ -188,10 +195,10 @@ EXAMPLES = r'''
       -
         src: SOME.DATA.SET.DBD.SRC
         location: DATA_SET
-        member_list: [DSMEMBR1, DSMEMBR2, DSMEMBR3]
+        member_list: [DSMEMBR1, DSMEMBR2 : target2, DSMEMBR3]
       -
         src: SOME.DATA.SET.DBD.SRC
-        member_list: [DSMEMBR4]
+        member_list: [DSMEMBR4 : target4]
         'replace': true
       -
         src: SOME.DATA.SET.DBD.SEQ

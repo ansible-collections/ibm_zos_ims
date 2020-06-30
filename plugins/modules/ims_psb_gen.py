@@ -51,11 +51,14 @@ options:
   member_list:
     description:
       - A list of member names if the source specified is a data set.
+      - Optionally, a target name for the generated PSB member can be specified
+        in the list as 'source_member : target_name'. If no target name is
+        specified, the target name will be set to the same as source.
       - Is required if I(location) is 'DATA_SET'.
-      - If 'member_list' is empty and location is set to 'false', then src
+      - If 'member_list' is empty and location is set to false, then src
         is expected to be a sequential data set.
     type: list
-    elements: str
+    elements: str or dict with single key-value pair
     default: no
     required: false
   psb_name:
@@ -99,11 +102,14 @@ options:
       member_list:
         description:
           - A list of member names if the source specified is a data set.
+          - Optionally, a target name for the generated PSB member can be
+          specified in the list as 'source_member : target_name'. If no target
+          name is specified, the target name will be set to the same as source.
           - Is required if I(location) is 'DATA_SET'.
-          - If 'member_list' is empty and location is set to 'false', then src
+          - If 'member_list' is empty and location is set to false, then src
             is expected to be a sequential data set.
         type: list
-        elements: str
+        elements: str or dict with single key-value pair
         default: no
         required: false
       psb_name:
@@ -138,7 +144,7 @@ EXAMPLES = r'''
     src: /tmp/src/somefile
     location: USS
     replace: true
-    dest: SOME.DATA.SET.DBDLIB
+    dest: SOME.DATA.SET.PSBLIB
     sys_lib:
       - SOME.DATA.SET.SDFSMAC
       - SYS1.MACLIB
@@ -153,7 +159,7 @@ EXAMPLES = r'''
       -
         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
         location: DATA_SET
-        member_list: [PSBGENL, PSBGENL]
+        member_list: [PSBGENL : target1, PSBGENL : target2]
       -
         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
         member_list: [PSBGENL, PSBGENL]

@@ -139,7 +139,7 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
         source {str} -- The name of input data set.
         src_member {str} -- The name of member in input data set which contains PSB or DBD source.
         dest {str} -- The name of destination PSBLIB or DBDLIB data set.
-        dest_member {str} -- The name of member within PSBLIB or DBDLIB data set to store output.
+        dest_member {str} -- The target name of member within PSBLIB or DBDLIB data set to store output. Same as src_member if not explicitly specified.
         syslib_list {List str} -- A list of required macro libraries, needed to compile the PSB or DBD source.
         overwrite {bool} -- If set to true, it will link and over write already existing destination member.
     
