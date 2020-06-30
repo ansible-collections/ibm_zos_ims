@@ -636,32 +636,32 @@ def run_module():
     imsDatasetList = []
     acbDatasetList = []
 
-    if parsed_args.get('reslib'):
+    if parsed_args.get('reslib') is not None:
       dfsreslbDDStatement = DDStatement("DFSRESLB", DatasetDefinition(parsed_args.get('reslib')))
       dDStatementList.append(dfsreslbDDStatement)
-    if parsed_args.get('buffer_pool_param_dataset'):
+    if parsed_args.get('buffer_pool_param_dataset') is not None:
       dfsvsampDDStatement = DDStatement("DFSVSAMP", DatasetDefinition(parsed_args.get('buffer_pool_param_dataset')))
       dDStatementList.append(dfsvsampDDStatement)
-    if parsed_args.get('primary_log_dataset'):
+    if parsed_args.get('primary_log_dataset') is not None:
       iefrderDDStatement = DDStatement("IEFRDER", DatasetDefinition(**{k: v for k, v in parsed_args.get('primary_log_dataset').items() if v is not None}))
       dDStatementList.append(iefrderDDStatement)
-    if parsed_args.get('secondary_log_dataset'):
+    if parsed_args.get('secondary_log_dataset') is not None:
       iefrder2DDStatement = DDStatement("IEFRDER2", DatasetDefinition(**{k: v for k, v in parsed_args.get('secondary_log_dataset').items() if v is not None}))
       dDStatementList.append(iefrder2DDStatement)
     
     #Generate DD statements for DBD and PSB libs. If they exist, we attach to an ims dd statement. 
-    if parsed_args.get('psb_lib'):
+    if parsed_args.get('psb_lib') is not None:
       psbDataset = DatasetDefinition(parsed_args.get('psb_lib'))
       imsDatasetList.append(psbDataset)
-    if parsed_args('dbd_lib'):
+    if parsed_args.get('dbd_lib') is not None:
       dbdDatset = DatasetDefinition(parsed_args.get('dbd_lib'))
       imsDatasetList.append(dbdDatset)
-    if imsDatasetList:
-      imsDDStatement = DDStatement("ims", imsDatasetList)
+    if imsDatasetList is not None:
+      imsDDStatement = DDStatement("IMS", imsDatasetList)
       dDStatementList.append(imsDDStatement)
 
     #Generate DD statements for ACB lib. Behavior is different depending on check_timestamps
-    if parsed_args.get('acb_lib'):
+    if parsed_args.get('acb_lib') is not None:
       #Check if check_timestamp is false. If so, then we include all the datasets in a single DD Statement
       if parsed_args.get('check_timestamp') is False:
         for i in parsed_args.get('acb_lib'):
@@ -683,11 +683,11 @@ def run_module():
             acbCount += 1
         acbCount = 1
       
-    if parsed_args.get('bootstrap_dataset'):
+    if parsed_args.get('bootstrap_dataset') is not None:
       btstrDataset = DDStatement("IMSDBSDS", DatasetDefinition(parsed_args.get('bootstrap_dataset')))
       dDStatementList.append(btstrDataset)
     
-    if parsed_args.get('directory_datasets'):
+    if parsed_args.get('directory_datasets') is not None:
       directoryCount = 1
       for i in parsed_args.get('directory_datasets'):
         if acbCount >= 10:
@@ -697,23 +697,19 @@ def run_module():
           directoryDDStatement = DDStatement("IMSD000{0}".format(directoryCount), DatasetDefinition(i))
           dDStatementList.append(directoryDDStatement)
     
-    if parsed_args.get('temp_acb_dataset'):
+    if parsed_args.get('temp_acb_dataset') is not None:
       tempDDStatement = DDStatement("IMSDG001", DatasetDefinition(parsed_args.get('temp_acb_dataset')))
       dDStatementList.append(tempDDStatement)
     
-    if parsed_args.get('directory_staging_dataset'):
+    if parsed_args.get('directory_staging_dataset') is not None:
       dirDDStatement = DDStatement("IMDSTAG", DatasetDefinition(parsed_args.get('directory_staging_dataset')))
       dDStatementList.append(dirDDStatement)
     
-    if parsed_args.get('sysabend'):
-      abendDDStatement = DDStatement('SYSABEND', DatasetDefinition(parsed_args.get('sysabend')))
-      dDStatementList.append(abendDDStatement)
-
-    if parsed_args.get('proclib'):
+    if parsed_args.get('proclib') is not None:
       proclibDDStatement = DDStatement("PROCLIB", DatasetDefinition(parsed_args.get('proclib')))
       dDStatementList.append(proclibDDStatement)
 
-    if parsed_args.get('steplib'):
+    if parsed_args.get('steplib') is not None:
       steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(parsed_args.get('steplib')))
       dDStatementList.append(steplibDDStatement)
 
@@ -722,26 +718,27 @@ def run_module():
       sysDefinition = StdoutDefinition()
     else:
       sysDefinition = DatasetDefinition(parsed_args.get('sysprint'))
-    sysprintDDStatement = DDStatement("sysprint", sysDefinition)
+    sysprintDDStatement = DDStatement("SYSPRINT", sysDefinition)
     dDStatementList.append(sysprintDDStatement)
 
     #Add dummy dd statement
     dummyDDStatement = DDStatement("ACBCATWK", DummyDefinition())
+    dDStatementList.append(dummyDDStatement)
 
-    #add sysabend dd statement
-    if parsed_args.get('sysabend') is None:
-      sysDefinition = StdoutDefinition()
-    else:
-      sysDefinition = DatasetDefinition(parsed_args['sysabend'])
-    sysabendDDStatement = DDStatement("sysabend", sysDefinition)
-    dDStatementList.append(sysabendDDStatement)
+    # #add sysabend dd statement
+    # if parsed_args.get('sysabend') is None:
+    #   sysDefinition = StdoutDefinition()
+    # else:
+    #   sysDefinition = DatasetDefinition(parsed_args['sysabend'])
+    # sysabendDDStatement = DDStatement("SYSABEND", sysDefinition)
+    # dDStatementList.append(sysabendDDStatement)
 
-    controlList=[]
-    if parsed_args.get('control_statements'):
-      controlList = parse_control_statements(parsed_args.get('control_statements'))
-
-    ctrlStateDDStatement = DDStatement("SYSINP", StdinDefinition(controlList))
-    dDStatementList.append(ctrlStateDDStatement)
+    # controlList=[]
+    # if parsed_args.get('control_statements') is not None:
+    #   print("getting control statements")
+    #   controlList = parse_control_statements(parsed_args.get('control_statements'))
+    # ctrlStateDDStatement = DDStatement("SYSINP", StdinDefinition(controlList))
+    # dDStatementList.append(ctrlStateDDStatement)
       
 
 

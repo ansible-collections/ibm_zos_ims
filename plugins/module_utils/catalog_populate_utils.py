@@ -130,54 +130,54 @@ def validate_directory_staging_dataset(dset, result, module):
 
 def parse_control_statements(controlStatements):
     controlStr=[]
-    if controlStatements.get('duplist'):
+    if controlStatements.get('duplist') is not None:
         controlStr.append("DUPLIST")
-    if controlStatements.get('errormax'):
+    if controlStatements.get('errormax') is not None:
         controlStr.append("ERRORMAX="+ str(controlStatements['errormax']))
-    if controlStatements.get('resource_chkp_freq'):
+    if controlStatements.get('resource_chkp_freq') is not None:
         controlStr.append("RESOURCE_CHKP_FREQ="+str(controlStatements.get('resource_chkp_freq')))
-    if controlStatements.get('segment_chkp_freq'):
+    if controlStatements.get('segment_chkp_freq') is not None:
         controlStr.append("SEGMENT_CHKP_FREQ="+str(controlStatements.get('resource_chkp_freq')))
-    if controlStatements.get('isrtlist'):
+    if controlStatements.get('isrtlist') is not None:
         controlStr.append("ISRTLIST")
-    if controlStatements.get('no_isrtlist'):
+    if controlStatements.get('no_isrtlist') is not None:
         controlStr.append("NOISRTLIST")
 
     managed_acbs_string=[]
     managed_acbs=controlStatements.get('managed_acbs')
-    if managed_acbs:
+    if managed_acbs is not None:
       managed_acbs_string.append("MANAGEDACBS=")
-      if managed_acbs.get('setup'):
+      if managed_acbs.get('setup') is not None:
         managed_acbs_string.append("SETUP")
         controlStr.append("".join(managed_acbs_string))
         print("util printing control string: " + " ".join(controlStr))
         return controlStr
-      if managed_acbs.get('stage'):
+      if managed_acbs.get('stage') is not None:
         managed_acbs_string.append("STAGE")
-        if managed_acbs.get('stage').get('gsamdbd'):
+        if managed_acbs.get('stage').get('gsamdbd') is not None:
           managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
-        if managed_acbs.get('stage').get('latest'):
+        if managed_acbs.get('stage').get('latest') is not None:
           managed_acbs_string.append(",LATEST")
-        elif managed_acbs.get('stage').get("uncond"):
+        elif managed_acbs.get('stage').get("uncond") is not None:
           managed_acbs_string.append(",UNCOND")
-        if managed_acbs.get('stage').get("delete"):
+        if managed_acbs.get('stage').get("delete") is not None:
           managed_acbs_string.append(",DELETE")
-        if managed_acbs.get('stage').get('GSAMPCB'):
+        if managed_acbs.get('stage').get('GSAMPCB') is not None:
           managed_acbs_string.append(",GSAMPCB")
         controlStr.append("".join(managed_acbs_string))
         print("util printing control string: " + " ".join(controlStr))
         return controlStr
-      if managed_acbs.get('update'):
+      if managed_acbs.get('update') is not None:
         managed_acbs_string.append("UPDATE")
-        if managed_acbs.get('update').get('gsamdbd'):
+        if managed_acbs.get('update').get('gsamdbd') is not None:
           managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
-        if managed_acbs.get('update').get('latest'):
+        if managed_acbs.get('update').get('latest') is not None:
           managed_acbs_string.append(",LATEST")
-        elif managed_acbs.get('update').get("uncond"):
+        elif managed_acbs.get('update').get("uncond") is not None:
           managed_acbs_string.append(",UNCOND")
-        if managed_acbs.get('update').get("share"):
+        if managed_acbs.get('update').get("share") is not None:
           managed_acbs_string.append(",SHARE")
-        if managed_acbs.get('update').get('GSAMPCB'):
+        if managed_acbs.get('update').get('GSAMPCB') is not None:
           managed_acbs_string.append(",GSAMPCB")
         controlStr.append("".join(managed_acbs_string))
         print("util printing control string: " + controlStr)
