@@ -159,10 +159,16 @@ EXAMPLES = r'''
       -
         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
         location: DATA_SET
-        member_list: [PSBGENL : target1, PSBGENL : target2]
+        member_list: [PSBGENL : TARGET1, PSBGENL : TARGET2]
       -
         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
         member_list: [PSBGENL, PSBGENL]
+        replace: true
+      -
+        src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
+        member_list:
+          - 'COGPSBL':'TARGET3'
+          - 'COGPSBL2': 'TARGET4'
         replace: true
       -
         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SQ

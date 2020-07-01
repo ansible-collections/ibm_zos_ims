@@ -166,6 +166,10 @@ EXAMPLES = r'''
   ims_dbd_gen:
     src: SOME.DATA.SET.DBD.SRC
     'replace': true
+    member_list:
+      - 'DEDBJN21': 'DBD1'
+      - 'DEDBJN21': 'DBD2'
+      - 'DEDBJNV1': 'DBD3'
     dest: SOME.PARTITIONED.DATA.SET.DBDLIB
     sys_lib:
       - SOME.DATA.SET.SDFSMAC
@@ -294,7 +298,6 @@ def run_module():
     )
 
     # TODO - enforce batch and single source params are mutually exclusive
-    # TODO - use BetterArgParser
 
     result = dict(
         changed=False,
@@ -307,6 +310,9 @@ def run_module():
         argument_spec=module_args,
         supports_check_mode=False
     )
+
+    # TODO - enforce batch and single source params are mutually exclusive
+    # TODO - use BetterArgParser
 
     run_command = module.run_command
 
