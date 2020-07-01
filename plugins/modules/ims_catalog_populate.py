@@ -39,6 +39,12 @@ description:
   - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances 
     into the database data sets of the IMS catalog from ACB library data sets.
 options:
+  purge_catalog:
+    description:
+      - Set to true if you want the catalog purged via the IMS Catalog Record Purge utility
+    type: bool
+    required: false
+    default: false
   irlm_enabled:
     description:
       - Indicates if IRLM is used
@@ -105,7 +111,7 @@ options:
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the datatset
+          - The amount of primary space to allocate for the dataset
         type: int
         required: false
       primary_unit:
@@ -123,7 +129,7 @@ options:
           - The unit of size to sue when specifying secondary space.
         type: str
         required: false
-      normal_dispositon:
+      normal_disposition:
         description:
           - What to do with the dataset after normal termination
         type: str
@@ -570,36 +576,11 @@ RETURN = r'''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import ( # pylint: disable=import-error
-  DDStatement,
-  FileDefinition,
-  DatasetDefinition,
-  StdoutDefinition,
-  StdinDefinition,
-  DummyDefinition
-)
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_populate_utils import validate_input, parse_control_statements # pylint: disable=import-error
-# import ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.dataset_utils
-import tempfile
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
-  MissingZOAUImport,
-) 
-import tempfile
-import pprint
-
-try:
-    from zoautil_py import Datasets, types # pylint: disable=import-error
-except Exception:
-    Datasets = MissingZOAUImport()
-    types = MissingZOAUImport()
-
-module = None
-
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSCatalogPopulate.IMSCatalogPopulate import IMSCatalogPopulate # pylint: disable=import-error
 
 def run_module():
     module_args = dict(
+      purge_catalog=dict(type="bool", required = False),
       irlm_enabled=dict(type="bool", required=False),
       irlm_id=dict(type="str", required=False),
       reslib=dict(type="str", required=False),
@@ -628,148 +609,10 @@ def run_module():
     result = {}
     result["changed"] = False
 
-    #Validate inputs are correctly formatted datasets
-    parsed_args = validate_input(module, result)
-
-    #DD statement Generation
-    dDStatementList = []
-    imsDatasetList = []
-    acbDatasetList = []
-
-    if parsed_args.get('reslib') is not None:
-      dfsreslbDDStatement = DDStatement("DFSRESLB", DatasetDefinition(parsed_args.get('reslib')))
-      dDStatementList.append(dfsreslbDDStatement)
-    if parsed_args.get('buffer_pool_param_dataset') is not None:
-      dfsvsampDDStatement = DDStatement("DFSVSAMP", DatasetDefinition(parsed_args.get('buffer_pool_param_dataset')))
-      dDStatementList.append(dfsvsampDDStatement)
-    if parsed_args.get('primary_log_dataset') is not None:
-      iefrderDDStatement = DDStatement("IEFRDER", DatasetDefinition(**{k: v for k, v in parsed_args.get('primary_log_dataset').items() if v is not None}))
-      dDStatementList.append(iefrderDDStatement)
-    if parsed_args.get('secondary_log_dataset') is not None:
-      iefrder2DDStatement = DDStatement("IEFRDER2", DatasetDefinition(**{k: v for k, v in parsed_args.get('secondary_log_dataset').items() if v is not None}))
-      dDStatementList.append(iefrder2DDStatement)
-    
-    #Generate DD statements for DBD and PSB libs. If they exist, we attach to an ims dd statement. 
-    if parsed_args.get('psb_lib') is not None:
-      psbDataset = DatasetDefinition(parsed_args.get('psb_lib'))
-      imsDatasetList.append(psbDataset)
-    if parsed_args.get('dbd_lib') is not None:
-      dbdDatset = DatasetDefinition(parsed_args.get('dbd_lib'))
-      imsDatasetList.append(dbdDatset)
-    if imsDatasetList is not None:
-      imsDDStatement = DDStatement("IMS", imsDatasetList)
-      dDStatementList.append(imsDDStatement)
-
-    #Generate DD statements for ACB lib. Behavior is different depending on check_timestamps
-    if parsed_args.get('acb_lib') is not None:
-      #Check if check_timestamp is false. If so, then we include all the datasets in a single DD Statement
-      if parsed_args.get('check_timestamp') is False:
-        for i in parsed_args.get('acb_lib'):
-          acbDataset = DatasetDefinition(i)
-          acbDatasetList.append(acbDataset)
-        acbDDStatement = DDStatement("IMSACBA", acbDatasetList)
-        dDStatementList.append(acbDDStatement)
-      #If check_timestamp is true, then we generate a dd statement for each dataset
-      else:
-        acbCount = 1
-        for i in parsed_args.get('acb_lib'):
-          if acbCount >= 10:
-            acbDDStatement = DDStatement("IMSACB{0}".format(acbCount), DatasetDefinition(i))
-            dDStatementList.append(acbDDStatement)
-            acbCount += 1
-          else:
-            acbDDStatement = DDStatement("IMSACB0{0}".format(acbCount), DatasetDefinition(i))
-            dDStatementList.append(acbDDStatement)
-            acbCount += 1
-        acbCount = 1
-      
-    if parsed_args.get('bootstrap_dataset') is not None:
-      btstrDataset = DDStatement("IMSDBSDS", DatasetDefinition(parsed_args.get('bootstrap_dataset')))
-      dDStatementList.append(btstrDataset)
-    
-    if parsed_args.get('directory_datasets') is not None:
-      directoryCount = 1
-      for i in parsed_args.get('directory_datasets'):
-        if acbCount >= 10:
-          directoryDDStatement = DDStatement("IMSD00{0}".format(directoryCount), DatasetDefinition(i))
-          dDStatementList.append(directoryDDStatement)
-        else:
-          directoryDDStatement = DDStatement("IMSD000{0}".format(directoryCount), DatasetDefinition(i))
-          dDStatementList.append(directoryDDStatement)
-    
-    if parsed_args.get('temp_acb_dataset') is not None:
-      tempDDStatement = DDStatement("IMSDG001", DatasetDefinition(parsed_args.get('temp_acb_dataset')))
-      dDStatementList.append(tempDDStatement)
-    
-    if parsed_args.get('directory_staging_dataset') is not None:
-      dirDDStatement = DDStatement("IMDSTAG", DatasetDefinition(parsed_args.get('directory_staging_dataset')))
-      dDStatementList.append(dirDDStatement)
-    
-    if parsed_args.get('proclib') is not None:
-      proclibDDStatement = DDStatement("PROCLIB", DatasetDefinition(parsed_args.get('proclib')))
-      dDStatementList.append(proclibDDStatement)
-
-    if parsed_args.get('steplib') is not None:
-      steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(parsed_args.get('steplib')))
-      dDStatementList.append(steplibDDStatement)
-
-    #Add sysprint dd statement
-    if parsed_args.get('sysprint') is None:
-      sysDefinition = StdoutDefinition()
-    else:
-      sysDefinition = DatasetDefinition(parsed_args.get('sysprint'))
-    sysprintDDStatement = DDStatement("SYSPRINT", sysDefinition)
-    dDStatementList.append(sysprintDDStatement)
-
-    #Add dummy dd statement
-    dummyDDStatement = DDStatement("ACBCATWK", DummyDefinition())
-    dDStatementList.append(dummyDDStatement)
-
-    # #add sysabend dd statement
-    # if parsed_args.get('sysabend') is None:
-    #   sysDefinition = StdoutDefinition()
-    # else:
-    #   sysDefinition = DatasetDefinition(parsed_args['sysabend'])
-    # sysabendDDStatement = DDStatement("SYSABEND", sysDefinition)
-    # dDStatementList.append(sysabendDDStatement)
-
-    # controlList=[]
-    # if parsed_args.get('control_statements') is not None:
-    #   print("getting control statements")
-    #   controlList = parse_control_statements(parsed_args.get('control_statements'))
-    # ctrlStateDDStatement = DDStatement("SYSINP", StdinDefinition(controlList))
-    # dDStatementList.append(ctrlStateDDStatement)
-      
-
-
-
-    irlm_id = ""
-    irlm_flag = "N"
-    if parsed_args.get('irlm_enabled'):
-      if parsed_args.get('irlm_id'):
-        irlm_id = parsed_args.get('irlm_id')
-        irlm_flag = "Y"
-      else: 
-        result['msg'] = "You must specify an irlm id"
-        module.fail_json(**result)
-
-    paramString = "DLI,DFS3PU00,DFSCPL00,,,,,,,,,,,N,{0},{1},,,,,,,,,,,'DFSDF=CAT'".format(irlm_flag, irlm_id)
-
-    try:
-        response = MVSCmd.execute("DFS3PU00", dDStatementList, paramString, debug=True, verbose=True)
-        result["responseobj"] = {
-            "rc": response.rc,
-            "stdout": response.stdout,
-            "stderr": response.stderr,
-        }
-    except Exception as e:
-        module.fail_json(msg=repr(e), **result)
-    finally:
-        module.exit_json(**result)
+    response = IMSCatalogPopulate(module).execute()
     
   
-
-    module.exit_json(**result)
+    module.exit_json(**response)
 
 
 
