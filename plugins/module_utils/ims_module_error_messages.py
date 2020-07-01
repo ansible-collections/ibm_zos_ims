@@ -12,3 +12,15 @@ class ErrorMessages():
     REXX_RETURN_CODE_MSG = "The following REXX error code was returned: "
     SUBMISSION_ERROR_MSG = "Error submitting IMS Command."
     SUCCESS_MSG = "Success"
+
+class DBRCErrorMessages():
+    INCORRECT_CMD_TYPE = "'commands' must be a string or list of strings."
+    INCORRECT_STEPLIB_TYPE = "'steplib' must be a string or list of strings."
+    INCORRECT_DBDLIB_TYPE = "'dbdlib' must be a string."
+    INCORRECT_DYNALLOC_TYPE = "'dynalloc' must be a string."
+    INCORRECT_GENJCL_TYPE = "'genjcl' must be a string."
+    INCORRECT_RECON_TYPE = "'recon' parameters must be strings."
+    DYNALLOC_RECON_REQUIREMENT_MSG = "'dynalloc' or ('recon1', 'recon2', 'recon3') must be specified."
+    FAILURE_MSG = "Failure. See output for details."
+    EMPTY_OUTPUT_MSG = "DBRC commands could not be processed. Please check input parameters."
+    MISSING_COMMAND = "missing required arguments: command"

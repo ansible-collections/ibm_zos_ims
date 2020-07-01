@@ -145,6 +145,7 @@ msg:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSDbrc import IMSDbrc  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
 
 def run_module():
   global module
@@ -184,16 +185,33 @@ def run_module():
 
     result['dbrc_output'] = response['dbrc_fields']
     result['unformatted_output'] = response['original_output']
+    result['failed'] = response['failure_detected']
     result['changed'] = True
-    result['failed'] = False
-    result['msg'] = 'Success'
+    
+    if not result['dbrc_output']:
+      if int(response['rc']) > 4:
+        result['msg'] = response['error']
+      else:
+        result['msg'] = em.EMPTY_OUTPUT_MSG
+
+      result['changed'] = False
+      module.fail_json(**result)
+
+    elif result['failed']:
+      result['msg'] = em.FAILURE_MSG
+      module.fail_json(**result)
+
+    else:
+      result['msg'] = 'Success'
 
   except Exception as e:
     result['msg'] = repr(e)
     module.fail_json(**result)
+    
   finally:
-      # _delete_data_set(sysin_data_set)
-      pass
+    # _delete_data_set(sysin_data_set)
+    pass
+
   module.exit_json(**result)
 
 def main():
