@@ -1,5 +1,7 @@
-import re 
+import re
 from pprint import pprint
+
+from ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as ims_em
 
 ZOAUTIL_TEMP_USS = "/tmp/test.jcl"
 ZOAUTIL_TEMP_USS2 = "/tmp/test2.jcl"
@@ -63,6 +65,61 @@ def file_exists(name, run_command):
 #         # file is missing
 #         return False, stderr
 #     return True, ''
+
+def validate_member_list(member_list):
+    """This function validates member list.
+    Arguments:
+        member_list{list} -- member list param.
+    Returns:
+        {bool} -- flag marking valid parameters
+        {str} -- return text containing error message
+    """
+
+    for member in member_list:
+        return_text = ''
+        # process member as a str
+        if isinstance(member, str):
+            if not is_valid_member_str(member):
+                return False, ims_em.INVALID_MEMBER_NAME+str(member)
+
+        # process member as a dict
+        elif isinstance(member, dict):
+            # expect single-entry dict
+            if len(member) != 1:
+                return False, ims_em.INVALID_MEMBER_LIST_TYPE
+
+            src_member, target_name = [(k,v) for k,v in member.items()][0]
+
+            # src_member must be a str and a valid member name
+            if not isinstance(src_member, str):
+                return False, ims_em.INVALID_MEMBER_LIST_TYPE
+            else:
+                if not is_valid_member_str(src_member):
+                    return False, ims_em.INVALID_MEMBER_NAME+str(src_member)
+
+            # target_name must be a str and a valid member name
+            if not isinstance(target_name, str):
+                return False, ims_em.INVALID_MEMBER_LIST_TYPE
+            else:
+                if not is_valid_member_str(target_name):
+                    return False, ims_em.INVALID_MEMBER_NAME+str(target_name)
+        # process member as non-str, non-dict
+        else:
+            return_text = ims_em.INVALID_MEMBER_LIST_TYPE
+
+            return False, return_text
+    return True, ''
+
+def is_valid_member_str(member_name):
+    """This function checks if member is a valid name
+        Arguments:
+        member_name {str} -- str to be checked and validated
+        Returns:
+        {bool} -- flag for valid member name
+    """
+
+    # re.fullmatch returns an re.Match object if there is a match or None
+    return re.fullmatch(r"^[A-Z$#@]{1}[A-Z0-9$#@]{0,7}$", str(member_name),re.IGNORECASE) != None
 
 def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
     """This function runs PSBGEN or DBDGEN when specifically using USS file as input source. It runs
@@ -253,6 +310,13 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                     module.log('Generating ' + dest+' for source: ' +src + ' with members: ')
                     # loop through members
                     members_text = ''
+                    # validate member_list
+                    valid, return_text = validate_member_list(source['member_list'])
+                    if not valid:
+                        failed = True
+                        return_code = 2
+                        return src, return_code, return_text, failed
+
                     for item in source['member_list']:
                         if type(item) == str:
                             # set target name same as src
@@ -263,7 +327,6 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         #     throw error
                         else:
                             src_member, target_name = [(k,v) for k,v in item.items()][0]
-
 
                         if src_member == '':
                             # result['ims_output'].append({
