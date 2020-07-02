@@ -187,7 +187,7 @@ def run_module():
     result['unformatted_output'] = response['original_output']
     result['failed'] = response['failure_detected']
     result['changed'] = True
-    
+
     if not result['dbrc_output']:
       if int(response['rc']) > 4:
         result['msg'] = response['error']
@@ -202,7 +202,7 @@ def run_module():
       module.fail_json(**result)
 
     else:
-      result['msg'] = 'Success'
+      result['msg'] = em.SUCCESS_MSG
 
   except Exception as e:
     result['msg'] = repr(e)

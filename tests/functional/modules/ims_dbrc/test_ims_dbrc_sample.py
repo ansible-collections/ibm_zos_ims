@@ -3,6 +3,7 @@
 from pprint import pprint
 import pytest
 from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import DBRCInputParameters as ip # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
 __metaclass__ = type
 
 def test_ims_dbrc_sample(ansible_zos_module):
@@ -19,4 +20,4 @@ def test_ims_dbrc_sample(ansible_zos_module):
     )
     for result in results.contacted.values():
         pprint(result)
-        assert result['msg'] == 'Success'
+        assert result['msg'] == em.SUCCESS_MSG
