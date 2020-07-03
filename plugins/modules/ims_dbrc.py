@@ -189,11 +189,14 @@ def run_module():
     result['changed'] = True
 
     if not result['dbrc_output']:
-      if int(response['rc']) > 4:
+      if response['rc'] and int(response['rc']) > 4:
         result['msg'] = response['error']
       else:
         result['msg'] = em.EMPTY_OUTPUT_MSG
 
+      if response['error']:
+        print("An error occurred:", response['error'])
+        
       result['changed'] = False
       module.fail_json(**result)
 

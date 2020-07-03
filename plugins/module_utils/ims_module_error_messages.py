@@ -23,6 +23,6 @@ class DBRCErrorMessages():
     DYNALLOC_RECON_REQUIREMENT_MSG = "'dynalloc' or ('recon1', 'recon2', 'recon3') must be specified."
     SUCCESS_MSG = "Success"
     FAILURE_MSG = "Failure. See output for details."
-    EMPTY_OUTPUT_MSG = "DBRC commands could not be processed. Please check input parameters."
+    EMPTY_OUTPUT_MSG = "DBRC command(s) could not be processed. Please check input parameters."
     MISSING_COMMAND = "missing required arguments: command"
     MISSING_STEPLIB = "missing required arguments: steplib"

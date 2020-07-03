@@ -87,12 +87,12 @@ class IMSDbrc():
         """
         if isinstance(self.commands, str):
             self.commands = [self.commands]
-        elif not isinstance(self.commands, list) and any(not isinstance(cmd, str) for cmd in self.commands):
+        elif not isinstance(self.commands, list) or not all(isinstance(cmd, str) for cmd in self.commands):
             raise TypeError(em.INCORRECT_CMD_TYPE)
 
         if isinstance(self.steplib_list, str):
             self.steplib_list = [self.steplib_list]
-        elif not isinstance(self.steplib_list, list) and any(not isinstance(steplib, str) for steplib in self.steplib_list):
+        elif not isinstance(self.steplib_list, list) or not all(isinstance(steplib, str) for steplib in self.steplib_list):
             raise TypeError(em.INCORRECT_STEPLIB_TYPE)
 
         if self.dbdlib and not isinstance(self.dbdlib, str):
@@ -273,6 +273,12 @@ class IMSDbrc():
             response = MVSCmd.execute(IMSDbrc.DBRC_UTILITY, dbrc_utility_fields)
             fields, original_output, failure_detected = self._parse_output(response.stdout)
             # fields, original_output = self._parse_output(TEST_INPUT)
+
+            print("RESULTS HERE")
+            print(response)
+            print(response.stdout)
+            print(response.rc)
+            print(response.stderr)
             res = {
                 "dbrc_fields": fields,
                 "original_output": original_output,
@@ -282,6 +288,8 @@ class IMSDbrc():
             }
 
         except Exception as e:
+            print("ERROR HIT:",e)
+            print("ERROR REPR:", repr(e))
             res = {
                 "dbrc_fields": {},
                 "original_output": [],
