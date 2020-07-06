@@ -1,9 +1,46 @@
+# ZOAU_ROOT: /u/omvsadm/mvsbuilds/103/mvsutil
+# PYTHON_ROOT: /usr/lpp/izoda/v110/anaconda
+# JAVA_ROOT: /usr/lpp/java
+
+# environment_vars:
+#     LIBPATH: '{{ ZOAU_ROOT}}/lib:{{ PYTHON_ROOT }}/lib:/lib:/usr/lib:.'    
+#     # ZOAU_ROOT: '/u/omvsadm/mvsbuilds/103/mvsutil' #'zoautil/v100'
+#     ZOAUTIL_DIR: '{{ ZOAU_ROOT }}'
+#     ZOAU_ROOT: '{{ ZOAU_ROOT }}'
+#     ZOAU_HOME: '{{ ZOAU_ROOT }}'
+#     #ZOAUTIL_DIR: '/u/omvsadm/mvsbuilds/103/mvsutil' #'/usr/lpp/zoautil/v100'
+#     #ZOAU_HOME: '/u/omvsadm/mvsbuilds/103/mvsutil'
+#     PYTHONPATH: '{{ ZOAU_ROOT }}/lib:/lib:/usr/lib'
+#     PYTHON_HOME: '/usr/lpp/izoda/v110/anaconda'
+#     _BPXK_JOBLOG: STDERR 
+#     # environment variables for mvsutils/mvscmd
+#     _BPXK_AUTOCVT: ON
+#     #_CEE_RUNOPTS: '"FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"'
+#     _TAG_REDIR_ERR: txt
+#     _TAG_REDIR_IN: txtbc
+#     _TAG_REDIR_OUT: txt
+#     TOOLS_ROOT: '/usr/lpp/rsusr/ported'
+#     PATH: '{{ ZOAU_ROOT }}/bin:/usr/lpp/rsusr/ported/bin:{{ JAVA_ROOT }}/java180/J8.0_64/bin:/bin:/var/bin:{{ JAVA_ROOT }}/J8.0/bin:{{ PYTHON_ROOT }}/bin'
+#     #PATH: '/u/omvsadm/mvsutil/bin:/usr/lpp/rsusr/ported/bin:/usr/lpp/java/java180/J8.0_64/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/usr/lpp/izoda/v110/anaconda/bin'
+#     JAVA_HOME: /usr/lpp/java/java180/J8.0_64
+#     STEPLIB: IMSBLD.I15RTSMM.COMRESL1 # IMSNEW.DIPTI.IM00.SDFSRESL
+#     LANG: C
+
+# JOB_CARD: |-
+#   //ANSIBLE JOB 'testing',
+#   //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
+#   //  MSGCLASS=H,NOTIFY=&SYSUID
+
+ZOAU_ROOT: /u/omvsadm/mvsbuilds/103/mvsutil
+PYTHON_ROOT: /u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz/usr/lpp/IBM/cyp/v3r8/pyz #/usr/lpp/izoda/v110/anaconda
+JAVA_ROOT: /usr/lpp/java
+
 environment_vars:
-    LIBPATH: '/usr/lpp/izoda/v110/anaconda/lib:/u/omvsadm/mvsutil/lib:/lib:/usr/lib:.'
-    ZOAU_ROOT: '/usr/lpp/zoautil/v100'
-    ZOAUTIL_DIR: '/usr/lpp/zoautil/v100'
-    PYTHONPATH: '/usr/lpp/izoda/v110/anaconda/lib:/u/omvsadm/mvsutil/lib:/lib:/usr/lib'
-    PYTHON_HOME: '/usr/lpp/izoda/v110/anaconda'
+    LIBPATH: '{{ ZOAU_ROOT}}/lib:{{ PYTHON_ROOT }}/lib:/lib:/usr/lib:.'
+    ZOAUTIL_DIR: '{{ ZOAU_ROOT }}'
+    ZOAU_ROOT: '{{ ZOAU_ROOT }}'
+    ZOAU_HOME: '{{ ZOAU_ROOT }}'
+    PYTHONPATH: '{{ ZOAU_ROOT }}/lib:/lib:/usr/lib'
     _BPXK_JOBLOG: STDERR 
     # environment variables for mvsutils/mvscmd
     _BPXK_AUTOCVT: ON
@@ -12,11 +49,12 @@ environment_vars:
     _TAG_REDIR_IN: txt
     _TAG_REDIR_OUT: txt
     TOOLS_ROOT: '/usr/lpp/rsusr/ported'
-    PATH: '/u/omvsadm/mvsutil/bin:/usr/lpp/rsusr/ported/bin:/usr/lpp/java/java180/J8.0_64/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/usr/lpp/izoda/v110/anaconda/bin'
-    JAVA_HOME: /usr/lpp/java/java180/J8.0_64
-    STEPLIB: IMSBLD.I15RTSMM.COMRESL1 # IMSNEW.DIPTI.IM00.SDFSRESL
+    PATH: '{{ ZOAU_ROOT }}/bin:/usr/lpp/rsusr/ported/bin:{{ JAVA_ROOT }}/java180/J8.0_64/bin:/bin:/var/bin:{{ JAVA_ROOT }}/J8.0/bin:{{ PYTHON_ROOT }}/bin'
+    JAVA_HOME: '{{ JAVA_ROOT }}/java180/J8.0_64'
+    STEPLIB: IMSBLD.I15RTSMM.COMRESL1
+    LANG: C
 
 JOB_CARD: |-
-  //ANSIBLE JOB 'testing',
-  //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
-  //  MSGCLASS=H,NOTIFY=&SYSUID
+    //ANSIBLE JOB 'testing',
+    //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
+    //  MSGCLASS=H,NOTIFY=&SYSUID 

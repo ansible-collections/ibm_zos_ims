@@ -189,10 +189,125 @@ changed:
   type: bool
 '''
 
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_gen_utils import (
     submit_uss_jcl,
 )
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import ( # pylint: disable=import-error
+  DDStatement,
+  FileDefinition,
+  DatasetDefinition,
+  StdoutDefinition,
+  StdinDefinition,
+)
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
+# import ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.dataset_utils
+import tempfile
+import re
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
+  MissingZOAUImport,
+) 
+import tempfile
+import pprint
+
+try:
+    from zoautil_py import Datasets, types # pylint: disable=import-error
+except Exception:
+    Datasets = MissingZOAUImport()
+    types = MissingZOAUImport()
+
+module = None
+
+def str_or_list_of_str(contents, dependencies):
+    print("contents: ", contents)
+    if isinstance(contents, list):
+        for item in contents:
+            if not isinstance(item, str):
+                raise ValueError(
+                    "Items provided in list do not match the string type expected."
+                )
+    elif isinstance(contents, str):
+        contents = [contents]  # make this a list of strings to consistent format
+    else:
+        raise ValueError(
+            "Incorrect type provided. A string or list of strings is expected"
+        )
+    return contents
+
+def split_lines_psb(command_input, psbnames):
+    return_arr = []
+    return_bool = False
+    if len(psbnames) < 6:
+        return_bool, return_str = build_psb_name_string(command_input, psbnames)
+        return return_bool, return_str
+    else:
+        for i in range(0, len(psbnames), 5):
+            new_db_names_five = psbnames[i: i + 5]
+            return_bool, psb_line = build_psb_name_string(command_input, new_db_names_five)
+            return_arr.append(psb_line)
+        return return_bool, "\n ".join(return_arr)
+    return return_bool, return_arr          
+    
+def build_psb_name_string(command_input, psbnames):
+    psb_str = ""
+    if psbnames:
+        for psb in psbnames:
+            #if a match is not found
+            if not re.fullmatch(r'[A-Z$#@]{1}[A-Z0-9$#@]{0,7}', psb, re.IGNORECASE):
+                return False, psb
+            else: 
+                # if a match is found
+                if psb == "ALL":
+                    psb_str = command_input + " PSB=ALL"
+                    break
+                else:    
+                    psb_str = command_input + " PSB=(" + ",".join(psbnames) + ")"
+    return True, psb_str  
+
+def split_lines_dbd(command_input, dbdnames, bldpsb):
+    return_arr = []
+    return_bool = False
+    if len(dbdnames) < 6:
+        return_bool, return_str = build_dbd_name_string(command_input, dbdnames, bldpsb)
+        return return_bool, return_str
+    else:
+        for i in range(0, len(dbdnames), 5):
+            new_db_names_five = dbdnames[i: i + 5]
+            return_bool, dbd_line = build_dbd_name_string(command_input, new_db_names_five, bldpsb)
+            return_arr.append(dbd_line)
+        return return_bool, "\n ".join(return_arr)
+    return return_bool, return_arr
+
+def build_dbd_name_string(command_input, dbdnames, bldpsb):
+    dbd_str = ""
+    bldpsb_value = ""
+    if bldpsb:
+        bldpsb_value = "YES"
+    else:
+        bldpsb_value = "NO"
+
+    if dbdnames:
+        for dbd in dbdnames:
+            #if a match is not found
+            if not re.fullmatch(r'[A-Z$#@]{1}[A-Z0-9$#@]{0,7}', dbd, re.IGNORECASE):
+                return False, dbd
+            else:
+                # if a match is found
+                if dbdnames and bldpsb:
+                    dbd_str = command_input + " DBD=(" + ",".join(dbdnames) + ")"
+                elif dbdnames and command_input == "BUILD":
+                    dbd_str = (
+                        command_input
+                        + " DBD=("
+                        + ",".join(dbdnames)
+                        + ")"
+                        + ",BLDPSB="
+                        + bldpsb_value
+                    )
+                elif dbdnames:
+                    dbd_str = command_input + " DBD=(" + ",".join(dbdnames) + ")"
+    return True, dbd_str 
 
 
 def run_module():
@@ -208,11 +323,163 @@ def run_module():
         steplib=dict(type="list", required=False),
         build_psb=dict(type="bool", required=False, default=True),
     )
-    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
-    result = dict(rc="0", jobId="")
-    jobId = submit_uss_jcl(module)
-    result["jobId"] = jobId
-    module.exit_json(**result)
+
+    global module
+    module = AnsibleModule(
+          argument_spec=module_args,
+          supports_check_mode=True)
+    
+    result = {}
+    result["changed"] = False
+
+
+    # Retrieve properties set by the user
+    module_defs = dict(
+        command_input=dict(arg_type="str", required=True),
+        compression=dict(arg_type="str", required=False, default=""),
+        psb_name=dict(arg_type=str_or_list_of_str, required=False),
+        dbd_name=dict(arg_type=str_or_list_of_str, required=False), #elements="str",
+        acb_lib=dict(arg_type="str", required=True),
+        psb_lib=dict(arg_type="list", elements="str", required=True),
+        dbd_lib=dict(arg_type="list", elements="str", required=True),
+        reslib=dict(arg_type="list", elements="str", required=False),
+        steplib=dict(arg_type="list", elements="str", required=False),
+        build_psb=dict(arg_type="bool", required=False, default=True),
+    )
+
+    # Parse the properties
+    parser = BetterArgParser(module_defs)
+    parsed_args = parser.parse_args(module.params)
+
+    command_input = parsed_args.get("command_input")
+    compression = parsed_args.get("compression")
+    psb_name = parsed_args.get("psb_name")
+    dbd_name = parsed_args.get("dbd_name")
+    acb_lib = parsed_args.get("acb_lib")
+    psb_lib = parsed_args.get("psb_lib")
+    dbd_lib = parsed_args.get("dbd_lib")
+    reslib = parsed_args.get("reslib")
+    steplib = parsed_args.get("steplib")
+    build_psb = parsed_args.get("build_psb")
+
+
+    #DD statement Generation
+    dDStatementList = []
+    imsDatasetList = []
+    commandList = []
+
+    # #Generate DD statement for SYSPRINT
+    sysDefinition = StdoutDefinition()
+    sysprintDDStatement = DDStatement("SYSPRINT", sysDefinition)
+    dDStatementList.append(sysprintDDStatement)
+
+
+    #Generate DD statement for STEPLIB
+    if steplib:
+      steplibDatasets = [DatasetDefinition(step) for step in steplib]
+      steplibDDStatement = DDStatement("STEPLIB", steplibDatasets)  
+      # dDStatementList.append(steplibDDStatement) DatasetDefinition(steplib)
+    else:
+      try:
+        steplib = env_fallback('STEPLIB') #task_vars.get("environment_vars") 
+        print("STEPLIB: ", steplib)
+      except AnsibleFallbackNotFound as e:
+        module.fail_json(msg="The input option 'steplib' is not provided. Please provide it in the environment "
+                             "variables 'STEPLIB', or in the module input option 'steplib'. ", **result)
+      
+      # if env is not None:
+      #   env_steplib = env.get("STEPLIB")
+      # else:    
+      #   env_steplib = task_vars.get("STEPLIB")
+      steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(steplib))  
+    dDStatementList.append(steplibDDStatement)
+    
+    #Generate DD statement for RESLIB
+    if reslib:
+      reslibDatasets = [DatasetDefinition(dfsres) for dfsres in reslib]
+      dfsreslbDDStatement = DDStatement("DFSRESLB", reslibDatasets) # DatasetDefinition(reslib)
+      dDStatementList.append(dfsreslbDDStatement)
+
+    #Generate DD statements for DBDLIB and PSBLIB  
+    if psb_lib:
+      psbDatasets = [DatasetDefinition(psb) for psb in psb_lib]
+      imsDatasetList += psbDatasets
+    if dbd_lib:
+      dbdDatasets = [DatasetDefinition(dbd) for dbd in dbd_lib]
+      imsDatasetList += dbdDatasets
+    if imsDatasetList:
+      imsDDStatement = DDStatement("IMS", imsDatasetList)
+      dDStatementList.append(imsDDStatement)
+
+    # if psb_lib:
+    #   psbDataset = DatasetDefinition(psb_lib)
+    #   imsDatasetList.append(psbDataset)
+    # if dbd_lib:
+    #   dbdDataset = DatasetDefinition(dbd_lib)
+    #   imsDatasetList.append(dbdDataset)
+    # if imsDatasetList:
+    #   imsDDStatement = DDStatement("IMS", imsDatasetList)
+    #   dDStatementList.append(imsDDStatement)
+
+    #Generate DD statement for ACBLIB
+    if acb_lib:
+      acbDataset = DDStatement("IMSACB", DatasetDefinition(acb_lib))
+      dDStatementList.append(acbDataset)
+
+    #Generate DD statement for COMPCTL  
+    compctlDDStatement = DDStatement("COMPCTL", StdinDefinition(" COPY  INDD=IMSACB,OUTDD=IMSACB"))     
+    dDStatementList.append(compctlDDStatement) 
+
+
+    #Generate DD statements for commands
+    psb_name_str = ""
+    if command_input:
+      if psb_name:
+        psb_name_str, psb = split_lines_psb(command_input, psb_name)
+
+        if psb_name_str:
+          if psb:
+              psb_name_str = ' ' + psb
+          else:
+              psb_name_str = psb  
+          commandList.append(psb_name_str)      
+        elif psb:
+          msg = 'A PSB named ' + str(psb) + ' provided in the module input was not found.'
+          result['rc'] = -1
+          result['msg'] = msg 
+          return result  
+
+      dbd_name_str = ""
+      if dbd_name:
+        dbd_name_str, dbd = split_lines_dbd(command_input, dbd_name, build_psb)
+        if dbd_name_str: 
+          dbd_name_str = ' ' + dbd 
+          commandList.append(dbd_name_str)
+        else:
+          msg = 'A DBD named ' + str(dbd) + ' provided in the module input was not found.'
+          result['rc'] = -1
+          result['msg'] = msg 
+          return result   
+
+    #raise ValueError("/n".join(commandList))
+
+    commandDDStatement = DDStatement("SYSIN",StdinDefinition("\n".join(commandList))) )
+  
+    dDStatementList.append(commandDDStatement) 
+
+    paramString = 'UPB,{0}'.format(compression)
+
+    try:
+      response = MVSCmd.execute("DFSRRC00", dDStatementList, paramString, verbose=True)
+      result["response"] = {
+        "rc": response.rc,
+        "stdout": response.stdout,
+        "stderr": response.stderr,
+      }
+    except Exception as e:
+      module.fail_json(msg=repr(e), **result)
+    finally:
+      module.exit_json(**result)  
 
 
 def main():
