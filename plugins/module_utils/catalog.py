@@ -17,7 +17,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler im
 import tempfile
 import pprint
 
-class IMSCatalogPopulate():
+class catalog():
 
     def __init__(self, module):
       self.module = module

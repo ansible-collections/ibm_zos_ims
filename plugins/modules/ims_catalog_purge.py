@@ -346,7 +346,7 @@ RETURN = r'''
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSCatalogPopulate.IMSCatalogPopulate import IMSCatalogPopulate # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog.catalog import catalog # pylint: disable=import-error
 
 def run_module():
     module_args = dict(
@@ -372,7 +372,7 @@ def run_module():
     result = {}
     result["changed"] = False
 
-    response = IMSCatalogPopulate(module).execute_catalog_purge()
+    response = catalog(module).execute_catalog_purge()
     
   
     module.exit_json(**response)
