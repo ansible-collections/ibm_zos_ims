@@ -10,24 +10,12 @@ ANSIBLE_METADATA = {
 }
 
 
-#1. dont need dash - for description lines when continuation from previous line
-#   done
-#2. need field for IRLMID
-#   done
-#3. update dfsreslb to match what is being used for acblib. We also want to be able to take the variable input as precedence but if not supplied will search for an reslib env variable.
-#4. can add additional detail on buffer pool configuration https://www.ibm.com/support/knowledgecenter/SS6SUT_1.4.0/com.ibm.imstools.bpl14.doc.ug/topics/bplucon_definepools.htm
-#5. If things are optional, state under what circumstances parameters should or shouldnt be required.
+# ToDo:
+# - update dfsreslb to match what is being used for acblib. We also want to be able to take the variable input as precedence but if not supplied will search for an reslib env variable.
+# - can add additional detail on buffer pool configuration https://www.ibm.com/support/knowledgecenter/SS6SUT_1.4.0/com.ibm.imstools.bpl14.doc.ug/topics/bplucon_definepools.htm
+# - If things are optional, state under what circumstances parameters should or shouldnt be required.
 #   Given that the directory datasets are not required regardless of mACB, is this still relevant? Is reslib required?
-#6. log datasets - Are we going to require them to exist or are we going to support creating those log datasets on the fly?
-#   I had assumed these already existed, but if not I am leaning towards requiring them 
-#7. update psblib and dbdlib to psb_lib and dbd_lib
-#   done
-#8. do we need both imsacb01 and additional_acb? Can we have a single acb_lib parameter that takes in a list of datasets, and under the covers we'll handle the DD naming being passed into the RAW interface?
-#   We will have a single acb_lib list parameter, and have an additional parameter called check_timestamp
-#9. distinguish between what is/isn't required for Managed ACBs. ie. bootstrap dataset, directory datasets
-#   done  
 
-#More concise descriptions overall for each of the parameters.
 
 DOCUMENTATION = r'''
 ---
@@ -39,12 +27,6 @@ description:
   - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances 
     into the database data sets of the IMS catalog from ACB library data sets.
 options:
-  purge_catalog:
-    description:
-      - Set to true if you want the catalog purged via the IMS Catalog Record Purge utility
-    type: bool
-    required: false
-    default: false
   irlm_enabled:
     description:
       - Indicates if IRLM is used
@@ -580,7 +562,6 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSCatalogPopulate
 
 def run_module():
     module_args = dict(
-      purge_catalog=dict(type="bool", required = False),
       irlm_enabled=dict(type="bool", required=False),
       irlm_id=dict(type="str", required=False),
       reslib=dict(type="str", required=False),
@@ -609,7 +590,7 @@ def run_module():
     result = {}
     result["changed"] = False
 
-    response = IMSCatalogPopulate(module).execute()
+    response = IMSCatalogPopulate(module).execute_catalog_populate()
     
   
     module.exit_json(**response)

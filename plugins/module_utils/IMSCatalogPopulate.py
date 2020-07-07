@@ -23,11 +23,13 @@ class IMSCatalogPopulate():
       self.module = module
       self.params = module.params
       self.result = {}
-      self.parsed_args=self._validate_input()
+      self._validate_common_input()
 
 
-    def execute(self):
-      self._constructDDStatements()
+    def execute_catalog_populate(self):
+      self._validate_catalog_input()
+      self._constructCommonDDStatements()
+      self._constructCatalogDDStatements()
       try:
         response = MVSCmd.execute("DFS3PU00", self.dDStatements, self.paramString, verbose=True)
         self.result["rc"] = response.rc
@@ -39,12 +41,11 @@ class IMSCatalogPopulate():
       return self.result
 
       
-
-    def _constructDDStatements(self):
+    def _constructCommonDDStatements(self):
+      print("construction common dd")
       #DD statement Generation
       dDStatementList = []
       imsDatasetList = []
-      acbDatasetList = []
   
       if self.parsed_args.get('reslib') is not None:
         dfsreslbDDStatement = DDStatement("DFSRESLB", DatasetDefinition(self.parsed_args.get('reslib')))
@@ -55,10 +56,7 @@ class IMSCatalogPopulate():
       if self.parsed_args.get('primary_log_dataset') is not None:
         iefrderDDStatement = DDStatement("IEFRDER", DatasetDefinition(**{k: v for k, v in self.parsed_args.get('primary_log_dataset').items() if v is not None}))
         dDStatementList.append(iefrderDDStatement)
-      if self.parsed_args.get('secondary_log_dataset') is not None:
-        iefrder2DDStatement = DDStatement("IEFRDER2", DatasetDefinition(**{k: v for k, v in self.parsed_args.get('secondary_log_dataset').items() if v is not None}))
-        dDStatementList.append(iefrder2DDStatement)
-      
+    
       #Generate DD statements for DBD and PSB libs. If they exist, we attach to an ims dd statement. 
       if self.parsed_args.get('psb_lib') is not None:
         psbDataset = DatasetDefinition(self.parsed_args.get('psb_lib'))
@@ -69,7 +67,32 @@ class IMSCatalogPopulate():
       if imsDatasetList is not None:
         imsDDStatement = DDStatement("IMS", imsDatasetList)
         dDStatementList.append(imsDDStatement)
+      if self.parsed_args.get('proclib') is not None:
+        proclibDDStatement = DDStatement("PROCLIB", DatasetDefinition(self.parsed_args.get('proclib')))
+        dDStatementList.append(proclibDDStatement)
   
+      if self.parsed_args.get('steplib') is not None:
+        steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(self.parsed_args.get('steplib')))
+        dDStatementList.append(steplibDDStatement)
+  
+      #Add sysprint dd statement
+      if self.parsed_args.get('sysprint') is None:
+        sysDefinition = StdoutDefinition()
+      else:
+        sysDefinition = DatasetDefinition(self.parsed_args.get('sysprint'))
+      sysprintDDStatement = DDStatement("SYSPRINT", sysDefinition)
+      dDStatementList.append(sysprintDDStatement)
+
+      self.dDStatements = dDStatementList
+
+    # def _constructPurgeDDStatements(self):
+
+
+    def _constructCatalogDDStatements(self):
+      print("constructing catalog")
+      dDStatementList = []
+      acbDatasetList = []
+
       #Generate DD statements for ACB lib. Behavior is different depending on check_timestamps
       if self.parsed_args.get('acb_lib') is not None:
         #Check if check_timestamp is false. If so, then we include all the datasets in a single DD Statement
@@ -114,22 +137,6 @@ class IMSCatalogPopulate():
       if self.parsed_args.get('directory_staging_dataset') is not None:
         dirDDStatement = DDStatement("IMDSTAG", DatasetDefinition(self.parsed_args.get('directory_staging_dataset')))
         dDStatementList.append(dirDDStatement)
-      
-      if self.parsed_args.get('proclib') is not None:
-        proclibDDStatement = DDStatement("PROCLIB", DatasetDefinition(self.parsed_args.get('proclib')))
-        dDStatementList.append(proclibDDStatement)
-  
-      if self.parsed_args.get('steplib') is not None:
-        steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(self.parsed_args.get('steplib')))
-        dDStatementList.append(steplibDDStatement)
-  
-      #Add sysprint dd statement
-      if self.parsed_args.get('sysprint') is None:
-        sysDefinition = StdoutDefinition()
-      else:
-        sysDefinition = DatasetDefinition(self.parsed_args.get('sysprint'))
-      sysprintDDStatement = DDStatement("SYSPRINT", sysDefinition)
-      dDStatementList.append(sysprintDDStatement)
   
       #Add dummy dd statement
       dummyDDStatement = DDStatement("ACBCATWK", DummyDefinition())
@@ -150,9 +157,6 @@ class IMSCatalogPopulate():
       # ctrlStateDDStatement = DDStatement("SYSINP", StdinDefinition(controlList))
       # dDStatementList.append(ctrlStateDDStatement)
         
-  
-  
-  
       irlm_id = ""
       irlm_flag = "N"
       if self.parsed_args.get('irlm_enabled'):
@@ -164,13 +168,12 @@ class IMSCatalogPopulate():
           self.module.fail_json(**self.result)
   
       self.paramString = "DLI,DFS3PU00,DFSCP001,,,,,,,,,,,N,{0},{1},,,,,,,,,,,'DFSDF=CAT'".format(irlm_flag, irlm_id)
-      self.dDStatements = dDStatementList
+      self.dDStatements = self.dDStatements + dDStatementList
   
 
-    def _validate_input(self):
+    def _validate_common_input(self):
         try:
           module_defs = dict(
-            purge_catalog=dict(arg_type="bool", required=False),
             irlm_enabled=dict(arg_type="bool", required=False),
             irlm_id=dict(arg_type="str", required=False),
             reslib=dict(arg_type="data_set", required=False),
@@ -191,6 +194,25 @@ class IMSCatalogPopulate():
                  type = dict(arg_type="str", required=False, choices=['SEQ','BASIC','LARGE','PDS','PDSE','LIBRARY','LDS','RRDS','ESDS','KSDS'])
               ),
               required=False),
+            psb_lib=dict(arg_type="data_set", required = False),
+            dbd_lib=dict(arg_type="data_set", required = False),
+            proclib=dict(arg_type="data_set", required = False),
+            steplib=dict(arg_type="data_set", required = False),
+            sysprint=dict(arg_type="data_set", required=False),
+            check_timestamp=dict(arg_type="bool", required=False)
+          )
+
+          parser = BetterArgParser(module_defs)
+          self.parsed_args = parser.parse_args(self.params)
+
+        except ValueError as error:
+          self.result['msg'] = error.args
+          self.result['rc']=1
+          self.module.fail_json(**self.result)
+
+    def _validate_catalog_input(self):
+        try:
+          module_defs = dict(
             secondary_log_dataset=dict(arg_type="dict", 
               options=dict(
                 dataset_name=dict(arg_type="data_set", required=True),
@@ -206,18 +228,12 @@ class IMSCatalogPopulate():
                 block_size=dict(arg_type="int", required=False)
               ), 
               required=False),
-            psb_lib=dict(arg_type="data_set", required = False),
-            dbd_lib=dict(arg_type="data_set", required = False),
-            check_timestamp=dict(arg_type="bool", required=False),
             acb_lib=dict(arg_type="list", elements="data_set", required=True),
             bootstrap_dataset=dict(arg_type="data_set", required = False),
             directory_datasets=dict(arg_type="list", elements="data_set", required=False),
             temp_acb_dataset=dict(arg_type="data_set", required = False),
             directory_staging_dataset=dict(arg_type="data_set", required = False),
-            proclib=dict(arg_type="data_set", required = False),
-            steplib=dict(arg_type="data_set", required = False),
             sysabend=dict(arg_type="data_set", required = False),
-            sysprint=dict(arg_type="data_set", required=False),
             control_statements=dict(arg_type="dict", 
               options=dict(
                 duplist=dict(arg_type="bool", required=False),
@@ -255,17 +271,30 @@ class IMSCatalogPopulate():
           )
 
           parser = BetterArgParser(module_defs)
-          parsed_args = parser.parse_args(self.params)
+          self.parsed_args.update(parser.parse_args(self.params))
 
-          if parsed_args.get('directory_staging_dataset') is not None:
-            self.directory_datasets = parsed_args.get('directory_datasets')
+          if self.parsed_args.get('directory_staging_dataset') is not None:
+            self.directory_datasets = self.parsed_args.get('directory_datasets')
             self._validate_directory_staging_dataset()
-            
-          return parsed_args
+
         except ValueError as error:
           self.result['msg'] = error.args
           self.result['rc']=1
           self.module.fail_json(**self.result)
+    
+    def _validate_purge_input(self):
+        try:
+          module_defs = dict(
+            
+
+
+
+          )
+        except ValueError as error:
+          self.result['msg'] = error.args
+          self.result['rc']=1
+          self.module.fail_json(**self.result)
+
 
     def _validate_directory_staging_dataset(self):
         if len(self.directory_datasets) > 20:
