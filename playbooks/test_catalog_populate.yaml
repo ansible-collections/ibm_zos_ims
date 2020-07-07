@@ -31,18 +31,18 @@
           secondary: 75
           secondary_unit: CYL
           type: SEQ
-        secondary_log_dataset:
-          dataset_name: IMSTESTL.IMS1.LOG2
-          disposition: NEW
-          normal_disposition: DELETE
-          record_format: FB
-          record_length: 4092
-          block_size: 4096
-          primary: 100
-          primary_unit: CYL
-          secondary: 75
-          secondary_unit: CYL
-          type: SEQ
+        # secondary_log_dataset:
+        #   dataset_name: IMSTESTL.IMS1.LOG2
+        #   disposition: NEW
+        #   normal_disposition: DELETE
+        #   record_format: FB
+        #   record_length: 4092
+        #   block_size: 4096
+        #   primary: 100
+        #   primary_unit: CYL
+        #   secondary: 75
+        #   secondary_unit: CYL
+        #   type: SEQ
           
 
         

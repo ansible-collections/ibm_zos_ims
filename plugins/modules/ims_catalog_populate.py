@@ -48,12 +48,12 @@ options:
     description:
       - Defines the buffer pool parameters data set.
     type: str
-    required: false
+    required: true
   primary_log_dataset:
     description:
       - Defines the primary IMS log data set.
     type: dict
-    required: false
+    required: true
     suboptions:
       dataset_name:
         description:
@@ -341,12 +341,12 @@ options:
     description:
       - Defines IMS.PSBLIB dataset
     type: str
-    required: false
+    required: true
   dbd_lib:
     description:
       - Defines IMS.DBDLIB datasets
     type: str
-    required: false
+    required: true
   check_timestamp:
     description:
       - Determines if the utility should check timestamps of ACB members with duplicate names. 
@@ -393,12 +393,12 @@ options:
       - Defines the IMS.PROCLIB data set that contains the DFSDFxxx member that 
         defines various attributes of the IMS catalog that are required by the utility.
     type: str
-    required: false
+    required: true
   steplib:
     description:
       - Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules. 
     type: str
-    required: false
+    required: true
   sysabend:
     description:
       - Defines the dump dataset

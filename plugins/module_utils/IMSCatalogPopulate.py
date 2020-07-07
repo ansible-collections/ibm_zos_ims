@@ -102,15 +102,15 @@ class IMSCatalogPopulate():
 
       if self.parsed_args.get("sysin") is not None:
         sysinList = self._parse_sysin()
+        print("this is sysinList" + " ".join(sysinList))
         sysInDDStatement = DDStatement("SYSIN", StdinDefinition(sysinList))
       dDStatementList.append(sysInDDStatement)
 
       if self.parsed_args.get("sysut1") is not None:
         sysut1List = self._parse_sysut1()
+        print("this is sysut1List" + " ".join(sysut1List))
         sysut1DDStatement = DDStatement("SYSUT1", StdinDefinition(sysut1List))
       dDStatementList.append(sysut1DDStatement)
-
-      self.dDStatements = self.dDStatements + dDStatementList
       
       irlm_id = ""
       irlm_flag = "N"
@@ -215,7 +215,7 @@ class IMSCatalogPopulate():
             irlm_enabled=dict(arg_type="bool", required=False),
             irlm_id=dict(arg_type="str", required=False),
             reslib=dict(arg_type="data_set", required=False),
-            buffer_pool_param_dataset=dict(arg_type="data_set", required=False),
+            buffer_pool_param_dataset=dict(arg_type="data_set", required=True),
             primary_log_dataset=dict(arg_type="dict", 
               options=dict(
                 dataset_name=dict(arg_type="data_set", required=True),
@@ -231,13 +231,12 @@ class IMSCatalogPopulate():
                  block_size=dict(arg_type="int", required=False),
                  type = dict(arg_type="str", required=False, choices=['SEQ','BASIC','LARGE','PDS','PDSE','LIBRARY','LDS','RRDS','ESDS','KSDS'])
               ),
-              required=False),
-            psb_lib=dict(arg_type="data_set", required = False),
-            dbd_lib=dict(arg_type="data_set", required = False),
-            proclib=dict(arg_type="data_set", required = False),
-            steplib=dict(arg_type="data_set", required = False),
+              required=True),
+            psb_lib=dict(arg_type="data_set", required = True),
+            dbd_lib=dict(arg_type="data_set", required = True),
+            proclib=dict(arg_type="data_set", required = True),
+            steplib=dict(arg_type="data_set", required = True),
             sysprint=dict(arg_type="data_set", required=False),
-            check_timestamp=dict(arg_type="bool", required=False)
           )
 
           parser = BetterArgParser(module_defs)
@@ -251,6 +250,7 @@ class IMSCatalogPopulate():
     def _validate_populate_input(self):
         try:
           module_defs = dict(
+            check_timestamp=dict(arg_type="bool", required=False),
             secondary_log_dataset=dict(arg_type="dict", 
               options=dict(
                 dataset_name=dict(arg_type="data_set", required=True),
@@ -325,7 +325,7 @@ class IMSCatalogPopulate():
           module_defs = dict(
             sysin=dict(arg_type="dict", required=True,
               options=dict(
-                mode=dict(arg_type="str", required=True),
+                mode=dict(arg_type="str", required=True, choices=['ANALYSIS', 'PURGE', 'BOTH']),
                 deldbver=dict(arg_type="list", elements="dict", required=False,
                   options=dict(
                     member_name=dict(arg_type="str", required=True),
@@ -354,7 +354,7 @@ class IMSCatalogPopulate():
                   options=dict(
                     resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
                     member_name=dict(arg_type="str", required=True),
-                    time_stamp=dict(arg_type="int", required=False)
+                    time_stamp=dict(arg_type="str", required=True)
                   )
                 )
               )
@@ -488,7 +488,7 @@ class IMSCatalogPopulate():
           if dele.get("member_name") is not None:
             deleteString.append(dele.get("member_name"))
           if dele.get("time_stamp") is not None:
-            deleteString.append(str(dele.get("time_stamp")))
+            deleteString.append(dele.get("time_stamp"))
           sysut1List.append(" ".join(deleteString))
       
       return sysut1List
