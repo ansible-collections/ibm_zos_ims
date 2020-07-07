@@ -323,7 +323,7 @@ options:
               - The 8 character IMS name of the DBD or PSB resource. Wildcards are supported
             type: str
             required: true 
-          timestamp:
+          time_stamp:
             description:
               - The ACB timestamp that identifies the specific DBD or PSB instance to purge
             type: int

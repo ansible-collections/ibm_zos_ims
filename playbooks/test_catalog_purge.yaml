@@ -1,0 +1,24 @@
+---
+  - hosts: zsystem
+    collections:
+      - ibm.ibm_zos_ims
+      - ibm.ibm_zos_core
+    gather_facts: no
+      
+    environment: "{{ environment_vars }}"
+      
+    tasks:
+      - name: test ims_catalog_purge
+        ims_catalog_purge: 
+          dbd_lib: IMSTESTL.IMS1.DBDLIB
+          psb_lib: IMSTESTL.IMS1.PSBLIB
+          sysin:
+            mode: PURGE
+          sysut1:
+            delete:
+              - resource: DBD
+                member_name: '*'
+            
+  
+          
+          

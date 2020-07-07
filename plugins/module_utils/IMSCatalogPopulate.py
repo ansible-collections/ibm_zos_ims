@@ -27,7 +27,7 @@ class IMSCatalogPopulate():
 
 
     def execute_catalog_populate(self):
-      self._validate_catalog_input()
+      self._validate_populate_input()
       self._constructCommonDDStatements()
       self._constructCatalogDDStatements()
       try:
@@ -44,6 +44,13 @@ class IMSCatalogPopulate():
       self._validate_purge_input()
       self._constructCommonDDStatements()
       self._constructPurgeDDStatements()
+      try:
+        response = MVSCmd.execute("DFSRRC00", self.dDStatements, self.paramString, verbose=True)
+        self.result["rc"] = response.rc
+        self.result["stdout"] = response.stdout
+        self.result["stderr"] = response.stderr
+      except Exception as e:
+        self.module.fail_json(msg=repr(e), **self.result)
       
       return self.result
 
@@ -94,12 +101,30 @@ class IMSCatalogPopulate():
       dDStatementList = []
 
       if self.parsed_args.get("sysin") is not None:
-        sysinList = _parse_sysin()
+        sysinList = self._parse_sysin()
         sysInDDStatement = DDStatement("SYSIN", StdinDefinition(sysinList))
-      
       dDStatementList.append(sysInDDStatement)
 
+      if self.parsed_args.get("sysut1") is not None:
+        sysut1List = self._parse_sysut1()
+        sysut1DDStatement = DDStatement("SYSUT1", StdinDefinition(sysut1List))
+      dDStatementList.append(sysut1DDStatement)
+
       self.dDStatements = self.dDStatements + dDStatementList
+      
+      irlm_id = ""
+      irlm_flag = "N"
+      if self.parsed_args.get('irlm_enabled'):
+        if self.parsed_args.get('irlm_id'):
+          irlm_id = self.parsed_args.get('irlm_id')
+          irlm_flag = "Y"
+        else: 
+          self.result['msg'] = "You must specify an irlm id"
+          self.module.fail_json(**self.result)
+  
+      self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,N,{0},{1},,,,,,,,,,,'DFSDF=CAT'".format(irlm_flag, irlm_id)
+      self.dDStatements = self.dDStatements + dDStatementList
+  
 
 
     def _constructCatalogDDStatements(self):
@@ -223,7 +248,7 @@ class IMSCatalogPopulate():
           self.result['rc']=1
           self.module.fail_json(**self.result)
 
-    def _validate_catalog_input(self):
+    def _validate_populate_input(self):
         try:
           module_defs = dict(
             secondary_log_dataset=dict(arg_type="dict", 
@@ -312,12 +337,12 @@ class IMSCatalogPopulate():
                     resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
                     member_name=dict(arg_type="str", required=True),
                     instances=dict(arg_type="int", required=True),
-                    days=dict(arg_type=int, required=False)
+                    days=dict(arg_type="int", required=False)
                   )
                 )
               )
             ),
-            sysut1=dict(arg_type="dict", required=True,
+            sysut1=dict(arg_type="dict", required=False,
               options=dict(
                 deldbver=dict(arg_type="list", elements="dict", required=False,
                   options=dict(
@@ -329,7 +354,7 @@ class IMSCatalogPopulate():
                   options=dict(
                     resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
                     member_name=dict(arg_type="str", required=True),
-                    time_stamp=dict(arg_type="int", required=True)
+                    time_stamp=dict(arg_type="int", required=False)
                   )
                 )
               )
@@ -411,7 +436,7 @@ class IMSCatalogPopulate():
         print("util printing control string: " + " ".join(controlStr))
         return controlStr
 
-    def _parse_sysin(self, sysin):
+    def _parse_sysin(self):
       sysinStatements = self.params.get("sysin")
       sysinList = []
       if sysinStatements.get("mode") is not None:
@@ -424,14 +449,54 @@ class IMSCatalogPopulate():
           if deld.get("member_name") is not None:
             deldbverString.append(deld.get("member_name"))
           if deld.get("version_number") is not None:
-            deldbverString.append(deld.get("version_number"))
+            deldbverString.append(str(deld.get("version_number")))
           sysinList.append(" ".join(deldbverString))
-      
-      print("util printing sysin control string: " + " ".join(sysinList))
+      if sysinStatements.get("update") is not None:
+        updateList = sysinStatements.get("update")
+        for upd in updateList:
+          updateString = ['UPDATE']
+          if upd.get("resource") is not None:
+            updateString.append(upd.get("resource"))
+          if upd.get("member_name") is not None:
+            updateString.append(upd.get("member_name"))
+          if upd.get("instances") is not None:
+            updateString.append(str(upd.get("instances")))
+          if upd.get("days") is not None:
+            updateString.append(str(upd.get("days")))
+          sysinList.append(" ".join(updateString))
+          
       return sysinList
+    
+    def _parse_sysut1(self):
+      sysut1Statements = self.params.get("sysut1")
+      sysut1List = []
+      if sysut1Statements.get("deldbver") is not None:
+        deldbverList = sysut1Statements.get("deldbver")
+        for deld in deldbverList:
+          deldbverString = ['DELDBVER']
+          if deld.get("member_name") is not None:
+            deldbverString.append(deld.get("member_name"))
+          if deld.get("version_number") is not None:
+            deldbverString.append(str(deld.get("version_number")))
+          sysut1List.append(" ".join(deldbverString))
+      if sysut1Statements.get("delete") is not None:
+        deleteList = sysut1Statements.get("delete")
+        for dele in deleteList:
+          deleteString = ["DELETE"]
+          if dele.get("resource") is not None:
+            deleteString.append(dele.get("resource"))
+          if dele.get("member_name") is not None:
+            deleteString.append(dele.get("member_name"))
+          if dele.get("time_stamp") is not None:
+            deleteString.append(str(dele.get("time_stamp")))
+          sysut1List.append(" ".join(deleteString))
+      
+      return sysut1List
+
+
  
 
-def ims_resource(resource_name, dependencies): 
-  if len(resource_name) > 8 and not isinstance(resource_name, str):
-    raise ValueError('The resource name cannot be more than 8 characters')
-  return resource_name
+# def ims_resource(resource_name, dependencies): 
+#   if len(resource_name) > 8 and not isinstance(resource_name, str):
+#     raise ValueError('The resource name cannot be more than 8 characters')
+#   return resource_name
