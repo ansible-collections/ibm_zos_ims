@@ -1,4 +1,4 @@
-#kickoff pipline
+#kickoff pipline1
 host: ec33018a.vmec.svl.ibm.com
 user: omvsadm
 python_path: /usr/lpp/izoda/v110/anaconda/bin/python3.6
