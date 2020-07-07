@@ -144,7 +144,7 @@ msg:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSDbrc import IMSDbrc  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSDbrc.IMSDbrc import IMSDbrc  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
 
 def run_module():
@@ -196,7 +196,7 @@ def run_module():
 
       if response['error']:
         print("An error occurred:", response['error'])
-        
+
       result['changed'] = False
       module.fail_json(**result)
 

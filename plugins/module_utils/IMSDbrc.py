@@ -6,7 +6,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
   StdoutDefinition,
   StdinDefinition
 )
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd # pylint: disable=import-error
 import tempfile
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
   MissingZOAUImport,
