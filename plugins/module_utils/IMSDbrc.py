@@ -59,12 +59,23 @@ class IMSDbrc():
         self.recon2 = recon2
         self.recon3 = recon3
         self._assert_valid_inputs()
+        self._format_command_input()
 
     def _assert_valid_inputs(self):
         """Validates the data types and requirements to run DBRC commands.
         """
         self._assert_valid_input_types()
         self._assert_dynalloc_recon_requirement()
+
+    def _format_command_input(self):
+        """Modifies the command input provided by the user in preparation for using the zos_raw interface.
+        We replace spaces with a dash and new line (" -\n") in order to avoid the termination character
+        specifically for long commands.
+        """
+        if isinstance(self.commands, list):
+            self.commands = [cmd.strip().replace(" ", " -\n") for cmd in self.commands]
+        elif isinstance(self.commands, str):
+            self.commands = [self.commands.strip().replace(" ", " -\n")]
 
     def _assert_dynalloc_recon_requirement(self):
         """This assertion function validates that either the 'dynalloc' parameter was specified, or 
@@ -85,9 +96,7 @@ class IMSDbrc():
         Raises:
             TypeError: Raised if parameter is the wrong data type.
         """
-        if isinstance(self.commands, str):
-            self.commands = [self.commands]
-        elif not isinstance(self.commands, list) or not all(isinstance(cmd, str) for cmd in self.commands):
+        if not isinstance(self.commands, list) or not all(isinstance(cmd, str) for cmd in self.commands):
             raise TypeError(em.INCORRECT_CMD_TYPE)
 
         if isinstance(self.steplib_list, str):
@@ -273,12 +282,6 @@ class IMSDbrc():
             response = MVSCmd.execute(IMSDbrc.DBRC_UTILITY, dbrc_utility_fields)
             fields, original_output, failure_detected = self._parse_output(response.stdout)
             # fields, original_output = self._parse_output(TEST_INPUT)
-
-            print("RESULTS HERE")
-            print(response)
-            print(response.stdout)
-            print(response.rc)
-            print(response.stderr)
             res = {
                 "dbrc_fields": fields,
                 "original_output": original_output,
@@ -288,8 +291,6 @@ class IMSDbrc():
             }
 
         except Exception as e:
-            print("ERROR HIT:",e)
-            print("ERROR REPR:", repr(e))
             res = {
                 "dbrc_fields": {},
                 "original_output": [],
