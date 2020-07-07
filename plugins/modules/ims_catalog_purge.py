@@ -226,8 +226,9 @@ options:
         description:
           - Deletes all instances of the specified version of a DBD. When deldbver is specified, ANALYSIS mode or
             BOTH mode must be specified.
-        type: dict
+        type: list
         required: false
+        elements: dict
         suboptions:
           member_name:
             description: 
@@ -284,14 +285,15 @@ options:
       deldbver:
         description:
           - Deletes all DBD instances of the specified version of a DBD
-        type: dict
+        type: list
         required: false
+        elements: dict
         suboptions:
           member_name:
             description:
               - The 8 character name of the DBD from which you are deleting a version
             type: str
-            required: false
+            required: true
           version_number:
             description:
               - The version number of the DBD that you are deleting. The number that is specified here must match
@@ -370,7 +372,7 @@ def run_module():
     result = {}
     result["changed"] = False
 
-    response = IMSCatalogPopulate(module).#execute_catalog_populate()
+    response = IMSCatalogPopulate(module).execute_catalog_purge()
     
   
     module.exit_json(**response)

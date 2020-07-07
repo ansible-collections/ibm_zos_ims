@@ -40,9 +40,14 @@ class IMSCatalogPopulate():
       
       return self.result
 
+    def execute_catalog_purge(self):
+      self._validate_purge_input()
+      self._constructCommonDDStatements()
+      self._constructPurgeDDStatements()
       
+      return self.result
+
     def _constructCommonDDStatements(self):
-      print("construction common dd")
       #DD statement Generation
       dDStatementList = []
       imsDatasetList = []
@@ -85,11 +90,19 @@ class IMSCatalogPopulate():
 
       self.dDStatements = dDStatementList
 
-    # def _constructPurgeDDStatements(self):
+    def _constructPurgeDDStatements(self):
+      dDStatementList = []
+
+      if self.parsed_args.get("sysin") is not None:
+        sysinList = _parse_sysin()
+        sysInDDStatement = DDStatement("SYSIN", StdinDefinition(sysinList))
+      
+      dDStatementList.append(sysInDDStatement)
+
+      self.dDStatements = self.dDStatements + dDStatementList
 
 
     def _constructCatalogDDStatements(self):
-      print("constructing catalog")
       dDStatementList = []
       acbDatasetList = []
 
@@ -285,11 +298,47 @@ class IMSCatalogPopulate():
     def _validate_purge_input(self):
         try:
           module_defs = dict(
-            
-
-
-
+            sysin=dict(arg_type="dict", required=True,
+              options=dict(
+                mode=dict(arg_type="str", required=True),
+                deldbver=dict(arg_type="list", elements="dict", required=False,
+                  options=dict(
+                    member_name=dict(arg_type="str", required=True),
+                    version_number=dict(arg_type="int", required=True)
+                  )
+                ),
+                update=dict(arg_type="list", elements="dict", required=False,
+                  options=dict(
+                    resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
+                    member_name=dict(arg_type="str", required=True),
+                    instances=dict(arg_type="int", required=True),
+                    days=dict(arg_type=int, required=False)
+                  )
+                )
+              )
+            ),
+            sysut1=dict(arg_type="dict", required=True,
+              options=dict(
+                deldbver=dict(arg_type="list", elements="dict", required=False,
+                  options=dict(
+                    member_name=dict(arg_type="str", required=True),
+                    version_number=dict(arg_type="int", required=True)
+                  )
+                ),
+                delete=dict(arg_type="list", elements="dict", required=False,
+                  options=dict(
+                    resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
+                    member_name=dict(arg_type="str", required=True),
+                    time_stamp=dict(arg_type="int", required=True)
+                  )
+                )
+              )
+            )
           )
+
+          parser = BetterArgParser(module_defs)
+          self.parsed_args.update(parser.parse_args(self.params))
+        
         except ValueError as error:
           self.result['msg'] = error.args
           self.result['rc']=1
@@ -361,3 +410,28 @@ class IMSCatalogPopulate():
         controlStr.append("".join(managed_acbs_string))
         print("util printing control string: " + " ".join(controlStr))
         return controlStr
+
+    def _parse_sysin(self, sysin):
+      sysinStatements = self.params.get("sysin")
+      sysinList = []
+      if sysinStatements.get("mode") is not None:
+        modeString = "MODE " + sysinStatements.get("mode")
+        sysinList.append(modeString)
+      if sysinStatements.get("deldbver") is not None:
+        deldbverList = sysinStatements.get("deldbver")
+        for deld in deldbverList:
+          deldbverString = ['DELDBVER']
+          if deld.get("member_name") is not None:
+            deldbverString.append(deld.get("member_name"))
+          if deld.get("version_number") is not None:
+            deldbverString.append(deld.get("version_number"))
+          sysinList.append(" ".join(deldbverString))
+      
+      print("util printing sysin control string: " + " ".join(sysinList))
+      return sysinList
+ 
+
+def ims_resource(resource_name, dependencies): 
+  if len(resource_name) > 8 and not isinstance(resource_name, str):
+    raise ValueError('The resource name cannot be more than 8 characters')
+  return resource_name
