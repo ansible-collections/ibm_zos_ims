@@ -10,7 +10,7 @@ __metaclass__ = type
 def test_missing_steplib(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
-        command="LIST.RECON STATUS",
+        command=["LIST.RECON STATUS"],
         dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
@@ -21,7 +21,7 @@ def test_missing_steplib(ansible_zos_module):
 def test_single_invalid_steplib(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
-        command="LIST.RECON STATUS",
+        command=["LIST.RECON STATUS"],
         steplib=["IMSTESTL.INVALID.STEPLIB"], dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
@@ -33,7 +33,7 @@ def test_single_invalid_steplib(ansible_zos_module):
 def test_invalid_steplib_with_valid_steplib(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
-        command="LIST.RECON STATUS",
+        command=["LIST.RECON STATUS"],
         steplib=ip.STEPLIB + ["IMSTESTL.INVALID.STEPLIB"], dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
