@@ -163,6 +163,7 @@ def run_module():
   result = dict(
     changed=False,
     msg='',
+    rc='',
     failed=True,
     dbrc_output={},
     unformatted_output=[]
@@ -186,6 +187,7 @@ def run_module():
     result['dbrc_output'] = response['dbrc_fields']
     result['unformatted_output'] = response['original_output']
     result['failed'] = response['failure_detected']
+    result['rc'] = response['rc']
     result['changed'] = True
 
     if not result['dbrc_output']:
