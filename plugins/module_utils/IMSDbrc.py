@@ -142,9 +142,11 @@ class IMSDbrc():
         fields = {}
         elements = output_line.split("=")
         i = 0
+        double_space = "  "
         while i < len(elements) - 1:
-            key_list = list(filter(None, elements[i].split("  ")))
-            value_list = list(filter(None, elements[i + 1].split("  ")))
+            value_index = i + 1 
+            key_list = list(filter(None, elements[i].split(double_space)))
+            value_list = list(filter(None, elements[i + 1].split(double_space)))
 
             last_key_index = len(key_list) - 1
             key = key_list[last_key_index].strip()
@@ -155,7 +157,9 @@ class IMSDbrc():
                     key = unformatted_key[start_index:].strip()
                 except:
                     key = unformatted_key.strip()
-            if len(value_list) == 1 and i > 0 and i < len(elements) - 1: 
+            if elements[i + 1][0:2] == double_space or \
+                (len(value_list) == 1 and value_index > 0 and value_index < len(elements) - 1): 
+                
                 fields[key] = None
             else:
                 value = value_list[0].strip()
