@@ -16,7 +16,9 @@ test_data_IMSDbrc_extract_values = [
     ('COMMAND AUTH=NONE  HLQ=**NULL**  RCNQUAL=**NULL**', {'COMMAND AUTH': None, 'HLQ': None, "RCNQUAL": None}),
     ('LIST DLOG=NO                 CA/IC/LOG DATA SETS CATALOGED=YES', {'LIST DLOG': False, 'CA/IC/LOG DATA SETS CATALOGED': True}),
     ('LOG RETENTION PERIOD=00.001 00:00:00.0', {'LOG RETENTION PERIOD':'00.001 00:00:00.0'}),
-    ('TAPE UNIT=          DASD UNIT=SYSALLDA  TRACEOFF   SSID=IMS1', {'TAPE UNIT': None, 'DASD UNIT': 'SYSALLDA', "SSID": "IMS1"})
+    ('TAPE UNIT=          DASD UNIT=SYSALLDA  TRACEOFF   SSID=IMS1', {'TAPE UNIT': None, 'DASD UNIT': 'SYSALLDA', "SSID": "IMS1"}),
+    ('RECOVERY NEEDED COUNT   =0', {'RECOVERY NEEDED COUNT': '0'}),
+    ('RECOVERABLE           =YES         EEQE COUNT              =0', {'RECOVERABLE': True, 'EEQE COUNT': '0'})
 ]
 @pytest.mark.parametrize("line_input, expected_output_dict", test_data_IMSDbrc_extract_values)
 def test_IMSDbrc_extract_values(zos_import_mocker, line_input, expected_output_dict):

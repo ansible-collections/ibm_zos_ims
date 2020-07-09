@@ -145,10 +145,11 @@ class IMSDbrc():
         elements = output_line.split("=")
         i = 0
         double_space = "  "
+        filter_function = lambda elem: elem and elem != " "
         while i < len(elements) - 1:
             value_index = i + 1 
-            key_list = list(filter(None, elements[i].split(double_space)))
-            value_list = list(filter(None, elements[i + 1].split(double_space)))
+            key_list = list(filter(filter_function, elements[i].split(double_space)))
+            value_list = list(filter(filter_function, elements[i + 1].split(double_space)))
 
             last_key_index = len(key_list) - 1
             key = key_list[last_key_index].strip()
