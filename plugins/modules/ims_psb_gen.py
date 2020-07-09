@@ -181,7 +181,7 @@ EXAMPLES = r'''
 
 RETURN = r"""
 batch_result:
-    description: 
+    description:
         List of output for each PSBGEN run on each element in the list of input source if input is batch.
     type: list
     elements: dict

@@ -123,15 +123,15 @@ def is_valid_member_str(member_name):
 
 def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
     """This function runs PSBGEN or DBDGEN when specifically using USS file as input source. It runs
-       validation on input parameters and then runs assemble and link commands in sequence.
-       It also verifies if destination data set has correct member name,
-       same as input filename as the result of PSBGEN or DBDGEN processing.
+    validation on input parameters and then runs assemble and link commands in sequence.
+    It also verifies if destination data set has correct member name,
+    same as input filename as the result of PSBGEN or DBDGEN processing.
     Arguments:
         filename {str} -- The name of USS file as input data set which contains PSB or DBD source.
         dest {str} -- The name of destination PSBLIB or DBDLIB data set.
         syslib_list {list str} -- A list of required macro libraries, needed to compile the PSB or DBD source.
-        overwrite {bool} -- If set to true, it will link and over write already existing destination member.
-    
+        overwrite {bool} -- If set to true, it will link and overwrite the existing destination member.
+
     Returns:
         {int} -- Return code - indicating the general status of function execution, if zero, its a success.
         {str} -- Return text.
@@ -188,18 +188,18 @@ def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
 
 def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwrite, run_command):
     """This function runs PSBGEN or DBDGEN when specifically using data set as input source. It runs
-       validation on input parameters and then runs assemble and link commands in sequence.
-       It also verifies if destination data set has correct member name;
-       if the source is a regular data set, then member name is same as src_member;
-       else, if the source is a sequential data set, then it is dest_member.
+    validation on input parameters and then runs assemble and link commands in sequence.
+    It also verifies if destination data set has correct member name;
+    if the source is a regular data set, then member name is same as src_member;
+    else, if the source is a sequential data set, then it is dest_member.
     Arguments:
         source {str} -- The name of input data set.
         src_member {str} -- The name of member in input data set which contains PSB or DBD source.
         dest {str} -- The name of destination PSBLIB or DBDLIB data set.
         dest_member {str} -- The target name of member within PSBLIB or DBDLIB data set to store output. Same as src_member if not explicitly specified.
         syslib_list {List str} -- A list of required macro libraries, needed to compile the PSB or DBD source.
-        overwrite {bool} -- If set to true, it will link and over write already existing destination member.
-    
+        overwrite {bool} -- If set to true, it will link and overwrite the existing destination member.
+
     Returns:
         {int} -- Return code, indicating the general status of function execution, if zero, its a success.
         {str} -- Return text.
@@ -421,7 +421,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         #     'return_text': return_text
                         # })
                         # module.fail_json(
-                        #     msg='Failed to validate data source.', **result) #TODO Failed to validate DBD source - {0} instead of DBD to handle both 
+                        #     msg='Failed to validate data source.', **result) #TODO Failed to validate DBD source - {0} instead of DBD to handle both
 
                         failed = True
                         return_code = 1
