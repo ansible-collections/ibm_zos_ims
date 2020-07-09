@@ -210,7 +210,6 @@ class IMSDbrc():
             (boolean): True if failure detected, False otherwise.
         """
         original_output = [elem.strip() for elem in raw_output.split("\n")]
-        # output_fields = {}
         output_fields = []
         command = ''
         separation_pattern = r'-{5,}'
@@ -225,7 +224,6 @@ class IMSDbrc():
                 and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
                 command_index += 1
                 command = self._original_commands[command_index]
-                # command = self._format_command(original_output[index + 1])
                 output_fields.append({})
                 output_fields[command_index]['COMMAND'] = command
                 output_fields[command_index]['MESSAGES'] = []

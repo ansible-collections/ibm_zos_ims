@@ -9,8 +9,12 @@ __metaclass__ = type
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSDbrc import IMSDbrc  # pylint: disable=import-error
 import pytest
 
-
-test_data_IMSDbrc_extract_values = [
+"""
+Spacing is important for the input values.
+Want to make sure different spacing scenarios 
+provide a consistent output.
+"""
+test_data_IMSDbrc_extraction_values = [
     ('NUMBER OF REGISTERED DATABASES =        0', {'NUMBER OF REGISTERED DATABASES': '0'}),
     ('TIMEZIN = %SYS', {'TIMEZIN': '%SYS'}),
     ('COMMAND AUTH=NONE  HLQ=**NULL**  RCNQUAL=**NULL**', {'COMMAND AUTH': None, 'HLQ': None, "RCNQUAL": None}),
@@ -20,7 +24,7 @@ test_data_IMSDbrc_extract_values = [
     ('RECOVERY NEEDED COUNT   =0', {'RECOVERY NEEDED COUNT': '0'}),
     ('RECOVERABLE           =YES         EEQE COUNT              =0', {'RECOVERABLE': True, 'EEQE COUNT': '0'})
 ]
-@pytest.mark.parametrize("line_input, expected_output_dict", test_data_IMSDbrc_extract_values)
+@pytest.mark.parametrize("line_input, expected_output_dict", test_data_IMSDbrc_extraction_values)
 def test_IMSDbrc_extract_values(zos_import_mocker, line_input, expected_output_dict):
     # mocker, importer = zos_import_mocker
     imsdbrc = IMSDbrc("SAMPLE COMMAND", "SAMPLE STEPLIB", dynalloc="SAMPLE DYNALLOC")
