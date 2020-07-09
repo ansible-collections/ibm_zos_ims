@@ -81,7 +81,7 @@ class ACBInputParameters():
     INVALID_DBD = ["DBD1$%HJ"]
     INVALID_DBDS = ["DBFSAMD3", "DBD1$%HJ"]
     INVALID_COMP = "INVALID"
-    INVALID_RECFOR = " IMSTESTU.ANSI.RECFOR" #invalid acblib with record format FB
+    INVALID_RECFOR = "IMSTESTU.ANSI.RECFOR" #invalid acblib with record format FB
     INVALID_PDSE = "IMSTESTU.ANSI.PDSE"
     EMPTY_PSBLIB = "IMSTESTU.ANSI.PSBLIB3"
     EMPTY_DBDLIB = "IMSTESTU.ANSI.DBDLIB3"

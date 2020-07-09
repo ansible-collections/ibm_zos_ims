@@ -205,6 +205,7 @@ import re
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
   MissingZOAUImport,
 ) 
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ACBGENErrorMessages as em
 import tempfile
 import pprint
 
@@ -249,8 +250,12 @@ def run_module():
   )
 
   result = dict(
-      changed=False,
+      changed=True,
       msg='',
+      content='',
+      error='',
+      rc='',
+      debug=''
     )
 
   module = AnsibleModule(
@@ -275,8 +280,6 @@ def run_module():
   parser = BetterArgParser(module_defs)
   parsed_args = parser.parse_args(module.params)
 
-  print("Before calling the interface:")
-
   command_input = parsed_args.get("command_input")
   compression = parsed_args.get("compression")
   psb_name = parsed_args.get("psb_name")
@@ -287,6 +290,16 @@ def run_module():
   reslib = parsed_args.get("reslib")
   steplib = parsed_args.get("steplib")
   build_psb = parsed_args.get("build_psb")
+
+  if not steplib: 
+    try:
+      steplib = []
+      steplib_str = env_fallback('STEPLIB')
+      list_str = steplib_str.split(" ")
+      steplib += list_str
+    except AnsibleFallbackNotFound as e:
+      module.fail_json(msg="The input option 'steplib' is not provided. Please provide it in the environment "
+                             "variables 'STEPLIB', or in the module input option 'steplib'. ", **result)
 
   try:
     response = acbgen(
@@ -301,13 +314,21 @@ def run_module():
       steplib,
       build_psb).execute()
 
-    result['changed'] = True
-
-    # # if not result['acbgen_output']:
-    # if response['rc'] and response['rc']) > 4:
-    #   result['msg'] = response['error']
-    # else:
-    #   result['msg'] = em.EMPTY_OUTPUT_MSG
+    print(" response: ", response)
+  
+    # if not result['acbgen_output']:
+    if response['rc'] and int(response['rc']) > 4:
+      result['changed'] = False
+      result['msg'] = response['error']
+    else:
+      result['content'] = response['output']
+      result['changed'] = True
+      # result['rc'] = response['rc']
+      result['error'] = response['error'] # ??? error when success 
+      # result['msg'] = em.EMPTY_OUTPUT_MSG
+      result['msg'] = em.SUCCESS_MSG
+      if response['rc'] <= 4:
+        result['rc'] = '0'
 
     # if response['error']:
     #   print("An error occurred:", response['error']) 
@@ -316,7 +337,7 @@ def run_module():
     # else:
     #   result['msg'] = em.SUCCESS_MSG
   except Exception as e:
-    result['msg'] = e
+    result['msg'] = repr(e)
     module.fail_json(**result)
     
   finally:
@@ -329,127 +350,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-  
-    #DD statement Generation
-    # dDStatementList = []
-    # imsDatasetList = []
-    # commandList = []
-
-    #Generate DD statement for SYSPRINT
-    # sysDefinition = StdoutDefinition()
-    # sysprintDDStatement = DDStatement("SYSPRINT", sysDefinition)
-    # dDStatementList.append(sysprintDDStatement)
-
-
-    #Generate DD statement for STEPLIB
-    # if steplib:
-    #   steplibDatasets = [DatasetDefinition(step) for step in steplib]
-    #   steplibDDStatement = DDStatement("STEPLIB", steplibDatasets)  
-    #   # dDStatementList.append(steplibDDStatement) DatasetDefinition(steplib)
-    # else:
-    #   try:
-    #     steplib = env_fallback('STEPLIB') #task_vars.get("environment_vars") 
-    #     print("STEPLIB: ", steplib)
-    #   except AnsibleFallbackNotFound as e:
-    #     module.fail_json(msg="The input option 'steplib' is not provided. Please provide it in the environment "
-    #                          "variables 'STEPLIB', or in the module input option 'steplib'. ", **result)
-      
-    # if not steplib:
-    #   try:
-    #     steplib = env_fallback('STEPLIB')
-    #   except AnsibleFallbackNotFound as e:
-    #     module.fail_json(msg="The input option 'steplib' is not provided. Please provide it in the environment "
-    #                          "variables 'STEPLIB', or in the module input option 'steplib'. ", **result)
-
-      # steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(steplib))  
-    # dDStatementList.append(steplibDDStatement)
-    
-    #Generate DD statement for RESLIB
-    # if reslib:
-    #   reslibDatasets = [DatasetDefinition(dfsres) for dfsres in reslib]
-    #   dfsreslbDDStatement = DDStatement("DFSRESLB", reslibDatasets) # DatasetDefinition(reslib)
-    #   dDStatementList.append(dfsreslbDDStatement)
-
-    #Generate DD statements for DBDLIB and PSBLIB  
-    # if psb_lib:
-    #   psbDatasets = [DatasetDefinition(psb) for psb in psb_lib]
-    #   imsDatasetList += psbDatasets
-    # if dbd_lib:
-    #   dbdDatasets = [DatasetDefinition(dbd) for dbd in dbd_lib]
-    #   imsDatasetList += dbdDatasets
-    # if imsDatasetList:
-    #   imsDDStatement = DDStatement("IMS", imsDatasetList)
-    #   dDStatementList.append(imsDDStatement)
-
-    # if psb_lib:
-    #   psbDataset = DatasetDefinition(psb_lib)
-    #   imsDatasetList.append(psbDataset)
-    # if dbd_lib:
-    #   dbdDataset = DatasetDefinition(dbd_lib)
-    #   imsDatasetList.append(dbdDataset)
-    # if imsDatasetList:
-    #   imsDDStatement = DDStatement("IMS", imsDatasetList)
-    #   dDStatementList.append(imsDDStatement)
-
-    # #Generate DD statement for ACBLIB
-    # if acb_lib:
-    #   acbDataset = DDStatement("IMSACB", DatasetDefinition(acb_lib))
-    #   dDStatementList.append(acbDataset)
-
-    # #Generate DD statement for COMPCTL  
-    # compctlDDStatement = DDStatement("COMPCTL", StdinDefinition(" COPY  INDD=IMSACB,OUTDD=IMSACB"))
-    # dDStatementList.append(compctlDDStatement)
-
-
-    # #Generate DD statements for commands
-    # psb_name_str = ""
-    # if command_input:
-    #   if psb_name:
-    #     psb_name_str, psb = split_lines_psb(command_input, psb_name)
-
-    #     if psb_name_str:
-    #       if psb:
-    #           psb_name_str = ' ' + psb
-    #       else:
-    #           psb_name_str = psb  
-    #       commandList.append(psb_name_str)      
-    #     elif psb:
-    #       msg = 'A PSB named ' + str(psb) + ' provided in the module input was not found.'
-    #       result['rc'] = -1
-    #       result['msg'] = msg 
-    #       return result  
-
-    #   dbd_name_str = ""
-    #   if dbd_name:
-    #     dbd_name_str, dbd = split_lines_dbd(command_input, dbd_name, build_psb)
-    #     if dbd_name_str: 
-    #       dbd_name_str = ' ' + dbd 
-    #       commandList.append(dbd_name_str)
-    #     else:
-    #       msg = 'A DBD named ' + str(dbd) + ' provided in the module input was not found.'
-    #       result['rc'] = -1
-    #       result['msg'] = msg 
-    #       return result   
-
-    #raise ValueError("/n".join(commandList))
-
-    # commandDDStatement = DDStatement("SYSIN",StdinDefinition("\n".join(commandList)))
-  
-    # dDStatementList.append(commandDDStatement) 
-
-    # paramString = 'UPB,{0}'.format(compression)
-
-    # try:
-    #   response = MVSCmd.execute("DFSRRC00", dDStatementList, paramString, verbose=True)
-    #   result["response"] = {
-    #     "rc": response.rc,
-    #     "stdout": response.stdout,
-    #     "stderr": response.stderr,
-    #     "changed": True
-    #   }
-    # except Exception as e:
-    #   module.fail_json(msg=repr(e), **result)
-    # finally:
-    #   module.exit_json(**result)  
+    main() 
 
