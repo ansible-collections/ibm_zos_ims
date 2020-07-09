@@ -99,7 +99,9 @@ class IMSDbrc():
         Raises:
             TypeError: Raised if parameter is the wrong data type.
         """
-        if not isinstance(self.commands, list) or not all(isinstance(cmd, str) for cmd in self.commands):
+        if isinstance(self.steplib_list, str):
+            self.commands = [self.commands]
+        elif not isinstance(self.commands, list) or not all(isinstance(cmd, str) for cmd in self.commands):
             raise TypeError(em.INCORRECT_CMD_TYPE)
 
         if isinstance(self.steplib_list, str):
