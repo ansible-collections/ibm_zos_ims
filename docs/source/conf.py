@@ -20,7 +20,7 @@ copyright = '2020, IBM'
 author = 'IBM'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0-beta1'
+release = '1.0.0-beta3'
 
 ##############################################################################
 # General configuration
@@ -59,7 +59,7 @@ html_theme = "sphinx_rtd_theme"
 html_context = {
     "display_github": "True",
     "github_user": "ansible-collections",
-    "github_repo": "ibm_zos_core",
+    "github_repo": "ibm_zos_ims",
     "github_version": "master",
     "conf_py_path": "/docs/source/",
 }
@@ -155,9 +155,10 @@ scv_show_banner = True
 # This can override the scv_banner_greatest_tag option, but given the greatest
 # tag is currently desired behavior, this site will rely on
 # 'scv_banner_greatest_tag = True' and not use 'scv_banner_main_ref'
-# scv_banner_main_ref = 'v1.1.0-beta1'
+#scv_banner_main_ref = 'v1.1.0-beta2'
 
 # Override banner-main-ref to be the tag with the highest version number. If no
 # tags have docs then this option is ignored and --banner-main-ref is used.
 # The greatest tag is desirable behavior for this site.
-scv_banner_greatest_tag = True
+#scv_banner_greatest_tag = True
+scv_banner_recent_tag = True
