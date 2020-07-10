@@ -193,7 +193,7 @@ def run_module():
 
     if not result['dbrc_output']:
       if response['rc'] and int(response['rc']) > 4:
-        result['msg'] = response['error']
+        result['msg'] = response['error'] if response['error'] else em.FAILURE_MSG
       else:
         result['msg'] = em.EMPTY_OUTPUT_MSG
 

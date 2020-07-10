@@ -221,32 +221,37 @@ class IMSDbrc():
         output_index = 0
         command_index = -1
         failure_detected = False
-        for index, line in enumerate(original_output):
-            if re.search(rec_ctrl_pattern, line, re.IGNORECASE) \
-                and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
-                command_index += 1
-                command = self._original_commands[command_index]
-                output_fields.append({})
-                output_fields[command_index]['COMMAND'] = command
-                output_fields[command_index]['MESSAGES'] = []
-                output_fields[command_index]['OUTPUT'] = [{}]
-                output_index = 0
-            elif re.search(separation_pattern, line, re.IGNORECASE):
-                if output_fields[command_index]['OUTPUT'][output_index]:
-                    output_fields[command_index]['OUTPUT'].append({})
-                    output_index += 1
-                output_id = {"IDENTIFIER": self._get_indentifier(original_output[index + 1])}
-                output_fields[command_index]['OUTPUT'][output_index].update(output_id)
-            elif "=" in line:
-                output_fields[command_index]['OUTPUT'][output_index].update(self._extract_values(line))
-            elif re.search(dsp_pattern, line, re.IGNORECASE):
-                output_fields[command_index]['MESSAGES'].append(line)
-            if re.search(failure_pattern, line, re.IGNORECASE):
-                failure_detected = True
-            elif re.search(success_pattern, line, re.IGNORECASE):
-                self._changed = True
-
-        return output_fields, original_output, failure_detected
+        try:
+            for index, line in enumerate(original_output):
+                if re.search(rec_ctrl_pattern, line, re.IGNORECASE) \
+                    and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
+                    command_index += 1
+                    command = self._original_commands[command_index]
+                    output_fields.append({})
+                    output_fields[command_index]['COMMAND'] = command
+                    output_fields[command_index]['MESSAGES'] = []
+                    output_fields[command_index]['OUTPUT'] = [{}]
+                    output_index = 0
+                elif re.search(separation_pattern, line, re.IGNORECASE):
+                    if output_fields[command_index]['OUTPUT'][output_index]:
+                        output_fields[command_index]['OUTPUT'].append({})
+                        output_index += 1
+                    output_id = {"IDENTIFIER": self._get_indentifier(original_output[index + 1])}
+                    output_fields[command_index]['OUTPUT'][output_index].update(output_id)
+                elif "=" in line:
+                    output_fields[command_index]['OUTPUT'][output_index].update(self._extract_values(line))
+                elif re.search(dsp_pattern, line, re.IGNORECASE):
+                    output_fields[command_index]['MESSAGES'].append(line)
+                if re.search(failure_pattern, line, re.IGNORECASE):
+                    failure_detected = True
+                elif re.search(success_pattern, line, re.IGNORECASE):
+                    self._changed = True
+        except Exception as e:
+            print(repr(e))
+            output_fields = {}
+            failure_detected = True
+        finally:
+            return output_fields, original_output, failure_detected
 
     def _add_utility_statement(self, name, data_set, dbrc_utility_fields):
         """Adds the DD Statement to the list of dbrc_utility_fields if the data set name
@@ -298,6 +303,7 @@ class IMSDbrc():
         try:
             dbrc_utility_fields = self._build_utility_statements()
             response = MVSCmd.execute(IMSDbrc.DBRC_UTILITY, dbrc_utility_fields)
+            print("OUTPUT STARTS HERE ", response.stdout)
             fields, original_output, failure_detected = self._parse_output(response.stdout)
             # fields, original_output = self._parse_output(TEST_INPUT)
             res = {
@@ -310,6 +316,7 @@ class IMSDbrc():
             }
 
         except Exception as e:
+            print("ERROR:",e)
             res = {
                 "dbrc_fields": [],
                 "original_output": [],
@@ -318,7 +325,6 @@ class IMSDbrc():
                 "rc": None,
                 "changed": False
             }
-            
         finally:
             return res
 
