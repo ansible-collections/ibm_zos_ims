@@ -45,7 +45,7 @@ class acbgen():
            build_psb (bool): TRUE for rebuilding all PSBs that reference the changed DBD,
                              FALSE for not rebuilding the PSBs that references teh changed DBD. 
         """
-        print(" COMP: ", compression)
+        print(" steplib: ", steplib)
         self.command_input = command_input
         self.compression = compression
         self.psb_name = psb_name
@@ -64,17 +64,26 @@ class acbgen():
        Raises:
             TypeError: Raised if parameter is the wrong data type.
       """
+      # print("COMMAND INPUT: ", self.command_input)
+      # print(" not isinstance(self.command_input, str): ", isinstance(self.command_input, str))
       if self.command_input and not isinstance(self.command_input, str):
         raise TypeError(em.INCORRECT_COMMAND_INPUT_TYPE)
-      if(self.compression and not isinstance(self.compression, str)):
+      if self.compression and not isinstance(self.compression, str):
         raise TypeError(em.INCORRECT_COMPRESSION_TYPE)
-      if(self.acb_lib and not isinstance(self.acb_lib, str)):
+      if self.acb_lib and not isinstance(self.acb_lib, str):
         raise TypeError(em.INCORRECT_ACBLIB_TYPE)
-      # if(self.dbd_name and not isinstance(self.dbd_name, str)):
-      #   raise TypeError
-      # if():
-      # if():
-      # if():
+      if self.dbd_name and not all(isinstance(item, str) for item in self.dbd_name):
+        raise TypeError(em.INCORRECT_DBD_NAME_TYPE)
+      if self.psb_name and not all(isinstance(item, str) for item in self.psb_name):
+        raise TypeError(em.INCORRECT_PSB_NAME_TYPE)
+      if self.psb_lib and not all(isinstance(item, str) for item in self.psb_lib):
+        raise TypeError(em.INCORRECT_PSBLIB_TYPE)
+      if self.dbd_lib and not all(isinstance(item, str) for item in self.dbd_lib):
+         raise TypeError(em.INCORRECT_DBDLIB_TYPE)
+      if self.steplib and not all(isinstance(item, str) for item in self.steplib):  
+         raise TypeError(em.INCORRECT_STEPLIB_TYPE)
+      if self.reslib and not all(isinstance(item, str) for item in self.reslib):  
+         raise TypeError(em.INCORRECT_RESLIB_TYPE)
       if self.build_psb and not isinstance(self.build_psb, bool):
         raise TypeError(em.INCORRECT_BUILD_PSB_TYPE)
 
@@ -112,7 +121,7 @@ class acbgen():
         acbgen_utility_fields.append(ims_data_set_definitions)  
 
       if self.acb_lib:
-        acblib_data_set_definitions = DDStatement("IMSACB", DatasetDefinition(self.acb_lib)) 
+        acblib_data_set_definitions = DDStatement("IMSACB", DatasetDefinition(self.acb_lib, disposition="old")) 
         acbgen_utility_fields.append(acblib_data_set_definitions) 
 
       compctl_stdin_definitions = DDStatement("COMPCTL", StdinDefinition(" COPY  INDD=IMSACB,OUTDD=IMSACB"))
@@ -153,6 +162,15 @@ class acbgen():
       return return_arr          
     
     def _build_psb_name_string(self, command_input, psbnames):
+      """Build the PSB command string.
+
+      Args:
+        command_input(str): 
+        psbnames(list):  
+
+      Returns: Well-Formed command   
+      """
+
       psb_str = ""
       if psbnames:
           for psb in psbnames:

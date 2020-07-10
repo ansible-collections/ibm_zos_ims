@@ -218,19 +218,14 @@ except Exception:
 module = None
 
 def str_or_list_of_str(contents, dependencies):
-    print("contents: ", contents)
     if isinstance(contents, list):
         for item in contents:
             if not isinstance(item, str):
-                raise ValueError(
-                    "Items provided in list do not match the string type expected."
-                )
+                raise ValueError(em.INCORRECT_ITEM_LIST)
     elif isinstance(contents, str):
         contents = [contents]  # make this a list of strings to consistent format
     else:
-        raise ValueError(
-            "Incorrect type provided. A string or list of strings is expected"
-        )
+        raise ValueError(em.INCORRECT_TYPE)
     return contents
 
 def run_module():
@@ -253,9 +248,9 @@ def run_module():
       changed=True,
       msg='',
       content='',
-      #error='',
+      error='',
       rc='',
-      #debug=''
+      debug=''
     )
 
   module = AnsibleModule(
@@ -316,18 +311,16 @@ def run_module():
 
     print(" response: ", response)
   
-    # if not result['acbgen_output']:
     if response['rc'] and int(response['rc']) > 4:
       result['changed'] = False
       result['content'] = response['output']
-      result['msg'] = response['error']
+      result['msg'] = em.FAILURE_MSG
+      result['error'] = response['error']
       result['rc'] = response['rc']
     else:
-      result['content'] = response['output']
       result['changed'] = True
-      # result['rc'] = response['rc']
-      result['error'] = response['error'] # ??? error when success 
-      # result['msg'] = em.EMPTY_OUTPUT_MSG
+      result['content'] = response['output']
+      result['debug'] = response['error'] # ??? error when success 
       result['msg'] = em.SUCCESS_MSG
       if response['rc'] <= 4:
         result['rc'] = '0'
@@ -341,7 +334,6 @@ def run_module():
   except Exception as e:
     result['msg'] = repr(e)
     module.fail_json(**result)
-    
   finally:
     pass
 
