@@ -29,8 +29,8 @@ Control node
    https://www.python.org/downloads/release/latest
 .. _OpenSSH:
    https://www.openssh.com/
-.. _IBM z/OS IMS collection:
-   https://ansible-collections.github.io/ibm_zos_core/index.html
+.. _IBM z/OS core collection:
+   https://galaxy.ansible.com/ibm/ibm_zos_core
 
 
 Managed node
