@@ -178,6 +178,7 @@ def run_module():
     response = IMSDbrc(
       commands=module.params['command'],
       steplib=module.params['steplib'],
+      dynalloc=module.params['dynalloc'],
       dbdlib=module.params['dbdlib'],
       genjcl=module.params['genjcl'],
       recon1=module.params['recon1'],
