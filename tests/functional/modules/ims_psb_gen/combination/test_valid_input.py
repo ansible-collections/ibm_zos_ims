@@ -112,7 +112,7 @@ def test_psb_gen_single_src_member_list(ansible_zos_module):
 def test_psb_gen_target_name(ansible_zos_module):
     hosts = ansible_zos_module
     batch_list = [
-        {'src': SOURCE, 'location': 'DATA_SET', 'member_list': [{'COGPSBL':'H1'}, {'COGPSBL2': 'H2'}], 'replace': True},
+        {'src': SOURCE, 'location': 'DATA_SET', 'member_list': [{'PSBGENL':'H1'}, {'PSBGENL': 'H2'}], 'replace': True},
         {'src': SEQ, 'psb_name': 'H3'}
     ]
     validate_batch(hosts, batch_list, DESTINATION, SYSLIB)
