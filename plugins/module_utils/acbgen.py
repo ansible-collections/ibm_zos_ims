@@ -25,16 +25,27 @@ except Exception:
 class acbgen():
     ACBGEN_UTILITY = "DFSRRC00"
     # REPLACEMENT_VALUES = {
-    #   "YES": True
-    #   "NO": False
+    #   "True": YES
+    #   "False": NO
     # }
     
     #def __init__(self, command_input, compression, psb_name=None, dbd_name=None, acb_lib, psb_lib, dbd_lib, reslib=None, steplib=None, build_psb):
     def __init__(self, command_input, compression, psb_name, dbd_name, acb_lib, psb_lib, dbd_lib, reslib, steplib, build_psb):
         """IMSAcbgen constructor for generating IMS ACB using zos_mvs_raw
         Args:
-
+           command_input (str): 'BUILD' or 'DELETE' - command input to specify. 
+           compression (str): 'PRECOMP','POSTCOMP' or 'PRECOMP,POSTCOMP' or default is none.
+           psb_name (list): 'ALL' or a list of psb names to be specified.
+           dbd_name (list): List of dbd names.
+           acb_lib (str): 
+           psb_lib (list): List of psblib datasets.
+           dbd_lib (list): List of dbdlib datasets.
+           reslib (list): List of reslib datasets.
+           steplib (list): Points to the list of IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules.
+           build_psb (bool): TRUE for rebuilding all PSBs that reference the changed DBD,
+                             FALSE for not rebuilding the PSBs that references teh changed DBD. 
         """
+        print(" COMP: ", compression)
         self.command_input = command_input
         self.compression = compression
         self.psb_name = psb_name
@@ -55,11 +66,20 @@ class acbgen():
       """
       if self.command_input and not isinstance(self.command_input, str):
         raise TypeError(em.INCORRECT_COMMAND_INPUT_TYPE)
+      if(self.compression and not isinstance(self.compression, str)):
+        raise TypeError(em.INCORRECT_COMPRESSION_TYPE)
+      if(self.acb_lib and not isinstance(self.acb_lib, str)):
+        raise TypeError(em.INCORRECT_ACBLIB_TYPE)
+      # if(self.dbd_name and not isinstance(self.dbd_name, str)):
+      #   raise TypeError
+      # if():
+      # if():
+      # if():
       if self.build_psb and not isinstance(self.build_psb, bool):
         raise TypeError(em.INCORRECT_BUILD_PSB_TYPE)
 
     def _build_utility_statements(self):
-      """Builds the list of DDStatements that will be provided zos_mvs_raw's execute function 
+      """Builds the list of DDStatements that will be provided to the zos_mvs_raw's execute function 
       based on the user input.
 
       Returns:
@@ -103,7 +123,7 @@ class acbgen():
       if self.command_input:
         psb_name_str = ""
         if self.psb_name:
-          psb_name_str = " " + self._split_lines_psb()#_format_psb_command()
+          psb_name_str = " " + self._split_lines_psb()
           commandList.append(psb_name_str)     
         dbd_name_str = ""
         if self.dbd_name:
@@ -195,9 +215,14 @@ class acbgen():
       
     
     def execute(self):
+      """Executes the ACBGEN utility DFSRRC00 using the zos_mvs_raw module based on the user input.
+
+      Returns: 
+        (dict): (1) rc:      Return Code returned by zos_mvs_raw module.
+                (2) error:   The stderr returned by the zos_raw module. 
+                (3) output:  The original output provided by zos_raw.
       """
-      """
-      param_string = 'UPB,{0}'.format(self.compression)
+      param_string = '\'' + 'UPB,{0}'.format(self.compression) + '\''
 
       try:
         acbgen_utility_fields = self._build_utility_statements()

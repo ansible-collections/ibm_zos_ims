@@ -102,7 +102,7 @@ options:
 notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars. 
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
-  - If only the I(steplib) parameter is specified, then only the I(steplib) concatination will be used to resolve the IMS RESLIB dataset. 
+  - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB dataset. 
   - If both I(steplib) and I(reslib) are specified, then both parameters will be used by the ACB Maintenenace Utility and I(reslib) will be used to resolve the IMS RESLIB dataset. 
   - Specifying only I(reslib) without I(steplib) is not supported. 
   - The ACB Maintenenace utility SYSUT3/SYSUT4 DD options are not supported by this module.
@@ -253,9 +253,9 @@ def run_module():
       changed=True,
       msg='',
       content='',
-      error='',
+      #error='',
       rc='',
-      debug=''
+      #debug=''
     )
 
   module = AnsibleModule(
@@ -319,7 +319,9 @@ def run_module():
     # if not result['acbgen_output']:
     if response['rc'] and int(response['rc']) > 4:
       result['changed'] = False
+      result['content'] = response['output']
       result['msg'] = response['error']
+      result['rc'] = response['rc']
     else:
       result['content'] = response['output']
       result['changed'] = True
