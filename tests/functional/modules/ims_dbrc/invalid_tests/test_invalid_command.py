@@ -27,6 +27,7 @@ def test_single_invalid_command(ansible_zos_module):
     for result in results.contacted.values():
         pprint(result)
         assert result['msg'] == em.FAILURE_MSG
+        assert result['changed'] == False
 
 def test_single_invalid_command_that_exceeds_termination_character(ansible_zos_module):
     hosts = ansible_zos_module
@@ -38,6 +39,7 @@ def test_single_invalid_command_that_exceeds_termination_character(ansible_zos_m
     for result in results.contacted.values():
         pprint(result)
         assert result['msg'] == em.FAILURE_MSG
+        assert result['changed'] == False
 
 def test_invalid_command_with_valid_commands(ansible_zos_module):
     hosts = ansible_zos_module
@@ -49,3 +51,4 @@ def test_invalid_command_with_valid_commands(ansible_zos_module):
     for result in results.contacted.values():
         pprint(result)
         assert result['msg'] == em.FAILURE_MSG
+        assert result['changed'] == True

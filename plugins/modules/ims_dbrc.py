@@ -188,7 +188,7 @@ def run_module():
     result['unformatted_output'] = response['original_output']
     result['failed'] = response['failure_detected']
     result['rc'] = response['rc']
-    result['changed'] = True # TODO: Determine under which circumstances we should provide changed=False
+    result['changed'] = response['changed']
 
     if not result['dbrc_output']:
       if response['rc'] and int(response['rc']) > 4:

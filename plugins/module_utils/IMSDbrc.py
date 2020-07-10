@@ -59,6 +59,7 @@ class IMSDbrc():
         self.recon1 = recon1
         self.recon2 = recon2
         self.recon3 = recon3
+        self._changed = False
         self._assert_valid_inputs()
         self._format_command_input()
 
@@ -214,6 +215,7 @@ class IMSDbrc():
         command = ''
         separation_pattern = r'-{5,}'
         rec_ctrl_pattern = r'recovery control\s*page\s\d+'
+        success_pattern = r'COMMAND COMPLETED WITH CONDITION CODE 0[0|4]'
         dsp_pattern = r'DSP\d{4}I'
         failure_pattern = r'invalid command name'
         output_index = 0
@@ -241,6 +243,8 @@ class IMSDbrc():
                 output_fields[command_index]['MESSAGES'].append(line)
             if re.search(failure_pattern, line, re.IGNORECASE):
                 failure_detected = True
+            elif re.search(success_pattern, line, re.IGNORECASE):
+                self._changed = True
 
         return output_fields, original_output, failure_detected
 
@@ -289,6 +293,7 @@ class IMSDbrc():
                     (3) failure_detected: Boolean value representing failure in output.
                     (4) error:            The stderr returned by the zos_raw module.
                     (5) rc:               Return code reeturned by the zos_raw module.
+                    (6) changed:          Boolean value representing change in target state.
         """
         try:
             dbrc_utility_fields = self._build_utility_statements()
@@ -300,7 +305,8 @@ class IMSDbrc():
                 "original_output": original_output,
                 "failure_detected": failure_detected or int(response.rc) > 4,
                 "error": response.stderr,
-                "rc": response.rc
+                "rc": response.rc,
+                "changed": self._changed
             }
 
         except Exception as e:
@@ -309,7 +315,8 @@ class IMSDbrc():
                 "original_output": [],
                 "failure_detected": True,
                 "error": repr(e),
-                "rc": None
+                "rc": None,
+                "changed": False
             }
             
         finally:
