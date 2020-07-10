@@ -51,8 +51,8 @@ options:
   member_list:
     description:
       - A list of member names if the source specified is a data set.
-      - Optionally, a target name for the generated PSB member can be specified
-        in the list as 'source_member : target_name'. If no target name is
+      - Optionally, proceeding the source_member, a colon with a target name for 
+        the generated PSB member can be specified. If no target name is
         specified, source_name will be used as the target name.
       - If 'member_list' is empty and location is set to 'DATA_SET' or
         not specified, then src is expected to be a sequential data set.
@@ -101,10 +101,9 @@ options:
       member_list:
         description:
           - A list of member names if the source specified is a data set.
-          - Optionally, a target name for the generated PSB member can be
-          specified in the list as 'source_member : target_name'. If no
-          target name is specified, source_name will be used as the target
-          name.
+          - Optionally, proceeding the source_member, a colon with a target name for 
+            the generated PSB member can be specified. If no target name is
+            specified, source_name will be used as the target name.
           - If 'member_list' is empty and location is set to 'DATA_SET' or
             not specified, then src is expected to be a sequential data set.
         type: list
