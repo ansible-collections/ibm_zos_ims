@@ -38,14 +38,15 @@ Managed node
 
 * `IBM Open Enterprise Python for z/OS`_
 * z/OS `V2R3`_ or `later`_
-* `IBM IMS V15 or later`_
-* `z/OS OpenSSH`_
-* The z/OS® shell
+* `IBM Z Open Automation Utilities`_ (ZOAU)
 
-   * IBM z/OS IMS collections are dependent on specific versions of ZOAU.
+   * IBM z/OS core collections are dependent on specific versions of ZOAU.
      For information about the required version of ZOAU, review the
      `release notes`_.
+
 * `z/OS OpenSSH`_
+* The z/OS® shell
+* `IBM IMS V15 or later`_
 
 .. note::
    Currently, the only supported shell is the ``z/OS® shell``; this is because
@@ -74,6 +75,9 @@ Managed node
 
 .. _later:
    https://www.ibm.com/support/knowledgecenter/SSLTBW
+
+.. _IBM Z Open Automation Utilities:
+   requirements.html#id1
 
 .. _z/OS OpenSSH:
    https://www.ibm.com/support/knowledgecenter/SSLTBW_2.2.0/com.ibm.zos.v2r2.e0za100/ch1openssh.htm
@@ -108,3 +112,34 @@ and required by **IBM z/OS IMS Collection**.
 
 .. _here:
    https://www-01.ibm.com/marketing/iwm/platform/mrs/assets?source=swg-ibmoep
+
+.. note::
+
+   Currently, IBM Open Enterprise Python for z/OS is the supported and
+   recommended Python distribution for use on z/OS with Ansible and ZOAU. If
+   Rocket Python is the only available python on the target, review the
+   `recommended environment variables`_ for Rocket Python.
+
+.. _recommended environment variables:
+   playbooks.html#group-vars
+
+ZOAU
+----
+
+IBM Z Open Automation Utilities provide support for executing automation tasks
+on z/OS. With ZOAU, you can run traditional MVS commands, such as IEBCOPY,
+IDCAMS, and IKJEFT01, as well as perform a number of data set operations
+in the scripting language of your choice.
+
+**Installation**
+
+* Visit the `ZOAU`_ product page for the FMID, program directory, fix list,
+  latest PTF, installation and configuration instructions.
+* For reference, the Program IDs are:
+
+  * 5698-PA1 for the base product
+  * 5698-PAS for service and support
+* For ZOAU supported version, refer to the `release notes`_.
+
+.. _ZOAU:
+   https://www.ibm.com/support/knowledgecenter/en/SSKFYE
