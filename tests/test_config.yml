@@ -35,10 +35,10 @@ python_path: /usr/lpp/izoda/v110/anaconda/bin/python3.6
 #   JAVA_HOME: /usr/lpp/java/java180/J8.0_64
 
 # ZOAU_ROOT: /u/omvsadm/mvsutil
-# PYTHON_ROOT: /usr/lpp/izoda/v110/anaconda
+# PYTHON_ROOT: /u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz/usr/lpp/IBM/cyp/v3r8/pyz
 # JAVA_ROOT: /usr/lpp/java
 environment:
-    LIBPATH: '/u/omvsadm/mvsutil/lib:/usr/lpp/izoda/v110/anaconda/lib:/lib:/usr/lib:.'
+    LIBPATH: '/u/omvsadm/mvsutil/lib:/u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:.'
     ZOAUTIL_DIR: '/u/omvsadm/mvsutil'
     ZOAU_ROOT: '/u/omvsadm/mvsutil'
     ZOAU_HOME: '/u/omvsadm/mvsutil'
@@ -51,7 +51,7 @@ environment:
     _TAG_REDIR_IN: txt
     _TAG_REDIR_OUT: txt
     TOOLS_ROOT: '/usr/lpp/rsusr/ported'
-    PATH: '/u/omvsadm/mvsutil/bin:/usr/lpp/rsusr/ported/bin:/usr/lpp/java/java180/J8.0_64/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/usr/lpp/izoda/v110/anaconda/bin'
+    PATH: '/u/omvsadm/mvsutil/bin:/usr/lpp/rsusr/ported/bin:/usr/lpp/java/java180/J8.0_64/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz/usr/lpp/IBM/cyp/v3r8/pyz/bin'
     JAVA_HOME: /usr/lpp/java/java180/J8.0_64
     STEPLIB: IMSBLD.I15RTSMM.COMRESL1
     LANG: C
