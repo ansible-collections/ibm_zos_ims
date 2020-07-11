@@ -20,6 +20,35 @@ def test_single_list_command(ansible_zos_module):
         assert result['dbrc_output'][0]['OUTPUT']
         assert result['dbrc_output'][0]['MESSAGES']
 
+def test_single_list_command_with_dynalloc_no_genjcl_nor_recon(ansible_zos_module):
+    hosts = ansible_zos_module
+    results = hosts.all.ims_dbrc(
+        command=["LIST.RECON STATUS"],
+        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB,
+        dynalloc=ip.DYNALLOC
+    )
+    for result in results.contacted.values():
+        pprint(result)
+        assert result['msg'] == em.SUCCESS_MSG
+        assert result['dbrc_output'][0]['COMMAND'] == "LIST.RECON STATUS"
+        assert result['dbrc_output'][0]['OUTPUT']
+        assert result['dbrc_output'][0]['MESSAGES']
+
+def test_single_list_command_with_dynalloc_and_recon(ansible_zos_module):
+    hosts = ansible_zos_module
+    results = hosts.all.ims_dbrc(
+        command=["LIST.RECON STATUS"],
+        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3,
+        dynalloc=ip.DYNALLOC
+    )
+    for result in results.contacted.values():
+        pprint(result)
+        assert result['msg'] == em.SUCCESS_MSG
+        assert result['dbrc_output'][0]['COMMAND'] == "LIST.RECON STATUS"
+        assert result['dbrc_output'][0]['OUTPUT']
+        assert result['dbrc_output'][0]['MESSAGES']
+
 def test_multiple_list_commands(ansible_zos_module):
     hosts = ansible_zos_module
     commands = [

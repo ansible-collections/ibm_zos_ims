@@ -28,7 +28,6 @@ def test_init_db_command(ansible_zos_module):
         pprint(result)
         assert result['msg'] == em.SUCCESS_MSG
 
-
 def test_genjcl_image_copy_command(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
