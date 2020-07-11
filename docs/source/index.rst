@@ -63,7 +63,7 @@ This collection is licensed under `Apache License, Version 2.0`_.
     https://opensource.org/licenses/Apache-2.0
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Getting Started
 
    installation
