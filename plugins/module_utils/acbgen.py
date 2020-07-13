@@ -89,11 +89,16 @@ class acbgen(object):
             acbgen_utility_fields.append(steplib)
 
         if self.reslib:
+            reslib = self.reslib
+        else:
+            reslib = self.steplib
+
+        if self.reslib:    
             reslib_data_set_definitions = [
                 DatasetDefinition(reslib) for reslib in self.reslib]
-            reslib = DDStatement("DFSRESLB", reslib_data_set_definitions)
-            acbgen_utility_fields.append(reslib)
-
+            reslib_dd_statement = DDStatement("DFSRESLB", reslib_data_set_definitions)
+            acbgen_utility_fields.append(reslib_dd_statement)
+    
         if self.psb_lib:
             for psblib in self.psb_lib:
                 ims_dataset_list.append(DatasetDefinition(psblib))
