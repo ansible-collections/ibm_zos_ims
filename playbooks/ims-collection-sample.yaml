@@ -112,10 +112,10 @@
         dbd_lib:
           - IMSTESTU.ANSI.DBDLIB2
         acb_lib: IMSTESTU.ANSI.ACBLIB1
-        # reslib:
-        #   - IMSNEW.DIPTI.IM00.SDFSRESL
-        # steplib:
-        #   - IMSNEW.DIPTI.IM00.SDFSRESL
+        reslib:
+          - IMSNEW.DIPTI.IM00.SDFSRESL
+        steplib:
+          - IMSNEW.DIPTI.IM00.SDFSRESL
 
     - name: IMS Command
       ims_command:
