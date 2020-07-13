@@ -4,6 +4,10 @@
 # Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
 from __future__ import absolute_import, print_function
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ACBGENErrorMessages as em
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.acbgen.acbgen import acbgen  # pylint: disable=import-error
+from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
 
 __metaclass__ = type
 
@@ -18,9 +22,9 @@ module: ims_acb_gen
 short_description: Generate IMS ACB
 version_added: "2.9"
 description:
-  - The ims_acb_gen module generates an IMS application control block (ACB) necessary for an IMS application program to be scheduled and run. 
-  - The ims_dbd_gen and ims_psb_gen modules can be used to generate the associated IMS database descriptors (DBDs) and program specification 
-    block (PSBs) to be used with the ims_acb_gen module. 
+  - The ims_acb_gen module generates an IMS application control block (ACB) necessary for an IMS application program to be scheduled and run.
+  - The ims_dbd_gen and ims_psb_gen modules can be used to generate the associated IMS database descriptors (DBDs) and program specification
+    block (PSBs) to be used with the ims_acb_gen module.
   - The DBD and PSB control blocks will be merged and expanded into an IMS internal format called application control blocks (ACBs).
 
 author:
@@ -79,17 +83,17 @@ options:
     type: list
   steplib:
     description:
-      - Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries 
-        that are concatenated to SDFSRESL, you must specify the I(reslib) parameter. 
-      - The steplib parameter can also be specified in the target inventory's environment_vars. 
-      - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.  
+      - Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries
+        that are concatenated to SDFSRESL, you must specify the I(reslib) parameter.
+      - The steplib parameter can also be specified in the target inventory's environment_vars.
+      - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     required: false
     type: list
   reslib:
     description:
-      - Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated to it in the 
+      - Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated to it in the
         reslib field must be authorized through the Authorized Program Facility (APF).
-    required: false 
+    required: false
     type: list
   build_psb:
     description:
@@ -100,15 +104,12 @@ options:
     type: bool
     default: true
 notes:
-  - The I(steplib) parameter can also be specified in the target inventory's environment_vars. 
+  - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
-  - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB dataset. 
-  - If both I(steplib) and I(reslib) are specified, then both parameters will be used by the ACB Maintenenace Utility and I(reslib) will be used to resolve the IMS RESLIB dataset. 
-  - Specifying only I(reslib) without I(steplib) is not supported. 
+  - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB dataset.
+  - If both I(steplib) and I(reslib) are specified, then both parameters will be used by the ACB Maintenenace Utility and I(reslib) will be used to resolve the IMS RESLIB dataset.
+  - Specifying only I(reslib) without I(steplib) is not supported.
   - The ACB Maintenenace utility SYSUT3/SYSUT4 DD options are not supported by this module.
-  - The current implementation of the ims_acb_gen module requires a jobcard to be specified using the JOB_CARD variable in the target inventory's group variables. 
-    See the sample L(group_vars,https://github.com/ansible-collections/ibm_zos_ims/blob/master/playbooks/group_vars/all.yml) provided with our sample playbook for an example of 
-    the JOB_CARD variable. 
 '''
 
 EXAMPLES = r'''
@@ -137,7 +138,7 @@ EXAMPLES = r'''
     steplib:
       - SOME.IMS.SDFSRESL1
       - SOME.IMS.SDFSRESL2
-    build_psb: false  
+    build_psb: false
 
 - name: Example of creating blocks for all PSBs in the psb_lib data set.
   ims_acb_gen:
@@ -148,7 +149,7 @@ EXAMPLES = r'''
     dbd_lib:
       - SOME.IMS.DBDLIB1
     acb_lib: SOME.IMS.ACBLIB
-    
+
 - name: Example of deleting PSBs and DBDs
   ims_acb_gen:
     command_input: DELETE
@@ -189,33 +190,9 @@ changed:
   type: bool
 '''
 
-from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.acbgen.acbgen import acbgen # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import ( # pylint: disable=import-error
-  DDStatement,
-  FileDefinition,
-  DatasetDefinition,
-  StdoutDefinition,
-  StdinDefinition,
-)
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
-import tempfile
-import re
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
-  MissingZOAUImport,
-) 
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ACBGENErrorMessages as em
-import tempfile
-import pprint
-
-try:
-    from zoautil_py import Datasets, types # pylint: disable=import-error
-except Exception:
-    Datasets = MissingZOAUImport()
-    types = MissingZOAUImport()
 
 module = None
+
 
 def str_or_list_of_str(contents, dependencies):
     if isinstance(contents, list):
@@ -223,126 +200,124 @@ def str_or_list_of_str(contents, dependencies):
             if not isinstance(item, str):
                 raise ValueError(em.INCORRECT_ITEM_LIST)
     elif isinstance(contents, str):
-        contents = [contents]  # make this a list of strings to consistent format
+        # make this a list of strings to consistent format
+        contents = [contents]
     else:
         raise ValueError(em.INCORRECT_TYPE)
     return contents
 
+
 def run_module():
-  global module
+    global module
 
-  module_args = dict(
-      command_input=dict(type="str", required=True),
-      compression=dict(type="str", required=False, default=""),
-      psb_name=dict(type="list", elements="str", required=False),
-      dbd_name=dict(type="list", elements="str", required=False),
-      acb_lib=dict(type="str", required=True),
-      psb_lib=dict(type="list", required=True),
-      dbd_lib=dict(type="list", required=True),
-      reslib=dict(type="list", required=False),
-      steplib=dict(type="list", required=False),
-      build_psb=dict(type="bool", required=False, default=True),
-  )
-
-  result = dict(
-      changed=True,
-      msg='',
-      content='',
-      error='',
-      rc='',
-      debug=''
+    module_args = dict(
+        command_input=dict(type="str", required=True, choices=["build", "BUILD", "delete", "DELETE"]),
+        compression=dict(type="str", required=False, choices=[
+                         "precomp", "postcomp", "precomp,postcomp", 
+                         "PRECOMP", "POSTCOMP", "PRECOMP,POSTCOMP","", None]),        
+        psb_name=dict(type="list", elements="str", required=False),
+        dbd_name=dict(type="list", elements="str", required=False),
+        acb_lib=dict(type="str", required=True),
+        psb_lib=dict(type="list", required=True),
+        dbd_lib=dict(type="list", required=True),
+        reslib=dict(type="list", required=False),
+        steplib=dict(type="list", required=False),
+        build_psb=dict(type="bool", required=False, default=True),
     )
 
-  module = AnsibleModule(
+    result = dict(
+        changed=True,
+        msg='',
+        content='',
+        error='',
+        rc='',
+        debug=''
+    )
+
+    module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True)
 
-  # Retrieve properties set by the user
-  module_defs = dict(
-      command_input=dict(arg_type="str", required=True),
-      compression=dict(arg_type="str", required=False, default=""),
-      psb_name=dict(arg_type=str_or_list_of_str, required=False),
-      dbd_name=dict(arg_type=str_or_list_of_str, required=False), #elements="str",
-      acb_lib=dict(arg_type="str", required=True),
-      psb_lib=dict(arg_type="list", elements="str", required=True),
-      dbd_lib=dict(arg_type="list", elements="str", required=True),
-      reslib=dict(arg_type="list", elements="str", required=False),
-      steplib=dict(arg_type="list", elements="str", required=False),
-      build_psb=dict(arg_type="bool", required=False, default=True),
-  )
+    # Retrieve properties set by the user
+    module_defs = dict(
+        command_input=dict(arg_type="str", required=True),
+        compression=dict(arg_type="str", required=False, default=""),
+        psb_name=dict(arg_type=str_or_list_of_str, required=False),
+        dbd_name=dict(arg_type=str_or_list_of_str,
+                      required=False), 
+        acb_lib=dict(arg_type="str", required=True),
+        psb_lib=dict(arg_type="list", elements="str", required=True),
+        dbd_lib=dict(arg_type="list", elements="str", required=True),
+        reslib=dict(arg_type="list", elements="str", required=False),
+        steplib=dict(arg_type="list", elements="str", required=False),
+        build_psb=dict(arg_type="bool", required=False, default=True),
+    )
 
-  # Parse the properties
-  parser = BetterArgParser(module_defs)
-  parsed_args = parser.parse_args(module.params)
+    # Parse the properties
+    parser = BetterArgParser(module_defs)
+    parsed_args = parser.parse_args(module.params)
 
-  command_input = parsed_args.get("command_input")
-  compression = parsed_args.get("compression")
-  psb_name = parsed_args.get("psb_name")
-  dbd_name = parsed_args.get("dbd_name")
-  acb_lib = parsed_args.get("acb_lib")
-  psb_lib = parsed_args.get("psb_lib")
-  dbd_lib = parsed_args.get("dbd_lib")
-  reslib = parsed_args.get("reslib")
-  steplib = parsed_args.get("steplib")
-  build_psb = parsed_args.get("build_psb")
+    command_input = parsed_args.get("command_input")
+    compression = parsed_args.get("compression")
+    psb_name = parsed_args.get("psb_name")
+    dbd_name = parsed_args.get("dbd_name")
+    acb_lib = parsed_args.get("acb_lib")
+    psb_lib = parsed_args.get("psb_lib")
+    dbd_lib = parsed_args.get("dbd_lib")
+    reslib = parsed_args.get("reslib")
+    steplib = parsed_args.get("steplib")
+    build_psb = parsed_args.get("build_psb")
 
-  if not steplib: 
-    try:
-      steplib = []
-      steplib_str = env_fallback('STEPLIB')
-      list_str = steplib_str.split(" ")
-      steplib += list_str
-    except AnsibleFallbackNotFound as e:
-      module.fail_json(msg="The input option 'steplib' is not provided. Please provide it in the environment "
+    if not steplib:
+        try:
+            steplib = []
+            steplib_str = env_fallback('STEPLIB')
+            list_str = steplib_str.split(" ")
+            steplib += list_str
+        except AnsibleFallbackNotFound as e:
+            module.fail_json(msg="The input option 'steplib' is not provided. Please provide it in the environment "
                              "variables 'STEPLIB', or in the module input option 'steplib'. ", **result)
 
-  try:
-    response = acbgen(
-      command_input,
-      compression,
-      psb_name,
-      dbd_name,
-      acb_lib,
-      psb_lib,
-      dbd_lib,
-      reslib,
-      steplib,
-      build_psb).execute()
+    try:
+        acbgen_obj = acbgen(
+            command_input,
+            compression,
+            psb_name,
+            dbd_name,
+            acb_lib,
+            psb_lib,
+            dbd_lib,
+            reslib,
+            steplib,
+            build_psb)
+        response = acbgen_obj.execute()
 
-    print(" response: ", response)
-  
-    if response['rc'] and int(response['rc']) > 4:
-      result['changed'] = False
-      result['content'] = response['output']
-      result['msg'] = em.FAILURE_MSG
-      result['error'] = response['error']
-      result['rc'] = response['rc']
-    else:
-      result['changed'] = True
-      result['content'] = response['output']
-      result['debug'] = response['error'] # ??? error when success 
-      result['msg'] = em.SUCCESS_MSG
-      if response['rc'] <= 4:
-        result['rc'] = '0'
+        if response.get('rc') and int(response.get('rc')) > 4:
+            result['changed'] = False
+            result['content'] = response.get('output', "")
+            result['msg'] = em.FAILURE_MSG
+            result['error'] = response.get('error', "")
+            result['rc'] = response.get('rc')
+        else:
+            result['changed'] = True
+            result['content'] = response.get('output', "")
+            result['debug'] = response.get('error', "")  
+            result['msg'] = em.SUCCESS_MSG
+            if response.get('rc', 8) <= 4:
+                result['rc'] = 0
 
-    # if response['error']:
-    #   print("An error occurred:", response['error']) 
-    #   result['changed'] = False
-    #   module.fail_json(**result)
-    # else:
-    #   result['msg'] = em.SUCCESS_MSG
-  except Exception as e:
-    result['msg'] = repr(e)
-    module.fail_json(**result)
-  finally:
-    pass
+    except Exception as e:
+        result['msg'] = repr(e)
+        module.fail_json(**result)
+    finally:
+        pass
 
-  module.exit_json(**result)
+    module.exit_json(**result)
+
 
 def main():
     run_module()
 
 
 if __name__ == "__main__":
-    main() 
-
+    main()
