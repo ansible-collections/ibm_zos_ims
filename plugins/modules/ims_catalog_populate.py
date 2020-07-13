@@ -466,36 +466,36 @@ options:
             type: dict
             required: false
             suboptions:
-              latest:
+              save_acb:
                 description:
-                  - If an ACB already exists in the IMS system, do not save an instance of the ACB from an ACB library unless
-                    the instance in the ACB library has a later timestamp than the ACB in the IMS system.
-                type: bool
+                  - If an ACB already exists in the IMS system, determines if it should be saved unconditionally or by
+                    latest timestamp
                 required: false
-              uncond:
-                description:
-                  - If an ACB already exists in the IMS system, save an instance of the ACB from an ACB library unconditionally, 
-                    unless the timestamp of the ACB in the ACB library is the same as the timestamp of the ACB in the IMS system. 
-                type: bool
-                required: false
-              delete:
+                type: str
+                choices:
+                  - LATEST
+                  - UNCOND
+              clean_staging_set:
                 description:
                   - If the staging data set is not allocated to any online IMS system, scratch and recreate the staging data 
                     set before adding the resources to the staging data set.
                 type: bool
                 required: false
+                default: false
               gsampcb:
                 description:
                   - GSAM resources are included for MANAGEDACBS= running in DLI mode using PSB DFSCP001. When GSAMPCB is specified, 
                     the IEFRDER batch log data set is not used by the catalog members information gather task.
                 type: bool
                 required: false
+                default: false
               gsamdbd:
                 description:
                   - The name of the changed GSAM database. You can use the gsamdbd variable with the STAGE or UPDATE parameter. 
                     However, LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.          
                 type: str
                 required: false
+                default: false
           update:
             description:
               - Updates existing IMS directory system datasets directly in exclusive mode. The ACBs are not placed in the 
@@ -503,36 +503,36 @@ options:
             type: dict
             required: false
             suboptions:
-              latest:
+              save_acb:
                 description:
-                  - If an ACB already exists in the IMS system, do not replace it with an instance of the ACB from an ACB library unless
-                    the instance in the ACB library has a later timestamp than the ACB in the IMS system.
-                type: bool
+                  - If an ACB already exists in the IMS system, determines if it should be saved unconditionally or by
+                    latest timestamp
                 required: false
-              uncond:
-                description:
-                  - If an ACB already exists in the IMS system, replace it with an instance of the ACB from an ACB library unconditionally, 
-                    unless the timestamp of the ACB in the ACB library is the same as the timestamp of the ACB in the IMS system. 
-                type: bool
-                required: false
-              share:
+                type: str
+                choices:
+                  - LATEST
+                  - UNCOND
+              share_mode:
                 description:
                   - For dynamic option (DOPT) PSBs only, allocates the required IMS directory data sets in a shared mode 
                     so that DOPT PSBs can be added to the IMS catalog without interrupting online processing.
                 type: bool
                 required: false
+                default: false
               gsampcb:
                 description:
                   - GSAM resources are included for MANAGEDACBS= running in DLI mode using PSB DFSCP001. When GSAMPCB is specified, 
                     the IEFRDER batch log data set is not used by the catalog members information gather task.
                 type: bool
                 required: false
+                default: false
               gsamdbd:
                 description:
                   - The name of the changed GSAM database. You can use the gsamdbd variable with the STAGE or UPDATE parameter. 
                     However, LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.          
                 type: str
                 required: false
+                default: false
       no_isrtlist:
         description:
           - Do not print a list of inserted resource instances.

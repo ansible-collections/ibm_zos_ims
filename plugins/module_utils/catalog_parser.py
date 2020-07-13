@@ -88,20 +88,18 @@ class catalog_parser():
                     setup=dict(arg_type="bool", required=False),
                     stage=dict(arg_type=dict, required=False, 
                       options=dict(
-                        latest=dict(arg_type="bool", required=False),
-                        uncond=dict(arg_type="bool", required=False),
-                        delete=dict(arg_type="bool", required=False),
-                        gsampcb=dict(arg_type="bool", required=False),
-                        gsamdbd=dict(arg_type="str", required=False)
+                        save_acb=dict(arg_type="str", required=False, choices=['LATEST', 'UNCOND']),
+                        clean_staging_set=dict(arg_type="bool", required=False, default=False),
+                        gsampcb=dict(arg_type="bool", required=False, default=False),
+                        gsamdbd=dict(arg_type="str", required=False, default=False)
                       )
                     ),
                     update=dict(arg_type=dict, required=False, 
                       options=dict(
-                        latest=dict(arg_type="bool", required=False),
-                        uncond=dict(arg_type="bool", required=False),
-                        share=dict(arg_type="bool", required=False),
-                        gsampcb=dict(arg_type="bool", required=False),
-                        gsamdbd=dict(arg_type="str", required=False)
+                        save_acb=dict(arg_type="str", required=False, choices=['LATEST', 'UNCOND']),
+                        share_mode=dict(arg_type="bool", required=False, default=False),
+                        gsampcb=dict(arg_type="bool", required=False, default=False),
+                        gsamdbd=dict(arg_type="str", required=False, default=False)
                       )
                     )
                   )
@@ -131,32 +129,21 @@ class catalog_parser():
 
       try:
         module_defs = dict(
-          sysin=dict(arg_type="dict", required=True,
-            options=dict(
+         
               mode=dict(arg_type="str", required=True, choices=['ANALYSIS', 'PURGE', 'BOTH']),
-              deldbver=dict(arg_type="list", elements="dict", required=False,
+              delete_dbd_by_version=dict(arg_type="list", elements="dict", required=False,
                 options=dict(
                   member_name=dict(arg_type="str", required=True),
                   version_number=dict(arg_type="int", required=True)
                 )
               ),
-              update=dict(arg_type="list", elements="dict", required=False,
+              update_retention_criteria=dict(arg_type="list", elements="dict", required=False,
                 options=dict(
                   resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
                   member_name=dict(arg_type="str", required=True),
                   instances=dict(arg_type="int", required=True),
                   days=dict(arg_type="int", required=False)
-                )
-              )
-            )
-          ),
-          sysut1=dict(arg_type="dict", required=False,
-            options=dict(
-              deldbver=dict(arg_type="list", elements="dict", required=False,
-                options=dict(
-                  member_name=dict(arg_type="str", required=True),
-                  version_number=dict(arg_type="int", required=True)
-                )
+                ),
               ),
               delete=dict(arg_type="list", elements="dict", required=False,
                 options=dict(
@@ -164,13 +151,42 @@ class catalog_parser():
                   member_name=dict(arg_type="str", required=True),
                   time_stamp=dict(arg_type="str", required=True)
                 )
-              )
-            )
-          )
+              ),
+              sysut1=dict(arg_type="dict", 
+                options=dict(
+                  dataset_name=dict(arg_type="data_set", required=True),
+                  disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+                  primary=dict(arg_type="int", required=False),
+                  primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+                  secondary=dict(arg_type="int", required=False),
+                  secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+                  normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+                  conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+                  record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
+                  record_length=dict(arg_type="int", required=False),
+                  block_size=dict(arg_type="int", required=False)
+                ), 
+                required=False),
+              managed_acbs=dict(arg_type="bool", required=False),
+              resource_chkp_freq=dict(arg_type="int", required=False)
         )
 
         parser = BetterArgParser(module_defs)
         self.parsed_args.update(parser.parse_args(self.params))
+
+        if self.parsed_args.get("mode") == "ANALYSIS" or self.parsed_args.get("mode") == "BOTH":
+          print("got the mode")
+          if self.parsed_args.get("delete") is not None:
+            print("is it failing?")
+            self.result['msg'] = "Cannot specify delete parameters with 'ANALYSIS' or 'BOTH' mode"
+            self.result['rc'] = 1
+            self.module.fail_json(**self.result)
+        
+        if self.parsed_args.get("mode") == "PURGE":
+          if self.parsed_args.get("update_retention_criteria") is not None:
+            self.result['msg'] = "Cannot specify update_retention_criteria parameter with 'PURGE' mode"
+            self.result['rc'] = 1
+            self.module.fail_json(**self.result)
 
       except ValueError as error:
         self.result['msg'] = error.args

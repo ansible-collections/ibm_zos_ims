@@ -97,16 +97,20 @@ class catalog():
     def _constructPurgeDDStatements(self):
       dDStatementList = []
 
-      if self.parsed_args.get("sysin") is not None:
-        sysinList = self._parse_sysin()
-        print("this is sysinList" + " ".join(sysinList))
-        sysInDDStatement = DDStatement("SYSIN", StdinDefinition(sysinList))
+      sysinList = self._parse_sysin()
+      print("this is sysinList" + " ".join(sysinList))
+      sysInDDStatement = DDStatement("SYSIN", StdinDefinition(sysinList))
       dDStatementList.append(sysInDDStatement)
 
-      if self.parsed_args.get("sysut1") is not None:
+      if self.parsed_args.get("delete") is not None:
         sysut1List = self._parse_sysut1()
         print("this is sysut1List" + " ".join(sysut1List))
         sysut1DDStatement = DDStatement("SYSUT1", StdinDefinition(sysut1List))
+      else:
+        if self.parsed_args.get("sysut1") is not None:
+          sysut1DDStatement = DDStatement("SYSUT1", DatasetDefinition(**{k: v for k, v in self.parsed_args.get('sysut1').items() if v is not None}))
+        else:
+          sysut1DDStatement = DDStatement("SYSUT1", StdoutDefinition())
       dDStatementList.append(sysut1DDStatement)
       
       irlm_id = ""
@@ -231,58 +235,54 @@ class catalog():
         if controlStatements.get('no_isrtlist') is not None:
             controlStr.append("NOISRTLIST")
 
-        managed_acbs_string=[]
         managed_acbs=controlStatements.get('managed_acbs')
         if managed_acbs is not None:
-          managed_acbs_string.append("MANAGEDACBS=")
-          if managed_acbs.get('setup') is not None:
-            managed_acbs_string.append("SETUP")
-            controlStr.append("".join(managed_acbs_string))
-            print("util printing control string: " + " ".join(controlStr))
-            return controlStr
-          if managed_acbs.get('stage') is not None:
-            managed_acbs_string.append("STAGE")
-            if managed_acbs.get('stage').get('gsamdbd') is not None:
-              managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
-            if managed_acbs.get('stage').get('latest') is not None:
-              managed_acbs_string.append(",LATEST")
-            elif managed_acbs.get('stage').get("uncond") is not None:
-              managed_acbs_string.append(",UNCOND")
-            if managed_acbs.get('stage').get("delete") is not None:
-              managed_acbs_string.append(",DELETE")
-            if managed_acbs.get('stage').get('GSAMPCB') is not None:
-              managed_acbs_string.append(",GSAMPCB")
-            controlStr.append("".join(managed_acbs_string))
-            print("util printing control string: " + " ".join(controlStr))
-            return controlStr
-          if managed_acbs.get('update') is not None:
-            managed_acbs_string.append("UPDATE")
-            if managed_acbs.get('update').get('gsamdbd') is not None:
-              managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
-            if managed_acbs.get('update').get('latest') is not None:
-              managed_acbs_string.append(",LATEST")
-            elif managed_acbs.get('update').get("uncond") is not None:
-              managed_acbs_string.append(",UNCOND")
-            if managed_acbs.get('update').get("share") is not None:
-              managed_acbs_string.append(",SHARE")
-            if managed_acbs.get('update').get('GSAMPCB') is not None:
-              managed_acbs_string.append(",GSAMPCB")
-            controlStr.append("".join(managed_acbs_string))
-            print("util printing control string: " + controlStr)
-            return controlStr
-
-        controlStr.append("".join(managed_acbs_string))
+          controlStr.append(self._parse_managed_acbs(managed_acbs))
+        
         print("util printing control string: " + " ".join(controlStr))
         return controlStr
+    
+    def _parse_managed_acbs(self, managed_acbs):
+        managed_acbs_string=[]
+        managed_acbs_string.append("MANAGEDACBS=")
+        if managed_acbs.get('setup') is not None:
+          managed_acbs_string.append("SETUP")
+          return "".join(managed_acbs_string)
+
+        if managed_acbs.get('stage') is not None:
+          managed_acbs_string.append("STAGE")
+          if managed_acbs.get('stage').get('gsamdbd') is not None:
+            managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
+            return "".join(managed_acbs_string)
+          if managed_acbs.get('stage').get('save_acb') is not None:
+            managed_acbs_string.append(managed_acbs.get('stage').get('save_acb'))
+          if managed_acbs.get('stage').get("clean_staging_set") is True:
+            managed_acbs_string.append(",DELETE")
+          if managed_acbs.get('stage').get('GSAMPCB') is True:
+            managed_acbs_string.append(",GSAMPCB")
+          return "".join(managed_acbs_string)
+
+        if managed_acbs.get('update') is not None:
+          managed_acbs_string.append("UPDATE")
+          if managed_acbs.get('update').get('gsamdbd') is not None:
+            managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
+            return "".join(managed_acbs_string)
+          if managed_acbs.get('stage').get('save_acb') is not None:
+            managed_acbs_string.append(managed_acbs.get('stage').get('save_acb'))
+          if managed_acbs.get('update').get("share_mode") is True:
+            managed_acbs_string.append(",SHARE")
+          if managed_acbs.get('update').get('GSAMPCB') is True:
+            managed_acbs_string.append(",GSAMPCB")
+          return "".join(managed_acbs_string)
+
 
     def _parse_sysin(self):
-      sysinStatements = self.parsed_args.get("sysin")
       sysinList = []
-      if sysinStatements.get("mode") is not None:
-        modeString = "MODE " + sysinStatements.get("mode")
+      if self.parsed_args.get("mode") is not None:
+        modeString = "MODE " + self.parsed_args.get("mode")
         sysinList.append(modeString)
-      if sysinStatements.get("deldbver") is not None:
-        deldbverList = sysinStatements.get("deldbver")
+      if self.parsed_args.get("delete_dbd_by_version") is not None and self.parsed_args.get("mode") != "PURGE":
+        deldbverList = self.parsed_args.get("delete_dbd_by_version")
         for deld in deldbverList:
           deldbverString = ['DELDBVER']
           if deld.get("member_name") is not None:
@@ -290,8 +290,8 @@ class catalog():
           if deld.get("version_number") is not None:
             deldbverString.append(str(deld.get("version_number")))
           sysinList.append(" ".join(deldbverString))
-      if sysinStatements.get("update") is not None:
-        updateList = sysinStatements.get("update")
+      if self.parsed_args.get("update_retention_criteria") is not None:
+        updateList = self.parsed_args.get("update_retention_criteria")
         for upd in updateList:
           updateString = ['UPDATE']
           if upd.get("resource") is not None:
@@ -303,14 +303,17 @@ class catalog():
           if upd.get("days") is not None:
             updateString.append(str(upd.get("days")))
           sysinList.append(" ".join(updateString))
+      if self.parsed_args.get("managed_acbs") is not None:
+        sysinList.append("MANAGEDACBS UPDATE")
+      if self.parsed_args.get("resource_chkp_freq") is not None:
+        sysinList.append("RESOURCE_CHKP_FREQ " + str(self.parsed_args.get("resource_chkp_freq")))
           
       return sysinList
     
     def _parse_sysut1(self):
-      sysut1Statements = self.parsed_args.get("sysut1")
       sysut1List = []
-      if sysut1Statements.get("deldbver") is not None:
-        deldbverList = sysut1Statements.get("deldbver")
+      if self.parsed_args.get("delete_dbd_by_version") is not None and self.parsed_args.get("MODE") == "PURGE":
+        deldbverList = self.parsed_args.get("delete_dbd_by_version")
         for deld in deldbverList:
           deldbverString = ['DELDBVER']
           if deld.get("member_name") is not None:
@@ -318,8 +321,8 @@ class catalog():
           if deld.get("version_number") is not None:
             deldbverString.append(str(deld.get("version_number")))
           sysut1List.append(" ".join(deldbverString))
-      if sysut1Statements.get("delete") is not None:
-        deleteList = sysut1Statements.get("delete")
+      if self.parsed_args.get("delete") is not None:
+        deleteList = self.parsed_args.get("delete")
         for dele in deleteList:
           deleteString = ["DELETE"]
           if dele.get("resource") is not None:
