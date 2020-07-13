@@ -188,6 +188,12 @@ changed:
     - True is always returned unless a module or failure has occurred.
   returned: always
   type: bool
+debug:
+  description:
+    - additional messages returned from ZOAU. 
+    - For more information, refer to the L(ZOAU messages documentation,https://www.ibm.com/support/knowledgecenter/en/SSKFYE_1.0.0/bgy.html)  
+  returned: always
+  type: str
 '''
 
 
@@ -214,7 +220,7 @@ def run_module():
         command_input=dict(type="str", required=True, choices=["build", "BUILD", "delete", "DELETE"]),
         compression=dict(type="str", required=False, choices=[
                          "precomp", "postcomp", "precomp,postcomp", 
-                         "PRECOMP", "POSTCOMP", "PRECOMP,POSTCOMP","", None]),        
+                         "PRECOMP", "POSTCOMP", "PRECOMP,POSTCOMP"]),        
         psb_name=dict(type="list", elements="str", required=False),
         dbd_name=dict(type="list", elements="str", required=False),
         acb_lib=dict(type="str", required=True),
@@ -229,7 +235,6 @@ def run_module():
         changed=True,
         msg='',
         content='',
-        error='',
         rc='',
         debug=''
     )
@@ -296,7 +301,7 @@ def run_module():
             result['changed'] = False
             result['content'] = response.get('output', "")
             result['msg'] = em.FAILURE_MSG
-            result['error'] = response.get('error', "")
+            result['debug'] = response.get('error', "")
             result['rc'] = response.get('rc')
         else:
             result['changed'] = True

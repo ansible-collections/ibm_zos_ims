@@ -84,7 +84,7 @@ def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
         print("Changed:", result.get('changed'))
         print("Return code:", result.get('rc'))
         assert result.get('changed') == True
-        assert result.get('rc') <= '4'
+        assert result.get('rc') <= 4
 
 
 # def validate_delete(hosts, psb_name, dbd_name, psb_lib, dbd_lib, acb_lib, steplib, 
