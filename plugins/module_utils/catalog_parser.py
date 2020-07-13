@@ -1,0 +1,185 @@
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser # pylint: disable=import-error
+
+
+class catalog_parser():
+  def __init__(self, module, params, result):
+    self.params = params
+    self.result = result
+    self.module = module
+
+  def _validate_common_input(self):
+      try:
+        module_defs = dict(
+          irlm_enabled=dict(arg_type="bool", required=False),
+          irlm_id=dict(arg_type="str", required=False),
+          reslib=dict(arg_type="data_set", required=False),
+          buffer_pool_param_dataset=dict(arg_type="data_set", required=True),
+          primary_log_dataset=dict(arg_type="dict", 
+            options=dict(
+              dataset_name=dict(arg_type="data_set", required=True),
+               disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+               primary=dict(arg_type="int", required=False),
+               primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+               secondary=dict(arg_type="int", required=False),
+               secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+               normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'UNCATLG']),
+               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'UNCATLG']),
+               record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
+               record_length=dict(arg_type="int", required=False),
+               block_size=dict(arg_type="int", required=False),
+               type = dict(arg_type="str", required=False, choices=['SEQ','BASIC','LARGE','PDS','PDSE','LIBRARY','LDS','RRDS','ESDS','KSDS'])
+            ),
+            required=True),
+          psb_lib=dict(arg_type="data_set", required = True),
+          dbd_lib=dict(arg_type="data_set", required = True),
+          proclib=dict(arg_type="data_set", required = True),
+          steplib=dict(arg_type="data_set", required = True),
+          sysprint=dict(arg_type="data_set", required=False),
+        )
+
+        parser = BetterArgParser(module_defs)
+        self.parsed_args = parser.parse_args(self.params)
+
+      except ValueError as error:
+        self.result['msg'] = error.args
+        self.result['rc']=1
+        self.module.fail_json(**self.result)
+
+  def validate_populate_input(self):
+
+      self._validate_common_input()
+
+      try:
+        module_defs = dict(
+          mode=dict(arg_type="str", requierd=True, choices=['LOAD', 'UPDATE', 'READ']),
+          check_timestamp=dict(arg_type="bool", required=False),
+          secondary_log_dataset=dict(arg_type="dict", 
+            options=dict(
+              dataset_name=dict(arg_type="data_set", required=True),
+              disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+              primary=dict(arg_type="int", required=False),
+              primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              secondary=dict(arg_type="int", required=False),
+              secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
+              record_length=dict(arg_type="int", required=False),
+              block_size=dict(arg_type="int", required=False)
+            ), 
+            required=False),
+          acb_lib=dict(arg_type="list", elements="data_set", required=True),
+          bootstrap_dataset=dict(arg_type="data_set", required = False),
+          directory_datasets=dict(arg_type="list", elements="data_set", required=False),
+          temp_acb_dataset=dict(arg_type="data_set", required = False),
+          directory_staging_dataset=dict(arg_type="data_set", required = False),
+          sysabend=dict(arg_type="data_set", required = False),
+          control_statements=dict(arg_type="dict", 
+            options=dict(
+              duplist=dict(arg_type="bool", required=False),
+                errormax=dict(arg_type="int", required=False),
+                resource_chkp_freq=dict(arg_type="int", required=False),
+                segment_chkp_freq=dict(arg_type="int", required=False),
+                isrtlist=dict(arg_type="bool", required=False),
+                managed_acbs=dict(arg_type="dict", 
+                  required=False, 
+                  options=dict(
+                    setup=dict(arg_type="bool", required=False),
+                    stage=dict(arg_type=dict, required=False, 
+                      options=dict(
+                        latest=dict(arg_type="bool", required=False),
+                        uncond=dict(arg_type="bool", required=False),
+                        delete=dict(arg_type="bool", required=False),
+                        gsampcb=dict(arg_type="bool", required=False),
+                        gsamdbd=dict(arg_type="str", required=False)
+                      )
+                    ),
+                    update=dict(arg_type=dict, required=False, 
+                      options=dict(
+                        latest=dict(arg_type="bool", required=False),
+                        uncond=dict(arg_type="bool", required=False),
+                        share=dict(arg_type="bool", required=False),
+                        gsampcb=dict(arg_type="bool", required=False),
+                        gsamdbd=dict(arg_type="str", required=False)
+                      )
+                    )
+                  )
+                ),
+              no_isrtlist=dict(arg_type="bool", required=False)
+            ),
+            required=False)
+        )
+
+        parser = BetterArgParser(module_defs)
+        self.parsed_args.update(parser.parse_args(self.params))
+
+        if self.parsed_args.get('directory_staging_dataset') is not None:
+          self.directory_datasets = self.parsed_args.get('directory_datasets')
+          self._validate_directory_staging_dataset()
+
+      except ValueError as error:
+        self.result['msg'] = error.args
+        self.result['rc']=1
+        self.module.fail_json(**self.result)
+      
+      return self.parsed_args
+
+  def validate_purge_input(self):
+
+      self._validate_common_input()
+
+      try:
+        module_defs = dict(
+          sysin=dict(arg_type="dict", required=True,
+            options=dict(
+              mode=dict(arg_type="str", required=True, choices=['ANALYSIS', 'PURGE', 'BOTH']),
+              deldbver=dict(arg_type="list", elements="dict", required=False,
+                options=dict(
+                  member_name=dict(arg_type="str", required=True),
+                  version_number=dict(arg_type="int", required=True)
+                )
+              ),
+              update=dict(arg_type="list", elements="dict", required=False,
+                options=dict(
+                  resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
+                  member_name=dict(arg_type="str", required=True),
+                  instances=dict(arg_type="int", required=True),
+                  days=dict(arg_type="int", required=False)
+                )
+              )
+            )
+          ),
+          sysut1=dict(arg_type="dict", required=False,
+            options=dict(
+              deldbver=dict(arg_type="list", elements="dict", required=False,
+                options=dict(
+                  member_name=dict(arg_type="str", required=True),
+                  version_number=dict(arg_type="int", required=True)
+                )
+              ),
+              delete=dict(arg_type="list", elements="dict", required=False,
+                options=dict(
+                  resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
+                  member_name=dict(arg_type="str", required=True),
+                  time_stamp=dict(arg_type="str", required=True)
+                )
+              )
+            )
+          )
+        )
+
+        parser = BetterArgParser(module_defs)
+        self.parsed_args.update(parser.parse_args(self.params))
+
+      except ValueError as error:
+        self.result['msg'] = error.args
+        self.result['rc']=1
+        self.module.fail_json(**self.result)
+      
+      return self.parsed_args
+
+  def _validate_directory_staging_dataset(self):
+      if len(self.parsed_args.get("directory_datasets")) > 20:
+        self.result['msg'] = "You cannot specify more than 20 IMS directory datasets"
+        self.module.fail_json(**self.result)

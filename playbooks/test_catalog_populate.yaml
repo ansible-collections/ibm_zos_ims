@@ -9,7 +9,8 @@
     
   tasks:
     - name: test ims_catalog_populate
-      ims_catalog_populate: 
+      ims_catalog_populate:
+        mode: LOAD 
         acb_lib: [
           IMSTESTL.IMS1.ACBLIB
         ]

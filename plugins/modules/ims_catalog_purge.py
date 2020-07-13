@@ -19,6 +19,15 @@ description:
   - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances 
     into the database data sets of the IMS catalog from ACB library data sets.
 options:
+  mode:
+    description:
+      - Indicates what mode the Catalog Populate Utility should be run as
+    type: str
+    required: true
+    choices:
+      - LOAD
+      - UPDATE
+      - READ
   irlm_enabled:
     description:
       - Indicates if IRLM is used
@@ -347,6 +356,8 @@ RETURN = r'''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog.catalog import catalog # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser.catalog_parser import catalog_parser # pylint: disable=import-error
+
 
 def run_module():
     module_args = dict(
@@ -372,7 +383,8 @@ def run_module():
     result = {}
     result["changed"] = False
 
-    response = catalog(module).execute_catalog_purge()
+    parsed_args=catalog_parser(module, module.params, result).validate_purge_input()
+    response = catalog(module, result, parsed_args).execute_catalog_purge()
     
   
     module.exit_json(**response)

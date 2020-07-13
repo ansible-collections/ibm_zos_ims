@@ -1,0 +1,24 @@
+---
+  - hosts: zsystem
+    collections:
+      - ibm.ibm_zos_ims
+      - ibm.ibm_zos_core
+    gather_facts: no
+
+    environment: "{{ environment_vars }}"
+
+    tasks:
+      - name: Load ZOAU onto EC
+        copy:
+          src: "../zoau-1.0.3-latest.pax"
+          dest: "/u/omvsadm/mvsbuilds/103/"
+          mode: 0777
+        
+      - name: Unpax ZOAU
+        shell: pax -p e -rf zoau-1.0.3-latest.pax
+        args:
+          chdir: "/u/omvsadm/mvsbuilds/103/"
+        register: output
+        failed_when: "output.rc > 1 and 'cannot set uid/gid' not in output.stderr"
+      
+      

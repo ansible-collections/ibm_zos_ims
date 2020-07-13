@@ -19,19 +19,17 @@ import pprint
 
 class catalog():
 
-    def __init__(self, module):
+    def __init__(self, module, result, parsed_args):
       self.module = module
-      self.params = module.params
-      self.result = {}
-      self._validate_common_input()
+      self.result = result
+      self.parsed_args = parsed_args
 
 
     def execute_catalog_populate(self):
-      self._validate_populate_input()
       self._constructCommonDDStatements()
       self._constructCatalogDDStatements()
       try:
-        response = MVSCmd.execute("DFS3PU00", self.dDStatements, self.paramString, verbose=True)
+        response = MVSCmd.execute("DFS3PU00", self.dDStatements, self.paramString, verbose=False)
         self.result["rc"] = response.rc
         self.result["stdout"] = response.stdout
         self.result["stderr"] = response.stderr
@@ -41,11 +39,10 @@ class catalog():
       return self.result
 
     def execute_catalog_purge(self):
-      self._validate_purge_input()
       self._constructCommonDDStatements()
       self._constructPurgeDDStatements()
       try:
-        response = MVSCmd.execute("DFSRRC00", self.dDStatements, self.paramString, verbose=True)
+        response = MVSCmd.execute("DFSRRC00", self.dDStatements, self.paramString, verbose=False)
         self.result["rc"] = response.rc
         self.result["stdout"] = response.stdout
         self.result["stderr"] = response.stderr
@@ -204,180 +201,22 @@ class catalog():
         else: 
           self.result['msg'] = "You must specify an irlm id"
           self.module.fail_json(**self.result)
+      
+      mode = ""
+      mode_param = self.parsed_args.get('mode')
+      if mode_param == 'LOAD':
+        mode = 'DFSCPL00'
+      elif mode_param == 'UPDATE':
+        mode = "DFSCP001"
+      elif mode_param == 'READ':
+        mode = "DFSCP000"
   
-      self.paramString = "DLI,DFS3PU00,DFSCP001,,,,,,,,,,,N,{0},{1},,,,,,,,,,,'DFSDF=CAT'".format(irlm_flag, irlm_id)
+      self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,N,{1},{2},,,,,,,,,,,'DFSDF=CAT'".format(mode, irlm_flag, irlm_id)
       self.dDStatements = self.dDStatements + dDStatementList
   
 
-    def _validate_common_input(self):
-        try:
-          module_defs = dict(
-            irlm_enabled=dict(arg_type="bool", required=False),
-            irlm_id=dict(arg_type="str", required=False),
-            reslib=dict(arg_type="data_set", required=False),
-            buffer_pool_param_dataset=dict(arg_type="data_set", required=True),
-            primary_log_dataset=dict(arg_type="dict", 
-              options=dict(
-                dataset_name=dict(arg_type="data_set", required=True),
-                 disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
-                 primary=dict(arg_type="int", required=False),
-                 primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
-                 secondary=dict(arg_type="int", required=False),
-                 secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
-                 normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'UNCATLG']),
-                 conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'UNCATLG']),
-                 record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
-                 record_length=dict(arg_type="int", required=False),
-                 block_size=dict(arg_type="int", required=False),
-                 type = dict(arg_type="str", required=False, choices=['SEQ','BASIC','LARGE','PDS','PDSE','LIBRARY','LDS','RRDS','ESDS','KSDS'])
-              ),
-              required=True),
-            psb_lib=dict(arg_type="data_set", required = True),
-            dbd_lib=dict(arg_type="data_set", required = True),
-            proclib=dict(arg_type="data_set", required = True),
-            steplib=dict(arg_type="data_set", required = True),
-            sysprint=dict(arg_type="data_set", required=False),
-          )
-
-          parser = BetterArgParser(module_defs)
-          self.parsed_args = parser.parse_args(self.params)
-
-        except ValueError as error:
-          self.result['msg'] = error.args
-          self.result['rc']=1
-          self.module.fail_json(**self.result)
-
-    def _validate_populate_input(self):
-        try:
-          module_defs = dict(
-            check_timestamp=dict(arg_type="bool", required=False),
-            secondary_log_dataset=dict(arg_type="dict", 
-              options=dict(
-                dataset_name=dict(arg_type="data_set", required=True),
-                disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
-                primary=dict(arg_type="int", required=False),
-                primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
-                secondary=dict(arg_type="int", required=False),
-                secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
-                normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
-                conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
-                record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
-                record_length=dict(arg_type="int", required=False),
-                block_size=dict(arg_type="int", required=False)
-              ), 
-              required=False),
-            acb_lib=dict(arg_type="list", elements="data_set", required=True),
-            bootstrap_dataset=dict(arg_type="data_set", required = False),
-            directory_datasets=dict(arg_type="list", elements="data_set", required=False),
-            temp_acb_dataset=dict(arg_type="data_set", required = False),
-            directory_staging_dataset=dict(arg_type="data_set", required = False),
-            sysabend=dict(arg_type="data_set", required = False),
-            control_statements=dict(arg_type="dict", 
-              options=dict(
-                duplist=dict(arg_type="bool", required=False),
-                  errormax=dict(arg_type="int", required=False),
-                  resource_chkp_freq=dict(arg_type="int", required=False),
-                  segment_chkp_freq=dict(arg_type="int", required=False),
-                  isrtlist=dict(arg_type="bool", required=False),
-                  managed_acbs=dict(arg_type="dict", 
-                    required=False, 
-                    options=dict(
-                      setup=dict(arg_type="bool", required=False),
-                      stage=dict(arg_type=dict, required=False, 
-                        options=dict(
-                          latest=dict(arg_type="bool", required=False),
-                          uncond=dict(arg_type="bool", required=False),
-                          delete=dict(arg_type="bool", required=False),
-                          gsampcb=dict(arg_type="bool", required=False),
-                          gsamdbd=dict(arg_type="str", required=False)
-                        )
-                      ),
-                      update=dict(arg_type=dict, required=False, 
-                        options=dict(
-                          latest=dict(arg_type="bool", required=False),
-                          uncond=dict(arg_type="bool", required=False),
-                          share=dict(arg_type="bool", required=False),
-                          gsampcb=dict(arg_type="bool", required=False),
-                          gsamdbd=dict(arg_type="str", required=False)
-                        )
-                      )
-                    )
-                  ),
-                no_isrtlist=dict(arg_type="bool", required=False)
-              ),
-              required=False)
-          )
-
-          parser = BetterArgParser(module_defs)
-          self.parsed_args.update(parser.parse_args(self.params))
-
-          if self.parsed_args.get('directory_staging_dataset') is not None:
-            self.directory_datasets = self.parsed_args.get('directory_datasets')
-            self._validate_directory_staging_dataset()
-
-        except ValueError as error:
-          self.result['msg'] = error.args
-          self.result['rc']=1
-          self.module.fail_json(**self.result)
-    
-    def _validate_purge_input(self):
-        try:
-          module_defs = dict(
-            sysin=dict(arg_type="dict", required=True,
-              options=dict(
-                mode=dict(arg_type="str", required=True, choices=['ANALYSIS', 'PURGE', 'BOTH']),
-                deldbver=dict(arg_type="list", elements="dict", required=False,
-                  options=dict(
-                    member_name=dict(arg_type="str", required=True),
-                    version_number=dict(arg_type="int", required=True)
-                  )
-                ),
-                update=dict(arg_type="list", elements="dict", required=False,
-                  options=dict(
-                    resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
-                    member_name=dict(arg_type="str", required=True),
-                    instances=dict(arg_type="int", required=True),
-                    days=dict(arg_type="int", required=False)
-                  )
-                )
-              )
-            ),
-            sysut1=dict(arg_type="dict", required=False,
-              options=dict(
-                deldbver=dict(arg_type="list", elements="dict", required=False,
-                  options=dict(
-                    member_name=dict(arg_type="str", required=True),
-                    version_number=dict(arg_type="int", required=True)
-                  )
-                ),
-                delete=dict(arg_type="list", elements="dict", required=False,
-                  options=dict(
-                    resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
-                    member_name=dict(arg_type="str", required=True),
-                    time_stamp=dict(arg_type="str", required=True)
-                  )
-                )
-              )
-            )
-          )
-
-          parser = BetterArgParser(module_defs)
-          self.parsed_args.update(parser.parse_args(self.params))
-        
-        except ValueError as error:
-          self.result['msg'] = error.args
-          self.result['rc']=1
-          self.module.fail_json(**self.result)
-
-
-    def _validate_directory_staging_dataset(self):
-        if len(self.directory_datasets) > 20:
-          self.result['msg'] = "You cannot specify more than 20 IMS directory datasets"
-          self.module.fail_json(**self.result)
-
-
     def _parse_control_statements(self):
-        controlStatements = self.params.get('control_statements')
+        controlStatements = self.parsed_args.get('control_statements')
         controlStr=[]
         if controlStatements.get('duplist') is not None:
             controlStr.append("DUPLIST")
@@ -437,7 +276,7 @@ class catalog():
         return controlStr
 
     def _parse_sysin(self):
-      sysinStatements = self.params.get("sysin")
+      sysinStatements = self.parsed_args.get("sysin")
       sysinList = []
       if sysinStatements.get("mode") is not None:
         modeString = "MODE " + sysinStatements.get("mode")
@@ -468,7 +307,7 @@ class catalog():
       return sysinList
     
     def _parse_sysut1(self):
-      sysut1Statements = self.params.get("sysut1")
+      sysut1Statements = self.parsed_args.get("sysut1")
       sysut1List = []
       if sysut1Statements.get("deldbver") is not None:
         deldbverList = sysut1Statements.get("deldbver")

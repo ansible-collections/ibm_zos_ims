@@ -38,8 +38,38 @@
               - resource: DBD
                 member_name: 'AUTODB'
                 time_stamp: '*'
+              - resource: DBD
+                member_name: 'DFSCX'
+                time_stamp: '*'
+              - resource: DBD
+                member_name: 'DI21PART'
+                time_stamp: '*'
+              - resource: DBD
+                member_name: 'EMP*'
+                time_stamp: '*'
+              - resource: DBD
+                member_name: 'IV*'
+                time_stamp: '*' 
+              - resource: DBD
+                member_name: 'SI*'
+                time_stamp: '*' 
               - resource: PSB 
-                member_name: 'PS*'
+                member_name: 'AUT*'
+                time_stamp: '*'
+              - resource: PSB 
+                member_name: 'DBF*'
+                time_stamp: '*'
+              - resource: PSB 
+                member_name: 'DFH*'
+                time_stamp: '*'
+              - resource: PSB 
+                member_name: 'DFSI*'
+                time_stamp: '*'
+              - resource: PSB 
+                member_name: 'DFSS*'
+                time_stamp: '*'
+              - resource: PSB 
+                member_name: 'IP*'
                 time_stamp: '*'
             
   

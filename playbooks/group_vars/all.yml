@@ -25,19 +25,3 @@ JOB_CARD: |-
     //ANSIBLE JOB 'testing',
     //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
     //  MSGCLASS=H,NOTIFY=&SYSUID 
-
-#blake's environ variables    
-# ZOAU_ROOT: /u/omvsadm/mvsbuilds/mvsutil
-# PYTHON_ROOT: /u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz
-# environment_vars:
-#   _BPXK_AUTOCVT: "ON"
-#   ZOAU_HOME: "{{ ZOAU_ROOT }}"
-#   ZOAU_ROOT: "{{ ZOAU_ROOT }}"
-#   PYTHONPATH: "{{ ZOAU_ROOT }}/lib"
-#   LIBPATH: "{{ ZOAU_ROOT }}/lib/:{{ PYTHON_ROOT }}/lib:/lib:/usr/lib:."
-#   PATH: "{{ ZOAU_ROOT }}/bin:/bin:/var/bin:{{ PYTHON_ROOT }}/bin:."
-#   LANG: C
-#   _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
-#   _TAG_REDIR_ERR: txt
-#   _TAG_REDIR_IN: txt
-#   _TAG_REDIR_OUT: txt
