@@ -34,3 +34,4 @@ class ACBGENErrorMessages():
     EMPTY_OUTPUT_MSG = "ACBGEN could not be processed. Please check input parameters."  
     INCORRECT_TYPE = "Incorrect type provided. A string or list of strings is expected"
     INCORRECT_ITEM_LIST = "Items provided in list do not match the string type expected."
+    INCORRECT_COMMAND_ARGS = "Must provide at least one of 'pdb_name', 'dbd_name'" 

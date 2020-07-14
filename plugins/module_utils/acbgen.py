@@ -68,6 +68,8 @@ class acbgen(object):
             raise TypeError(em.INCORRECT_RESLIB_TYPE)
         if self.build_psb and not isinstance(self.build_psb, bool):
             raise TypeError(em.INCORRECT_BUILD_PSB_TYPE)
+        if not self.psb_name and not self.dbd_name:
+            raise ValueError(em.INCORRECT_COMMAND_ARGS)
 
     def _build_acbgen_statements(self):
         """Builds the list of DDStatements that will be provided to the zos_mvs_raw to execute DFSRRC00

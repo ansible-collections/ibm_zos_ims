@@ -31,16 +31,50 @@
 #   //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
 #   //  MSGCLASS=H,NOTIFY=&SYSUID
 
-ZOAU_ROOT: /u/omvsadm/mvsbuilds/mvsutil
-PYTHON_ROOT: /usr/lpp/izoda/v110/anaconda #/usr/lpp/izoda/v110/anaconda
+# ZOAU_ROOT: /u/omvsadm/mvsbuilds/mvsutil
+# PYTHON_ROOT: /usr/lpp/izoda/v110/anaconda #/usr/lpp/izoda/v110/anaconda
+# JAVA_ROOT: /usr/lpp/java
+
+# environment_vars:
+#     LIBPATH: '{{ ZOAU_ROOT}}/lib:{{ PYTHON_ROOT }}/lib:/lib:/usr/lib:.'
+#     ZOAUTIL_DIR: '{{ ZOAU_ROOT }}'
+#     ZOAU_ROOT: '{{ ZOAU_ROOT }}'
+#     ZOAU_HOME: '{{ ZOAU_ROOT }}'
+#     PYTHONPATH: '{{ ZOAU_ROOT }}/lib:/lib:/usr/lib'
+#     _BPXK_JOBLOG: STDERR 
+#     # environment variables for mvsutils/mvscmd
+#     _BPXK_AUTOCVT: "ON"
+#     #_CEE_RUNOPTS: '"FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"'
+#     # _TAG_REDIR_ERR: txt
+#     # _TAG_REDIR_IN: txt
+#     # _TAG_REDIR_OUT: txt
+#     TOOLS_ROOT: '/usr/lpp/rsusr/ported'
+#     PATH: '{{ ZOAU_ROOT }}/bin:/usr/lpp/rsusr/ported/bin:{{ JAVA_ROOT }}/java180/J8.0_64/bin:/bin:/var/bin:{{ JAVA_ROOT }}/J8.0/bin:{{ PYTHON_ROOT }}/bin'
+#     JAVA_HOME: '{{ JAVA_ROOT }}/java180/J8.0_64'
+#     STEPLIB: IMSNEW.DIPTI.IM00.SDFSRESL #IMSBLD.I15RTSMM.COMRESL1
+#     LANG: C
+
+# JOB_CARD: |-
+#     //ANSIBLE JOB 'testing',
+#     //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
+#     //  MSGCLASS=H,NOTIFY=&SYSUID 
+
+ ################################################################################
+# Configure dependency installations
+################################################################################
+PYZ: /python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3
+ZOAU: /u/omvsadm/mvsbuilds/1032
 JAVA_ROOT: /usr/lpp/java
 
+################################################################################
+# Playbook enviroment variables
+################################################################################
 environment_vars:
-    LIBPATH: '{{ ZOAU_ROOT}}/lib:{{ PYTHON_ROOT }}/lib:/lib:/usr/lib:.'
-    ZOAUTIL_DIR: '{{ ZOAU_ROOT }}'
-    ZOAU_ROOT: '{{ ZOAU_ROOT }}'
-    ZOAU_HOME: '{{ ZOAU_ROOT }}'
-    PYTHONPATH: '{{ ZOAU_ROOT }}/lib:/lib:/usr/lib'
+    LIBPATH: '{{ ZOAU}}/lib:{{ PYZ }}/lib:/lib:/usr/lib:.'
+    ZOAUTIL_DIR: '{{ ZOAU }}'
+    ZOAU_ROOT: '{{ ZOAU }}'
+    ZOAU_HOME: '{{ ZOAU }}'
+    PYTHONPATH: '{{ ZOAU }}/lib:/lib:/usr/lib'
     _BPXK_JOBLOG: STDERR 
     # environment variables for mvsutils/mvscmd
     _BPXK_AUTOCVT: "ON"
@@ -49,12 +83,13 @@ environment_vars:
     # _TAG_REDIR_IN: txt
     # _TAG_REDIR_OUT: txt
     TOOLS_ROOT: '/usr/lpp/rsusr/ported'
-    PATH: '{{ ZOAU_ROOT }}/bin:/usr/lpp/rsusr/ported/bin:{{ JAVA_ROOT }}/java180/J8.0_64/bin:/bin:/var/bin:{{ JAVA_ROOT }}/J8.0/bin:{{ PYTHON_ROOT }}/bin'
+    PATH: '{{ ZOAU }}/bin:/usr/lpp/rsusr/ported/bin:{{ JAVA_ROOT }}/java180/J8.0_64/bin:/bin:/var/bin:{{ JAVA_ROOT }}/J8.0/bin:{{ PYZ }}/bin'
     JAVA_HOME: '{{ JAVA_ROOT }}/java180/J8.0_64'
     STEPLIB: IMSNEW.DIPTI.IM00.SDFSRESL #IMSBLD.I15RTSMM.COMRESL1
     LANG: C
 
+
 JOB_CARD: |-
-    //ANSIBLE JOB 'testing',
-    //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
-    //  MSGCLASS=H,NOTIFY=&SYSUID 
+  //ANSIBLE JOB 'testing',
+  //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
+  //  MSGCLASS=H,NOTIFY=&SYSUID   
