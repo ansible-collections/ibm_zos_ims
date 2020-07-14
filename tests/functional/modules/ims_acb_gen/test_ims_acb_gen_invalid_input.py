@@ -62,7 +62,6 @@ Work flow for Combination functional tests goes as follows:
 18. PSBLIB with no psbs and DBDLIB populated, BUILD PSB=ALL
 19. DBDLIB with no dbds and PSBLIB populated, BUILD PSB=ALL
 20. Invalid ACBLIB 
-21. ACBLIB with invalid record format FB
 """
 
 
@@ -129,45 +128,6 @@ def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
             assert result.get('rc') != 0
         elif result.get('msg'):
             assert "value of compression must be one of: precomp, postcomp, precomp,postcomp," in result.get('msg')
-    
-
-# def validate_acbgen(hosts, **kwargs):
-#     response = hosts.all.ims_acb_gen(**kwargs)
-#     print("Result:", response)
-#     for result in response.contacted.values():
-#         pprint(result)
-#         print("Changed:", result['changed'])
-#         assert result['changed'] == False
-#         # if result['rc']:
-#         #     assert result['rc'] != 0
-#         # else:
-#         #     print(result['rc'])
-#         #     print("Return code:", result['rc'])
-#         assert result['rc'] != 0
-
-# def validate_delete(hosts, psb_name, dbd_name, psb_lib, dbd_lib, acb_lib, steplib, 
-#              reslib, compression, command_input="DELETE"):
-#     response = hosts.all.ims_acb_gen(
-#         command_input=command_input,
-#         psb_name=psb_name,
-#         dbd_name=dbd_name,
-#         psb_lib=psb_lib,
-#         dbd_lib=dbd_lib,
-#         acb_lib=acb_lib,
-#         steplib=steplib,
-#         reslib=reslib,
-#         compression=compression)
-#     print("Result:", response)
-#     for result in response.contacted.values():
-#         pprint(result)
-#         print("Changed:", result['changed'])
-#         assert result['changed'] == False 
-#         # if result['rc']:
-#         #     assert result['rc'] != '0'    
-#         # else:
-#         #     print("Return code: ", result['rc'])        
-#         assert result['rc'] != '0'
-
 
 #1. PSB name doesn't exists as string, BUILD PSB=PSB_NAME 
 def test_acb_gen_build_invalid_psbName_str(ansible_zos_module):
@@ -275,10 +235,3 @@ def test_acb_gen_delete_no_dbds(ansible_zos_module):
 def test_acb_gen_build_invalid_acblib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB, dbd_lib=DBDLIB, acb_lib=INVALID_ACBLIB, steplib=STEPLIB, reslib=RESLIB, compression=COMP, build_psb=False)
-
-#21. ACBLIB with invalid record format FB
-def test_acb_gen_build_acblib_recordFormat_FB(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB, dbd_lib=DBDLIB, acb_lib=INVALID_RECFOR, steplib=STEPLIB, reslib=RESLIB, build_psb=False)
-
-

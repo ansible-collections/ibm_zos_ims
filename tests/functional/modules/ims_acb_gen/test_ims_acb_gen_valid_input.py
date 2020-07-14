@@ -49,11 +49,9 @@ Work flow for Combination functional tests goes as follows:
 20.STEPLIB=None(STEPLIB should be retrieved from environment_vars), RESLIB=RESLIB
 """
 
-# check in acblib if the member exists - dataset member exists (zos_dataset)
 def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
                        dbd_lib=None, acb_lib=None, steplib=None, reslib=None,
                        compression=None, build_psb=None, command_input=None):
-
     arguments = {}
     if psb_name:
         arguments["psb_name"] = psb_name
@@ -77,7 +75,6 @@ def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
         arguments["command_input"] = command_input
 
     response = hosts.all.ims_acb_gen(**arguments)
-    
     print("Result:", response)
     for result in response.contacted.values():
         pprint(result)
@@ -86,27 +83,6 @@ def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
         assert result.get('changed') == True
         assert result.get('rc') <= 4
 
-
-# def validate_delete(hosts, psb_name, dbd_name, psb_lib, dbd_lib, acb_lib, steplib, 
-#              reslib, compression, command_input="DELETE"):
-#     response = hosts.all.ims_acb_gen(
-#         command_input=command_input,
-#         psb_name=psb_name,
-#         dbd_name=dbd_name,
-#         psb_lib=psb_lib,
-#         dbd_lib=dbd_lib,
-#         acb_lib=acb_lib,
-#         steplib=steplib,
-#         reslib=reslib,
-#         compression=compression)
-#     print("Result:", response)
-#     for result in response.contacted.values():
-#         pprint(result)
-#         print("Changed:", result['changed'])
-#         print("Return code: ", result['rc'])
-#         assert result['changed'] == True 
-#         assert result['rc'] <= '4'
- 
 #1. BUILD PSB=ALL as string 
 def test_acb_gen_build_psbName_all(ansible_zos_module):
     hosts = ansible_zos_module
