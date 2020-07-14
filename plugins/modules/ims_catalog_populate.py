@@ -415,15 +415,22 @@ options:
     type: dict
     required: false
     suboptions:
-      duplist:
+      print_duplicate_resources:
         description:
           - Specifies that the DFS3PU00 utility list each DBD or PSB resource in the input ACB 
             library that is not added to the IMS catalog because it is a duplicate of an instance 
             that is already in the IMS catalog. 
-            # Lots of if cases in this one regarding managed acb, do I need to list all of them?
         type: bool
         required: false
-      errormax:
+        default: false
+      print_inserted_resources:
+        description:
+          - If the IMS management of ACBs is enabled, the utility also lists each DBD or PSB resources that is either added 
+            to the IMS directory or saved to the staging data set for importing into the IMS directory later. 
+        type: bool
+        required: false
+        default: true
+      max_error_msgs:
         description:
           - Terminate the IMS Catalog Populate utility when more than n messages indicate errors that prevent 
             certain DBDs and PSBs from having their metadata that is written to the IMS catalog. 
@@ -439,12 +446,6 @@ options:
         description:
           - Specifies the number of segments to be inserted between checkpoints. Can be a 1 to 8 digit numeric value of 1 to 99999999.
         type: int
-        required: false
-      isrtlist:
-        description:
-          - If the IMS management of ACBs is enabled, the utility also lists each DBD or PSB resources that is either added 
-            to the IMS directory or saved to the staging data set for importing into the IMS directory later.
-        type: bool
         required: false
       managed_acbs:
         description:
@@ -503,9 +504,9 @@ options:
             type: dict
             required: false
             suboptions:
-              save_acb:
+              replace_acb:
                 description:
-                  - If an ACB already exists in the IMS system, determines if it should be saved unconditionally or by
+                  - If an ACB already exists in the IMS system, determines if it should be overwritten unconditionally or by
                     latest timestamp
                 required: false
                 type: str
@@ -533,11 +534,6 @@ options:
                 type: str
                 required: false
                 default: false
-      no_isrtlist:
-        description:
-          - Do not print a list of inserted resource instances.
-        type: bool
-        required: false
 
 
 

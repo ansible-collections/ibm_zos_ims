@@ -6,7 +6,8 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
   DatasetDefinition,
   StdoutDefinition,
   StdinDefinition,
-  DummyDefinition
+  DummyDefinition,
+  VIODefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
@@ -31,7 +32,7 @@ class catalog():
       try:
         response = MVSCmd.execute("DFS3PU00", self.dDStatements, self.paramString, verbose=False)
         self.result["rc"] = response.rc
-        self.result["stdout"] = response.stdout
+        self.result["content"] = response.stdout
         self.result["stderr"] = response.stderr
       except Exception as e:
         self.module.fail_json(msg=repr(e), **self.result)
@@ -44,7 +45,7 @@ class catalog():
       try:
         response = MVSCmd.execute("DFSRRC00", self.dDStatements, self.paramString, verbose=False)
         self.result["rc"] = response.rc
-        self.result["stdout"] = response.stdout
+        self.result["content"] = response.stdout
         self.result["stderr"] = response.stderr
       except Exception as e:
         self.module.fail_json(msg=repr(e), **self.result)
@@ -107,10 +108,7 @@ class catalog():
         print("this is sysut1List" + " ".join(sysut1List))
         sysut1DDStatement = DDStatement("SYSUT1", StdinDefinition(sysut1List))
       else:
-        if self.parsed_args.get("sysut1") is not None:
-          sysut1DDStatement = DDStatement("SYSUT1", DatasetDefinition(**{k: v for k, v in self.parsed_args.get('sysut1').items() if v is not None}))
-        else:
-          sysut1DDStatement = DDStatement("SYSUT1", StdoutDefinition())
+        sysut1DDStatement = DDStatement("SYSUT1", StdoutDefinition())
       dDStatementList.append(sysut1DDStatement)
       
       irlm_id = ""
@@ -182,19 +180,19 @@ class catalog():
       dDStatementList.append(dummyDDStatement)
   
       # #add sysabend dd statement
-      # if parsed_args.get('sysabend') is None:
+      # if self.parsed_args.get('sysabend') is None:
       #   sysDefinition = StdoutDefinition()
       # else:
       #   sysDefinition = DatasetDefinition(parsed_args['sysabend'])
       # sysabendDDStatement = DDStatement("SYSABEND", sysDefinition)
       # dDStatementList.append(sysabendDDStatement)
   
-      # controlList=[]
-      # if parsed_args.get('control_statements') is not None:
-      #   print("getting control statements")
-      #   controlList = parse_control_statements(parsed_args.get('control_statements'))
-      # ctrlStateDDStatement = DDStatement("SYSINP", StdinDefinition(controlList))
-      # dDStatementList.append(ctrlStateDDStatement)
+      controlList=[]
+      if self.parsed_args.get('control_statements') is not None:
+        print("getting control statements")
+        controlList = self._parse_control_statements()
+        ctrlStateDDStatement = DDStatement("SYSINP", StdinDefinition(controlList))
+        dDStatementList.append(ctrlStateDDStatement)
         
       irlm_id = ""
       irlm_flag = "N"
@@ -222,17 +220,21 @@ class catalog():
     def _parse_control_statements(self):
         controlStatements = self.parsed_args.get('control_statements')
         controlStr=[]
-        if controlStatements.get('duplist') is not None:
+        if controlStatements.get('print_duplicate_resources') is not None:
+          if controlStatements.get('print_duplicate_resources') == True:
             controlStr.append("DUPLIST")
-        if controlStatements.get('errormax') is not None:
+          else:
+            controlStr.append("NODUPLIST")
+        if controlStatements.get('max_error_msgs') is not None:
             controlStr.append("ERRORMAX="+ str(controlStatements['errormax']))
         if controlStatements.get('resource_chkp_freq') is not None:
             controlStr.append("RESOURCE_CHKP_FREQ="+str(controlStatements.get('resource_chkp_freq')))
         if controlStatements.get('segment_chkp_freq') is not None:
             controlStr.append("SEGMENT_CHKP_FREQ="+str(controlStatements.get('resource_chkp_freq')))
-        if controlStatements.get('isrtlist') is not None:
+        if controlStatements.get('print_inserted_resources') is not None:
+          if controlStatements.get('print_inserted_resources') == True:
             controlStr.append("ISRTLIST")
-        if controlStatements.get('no_isrtlist') is not None:
+          else:
             controlStr.append("NOISRTLIST")
 
         managed_acbs=controlStatements.get('managed_acbs')
@@ -255,7 +257,7 @@ class catalog():
             managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
             return "".join(managed_acbs_string)
           if managed_acbs.get('stage').get('save_acb') is not None:
-            managed_acbs_string.append(managed_acbs.get('stage').get('save_acb'))
+            managed_acbs_string.append("," + managed_acbs.get('stage').get('save_acb'))
           if managed_acbs.get('stage').get("clean_staging_set") is True:
             managed_acbs_string.append(",DELETE")
           if managed_acbs.get('stage').get('GSAMPCB') is True:
@@ -263,16 +265,17 @@ class catalog():
           return "".join(managed_acbs_string)
 
         if managed_acbs.get('update') is not None:
-          managed_acbs_string.append("UPDATE")
+          managed_acbs_string.append("(UPDATE")
           if managed_acbs.get('update').get('gsamdbd') is not None:
             managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
             return "".join(managed_acbs_string)
-          if managed_acbs.get('stage').get('save_acb') is not None:
-            managed_acbs_string.append(managed_acbs.get('stage').get('save_acb'))
+          if managed_acbs.get('update').get('replace_acb') is not None:
+            managed_acbs_string.append("," + managed_acbs.get('update').get('replace_acb'))
           if managed_acbs.get('update').get("share_mode") is True:
             managed_acbs_string.append(",SHARE")
           if managed_acbs.get('update').get('GSAMPCB') is True:
             managed_acbs_string.append(",GSAMPCB")
+          managed_acbs_string.append(")")
           return "".join(managed_acbs_string)
 
 

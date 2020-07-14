@@ -77,34 +77,33 @@ class catalog_parser():
           sysabend=dict(arg_type="data_set", required = False),
           control_statements=dict(arg_type="dict", 
             options=dict(
-              duplist=dict(arg_type="bool", required=False),
-                errormax=dict(arg_type="int", required=False),
-                resource_chkp_freq=dict(arg_type="int", required=False),
-                segment_chkp_freq=dict(arg_type="int", required=False),
-                isrtlist=dict(arg_type="bool", required=False),
-                managed_acbs=dict(arg_type="dict", 
-                  required=False, 
-                  options=dict(
-                    setup=dict(arg_type="bool", required=False),
-                    stage=dict(arg_type=dict, required=False, 
-                      options=dict(
-                        save_acb=dict(arg_type="str", required=False, choices=['LATEST', 'UNCOND']),
-                        clean_staging_set=dict(arg_type="bool", required=False, default=False),
-                        gsampcb=dict(arg_type="bool", required=False, default=False),
-                        gsamdbd=dict(arg_type="str", required=False, default=False)
-                      )
-                    ),
-                    update=dict(arg_type=dict, required=False, 
-                      options=dict(
-                        save_acb=dict(arg_type="str", required=False, choices=['LATEST', 'UNCOND']),
-                        share_mode=dict(arg_type="bool", required=False, default=False),
-                        gsampcb=dict(arg_type="bool", required=False, default=False),
-                        gsamdbd=dict(arg_type="str", required=False, default=False)
-                      )
+              print_duplicate_resources=dict(arg_type="bool", required=False, default=False),
+              max_error_msgs=dict(arg_type="int", required=False),
+              resource_chkp_freq=dict(arg_type="int", required=False),
+              segment_chkp_freq=dict(arg_type="int", required=False),
+              print_inserted_resources=dict(arg_type="bool", required=False, default=True),
+              managed_acbs=dict(arg_type="dict", 
+                required=False, 
+                options=dict(
+                  setup=dict(arg_type="bool", required=False),
+                  stage=dict(arg_type="dict", required=False, 
+                    options=dict(
+                      save_acb=dict(arg_type="str", required=False, choices=['LATEST', 'UNCOND']),
+                      clean_staging_set=dict(arg_type="bool", required=False, default=False),
+                      gsampcb=dict(arg_type="bool", required=False, default=False),
+                      gsamdbd=dict(arg_type="str", required=False)
+                    )
+                  ),
+                  update=dict(arg_type="dict", required=False, 
+                    options=dict(
+                      replace_acb=dict(arg_type="str", required=False, choices=['LATEST', 'UNCOND']),
+                      share_mode=dict(arg_type="bool", required=False, default=False),
+                      gsampcb=dict(arg_type="bool", required=False, default=False),
+                      gsamdbd=dict(arg_type="str", required=False)
                     )
                   )
-                ),
-              no_isrtlist=dict(arg_type="bool", required=False)
+                )
+              )
             ),
             required=False)
         )
@@ -152,21 +151,6 @@ class catalog_parser():
                   time_stamp=dict(arg_type="str", required=True)
                 )
               ),
-              sysut1=dict(arg_type="dict", 
-                options=dict(
-                  dataset_name=dict(arg_type="data_set", required=True),
-                  disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
-                  primary=dict(arg_type="int", required=False),
-                  primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
-                  secondary=dict(arg_type="int", required=False),
-                  secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
-                  normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
-                  conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
-                  record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
-                  record_length=dict(arg_type="int", required=False),
-                  block_size=dict(arg_type="int", required=False)
-                ), 
-                required=False),
               managed_acbs=dict(arg_type="bool", required=False),
               resource_chkp_freq=dict(arg_type="int", required=False)
         )
