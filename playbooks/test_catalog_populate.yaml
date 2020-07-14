@@ -34,8 +34,7 @@
           type: SEQ
         control_statements:
           managed_acbs:
-            setup: True
-          # print_duplicate_resources: True
+            setup: true
         # secondary_log_dataset:
         #   dataset_name: IMSTESTL.IMS1.LOG2
         #   disposition: NEW

@@ -77,11 +77,11 @@ class catalog_parser():
           sysabend=dict(arg_type="data_set", required = False),
           control_statements=dict(arg_type="dict", 
             options=dict(
-              print_duplicate_resources=dict(arg_type="bool", required=False, default=False),
+              print_duplicate_resources=dict(arg_type="bool", required=False),#, default=False),
               max_error_msgs=dict(arg_type="int", required=False),
               resource_chkp_freq=dict(arg_type="int", required=False),
               segment_chkp_freq=dict(arg_type="int", required=False),
-              print_inserted_resources=dict(arg_type="bool", required=False, default=True),
+              print_inserted_resources=dict(arg_type="bool", required=False),#, default=True),
               managed_acbs=dict(arg_type="dict", 
                 required=False, 
                 options=dict(

@@ -226,7 +226,7 @@ class catalog():
           else:
             controlStr.append("NODUPLIST")
         if controlStatements.get('max_error_msgs') is not None:
-            controlStr.append("ERRORMAX="+ str(controlStatements['errormax']))
+            controlStr.append("ERRORMAX="+ str(controlStatements['max_error_msgs']))
         if controlStatements.get('resource_chkp_freq') is not None:
             controlStr.append("RESOURCE_CHKP_FREQ="+str(controlStatements.get('resource_chkp_freq')))
         if controlStatements.get('segment_chkp_freq') is not None:
@@ -252,7 +252,7 @@ class catalog():
           return "".join(managed_acbs_string)
 
         if managed_acbs.get('stage') is not None:
-          managed_acbs_string.append("STAGE")
+          managed_acbs_string.append("(STAGE")
           if managed_acbs.get('stage').get('gsamdbd') is not None:
             managed_acbs_string.append(",GSAM=" + managed_acbs.get('stage').get('gsamdbd'))
             return "".join(managed_acbs_string)
@@ -262,6 +262,7 @@ class catalog():
             managed_acbs_string.append(",DELETE")
           if managed_acbs.get('stage').get('GSAMPCB') is True:
             managed_acbs_string.append(",GSAMPCB")
+          managed_acbs_string.append(")")
           return "".join(managed_acbs_string)
 
         if managed_acbs.get('update') is not None:
