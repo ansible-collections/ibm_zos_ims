@@ -16,7 +16,7 @@ environment:
   PATH: "/u/omvsadm/mvsbuilds/1032/bin:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin" 
   STEPLIB: 'IMSBLD.I15RTSMM.COMRESL1'
 extra_args:
-    STEPLIB: IMSNEW.DIPTI.IM00.SDFSRESL
+    #STEPLIB: IMSNEW.DIPTI.IM00.SDFSRESL
     JOB_CARD: |-
       //ANSIBLE JOB 'testing',
       //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
