@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ansible-galaxy collection build ../ --force
-ansible-galaxy collection install ibm.ibm_zos_ims:==1.0.0-beta3 -c -f --force-with-deps
+ansible-galaxy collection install ./ibm-ibm_zos_ims*.tar.gz -c -f --force-with-deps
 
 plugins_dir=$(pwd)/../plugins
 core_dir=~/.ansible/collections/ansible_collections/ibm/ibm_zos_core/plugins
@@ -11,4 +11,4 @@ export ANSIBLE_ACTION_PLUGINS=${plugins_dir}/action
 export ANSIBLE_CONNECTION_PLUGINS=${plugins_dir}/connection
 export ANSIBLE_CONFIG=$(pwd)/ansible.cfg
 
-python3 -m pytest --host-pattern=all --zinventory=${1:-test_config.yml} $2 -vvv
+python3 -m pytest --host-pattern=all --zinventory=${1:-test_config.yml} $2
