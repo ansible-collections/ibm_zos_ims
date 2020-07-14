@@ -4,28 +4,28 @@ python_path: /usr/lpp/izoda/v110/anaconda/bin/python3.6
 
 
 environment:
-  ZOAU_ROOT: /u/omvsadm/mvsbuilds/mvsutil
-  PYTHON_ROOT: /u/omvsadm/mvsbuilds/mvsutil #/usr/lpp/izoda/v110/anaconda
+  ZOAU_ROOT: /u/omvsadm/mvsbuilds/1032
+  PYTHON_ROOT: /u/omvsadm/mvsbuilds/1032 #/usr/lpp/izoda/v110/anaconda
   JAVA_ROOT: /usr/lpp/java
   MANPATH: /usr/man/%L
-  FFI_LIB: "/u/omvsadm/mvsbuilds/mvsutil/lib/ffi"
+  FFI_LIB: "/u/omvsadm/mvsbuilds/1032/lib/ffi"
   RELEASE_NAME: python-2017-04-12
   CURL_CA_BUNDLE: "/usr/lpp/izoda/v110/anaconda/etc/ssl/cacert.pem"
   RELEASE_DIR: /usr/lpp/rsusr/python27/python-2017-04-12-py27
   RELEASE_TYPE: py27
-  LIBPATH: "/u/omvsadm/mvsbuilds/mvsutil/lib:/u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:."
+  LIBPATH: "/u/omvsadm/mvsbuilds/1032/lib:/u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:."
   #LIBPATH: "/usr/lpp/izoda/v110/anaconda/lib:/usr/lpp/zoautil/v100/lib:/lib:/usr/lib:."
   NLSPATH: /usr/lib/nls/msg/%L/%N
   MAIL: /usr/mail/OMVSADM
   _: /bin/env
-  STEPLIB: IMSBLD.I15RTSMM.COMRESL1
-  TERMINFO: "/u/omvsadm/mvsbuilds/mvsutil/share/terminfo"
+  STEPLIB: IMSNEW.DIPTI.IM00.SDFSRESL #IMSBLD.I15RTSMM.COMRESL1
+  TERMINFO: "/u/omvsadm/mvsbuilds/1032/share/terminfo"
   #ZOAU_ROOT: "/usr/lpp/zoautil/v100"
   ZOAUTIL_DIR: "/u/omvsadm/mvsbuild/mvsutil" #"/usr/lpp/zoautil/v100"
-  PYTHONPATH: "/u/omvsadm/mvsbuilds/mvsutil/lib:/lib:/usr/lib"
+  PYTHONPATH: "/u/omvsadm/mvsbuilds/1032/lib:/lib:/usr/lib"
   #PYTHONPATH: "/usr/lpp/izoda/v110/anaconda/lib:/usr/lpp/zoautil/v100/lib:/lib:/usr/lib"
-  PKG_CONFIG_PATH: "/u/omvsadm/mvsbuilds/mvsutil/lib/pkgconfig:/usr/lpp/izoda/v110/anaconda/share/pkgconfig"
-  PYTHON_HOME: "/u/omvsadm/mvsbuilds/mvsutil" #"/usr/lpp/izoda/v110/anaconda"
+  PKG_CONFIG_PATH: "/u/omvsadm/mvsbuilds/1032/lib/pkgconfig:/usr/lpp/izoda/v110/anaconda/share/pkgconfig"
+  PYTHON_HOME: "/u/omvsadm/mvsbuilds/1032" #"/usr/lpp/izoda/v110/anaconda"
   _BPXK_JOBLOG: STDERR
   # environment variables for mvsutils/mvscmd
   _BPXK_AUTOCVT: ON
@@ -38,7 +38,7 @@ environment:
   GIT_EXEC_PATH: "/usr/lpp/rsusr/ported/libexec/git-core"
   GIT_TEMPLATE_DIR: "/usr/lpp/rsusr/ported/share/git-core/templates"
   #PATH: '/u/omvsadm/mvsbuilds/103/mvsutil/bin:/usr/lpp/rsusr/ported/bin:{{ JAVA_ROOT }}/java180/J8.0_64/bin:/bin:/var/bin:{{ JAVA_ROOT }}/J8.0/bin:{{ PYTHON_ROOT }}/bin'
-  PATH: "/u/omvsadm/mvsbuilds/mvsutil/bin:/usr/lpp/rsusr/ported/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/usr/lpp/izoda/v110/anaconda/bin"
+  PATH: "/u/omvsadm/mvsbuilds/1032/bin:/usr/lpp/rsusr/ported/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/usr/lpp/izoda/v110/anaconda/bin"
   # Java environment
   JAVA_HOME: /usr/lpp/java/java180/J8.0_64
   LANG: C
