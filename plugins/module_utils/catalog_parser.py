@@ -152,7 +152,22 @@ class catalog_parser():
                 )
               ),
               managed_acbs=dict(arg_type="bool", required=False),
-              resource_chkp_freq=dict(arg_type="int", required=False)
+              resource_chkp_freq=dict(arg_type="int", required=False),
+              sysut1=dict(arg_type="dict", 
+                options=dict(
+                  dataset_name=dict(arg_type="data_set", required=True),
+                  disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+                  primary=dict(arg_type="int", required=False),
+                  primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+                  secondary=dict(arg_type="int", required=False),
+                  secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+                  normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+                  conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+                  record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
+                  record_length=dict(arg_type="int", required=False),
+                  block_size=dict(arg_type="int", required=False)
+                ), 
+            required=False)
         )
 
         parser = BetterArgParser(module_defs)

@@ -108,7 +108,11 @@ class catalog():
         print("this is sysut1List" + " ".join(sysut1List))
         sysut1DDStatement = DDStatement("SYSUT1", StdinDefinition(sysut1List))
       else:
-        sysut1DDStatement = DDStatement("SYSUT1", StdoutDefinition())
+        if self.parsed_args.get("sysut1") is not None:
+          sysut1DDStatement = DDStatement("SYSUT1", DatasetDefinition(**{k: v for k, v in self.parsed_args.get('sysut1').items() if v is not None}))
+          # sysut1DDStatement = DDStatement("SYSUT1", StdoutDefinition())
+        else:
+          sysut1DDStatement = DDStatement("SYSUT1", StdoutDefinition())
       dDStatementList.append(sysut1DDStatement)
       
       irlm_id = ""
@@ -153,6 +157,10 @@ class catalog():
               acbCount += 1
           acbCount = 1
         
+      if self.parsed_args.get('secondary_log_dataset') is not None:
+        iefrder2DDStatement = DDStatement("IEFRDER2", DatasetDefinition(**{k: v for k, v in self.parsed_args.get('secondary_log_dataset').items() if v is not None}))
+        dDStatementList.append(iefrder2DDStatement)
+      
       if self.parsed_args.get('bootstrap_dataset') is not None:
         btstrDataset = DDStatement("IMSDBSDS", DatasetDefinition(self.parsed_args.get('bootstrap_dataset')))
         dDStatementList.append(btstrDataset)
@@ -179,13 +187,13 @@ class catalog():
       dummyDDStatement = DDStatement("ACBCATWK", DummyDefinition())
       dDStatementList.append(dummyDDStatement)
   
-      # #add sysabend dd statement
-      # if self.parsed_args.get('sysabend') is None:
-      #   sysDefinition = StdoutDefinition()
-      # else:
-      #   sysDefinition = DatasetDefinition(parsed_args['sysabend'])
-      # sysabendDDStatement = DDStatement("SYSABEND", sysDefinition)
-      # dDStatementList.append(sysabendDDStatement)
+      #add sysabend dd statement
+      if self.parsed_args.get('sysabend') is None:
+        sysDefinition = StdoutDefinition()
+      else:
+        sysDefinition = DatasetDefinition(parsed_args['sysabend'])
+      sysabendDDStatement = DDStatement("SYSABEND", sysDefinition)
+      dDStatementList.append(sysabendDDStatement)
   
       controlList=[]
       if self.parsed_args.get('control_statements') is not None:

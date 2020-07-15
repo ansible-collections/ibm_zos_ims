@@ -320,6 +320,150 @@ options:
         numeric value from 1 to 99999999. The default value is 200.
       type: int
       required: false
+  sysut1:
+    description:
+      - Defines the primary IMS log data set.
+    type: dict
+    required: true
+    suboptions:
+      dataset_name:
+        description:
+          - Describes the name of the dataset
+        type: str
+        required: true
+      disposition:
+        description: 
+          - Status of dataset
+        type: str
+        required: false
+        choices:
+          - NEW
+          - OLD
+          - SHR
+          - EXCL
+      record_format:
+        description:
+          - the record format #Need to expand this
+        type: str
+        required: false
+        choices:
+          - FB
+          - VB
+          - FBA
+          - VBA
+          - U
+      record_length:
+        description:
+          - the logical record length in bytes #Need to expand this
+        type: int
+        required: false
+      block_size:
+        description:
+          - the block size #Need to expand this
+        type: int
+        required: false
+      primary:
+        description:
+          - The amount of primary space to allocate for the dataset
+        type: int
+        required: false
+      primary_unit:
+        description:
+          - The unit of size to use when specifying primary space
+        type: str
+        required: false
+      secondary:
+        description:
+          - The amount of secondary space to allocate for the dataset
+        type: int
+        required: false
+      secondary_unit:
+        description:
+          - The unit of size to sue when specifying secondary space.
+        type: str
+        required: false
+      normal_disposition:
+        description:
+          - What to do with the dataset after normal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
+      abnormal_disposition:
+        description:
+          - What to do with the dataset after abnormal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
+      type:
+        description: 
+          - The type of dataset
+        type: str
+        required: false
+        choices:
+          - SEQ
+          - BASIC
+          - LARGE
+          - PDS
+          - PDSE
+          - LIBRARY
+          - LDS
+          - RRDS
+          - ESDS
+          - KSDS
+      storage_class:
+        description:
+          - The storage class for an SMS-managed dataset
+        type: str
+        required: false
+      data_class:
+        description:
+        type: str
+        required: false
+      management_class:
+        description:
+        type: str
+        required: false
+      key_length:
+        description:
+        type: int
+        required: false
+      key_offset:
+        description:
+        type: int
+        required: false
+      volumes:
+        description:
+        type: list
+        required: false
+        elements: str
+      dataset_key_label:
+        description: 
+        type: str
+        required: false
+      key_label1:
+        description:
+        type: str
+        required false
+      key_encoding1:
+        description:
+        type: str
+        required: false
+      key_label2:
+        description:
+        type: str
+        required false
+      key_encoding2:
+        description:
+        type: str
+        required: false
 
 author:
   - Jerry Li 
@@ -355,7 +499,7 @@ def run_module():
       steplib=dict(type="str", required=False),
       mode=dict(type="str", required=True),
       delete_dbd_by_version=dict(type="dict", required=False),
-      # sysut1=dict(type="dict", required=False),
+      sysut1=dict(type="dict", required=False),
       update_retention_criteria=dict(type="list", required=False),
       delete=dict(type="list", required=False),
       managed_acbs=dict(type="bool", required=False),
