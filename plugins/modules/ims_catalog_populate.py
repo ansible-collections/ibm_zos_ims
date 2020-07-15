@@ -27,6 +27,15 @@ description:
   - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances 
     into the database data sets of the IMS catalog from ACB library data sets.
 options:
+  mode:
+    description:
+      - Indicates what mode the Catalog Populate utility is to be run in.
+    type: str
+    required: true
+    choices:
+      - LOAD
+      - UPDATE
+      - READ
   irlm_enabled:
     description:
       - Indicates if IRLM is used
@@ -216,7 +225,7 @@ options:
           - EXCL
       record_format:
         description:
-          - the record format #Need to expand this
+          - The record format 
         type: str
         required: false
          choices:
@@ -227,17 +236,17 @@ options:
           - U
       record_length:
         description:
-          - the logical record length in bytes #Need to expand this
+          - the logical record length in bytes 
         type: int
         required: false
       block_size:
         description:
-          - the block size #Need to expand this
+          - The block size 
         type: int
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the datatset
+          - The amount of primary space to allocate for the dataset
         type: int
         required: false
       primary_unit:
@@ -255,7 +264,7 @@ options:
           - The unit of size to sue when specifying secondary space.
         type: str
         required: false
-      normal_dispositon:
+      normal_disposition:
         description:
           - What to do with the dataset after normal termination
         type: str
@@ -265,6 +274,8 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
+          - CATALOG
+          - UNCATALOG
       abnormal_disposition:
         description:
           - What to do with the dataset after abnormal termination
@@ -275,6 +286,8 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
+          - CATALOG
+          - UNCATALOG
       type:
         description: 
           - The type of dataset
@@ -358,8 +371,8 @@ options:
     default: false
   acb_lib:
     description:
-      - Defines additional optional input ACB library data sets. The ddnames of 
-        additional ACB libraries will be consecutively numbered. 
+      - Defines an ACB library data set that contains the ACB members that are used to populate the IMS catalog. 
+        This DD statement is required.
     type: list
     elements: str
     required: true
@@ -372,22 +385,219 @@ options:
     description:
       - Optionally defines the IMS directory data sets that are used to store the ACBs. If this is ommitted,
         the utility dynamically deletes any preexisting directory datasets and dynamically creates two new
-        datasets to store the ACBs.
+        datasets to store the ACBs. The data set name must conform to the same naming convention as for 
+        a system-created directory data set.
     type: list
-    elements: str
+    elements: dict
     required: false
+    suboptions:
+      dataset_name:
+        description:
+          - Describes the name of the dataset
+        type: str
+        required: true
+      disposition:
+        description: 
+          - Status of dataset
+        type: str
+        required: false
+        choices:
+          - NEW
+          - OLD
+          - SHR
+          - EXCL
+      primary:
+        description:
+          - The amount of primary space to allocate for the dataset
+        type: int
+        required: false
+      primary_unit:
+        description:
+          - The unit of size to use when specifying primary space
+        type: str
+        required: false
+      secondary:
+        description:
+          - The amount of secondary space to allocate for the dataset
+        type: int
+        required: false
+      secondary_unit:
+        description:
+          - The unit of size to sue when specifying secondary space.
+        type: str
+        required: false
+      normal_disposition:
+        description:
+          - What to do with the dataset after normal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
+      abnormal_disposition:
+        description:
+          - What to do with the dataset after abnormal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
+      management_class:
+        description:
+        type: str
+        required: false
+      volumes:
+        description:
+        type: list
+        required: false
+        elements: str
   temp_acb_dataset:
     description:
-      - An optional control statement to define an empty work data set to be used 
-        as an IMS.ACBLIB data set for the IMS Catalog Populate utility. 
-        If IMS Management of ACBs is not enabled, this statement is ommitted. 
-    type: str
+      - An optional control statement to define an empty work data set to be used as an IMS.ACBLIB data set 
+        for the IMS Catalog Populate utility. If IMS Management of ACBs is not enabled, this statement is ommitted. 
+        This dataset does not need to conform to any IMS Catalog or system-defined naming convention
+    type: dict
     required: false
+    suboptions:
+      dataset_name:
+        description:
+          - Describes the name of the dataset
+        type: str
+        required: true
+      disposition:
+        description: 
+          - Status of dataset
+        type: str
+        required: false
+        choices:
+          - NEW
+          - OLD
+          - SHR
+          - EXCL
+      primary:
+        description:
+          - The amount of primary space to allocate for the dataset
+        type: int
+        required: false
+      primary_unit:
+        description:
+          - The unit of size to use when specifying primary space
+        type: str
+        required: false
+      secondary:
+        description:
+          - The amount of secondary space to allocate for the dataset
+        type: int
+        required: false
+      secondary_unit:
+        description:
+          - The unit of size to sue when specifying secondary space.
+        type: str
+        required: false
+      normal_disposition:
+        description:
+          - What to do with the dataset after normal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
+      abnormal_disposition:
+        description:
+          - What to do with the dataset after abnormal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
+      management_class:
+        description:
+        type: str
+        required: false
+      volumes:
+        description:
+        type: list
+        required: false
+        elements: str
   directory_staging_dataset:
     description:
-      - Optionally defines the IMS directory staging data set. 
-    type: str
+      - Optionally defines the size and placement IMS directory staging data set. option to define the dataset. 
+        The dataset must follow the naming convention for the IMS Catalog Directory.
+    type: dict
     required: false
+    suboptions:
+      dataset_name:
+        description:
+          - Describes the name of the dataset
+        type: str
+        required: true
+      disposition:
+        description: 
+          - Status of dataset
+        type: str
+        required: false
+        choices:
+          - NEW
+          - OLD
+          - SHR
+          - EXCL
+      primary:
+        description:
+          - The amount of primary space to allocate for the dataset
+        type: int
+        required: false
+      primary_unit:
+        description:
+          - The unit of size to use when specifying primary space
+        type: str
+        required: false
+      secondary:
+        description:
+          - The amount of secondary space to allocate for the dataset
+        type: int
+        required: false
+      secondary_unit:
+        description:
+          - The unit of size to sue when specifying secondary space.
+        type: str
+        required: false
+      normal_disposition:
+        description:
+          - What to do with the dataset after normal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
+      abnormal_disposition:
+        description:
+          - What to do with the dataset after abnormal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
+      management_class:
+        description:
+        type: str
+        required: false
+      volumes:
+        description:
+        type: list
+        required: false
+        elements: str
   proclib:
     description:
       - Defines the IMS.PROCLIB data set that contains the DFSDFxxx member that 
@@ -476,7 +686,7 @@ options:
                 choices:
                   - LATEST
                   - UNCOND
-              clean_staging_set:
+              clean_staging_dataset:
                 description:
                   - If the staging data set is not allocated to any online IMS system, scratch and recreate the staging data 
                     set before adding the resources to the staging data set.
@@ -572,8 +782,8 @@ def run_module():
       acb_lib=dict(type="list", required=True),
       bootstrap_dataset=dict(type="str", required=False),
       directory_datasets=dict(type="list", required=False),
-      temp_acb_dataset=dict(type="str", required=False),
-      directory_staging_dataset=dict(type="str", required=False),
+      temp_acb_dataset=dict(type="dict", required=False),
+      directory_staging_dataset=dict(type="dict", required=False),
       proclib=dict(type="str", required=False),
       steplib=dict(type="str", required=False),
       control_statements=dict(type="dict", required=False)

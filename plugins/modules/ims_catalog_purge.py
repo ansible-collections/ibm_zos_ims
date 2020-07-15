@@ -341,25 +341,9 @@ options:
           - OLD
           - SHR
           - EXCL
-      record_format:
-        description:
-          - the record format #Need to expand this
-        type: str
-        required: false
-        choices:
-          - FB
-          - VB
-          - FBA
-          - VBA
-          - U
-      record_length:
-        description:
-          - the logical record length in bytes #Need to expand this
-        type: int
-        required: false
       block_size:
         description:
-          - the block size #Need to expand this
+          - The block size 
         type: int
         required: false
       primary:
@@ -418,53 +402,11 @@ options:
           - RRDS
           - ESDS
           - KSDS
-      storage_class:
-        description:
-          - The storage class for an SMS-managed dataset
-        type: str
-        required: false
-      data_class:
-        description:
-        type: str
-        required: false
-      management_class:
-        description:
-        type: str
-        required: false
-      key_length:
-        description:
-        type: int
-        required: false
-      key_offset:
-        description:
-        type: int
-        required: false
       volumes:
         description:
         type: list
         required: false
         elements: str
-      dataset_key_label:
-        description: 
-        type: str
-        required: false
-      key_label1:
-        description:
-        type: str
-        required false
-      key_encoding1:
-        description:
-        type: str
-        required: false
-      key_label2:
-        description:
-        type: str
-        required false
-      key_encoding2:
-        description:
-        type: str
-        required: false
-
 author:
   - Jerry Li 
 '''

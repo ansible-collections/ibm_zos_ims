@@ -52,7 +52,7 @@ class catalog_parser():
 
       try:
         module_defs = dict(
-          mode=dict(arg_type="str", requierd=True, choices=['LOAD', 'UPDATE', 'READ']),
+          mode=dict(arg_type="str", required=True, choices=['LOAD', 'UPDATE', 'READ']),
           check_timestamp=dict(arg_type="bool", required=False),
           secondary_log_dataset=dict(arg_type="dict", 
             options=dict(
@@ -66,14 +66,48 @@ class catalog_parser():
               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
               record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
               record_length=dict(arg_type="int", required=False),
-              block_size=dict(arg_type="int", required=False)
+              block_size=dict(arg_type="int", required=False),
+              type=dict(arg_type="str", required=False, choices=['SEQ', 'BASIC', 'LARGE', 'PDS', 'PDSE', 'LIBRARY', 'LDS', 'RRDS', 'ESDS', 'KSDS'])
             ), 
             required=False),
           acb_lib=dict(arg_type="list", elements="data_set", required=True),
           bootstrap_dataset=dict(arg_type="data_set", required = False),
-          directory_datasets=dict(arg_type="list", elements="data_set", required=False),
-          temp_acb_dataset=dict(arg_type="data_set", required = False),
-          directory_staging_dataset=dict(arg_type="data_set", required = False),
+          directory_datasets=dict(arg_type="list", elements="dict", required=False,
+            options=dict(
+              dataset_name=dict(arg_type="data_set", required=True),
+              disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+              primary=dict(arg_type="int", required=False),
+              primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              secondary=dict(arg_type="int", required=False),
+              secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+            ) 
+          ),
+          temp_acb_dataset=dict(arg_type="dict", required = False,
+           options=dict(
+              dataset_name=dict(arg_type="data_set", required=True),
+              disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+              primary=dict(arg_type="int", required=False),
+              primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              secondary=dict(arg_type="int", required=False),
+              secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+            ) 
+          ),
+          directory_staging_dataset=dict(arg_type="dict", required = False,
+             options=dict(
+              dataset_name=dict(arg_type="data_set", required=True),
+              disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+              primary=dict(arg_type="int", required=False),
+              primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              secondary=dict(arg_type="int", required=False),
+              secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+            ) 
+          ),
           sysabend=dict(arg_type="data_set", required = False),
           control_statements=dict(arg_type="dict", 
             options=dict(
@@ -89,7 +123,7 @@ class catalog_parser():
                   stage=dict(arg_type="dict", required=False, 
                     options=dict(
                       save_acb=dict(arg_type="str", required=False, choices=['LATEST', 'UNCOND']),
-                      clean_staging_set=dict(arg_type="bool", required=False, default=False),
+                      clean_staging_dataset=dict(arg_type="bool", required=False, default=False),
                       gsampcb=dict(arg_type="bool", required=False, default=False),
                       gsamdbd=dict(arg_type="str", required=False)
                     )
@@ -111,9 +145,11 @@ class catalog_parser():
         parser = BetterArgParser(module_defs)
         self.parsed_args.update(parser.parse_args(self.params))
 
-        if self.parsed_args.get('directory_staging_dataset') is not None:
+        if self.parsed_args.get('directory_datasets') is not None:
           self.directory_datasets = self.parsed_args.get('directory_datasets')
           self._validate_directory_staging_dataset()
+        
+        self._validate_optional_datasets()
 
       except ValueError as error:
         self.result['msg'] = error.args
@@ -163,9 +199,8 @@ class catalog_parser():
                   secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
                   normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
                   conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
-                  record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
-                  record_length=dict(arg_type="int", required=False),
-                  block_size=dict(arg_type="int", required=False)
+                  block_size=dict(arg_type="int", required=False),
+                  type=dict(arg_type="str", required=False, choices=['SEQ', 'BASIC', 'LARGE', 'PDS', 'PDSE', 'LIBRARY', 'LDS', 'RRDS', 'ESDS', 'KSDS'])
                 ), 
             required=False)
         )
@@ -198,3 +233,15 @@ class catalog_parser():
       if len(self.parsed_args.get("directory_datasets")) > 20:
         self.result['msg'] = "You cannot specify more than 20 IMS directory datasets"
         self.module.fail_json(**self.result)
+
+  def _validate_optional_datasets(self):
+      print("validating optional datasets")
+      if self.parsed_args.get("directory_datasets") is not None or \
+          self.parsed_args.get("directory_staging_dataset") is not None or \
+            self.parsed_args.get("bootstrap_dataset") is not None:
+            if self.parsed_args.get("control_statements") is not None:
+              if self.parsed_args.get("control_statements").get("managed_acbs") is not None:
+                if self.parsed_args.get("control_statements").get("managed_acbs").get("stage") is not None or \
+                    self.parsed_args.get("control_statements").get("managed_acbs").get("update") is not None:
+                      self.result['msg'] = "You cannot define directory datasets or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE"
+                      self.module.fail_json(**self.result)

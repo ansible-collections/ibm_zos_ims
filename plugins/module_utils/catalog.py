@@ -166,21 +166,45 @@ class catalog():
         dDStatementList.append(btstrDataset)
       
       if self.parsed_args.get('directory_datasets') is not None:
+        dirParams= {
+          "block_size": 32760,
+          "record_length": 0,
+          "record_format": "U",
+          "type": "PDSE"
+        }
         directoryCount = 1
         for i in self.parsed_args.get('directory_datasets'):
-          if acbCount >= 10:
-            directoryDDStatement = DDStatement("IMSD00{0}".format(directoryCount), DatasetDefinition(i))
+          dirParams.update(i)
+          print("directory items: " + str(dirParams))
+          if directoryCount >= 10:
+            directoryDDStatement = DDStatement("IMSD00{0}".format(directoryCount), DatasetDefinition(**{k: v for k, v in dirParams.items() if v is not None}))
             dDStatementList.append(directoryDDStatement)
+            directoryCount = directoryCount + 1
           else:
-            directoryDDStatement = DDStatement("IMSD000{0}".format(directoryCount), DatasetDefinition(i))
+            directoryDDStatement = DDStatement("IMSD000{0}".format(directoryCount), DatasetDefinition(**{k: v for k, v in dirParams.items() if v is not None}))
             dDStatementList.append(directoryDDStatement)
+            directoryCount = directoryCount + 1 
       
       if self.parsed_args.get('temp_acb_dataset') is not None:
-        tempDDStatement = DDStatement("IMSDG001", DatasetDefinition(self.parsed_args.get('temp_acb_dataset')))
+        tempParams= {
+          "block_size": 32760,
+          "record_length": 80,
+          "record_format": "U",
+          "type": "PDSE"
+        }
+        tempParams.update(self.parsed_args.get('temp_acb_dataset'))
+        tempDDStatement = DDStatement("IMSDG001", DatasetDefinition(**{k: v for k, v in tempParams.items() if v is not None}))
         dDStatementList.append(tempDDStatement)
       
       if self.parsed_args.get('directory_staging_dataset') is not None:
-        dirDDStatement = DDStatement("IMDSTAG", DatasetDefinition(self.parsed_args.get('directory_staging_dataset')))
+        stagingParams= {
+          "block_size": 32760,
+          "record_length": 0,
+          "record_format": "U",
+          "type": "PDSE"
+        }
+        stagingParams.update(self.parsed_args.get('directory_staging_dataset'))
+        dirDDStatement = DDStatement("IMSDSTAG", DatasetDefinition(**{k: v for k, v in stagingParams.items() if v is not None}))
         dDStatementList.append(dirDDStatement)
   
       #Add dummy dd statement
@@ -191,7 +215,7 @@ class catalog():
       if self.parsed_args.get('sysabend') is None:
         sysDefinition = StdoutDefinition()
       else:
-        sysDefinition = DatasetDefinition(parsed_args['sysabend'])
+        sysDefinition = DatasetDefinition(self.parsed_args['sysabend'])
       sysabendDDStatement = DDStatement("SYSABEND", sysDefinition)
       dDStatementList.append(sysabendDDStatement)
   
@@ -266,7 +290,7 @@ class catalog():
             return "".join(managed_acbs_string)
           if managed_acbs.get('stage').get('save_acb') is not None:
             managed_acbs_string.append("," + managed_acbs.get('stage').get('save_acb'))
-          if managed_acbs.get('stage').get("clean_staging_set") is True:
+          if managed_acbs.get('stage').get("clean_staging_dataset") is True:
             managed_acbs_string.append(",DELETE")
           if managed_acbs.get('stage').get('GSAMPCB') is True:
             managed_acbs_string.append(",GSAMPCB")
