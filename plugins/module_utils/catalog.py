@@ -162,7 +162,13 @@ class catalog():
         dDStatementList.append(iefrder2DDStatement)
       
       if self.parsed_args.get('bootstrap_dataset') is not None:
-        btstrDataset = DDStatement("IMSDBSDS", DatasetDefinition(self.parsed_args.get('bootstrap_dataset')))
+        bootParams= {
+          "record_length": 96,
+          "record_format": "FB",
+          "type": "SEQ"
+        }
+        bootParams.update(self.parsed_args.get('bootstrap_dataset'))
+        btstrDataset = DDStatement("IMSDBSDS", DatasetDefinition(**{k: v for k, v in bootParams.items() if v is not None}))
         dDStatementList.append(btstrDataset)
       
       if self.parsed_args.get('directory_datasets') is not None:

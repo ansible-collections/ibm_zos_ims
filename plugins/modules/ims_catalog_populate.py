@@ -156,52 +156,13 @@ options:
           - RRDS
           - ESDS
           - KSDS
-      storage_class:
-        description:
-          - The storage class for an SMS-managed dataset
-        type: str
-        required: false
-      data_class:
-        description:
-        type: str
-        required: false
-      management_class:
-        description:
-        type: str
-        required: false
-      key_length:
-        description:
-        type: int
-        required: false
-      key_offset:
-        description:
-        type: int
-        required: false
       volumes:
         description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
         type: list
         required: false
         elements: str
-      dataset_key_label:
-        description: 
-        type: str
-        required: false
-      key_label1:
-        description:
-        type: str
-        required false
-      key_encoding1:
-        description:
-        type: str
-        required: false
-      key_label2:
-        description:
-        type: str
-        required false
-      key_encoding2:
-        description:
-        type: str
-        required: false
   secondary_log_dataset:
     description:
       - Defines the secondary IMS log data set.
@@ -304,52 +265,13 @@ options:
           - RRDS
           - ESDS
           - KSDS
-      storage_class:
-        description:
-          - The storage class for an SMS-managed dataset
-        type: str
-        required: false
-      data_class:
-        description:
-        type: str
-        required: false
-      management_class:
-        description:
-        type: str
-        required: false
-      key_length:
-        description:
-        type: int
-        required: false
-      key_offset:
-        description:
-        type: int
-        required: false
       volumes:
         description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
         type: list
         required: false
         elements: str
-      dataset_key_label:
-        description: 
-        type: str
-        required: false
-      key_label1:
-        description:
-        type: str
-        required false
-      key_encoding1:
-        description:
-        type: str
-        required: false
-      key_label2:
-        description:
-        type: str
-        required false
-      key_encoding2:
-        description:
-        type: str
-        required: false
   psb_lib:
     description:
       - Defines IMS.PSBLIB dataset
@@ -378,9 +300,70 @@ options:
     required: true
   bootstrap_dataset:
     description:
-      - Optionally defines the IMS directory bootstrap data set.
-    type: str
+      - Optionally defines the IMS directory bootstrap data set. 
+    type: dict
     required: false
+    suboptions:
+      dataset_name:
+        description:
+          - Describes the name of the dataset
+        type: str
+        required: true
+      disposition:
+        description: 
+          - Status of dataset
+        type: str
+        required: false
+        choices:
+          - NEW
+          - OLD
+          - SHR
+          - EXCL
+      block_size:
+        description:
+          - The block size 
+        type: int
+        required: false
+      primary:
+        description:
+          - The amount of primary space to allocate for the dataset
+        type: int
+        required: false
+      primary_unit:
+        description:
+          - The unit of size to use when specifying primary space
+        type: str
+        required: false
+      secondary:
+        description:
+          - The amount of secondary space to allocate for the dataset
+        type: int
+        required: false
+      secondary_unit:
+        description:
+          - The unit of size to sue when specifying secondary space.
+        type: str
+        required: false
+      normal_disposition:
+        description:
+          - What to do with the dataset after normal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
+      abnormal_disposition:
+        description:
+          - What to do with the dataset after abnormal termination
+        type: str
+        required: false
+        choices:
+          - DELETE
+          - KEEP
+          - CATLG
+          - UNCATLG
   directory_datasets:
     description:
       - Optionally defines the IMS directory data sets that are used to store the ACBs. If this is ommitted,
@@ -446,15 +429,6 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
-      management_class:
-        description:
-        type: str
-        required: false
-      volumes:
-        description:
-        type: list
-        required: false
-        elements: str
   temp_acb_dataset:
     description:
       - An optional control statement to define an empty work data set to be used as an IMS.ACBLIB data set 
@@ -518,18 +492,16 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
-      management_class:
-        description:
-        type: str
-        required: false
       volumes:
         description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
         type: list
         required: false
         elements: str
   directory_staging_dataset:
     description:
-      - Optionally defines the size and placement IMS directory staging data set. option to define the dataset. 
+      - Optionally defines the size and placement IMS of the directory staging data set. 
         The dataset must follow the naming convention for the IMS Catalog Directory.
     type: dict
     required: false
@@ -589,15 +561,6 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
-      management_class:
-        description:
-        type: str
-        required: false
-      volumes:
-        description:
-        type: list
-        required: false
-        elements: str
   proclib:
     description:
       - Defines the IMS.PROCLIB data set that contains the DFSDFxxx member that 
@@ -780,7 +743,7 @@ def run_module():
       dbd_lib=dict(type="str", required=False),
       check_timestamp=dict(type="bool", required=False),
       acb_lib=dict(type="list", required=True),
-      bootstrap_dataset=dict(type="str", required=False),
+      bootstrap_dataset=dict(type="dict", required=False),
       directory_datasets=dict(type="list", required=False),
       temp_acb_dataset=dict(type="dict", required=False),
       directory_staging_dataset=dict(type="dict", required=False),

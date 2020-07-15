@@ -10,7 +10,7 @@
   tasks:
     - name: test ims_catalog_populate
       ims_catalog_populate:
-        mode: UPDATE 
+        mode: LOAD 
         acb_lib: [
           IMSTESTL.IMS1.ACBLIB
         ]
@@ -40,6 +40,11 @@
             #   save_acb: UNCOND
             #   clean_staging_dataset: true
             setup: true
+        # bootstrap_dataset:
+        #   dataset_name: IMSTESTL.IMS1.DFSCD000.BSDS
+        #   disposition: NEW
+        #   normal_disposition: CATLG
+        #   primary: 391
         # directory_datasets:
         #   - dataset_name: IMSTESTL.IMS1.DFSCD000.DI1001
         #     disposition: NEW

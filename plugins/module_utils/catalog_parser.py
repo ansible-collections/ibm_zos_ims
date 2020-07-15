@@ -28,7 +28,8 @@ class catalog_parser():
                record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
                record_length=dict(arg_type="int", required=False),
                block_size=dict(arg_type="int", required=False),
-               type = dict(arg_type="str", required=False, choices=['SEQ','BASIC','LARGE','PDS','PDSE','LIBRARY','LDS','RRDS','ESDS','KSDS'])
+               type = dict(arg_type="str", required=False, choices=['SEQ','BASIC','LARGE','PDS','PDSE','LIBRARY','LDS','RRDS','ESDS','KSDS']),
+               volumes=dict(type="list", required=False, elements="str")
             ),
             required=True),
           psb_lib=dict(arg_type="data_set", required = True),
@@ -67,11 +68,24 @@ class catalog_parser():
               record_format=dict(arg_type="str", required=False, choices=['FB', 'VB', 'FBA', 'VBA', 'U']),
               record_length=dict(arg_type="int", required=False),
               block_size=dict(arg_type="int", required=False),
-              type=dict(arg_type="str", required=False, choices=['SEQ', 'BASIC', 'LARGE', 'PDS', 'PDSE', 'LIBRARY', 'LDS', 'RRDS', 'ESDS', 'KSDS'])
+              type=dict(arg_type="str", required=False, choices=['SEQ', 'BASIC', 'LARGE', 'PDS', 'PDSE', 'LIBRARY', 'LDS', 'RRDS', 'ESDS', 'KSDS']),
+              volumes=dict(type="list", required=False, elements="str")
             ), 
             required=False),
           acb_lib=dict(arg_type="list", elements="data_set", required=True),
-          bootstrap_dataset=dict(arg_type="data_set", required = False),
+          bootstrap_dataset=dict(arg_type="dict", required = False,
+            options=dict(
+              dataset_name=dict(arg_type="data_set", required=True),
+              disposition=dict(arg_type="str", required=False, choices=['EXCL','OLD','SHR','NEW']),
+              block_size=dict(arg_type="int", required=False),
+              primary=dict(arg_type="int", required=False),
+              primary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              secondary=dict(arg_type="int", required=False),
+              secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
+              normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+            ) 
+          ),
           directory_datasets=dict(arg_type="list", elements="dict", required=False,
             options=dict(
               dataset_name=dict(arg_type="data_set", required=True),
@@ -94,6 +108,7 @@ class catalog_parser():
               secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
               normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              volumes=dict(type="list", required=False, elements="str")
             ) 
           ),
           directory_staging_dataset=dict(arg_type="dict", required = False,
