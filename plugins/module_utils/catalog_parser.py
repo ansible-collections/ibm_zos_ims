@@ -215,7 +215,8 @@ class catalog_parser():
                   normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
                   conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
                   block_size=dict(arg_type="int", required=False),
-                  type=dict(arg_type="str", required=False, choices=['SEQ', 'BASIC', 'LARGE', 'PDS', 'PDSE', 'LIBRARY', 'LDS', 'RRDS', 'ESDS', 'KSDS'])
+                  type=dict(arg_type="str", required=False, choices=['SEQ', 'BASIC', 'LARGE', 'PDS', 'PDSE', 'LIBRARY', 'LDS', 'RRDS', 'ESDS', 'KSDS']),
+                  volumes=dict(type="list", required=False, elements="str")
                 ), 
             required=False)
         )

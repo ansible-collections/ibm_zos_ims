@@ -404,6 +404,8 @@ options:
           - KSDS
       volumes:
         description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
         type: list
         required: false
         elements: str
