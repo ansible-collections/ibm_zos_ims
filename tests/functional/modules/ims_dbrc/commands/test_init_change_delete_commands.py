@@ -51,7 +51,22 @@ def test_delete_db_for_clean_up_after(ansible_zos_module):
         pprint(result)
         assert result['msg'] == em.SUCCESS_MSG
 
-def test_db_random(ansible_zos_module):
+def test_init_change_delete_all_together(ansible_zos_module):
+    hosts = ansible_zos_module
+    results = hosts.all.ims_dbrc(
+        command=[
+            "INIT.DB DBD(TESTDB2) SHARELVL(1) TYPEFP",
+            "CHANGE.DB DBD(TESTDB2) ALTER NOAUTH ICREQ TYPEIMS NORAND",
+            "DELETE.DB DBD(TESTDB2)"
+            ],
+        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
+    )
+    for result in results.contacted.values():
+        pprint(result)
+        assert result['msg'] == em.SUCCESS_MSG
+
+def test_delete_log_random(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["DELETE.LOG STARTIME(07054121212023456) INTERIM"],
