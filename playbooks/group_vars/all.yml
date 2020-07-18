@@ -45,17 +45,17 @@
 ################################################################################
 # Configure dependency installations
 ################################################################################
-PYZ: "/usr/lpp/IBM/cyp/v3r8/pyz"
-ZOAU: "/usr/lpp/IBM/zoautil"
+PYZ: "/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz"
+ZOAU: "/u/omvsadm/mvsbuilds/1032"
 ################################################################################
 # Playbook enviroment variables
 ################################################################################
 environment_vars:
   _BPXK_AUTOCVT: "ON"
   ZOAU_HOME: "{{ ZOAU }}"
-  PYTHONPATH: "{{ ZOAU_HOME }}/lib"
-  LIBPATH: "{{ ZOAU_HOME }}/lib:{{ PYZ }}/lib:/lib:/usr/lib:."
-  PATH: "{{ ZOAU_HOME }}/bin:{{ PYZ }}/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
+  PYTHONPATH: "{{ ZOAU}}/lib"
+  LIBPATH: "{{ ZOAU }}/lib:{{ PYZ }}/lib:/lib:/usr/lib:."
+  PATH: "{{ ZOAU }}/bin:{{ PYZ }}/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
   _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
   _TAG_REDIR_ERR: "txt"
   _TAG_REDIR_IN: "txt"
