@@ -178,7 +178,7 @@ Examples
        steplib:
          - SOME.IMS.SDFSRESL1
          - SOME.IMS.SDFSRESL2
-       build_psb: false  
+       build_psb: false
 
    - name: Example of creating blocks for all PSBs in the psb_lib data set.
      ims_acb_gen:
@@ -189,7 +189,7 @@ Examples
        dbd_lib:
          - SOME.IMS.DBDLIB1
        acb_lib: SOME.IMS.ACBLIB
-       
+
    - name: Example of deleting PSBs and DBDs
      ims_acb_gen:
        command_input: DELETE
@@ -217,15 +217,13 @@ Notes
 
    The *steplib* input parameter to the module will take precedence over the value specified in the environment_vars.
 
-   If only the *steplib* parameter is specified, then only the *steplib* concatination will be used to resolve the IMS RESLIB dataset.
+   If only the *steplib* parameter is specified, then only the *steplib* concatenation will be used to resolve the IMS RESLIB dataset.
 
    If both *steplib* and *reslib* are specified, then both parameters will be used by the ACB Maintenenace Utility and *reslib* will be used to resolve the IMS RESLIB dataset.
 
    Specifying only *reslib* without *steplib* is not supported.
 
    The ACB Maintenenace utility SYSUT3/SYSUT4 DD options are not supported by this module.
-
-   The current implementation of the ims_acb_gen module requires a jobcard to be specified using the JOB_CARD variable in the target inventory's group variables. See the sample `group_vars <https://github.com/ansible-collections/ibm_zos_ims/blob/master/playbooks/group_vars/all.yml>`_ provided with our sample playbook for an example of the JOB_CARD variable.
 
 
 
@@ -273,5 +271,13 @@ Return Values
       
         | **returned**: always
         | **type**: bool
+      
+      
+                              
+       debug
+        | additional messages returned from ZOAU.
+      
+        | **returned**: always
+        | **type**: str
       
         
