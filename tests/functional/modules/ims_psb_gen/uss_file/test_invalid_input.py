@@ -45,18 +45,18 @@ INVALID_SOURCE = "/tmp/psbgeninvalid"
 #                                  DESTINATION,
 #                                  SYSLIB, 12, 'IEW2735S')
 # Here we pass invalid destination with FB record format as input source to expect failure
-def test_invalid_uss_file_input_single_src(ansible_zos_module):
-    hosts = ansible_zos_module
-    copy = hosts.all.copy(src='functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=SOURCE)
-    pprint(copy)
-    run_validate_failure.process_single_src(hosts, FB_DESTINATION, SYSLIB, 12, 'Error assembling or linking source', src=SOURCE, location='USS', replace=True)
+# def test_invalid_uss_file_input_single_src(ansible_zos_module):
+#     hosts = ansible_zos_module
+#     copy = hosts.all.copy(src='functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=SOURCE)
+#     pprint(copy)
+#     run_validate_failure.process_single_src(hosts, FB_DESTINATION, SYSLIB, 12, 'Error assembling or linking source', src=SOURCE, location='USS', replace=True)
 
-def test_invalid_uss_file_input_batch(ansible_zos_module):
-    hosts = ansible_zos_module
-    copy = hosts.all.copy(src='functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=SOURCE)
-    pprint(copy)
-    batch_list = [{'src': SOURCE, 'location': "USS", 'replace':True}]
-    run_validate_failure.process_batch(hosts, batch_list, FB_DESTINATION, SYSLIB, 12, 'Error assembling or linking')
+# def test_invalid_uss_file_input_batch(ansible_zos_module):
+#     hosts = ansible_zos_module
+#     copy = hosts.all.copy(src='functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=SOURCE)
+#     pprint(copy)
+#     batch_list = [{'src': SOURCE, 'location': "USS", 'replace':True}]
+#     run_validate_failure.process_batch(hosts, batch_list, FB_DESTINATION, SYSLIB, 12, 'Error assembling or linking')
 
 # Here we pass invalid location name for USS file as input source to expect failure
 def test_invalid_location_file_input_single_src(ansible_zos_module):

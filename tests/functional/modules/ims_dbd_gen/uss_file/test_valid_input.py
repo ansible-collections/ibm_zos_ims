@@ -35,18 +35,18 @@ LARGE_SOURCE = '/tmp/WMGAT.dbd'
 # Here we pass valid USS file as input source to expect successful generation of dbdlib
 def test_valid_uss_file_input_single_src(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_dbd_gen/uss_file/data/dbdgen02', dest=SOURCE)
+    hosts.all.copy(src='./functional/modules/ims_dbd_gen/uss_file/data/dbdgen02', dest=SOURCE, checksum='5dd4785e9f4a7d4c4bc36e15ce3b58223113a680')
     run_validate_success.process_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE, replace=True, location='USS')
 
 def test_valid_large_uss_file_input_single_src(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_dbd_gen/uss_file/data/WMGAT.dbd', dest=LARGE_SOURCE)
+    hosts.all.copy(src='./functional/modules/ims_dbd_gen/uss_file/data/WMGAT.dbd', dest=LARGE_SOURCE, checksum='76087228113a2bd209d2e48628fc576ab7d131e4')
     run_validate_success.process_single_src(hosts, DESTINATION, SYSLIB, src=LARGE_SOURCE, replace=True, location='USS')
 
 def test_valid_uss_file_input_batch(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_dbd_gen/uss_file/data/dbdgen02', dest=SOURCE)
-    hosts.all.copy(src='./functional/modules/ims_dbd_gen/uss_file/data/WMGAT.dbd', dest=LARGE_SOURCE)
+    hosts.all.copy(src='./functional/modules/ims_dbd_gen/uss_file/data/dbdgen02', dest=SOURCE, checksum='5dd4785e9f4a7d4c4bc36e15ce3b58223113a680')
+    hosts.all.copy(src='./functional/modules/ims_dbd_gen/uss_file/data/WMGAT.dbd', dest=LARGE_SOURCE, checksum='76087228113a2bd209d2e48628fc576ab7d131e4')
     batch_list = [
         {'src': SOURCE, 'location': "USS", 'replace':True},
         {'src': LARGE_SOURCE, 'location': "USS", 'replace':True}
