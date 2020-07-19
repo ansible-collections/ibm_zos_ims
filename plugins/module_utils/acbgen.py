@@ -14,7 +14,6 @@ class acbgen(object):
     ACBGEN_UTILITY = "DFSRRC00"
     COMPRESS_UTILITY = "IEBCOPY"
 
-    # def __init__(self, command_input, compression, psb_name=None, dbd_name=None, acb_lib, psb_lib, dbd_lib, reslib=None, steplib=None, build_psb):
     def __init__(self, command_input, compression, psb_name, dbd_name, acb_lib, psb_lib, dbd_lib, reslib, steplib, build_psb):
         """IMSAcbgen constructor for generating IMS ACB using zos_mvs_raw
         Args:
