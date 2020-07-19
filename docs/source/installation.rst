@@ -6,7 +6,7 @@ Installation
 ============
 
 You can install the **IBM z/OS IMS collection** using one of these options:
-Ansible Galaxy or a local build.
+Ansible Galaxy, private Galaxy Server or a local build.
 
 For more information on installing collections, see `using collections`_.
 
@@ -20,7 +20,7 @@ from the Ansible community.
 
 Galaxy provides prepackaged units of work known as collections. You can use the
 `ansible-galaxy`_ command with the option ``install`` to install a collection on
-your system (control node) hosted in Galaxy. 
+your system (control node) hosted in Galaxy.
 
 By default, the `ansible-galaxy`_ command installs the latest available
 collection, but you can add a version identifier to install a specific version.
@@ -42,7 +42,7 @@ Here is an example an example of installing a pre-release collection:
    $ ansible-galaxy collection install ibm.ibm_zos_ims:==1.0.0-beta2
 
 
-If you have installed a prior version, you must overwrite an existing 
+If you have installed a prior version, you must overwrite an existing
 collection with the ``--force`` option.
 
 Here are a few examples of installing the **IBM z/OS IMS collection**:
@@ -96,22 +96,20 @@ see `installing collections`_.
 .. _installing collections:
    https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#installing-collections-with-ansible-galaxy
 
-Automation Hub and Private Galaxy server
+Private Galaxy server
 ----------------------------------------
-Configuring access to a private Galaxy server follows the same instructions
-that you would use to configure your client to point to Automation Hub. When
-hosting a private Galaxy server or pointing to Hub, available content is not
+When hosting a private Galaxy server, available content is not
 always consistent with what is available on the community Galaxy server.
 
 You can use the `ansible-galaxy`_ command with the option ``install`` to
-install a collection on your system (control node) hosted in Automation Hub
-or a private Galaxy server.
+install a collection on your system (control node) hosted on a private
+Galaxy server.
 
 By default, the ``ansible-galaxy`` command is configured to access
 ``https://galaxy.ansible.com`` as the server when you install a
-collection. The `ansible-galaxy` client can be configured to point to Hub or
-other servers, such as a privately running Galaxy server, by configuring the
-server list in the ``ansible.cfg`` file.
+collection. The `ansible-galaxy` client can be configured to point to a
+privately running Galaxy server, by configuring the server list in
+the ``ansible.cfg`` file.
 
 Ansible searches for ``ansible.cfg`` in the following locations in this order:
 
@@ -127,27 +125,12 @@ To configure a Galaxy server list in the ansible.cfg file:
   * Create a new section for each server name.
   * Set the url option for each server name.
 
-For Automation Hub, you additionally need to:
-
-  * Set the auth_url option for each server name.
-  * Set the API token for each server name. For more information on API tokens,
-    see `Get API token from the version dropdown to copy your API token`_.
-
-.. _Get API token from the version dropdown to copy your API token:
-   https://cloud.redhat.com/ansible/automation-hub/token/
-
-The following example shows a configuration for Automation Hub, a private
-running Galaxy server, and Galaxy:
+The following example shows a private running Galaxy server, and Galaxy:
 
 .. code-block:: yaml
 
    [galaxy]
-   server_list = automation_hub, galaxy, private_galaxy
-
-   [galaxy_server.automation_hub]
-   url=https://cloud.redhat.com/api/automation-hub/
-   auth_url=https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
-   token=<hub_token>
+   server_list = galaxy, private_galaxy
 
    [galaxy_server.galaxy]
    url=https://galaxy.ansible.com/

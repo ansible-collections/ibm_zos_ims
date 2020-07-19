@@ -35,37 +35,32 @@ Getting Started
 ---------------
 .. toctree::
 
-   installation
+   source/installation
 
 Reference
 ---------
 .. toctree::
 
-   modules
-   playbooks
+   source/modules
+   source/playbooks
 
 Community guides
 ----------------
 .. toctree::
 
-   community_guides
+   source/community_guides
 
 Requirements
 ------------
 .. toctree::
 
-   requirements
+   source/requirements
 
 Appendices
 ----------
 .. toctree::
 
-   release_notes
-
-Copyright
----------
-
-© Copyright IBM Corporation 2020
+   source/release_notes
 
 License
 -------
