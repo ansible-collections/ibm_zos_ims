@@ -86,7 +86,7 @@
             DX41SK04,
           ]
         "replace": true
-        dest: IMSTESTU.ANSI.DBDLIB2
+        dest: IMSTESTL.ANS.DBDLIB
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
@@ -97,7 +97,7 @@
         location: DATA_SET
         member_list: [PSBGENL]
         replace: true
-        dest: IMSTESTU.ANSI.PSBLIB2
+        dest: IMSTESTL.ANS.PSBLIB
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
@@ -108,14 +108,14 @@
         psb_name:
           - PSBGENL
         psb_lib:
-          - IMSTESTU.ANSI.PSBLIB2
+          - IMSTESTL.ANS.PSBLIB
         dbd_lib:
-          - IMSTESTU.ANSI.DBDLIB2
-        acb_lib: IMSTESTU.ANSI.ACBLIB1
+          - IMSTESTL.ANS.DBDLIB
+        acb_lib: IMSTESTL.ANS.ACBLIB
         reslib:
-          - IMSNEW.DIPTI.IM00.SDFSRESL
+          - IMSTESTL.IMS1.SDFSRESL
         steplib:
-          - IMSNEW.DIPTI.IM00.SDFSRESL
+          - IMSTESTL.IMS1.SDFSRESL
 
     - name: IMS Command
       ims_command:
