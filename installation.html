@@ -33,6 +33,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Modules" href="modules.html" />
@@ -158,7 +159,7 @@
         
             
             
-              <a href="https://github.com/ansible-collections/ibm_zos_ims/blob/master/docs/source/installation.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ansible-collections/ibm_zos_ims/blob/v1.0.0-beta1/docs/source/installation.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -172,7 +173,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="installation">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="v1.0.0-beta3/installation.html"><b>Warning:</b> This document is for an old version of IBM z/OS IMS Collection. The latest version is v1.0.0-beta3.</a></p>
+<div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>You can install the <strong>IBM z/OS IMS collection</strong> using one of these options:
 Ansible Galaxy or a local build.</p>
@@ -183,28 +193,22 @@ Ansible Galaxy or a local build.</p>
 from the Ansible community.</p>
 <p>Galaxy provides prepackaged units of work known as collections. You can use the
 <a class="reference external" href="https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html">ansible-galaxy</a> command with the option <code class="docutils literal notranslate"><span class="pre">install</span></code> to install a collection on
-your system (control node) hosted in Galaxy.</p>
-<p>By default, the <a class="reference external" href="https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html">ansible-galaxy</a> command installs the latest available
-collection, but you can add a version identifier to install a specific version.
-Before installing a collection from Galaxy, review all the available versions.
-Periodically, new releases containing enhancements and features you might be
-interested in become available.</p>
-<p>The ansible-galaxy command ignores any pre-release versions unless
-the <code class="docutils literal notranslate"><span class="pre">==</span></code> range identifier is set to that pre-release version.
-A pre-release version is denoted by appending a hyphen and a series of
-dot separated identifiers immediately following the patch version. The
-<strong>IBM z/OS IMS collection</strong> releases collections with the pre-release
-naming convention such as <strong>1.0.0-beta2</strong> that would require a range identifier.</p>
-<p>Here is an example an example of installing a pre-release collection:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ ansible-galaxy collection install ibm.ibm_zos_ims:<span class="o">==</span><span class="m">1</span>.0.0-beta2
-</pre></div>
-</div>
-<p>If you have installed a prior version, you must overwrite an existing
-collection with the <code class="docutils literal notranslate"><span class="pre">--force</span></code> option.</p>
+your system (control node) hosted in Galaxy. If you have installed a prior
+version, you must overwrite an existing collection with the <code class="docutils literal notranslate"><span class="pre">--force</span></code> option.</p>
 <p>Here are a few examples of installing the <strong>IBM z/OS IMS collection</strong>:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ ansible-galaxy collection install ibm.ibm_zos_ims
 $ ansible-galaxy collection install -f ibm.ibm_zos_ims
 $ ansible-galaxy collection install --force ibm.ibm_zos_ims
+</pre></div>
+</div>
+<p>By default, the <a class="reference external" href="https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html">ansible-galaxy</a> command installs the latest available
+collection, but you can add a version identifier to install a specific version.
+Before installing a collection from Galaxy, review all the available versions.
+Periodically, new releases containing enhancements and features that you might
+be interested in become available.</p>
+<p>Here’s an example command for installing the <strong>IBM z/OS IMS collection</strong> for
+a specific version.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ ansible-galaxy collection install ibm.ibm_zos_ims::1.0.0
 </pre></div>
 </div>
 <p>The collection installation progress will be output to the console. Note the
@@ -224,7 +228,6 @@ Installing <span class="s1">&#39;ibm.ibm_zos_ims:1.0.0&#39;</span> to <span clas
 │              ├── docs/
 │              ├── playbooks/
 │              ├── plugins/
-│                  ├── action/
 │                  ├── module_utils/
 │                  ├── modules/
 </pre></div>
@@ -269,7 +272,7 @@ server names.</p></li>
 <li><p>Set the url option for each server name.</p></li>
 </ul>
 </div></blockquote>
-<p>For Automation Hub, you additionally need to:</p>
+<p>To configure the server for Automation Hub, you must also:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>Set the auth_url option for each server name.</p></li>
@@ -277,7 +280,7 @@ server names.</p></li>
 see <a class="reference external" href="https://cloud.redhat.com/ansible/automation-hub/token/">Get API token from the version dropdown to copy your API token</a>.</p></li>
 </ul>
 </div></blockquote>
-<p>The following example shows a configuration for Automation Hub, a private
+<p>The following example shows a configuration for Automation Hub, a privately
 running Galaxy server, and Galaxy:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">[</span><span class="nv">galaxy</span><span class="p p-Indicator">]</span>
 <span class="l l-Scalar l-Scalar-Plain">server_list = automation_hub, galaxy, private_galaxy</span>
@@ -394,6 +397,21 @@ installation path, for example, <code class="docutils literal notranslate"><span
 
   </div>
   
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v1.0.0-beta1
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="v1.0.0-beta1/installation.html">v1.0.0-beta1</a></dd>
+            <dd><a href="v1.0.0-beta2/installation.html">v1.0.0-beta2</a></dd>
+            <dd><a href="v1.0.0-beta3/installation.html">v1.0.0-beta3</a></dd>
+        </dl>
+    </div>
+</div>
 
 
   <script type="text/javascript">

@@ -33,10 +33,11 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="ims_dbd_gen – Generate IMS DBD" href="ims_dbd_gen.html" />
-    <link rel="prev" title="ims_acb_gen – Generate IMS ACB" href="ims_acb_gen.html" /> 
+    <link rel="prev" title="Modules" href="../modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,7 +89,6 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../modules.html#module-reference">Module reference</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="ims_acb_gen.html">ims_acb_gen – Generate IMS ACB</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">ims_command – Submit IMS Commands</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
@@ -188,7 +188,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="ims-command-submit-ims-commands">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../v1.0.0-beta3/modules/ims_command.html"><b>Warning:</b> This document is for an old version of IBM z/OS IMS Collection. The latest version is v1.0.0-beta3.</a></p>
+<div class="section" id="ims-command-submit-ims-commands">
 <span id="ims-command-module"></span><h1>ims_command – Submit IMS Commands<a class="headerlink" href="#ims-command-submit-ims-commands" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -311,7 +320,6 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This module requires Structured Call Interface (SCI) and Operations Manager (OM) to be active in the target IMSplex.</p>
-<p>This module requires the <code class="docutils literal notranslate"><span class="pre">STEPLIB</span></code> environment variable to be set with the IMS RESLIB concatenated to it.</p>
 </div>
 </div>
 <div class="section" id="return-values">
@@ -323,63 +331,87 @@
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: boolean</div>
 </div>
 </dd>
-<dt>ims_output</dt><dd><div class="line-block">
+<dt>ims_output</dt><dd><blockquote>
+<div><div class="line-block">
 <div class="line">The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: sometimes</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: list</div>
 </div>
+</div></blockquote>
 <dl>
 <dt>ims_member_data</dt><dd><div class="line-block">
 <div class="line">Output from Type 1 commands.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>returned</strong>: sometimes</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: dict</div>
 </div>
+</div></blockquote>
 </dd>
 <dt>ims_member_messages</dt><dd><div class="line-block">
 <div class="line">Messages from the IMS instance in which the command was routed.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>returned</strong>: sometimes</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: dict</div>
 </div>
+</div></blockquote>
 </dd>
 <dt>return_codes</dt><dd><blockquote>
 <div><div class="line-block">
 <div class="line">Return codes indicating the general result of running the IMS command.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: dict</div>
 </div>
+</div></blockquote>
 </div></blockquote>
 <dl>
 <dt>imsrc</dt><dd><div class="line-block">
 <div class="line">General IMS return code.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
+</div></blockquote>
 </dd>
 <dt>reason</dt><dd><div class="line-block">
 <div class="line">Return code indicating specific status of the command.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
+</div></blockquote>
 </dd>
 <dt>results</dt><dd><div class="line-block">
 <div class="line">Return code indicating the results of the command.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
+</div></blockquote>
 </dd>
 </dl>
 </dd>
@@ -387,25 +419,33 @@
 <div><div class="line-block">
 <div class="line">Returns output from the OM instance in which the command was routed.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: dict</div>
 </div>
+</div></blockquote>
 </div></blockquote>
 <dl>
 <dt>ctl.rc</dt><dd><div class="line-block">
 <div class="line">Return code (i.e. 0000000).</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
+</div></blockquote>
 </dd>
 <dt>ctl.rsn</dt><dd><div class="line-block">
 <div class="line">CTL reason code.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
+</div></blockquote>
 </dd>
 </dl>
 </dd>
@@ -413,25 +453,33 @@
 <div><div class="line-block">
 <div class="line">Data resulting from the output of the IMS command submitted.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>returned</strong>: sometimes</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: dict</div>
 </div>
+</div></blockquote>
 </div></blockquote>
 <dl>
 <dt>CC</dt><dd><div class="line-block">
 <div class="line">Completion code for the line of output. Completion code is always returned.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
+</div></blockquote>
 </dd>
 <dt>CCText</dt><dd><div class="line-block">
 <div class="line">Completion code text that describes the meaning of the nonzero completion code.</div>
 </div>
-<div class="line-block">
+<blockquote>
+<div><div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
+</div></blockquote>
 </dd>
 </dl>
 </dd>
@@ -453,7 +501,7 @@
         <a href="ims_dbd_gen.html" class="btn btn-neutral float-right" title="ims_dbd_gen – Generate IMS DBD" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ims_acb_gen.html" class="btn btn-neutral float-left" title="ims_acb_gen – Generate IMS ACB" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../modules.html" class="btn btn-neutral float-left" title="Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -477,6 +525,21 @@
 
   </div>
   
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v1.0.0-beta1
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../v1.0.0-beta1/modules/ims_command.html">v1.0.0-beta1</a></dd>
+            <dd><a href="../v1.0.0-beta2/modules/ims_command.html">v1.0.0-beta2</a></dd>
+            <dd><a href="../v1.0.0-beta3/modules/ims_command.html">v1.0.0-beta3</a></dd>
+        </dl>
+    </div>
+</div>
 
 
   <script type="text/javascript">
