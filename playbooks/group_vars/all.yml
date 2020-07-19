@@ -1,6 +1,7 @@
 ################################################################################
 # Copyright (c) IBM Corporation 2020
 ################################################################################
+
 ################################################################################
 # - The value for the property BPXK_AUTOCVT must be configured to "ON";
 #   for example: _BPXK_AUTOCVT: "ON"
@@ -42,20 +43,22 @@
 #   ZOAU; for example, ``/usr/lpp/IBM/zoautil``.
 #
 ################################################################################
+
 ################################################################################
 # Configure dependency installations
 ################################################################################
-PYZ: "/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz"
-ZOAU: "/u/omvsadm/mvsbuilds/1032"
+PYZ: "/usr/lpp/IBM/cyp/v3r8/pyz"
+ZOAU: "/usr/lpp/IBM/zoautil"
+
 ################################################################################
 # Playbook enviroment variables
 ################################################################################
 environment_vars:
   _BPXK_AUTOCVT: "ON"
   ZOAU_HOME: "{{ ZOAU }}"
-  PYTHONPATH: "{{ ZOAU}}/lib"
-  LIBPATH: "{{ ZOAU }}/lib:{{ PYZ }}/lib:/lib:/usr/lib:."
-  PATH: "{{ ZOAU }}/bin:{{ PYZ }}/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
+  PYTHONPATH: "{{ ZOAU_HOME }}/lib"
+  LIBPATH: "{{ ZOAU_HOME }}/lib:{{ PYZ }}/lib:/lib:/usr/lib:."
+  PATH: "{{ ZOAU_HOME }}/bin:{{ PYZ }}/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
   _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
   _TAG_REDIR_ERR: "txt"
   _TAG_REDIR_IN: "txt"
@@ -64,10 +67,12 @@ environment_vars:
   #####################
   _BPXK_JOBLOG: STDERR
   STEPLIB: IMSBLD.I15RTSMM.COMRESL1 # IMSNEW.DIPTI.IM00.SDFSRESL
+
 JOB_CARD: |-
   //ANSIBLE JOB 'testing',
   //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
   //  MSGCLASS=H,NOTIFY=&SYSUID
+
 ## environment_vars:
 ##     LIBPATH: '/usr/lpp/izoda/v110/anaconda/lib:/u/omvsadm/mvsutil/lib:/lib:/usr/lib:.'
 ##     ZOAU_ROOT: '/usr/lpp/zoautil/v100'
