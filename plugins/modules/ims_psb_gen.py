@@ -51,11 +51,13 @@ options:
   member_list:
     description:
       - A list of member names if the source specified is a data set.
-      - Is required if I(location) is 'DATA_SET'.
-      - If 'member_list' is empty and location is set to 'false', then src
-        is expected to be a sequential data set.
+      - Optionally, proceeding the source_member, a colon with a target name for 
+        the generated PSB member can be specified. If no target name is
+        specified, source_name will be used as the target name.
+      - If 'member_list' is empty and location is set to 'DATA_SET' or
+        not specified, then src is expected to be a sequential data set.
     type: list
-    elements: str
+    elements: str or dict with single key-value pair
     default: no
     required: false
   psb_name:
@@ -99,11 +101,13 @@ options:
       member_list:
         description:
           - A list of member names if the source specified is a data set.
-          - Is required if I(location) is 'DATA_SET'.
-          - If 'member_list' is empty and location is set to 'false', then src
-            is expected to be a sequential data set.
+          - Optionally, proceeding the source_member, a colon with a target name for 
+            the generated PSB member can be specified. If no target name is
+            specified, source_name will be used as the target name.
+          - If 'member_list' is empty and location is set to 'DATA_SET' or
+            not specified, then src is expected to be a sequential data set.
         type: list
-        elements: str
+        elements: str or dict with single key-value pair
         default: no
         required: false
       psb_name:
@@ -138,7 +142,7 @@ EXAMPLES = r'''
     src: /tmp/src/somefile
     location: USS
     replace: true
-    dest: SOME.DATA.SET.DBDLIB
+    dest: SOME.DATA.SET.PSBLIB
     sys_lib:
       - SOME.DATA.SET.SDFSMAC
       - SYS1.MACLIB
@@ -153,10 +157,16 @@ EXAMPLES = r'''
       -
         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
         location: DATA_SET
-        member_list: [PSBGENL, PSBGENL]
+        member_list: [PSBGENL : TARGET1, PSBGENL : TARGET2]
       -
         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
         member_list: [PSBGENL, PSBGENL]
+        replace: true
+      -
+        src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
+        member_list:
+          - 'COGPSBL':'TARGET3'
+          - 'COGPSBL2': 'TARGET4'
         replace: true
       -
         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SQ
@@ -170,7 +180,7 @@ EXAMPLES = r'''
 
 RETURN = r"""
 batch_result:
-    description: 
+    description:
         List of output for each PSBGEN run on each element in the list of input source if input is batch.
     type: list
     elements: dict
@@ -222,7 +232,7 @@ def run_module():
       replace=dict(type='bool', required=False, default=True),
 
       # TODO member_list is required if location is 'DATA_SET'
-      member_list=dict(type='list', elements='str', required=False),
+      member_list=dict(type='list', required=False),
 
       psb_name=dict(type='str', required=False),
 
@@ -236,7 +246,7 @@ def run_module():
           replace=dict(type='bool', required=False, default=True),
 
           # TODO member_list is required if location is 'DATA_SET'
-          member_list=dict(type='list', elements='str', required=False),
+          member_list=dict(type='list', required=False),
 
           psb_name=dict(type='str', required=False),
 
