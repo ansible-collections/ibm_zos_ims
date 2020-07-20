@@ -15,6 +15,7 @@ import tempfile
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
   MissingZOAUImport,
 ) 
+from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
 import tempfile
 import pprint
 
@@ -56,10 +57,7 @@ class catalog():
       #DD statement Generation
       dDStatementList = []
       imsDatasetList = []
-  
-      if self.parsed_args.get('reslib') is not None:
-        dfsreslbDDStatement = DDStatement("DFSRESLB", DatasetDefinition(self.parsed_args.get('reslib')))
-        dDStatementList.append(dfsreslbDDStatement)
+
       if self.parsed_args.get('buffer_pool_param_dataset') is not None:
         dfsvsampDDStatement = DDStatement("DFSVSAMP", DatasetDefinition(self.parsed_args.get('buffer_pool_param_dataset')))
         dDStatementList.append(dfsvsampDDStatement)
@@ -81,9 +79,30 @@ class catalog():
         proclibDDStatement = DDStatement("PROCLIB", DatasetDefinition(self.parsed_args.get('proclib')))
         dDStatementList.append(proclibDDStatement)
   
+      steplibDatasets=[]
       if self.parsed_args.get('steplib') is not None:
-        steplibDDStatement = DDStatement("STEPLIB", DatasetDefinition(self.parsed_args.get('steplib')))
-        dDStatementList.append(steplibDDStatement)
+        for i in self.parsed_args.get('steplib'):
+          steplibDatasets.append(DatasetDefinition(i))
+      else: 
+        try:
+          steplib_str = env_fallback('STEPLIB')
+          list_str = steplib_str.split(" ")
+          for i in list_str:
+            steplibDatasets.append(DatasetDefinition(i))
+        except AnsibleFallbackNotFound as e:
+            self.module.fail_json(msg="The input option 'steplib' is not provided. Please provide it in the environment "
+                             "variables 'STEPLIB', or in the module input option 'steplib'. ", **self.result)
+      steplibDDStatement = DDStatement("STEPLIB", steplibDatasets)
+      dDStatementList.append(steplibDDStatement)
+      
+      reslibDatasets=[]
+      if self.parsed_args.get('reslib') is not None:
+        for i in self.parsed_args.get('reslib'):
+          reslibDatasets.append(DatasetDefinition(i))
+        reslibDDStatement = DDStatement("DFSRESLB", reslibDatasets)
+      else:
+        reslibDDStatement = DDStatement("DFSRESLB", steplibDatasets)
+      dDStatementList.append(reslibDDStatement)
   
       #Add sysprint dd statement
       if self.parsed_args.get('sysprint') is None:

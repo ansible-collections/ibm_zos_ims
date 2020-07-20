@@ -49,9 +49,7 @@ options:
   reslib:
     description:
       - Points to an authorized library that contains the IMS SVC modules. 
-        The reslib parameter can also be specified in the target inventory's environment_vars.
-        The reslib input parameter to the module will take precedence over the value specified in the environment_vars
-    type: str
+    type: list
     required: false
   buffer_pool_param_dataset:
     description:
@@ -570,8 +568,10 @@ options:
   steplib:
     description:
       - Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules. 
-    type: str
-    required: true
+      - The steplib parameter can also be specified in the target inventory's environment_vars.
+      - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
+    type: list
+    required: False
   sysabend:
     description:
       - Defines the dump dataset
@@ -707,10 +707,9 @@ options:
                 type: str
                 required: false
                 default: false
-
-
-
-
+notes:
+  - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
+  - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
 author:
   - Jerry Li 
 '''
@@ -806,7 +805,7 @@ def run_module():
       mode=dict(type="str", required=True),
       irlm_enabled=dict(type="bool", required=False),
       irlm_id=dict(type="str", required=False),
-      reslib=dict(type="str", required=False),
+      reslib=dict(type="list", required=False),
       buffer_pool_param_dataset=dict(type="str", required=False),
       primary_log_dataset=dict(type="dict", required=False),
       secondary_log_dataset=dict(type="dict", required=False),
@@ -819,7 +818,7 @@ def run_module():
       temp_acb_dataset=dict(type="dict", required=False),
       directory_staging_dataset=dict(type="dict", required=False),
       proclib=dict(type="str", required=False),
-      steplib=dict(type="str", required=False),
+      steplib=dict(type="list", required=False),
       control_statements=dict(type="dict", required=False)
     )
 

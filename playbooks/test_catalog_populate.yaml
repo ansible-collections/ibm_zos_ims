@@ -14,8 +14,12 @@
         acb_lib: [
           IMSTESTL.IMS1.ACBLIB
         ]
-        reslib: IMSTESTL.IMS1.SDFSRESL
-        steplib: IMSTESTL.IMS1.SDFSRESL
+        reslib: [
+          IMSTESTL.IMS1.SDFSRESL
+        ]
+        steplib: [
+          IMSTESTL.IMS1.SDFSRESL
+        ]
         proclib: IMSTESTL.IMS1.PROCLIB
         dbd_lib: IMSTESTL.IMS1.DBDLIB
         psb_lib: IMSTESTL.IMS1.PSBLIB

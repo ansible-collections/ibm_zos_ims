@@ -8,4 +8,4 @@ export ANSIBLE_MODULE_UTILS=${plugins_dir}/module_utils
 export ANSIBLE_ACTION_PLUGINS=${plugins_dir}/action
 export ANSIBLE_CONNECTION_PLUGINS=${plugins_dir}/connection
 export ANSIBLE_CONFIG=$(pwd)/playbooks/ansible.cfg
-ansible-playbook -i $1 $2 -v
+ansible-playbook -i $1 $2 -vvv

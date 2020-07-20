@@ -41,9 +41,7 @@ options:
   reslib:
     description:
       - Points to an authorized library that contains the IMS SVC modules. 
-        The reslib parameter can also be specified in the target inventory's environment_vars.
-        The reslib input parameter to the module will take precedence over the value specified in the environment_vars
-    type: str
+    type: list
     required: false
   buffer_pool_param_dataset:
     description:
@@ -213,8 +211,10 @@ options:
   steplib:
     description:
       - Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules. 
-    type: str
-    required: true
+      - The steplib parameter can also be specified in the target inventory's environment_vars.
+      - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
+    type: list
+    required: False
   mode:
     description:
       - Determines which mode the utility runs in. ANALYSIS mode generates delete statements based on the
@@ -409,6 +409,9 @@ options:
         type: list
         required: false
         elements: str
+notes:
+  - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
+  - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
 author:
   - Jerry Li 
 '''
@@ -516,13 +519,13 @@ def run_module():
     module_args = dict(
       irlm_enabled=dict(type="bool", required=False),
       irlm_id=dict(type="str", required=False),
-      reslib=dict(type="str", required=False),
+      reslib=dict(type="list", required=False),
       buffer_pool_param_dataset=dict(type="str", required=False),
       primary_log_dataset=dict(type="dict", required=False),
       psb_lib=dict(type="str", required=False),
       dbd_lib=dict(type="str", required=False),
       proclib=dict(type="str", required=False),
-      steplib=dict(type="str", required=False),
+      steplib=dict(type="list", required=False),
       mode=dict(type="str", required=True),
       delete_dbd_by_version=dict(type="dict", required=False),
       sysut1=dict(type="dict", required=False),

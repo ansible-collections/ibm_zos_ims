@@ -13,7 +13,7 @@ class catalog_parser():
         module_defs = dict(
           irlm_enabled=dict(arg_type="bool", required=False),
           irlm_id=dict(arg_type="str", required=False),
-          reslib=dict(arg_type="data_set", required=False),
+          reslib=dict(arg_type="list", elements="data_set", required=False),
           buffer_pool_param_dataset=dict(arg_type="data_set", required=True),
           primary_log_dataset=dict(arg_type="dict", 
             options=dict(
@@ -35,7 +35,7 @@ class catalog_parser():
           psb_lib=dict(arg_type="data_set", required = True),
           dbd_lib=dict(arg_type="data_set", required = True),
           proclib=dict(arg_type="data_set", required = True),
-          steplib=dict(arg_type="data_set", required = True),
+          steplib=dict(arg_type="list", elements="data_set", required = False),
           sysprint=dict(arg_type="data_set", required=False),
         )
 
