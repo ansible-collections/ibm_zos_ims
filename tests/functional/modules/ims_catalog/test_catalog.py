@@ -24,7 +24,6 @@ def load_catalog(hosts, psb_lib, dbd_lib, steplib, reslib, proclib, sysabend,
         primary_log_dataset=primary_log_dataset,
         secondary_log_dataset=secondary_log_dataset
         )
-    print("Result:", response)
     for result in response.contacted.values():
         pprint(result)
         print("Changed:", result['changed'])
@@ -55,7 +54,6 @@ def update_catalog(hosts, psb_lib, dbd_lib, steplib, reslib, proclib, sysabend,
         primary_log_dataset=primary_log_dataset,
         secondary_log_dataset=secondary_log_dataset
         )
-    print("Result:", response)
     for result in response.contacted.values():
         pprint(result)
         print("Changed:", result['changed'])
@@ -85,11 +83,9 @@ def purge_catalog(hosts, psb_lib, dbd_lib, steplib, reslib, proclib, sysabend,
         primary_log_dataset=primary_log_dataset,
         secondary_log_dataset=secondary_log_dataset
         )
-    print("Result:", response)
     for result in response.contacted.values():
         pprint(result)
         print("Changed:", result['changed'])
         assert result['changed'] == False
         assert result['rc'] != 0
         assert validation_msg in result['content']
-
