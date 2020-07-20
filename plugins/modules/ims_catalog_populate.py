@@ -717,10 +717,81 @@ author:
 
 EXAMPLES = r'''
 
+- name: Example of a loading the IMS Catalog
+  ims_catalog_populate:
+    mode: LOAD
+    acb_lib: [
+      SOME.IMS.ACBLIB
+    ]
+    reslib: SOME.IMS.SDFSRESL
+    steplib: SOME.IMS.SDFSRESL
+    proclib: SOME.IMS.PROCLIB
+    dbd_lib: SOME.IMS.DBDLIB
+    psb_lib: SOME.IMS.PSBLIB
+    buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
+    primary_log_dataset:
+      dataset_name: SOME.IMS.LOG
+
+- name: Example of loading the IMS Catalog and the IMS Directory datasets with MANAGEDACBS enabled
+  ims_catalog_populate:  
+    mode: LOAD
+    acb_lib: [
+      SOME.IMS.ACBLIB
+    ]
+    reslib: SOME.IMS.SDFSRESL
+    steplib: SOME.IMS.SDFSRESL
+    proclib: SOME.IMS.PROCLIB
+    dbd_lib: SOME.IMS.DBDLIB
+    psb_lib: SOME.IMS.PSBLIB
+    buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
+    primary_log_dataset:
+      dataset_name: SOME.IMS.LOG
+    control_statements:
+      managed_acbs:
+        setup: true
+
+- name: Example of updating the IMS Catalog and staging libraries into the IMS directory staging data set
+  mode: LOAD
+    acb_lib: [
+      SOME.IMS.ACBLIB
+    ]
+    reslib: SOME.IMS.SDFSRESL
+    steplib: SOME.IMS.SDFSRESL
+    proclib: SOME.IMS.PROCLIB
+    dbd_lib: SOME.IMS.DBDLIB
+    psb_lib: SOME.IMS.PSBLIB
+    buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
+    primary_log_dataset:
+      dataset_name: SOME.IMS.LOG
+    control_statements:
+      managed_acbs:
+        stage:
+          save_acb: UNCOND
+          clean_staging_dataset:true
+
 '''
 
 RETURN = r'''
 
+content:
+  description: The standard output returned running the IMS Catalog Populate module
+  type: str
+  returned: sometimes
+  sample: DFS4434I INSTANCE 2020200562326 OF DBD AUTODB   WAS ADDED TO A NEWLY CREATED RECORD IN THE IMS CATALOG.
+rc:
+  description: The return code from the IMS Catalog Populate utility
+  type: str
+  returned: sometimes
+  sample: '1'
+stderr: The standard error output returned from running the IMS Catalog Populate
+  type: str
+  returned: sometimes
+  sample: 
+msg:
+  description: Messages returned from the IMS Catalog Populate module
+  type: str
+  returned: sometimes
+  sample: You cannot define directory datasets, the bootstrap dataset, or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE
 
 
 

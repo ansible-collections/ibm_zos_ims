@@ -415,13 +415,95 @@ author:
 
 EXAMPLES = r'''
 
+- name: Purge the IMS Catalog of DBDs beginning with 'DB'
+  ims_catalog_purge:
+          reslib: SOME.IMS.SDFSRESL
+          steplib: SOME.IMS.SDFSRESL
+          proclib: SOME.IMS.PROCLIB 
+          dbd_lib: SOME.IMS.DBDLIB
+          psb_lib: SOME.IMS.PSBLIB
+          buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+          primary_log_dataset:
+            dataset_name: SOME.IMS.LOG1
+          mode: PURGE
+          delete:
+            - resource: DBD
+              member_name: 'DB*'
+              time_stamp: '*'
+
+- name: Purge the IMS Catalog and the IMS Directory of DBDs beginning with 'DB'
+  ims_catalog_purge:
+          reslib: SOME.IMS.SDFSRESL
+          steplib: SOME.IMS.SDFSRESL
+          proclib: SOME.IMS.PROCLIB 
+          dbd_lib: SOME.IMS.DBDLIB
+          psb_lib: SOME.IMS.PSBLIB
+          buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+          primary_log_dataset:
+            dataset_name: SOME.IMS.LOG1
+          mode: PURGE
+          delete:
+            - resource: DBD
+              member_name: 'DB*'
+              time_stamp: '*'
+          managed_acbs: true
+
+- name: Analyze the IMS Catalog and generate delete statements for resources eligible for deletion
+  ims_catalog_purge:
+          reslib: SOME.IMS.SDFSRESL
+          steplib: SOME.IMS.SDFSRESL
+          proclib: SOME.IMS.PROCLIB 
+          dbd_lib: SOME.IMS.DBDLIB
+          psb_lib: SOME.IMS.PSBLIB
+          buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+          primary_log_dataset:
+            dataset_name: SOME.IMS.LOG1
+          mode: ANALYSIS
+
+- name: Update resource retention criteria for resources in the IMS Catalog
+  ims_catalog_purge:
+          reslib: SOME.IMS.SDFSRESL
+          steplib: SOME.IMS.SDFSRESL
+          proclib: SOME.IMS.PROCLIB 
+          dbd_lib: SOME.IMS.DBDLIB
+          psb_lib: SOME.IMS.PSBLIB
+          buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+          primary_log_dataset:
+            dataset_name: SOME.IMS.LOG1
+          mode: ANALYSIS
+          update_retention_criteria:
+            - resource: DBD
+              member_name: '*'
+              instances: 0
+              days: 0
+            - resource: PSB
+              member_name: '*'
+              instances: 0
+              days: 0
+
 '''
 
 RETURN = r'''
 
-
-
-
+content:
+  description: The standard output returned running the IMS Catalog Purge utility
+  type: str
+  returned: always
+  sample: DFS4810I ALL OF THE MEMBER INSTANCES THAT ARE REFERENCED IN THE SYSUT1 DATA SET WERE DELETED FROM THE IMS CATALOG.
+rc:
+  description: The return code from the IMS Catalog Purge utility
+  type: str
+  returned: sometimes
+  sample: '0'
+stderr: The standard error output returned from running the IMS Catalog Purge
+  type: str
+  returned: sometimes
+  sample:  12.27.08 STC00143  +DFS671I OMVSADM8.STEP1. - FOR THIS EXECUTION, DBRC IS SET TO NO     IMS1
+msg:
+  description: Messages returned from the IMS Catalog Purge module
+  type: str
+  returned: sometimes
+  sample: 
 '''
 
 

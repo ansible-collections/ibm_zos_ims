@@ -10,7 +10,7 @@
   tasks:
     - name: test ims_catalog_populate
       ims_catalog_populate:
-        mode: LOAD 
+        mode: UPDATE 
         acb_lib: [
           IMSTESTL.IMS1.ACBLIB
         ]
@@ -32,31 +32,31 @@
           secondary: 75
           secondary_unit: CYL
           type: SEQ
-        control_statements:
-          managed_acbs:
-            # update:
-            #   replace_acb: UNCOND
-            # stage: 
-            #   save_acb: UNCOND
-            #   clean_staging_dataset: true
-            setup: true
+        # control_statements:
+        #   managed_acbs:
+        #     update:
+        #       replace_acb: UNCOND
+        #     stage: 
+        #       save_acb: UNCOND
+        #       clean_staging_dataset: true
+        #     setup: true
         # bootstrap_dataset:
         #   dataset_name: IMSTESTL.IMS1.DFSCD000.BSDS
         #   disposition: NEW
         #   normal_disposition: CATLG
-        #   primary: 391
+        #   primary: 400
         # directory_datasets:
         #   - dataset_name: IMSTESTL.IMS1.DFSCD000.DI1001
-        #     disposition: NEW
-        #     normal_disposition: CATLG
+        #     disposition: SHR
+        #     # normal_disposition: CATLG
         #     primary: 600
         #   - dataset_name: IMSTESTL.IMS1.DFSCD000.DI1002
-        #     disposition: NEW
-        #     normal_disposition: CATLG
+        #     disposition: SHR
+        #     # normal_disposition: CATLG
         #     primary: 600
         #   - dataset_name: IMSTESTL.IMS1.DFSCD000.DI1003
-        #     disposition: NEW
-        #     normal_disposition: CATLG
+        #     disposition: SHR
+        #     # normal_disposition: CATLG
         #     primary: 600
         # temp_acb_dataset:
         #   dataset_name: IMSTESTL.IMS1.ATEMP.TEST
