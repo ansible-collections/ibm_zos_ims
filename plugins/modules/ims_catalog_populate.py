@@ -720,15 +720,18 @@ author:
 '''
 
 EXAMPLES = r'''
-
 - name: Example of a loading the IMS Catalog
   ims_catalog_populate:
     mode: LOAD
     acb_lib: [
       SOME.IMS.ACBLIB
     ]
-    reslib: SOME.IMS.SDFSRESL
-    steplib: SOME.IMS.SDFSRESL
+    reslib: [
+      SOME.IMS.SDFSRESL
+    ]
+    steplib: [
+      SOME.IMS.SDFSRESL
+    ]
     proclib: SOME.IMS.PROCLIB
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -742,8 +745,12 @@ EXAMPLES = r'''
     acb_lib: [
       SOME.IMS.ACBLIB
     ]
-    reslib: SOME.IMS.SDFSRESL
-    steplib: SOME.IMS.SDFSRESL
+    reslib: [
+      SOME.IMS.SDFSRESL
+    ]
+    steplib: [
+      SOME.IMS.SDFSRESL
+    ]
     proclib: SOME.IMS.PROCLIB
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -759,8 +766,12 @@ EXAMPLES = r'''
     acb_lib: [
       SOME.IMS.ACBLIB
     ]
-    reslib: SOME.IMS.SDFSRESL
-    steplib: SOME.IMS.SDFSRESL
+    reslib: [
+      SOME.IMS.SDFSRESL
+    ]
+    steplib: [
+      SOME.IMS.SDFSRESL
+    ]
     proclib: SOME.IMS.PROCLIB
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -772,11 +783,9 @@ EXAMPLES = r'''
         stage:
           save_acb: UNCOND
           clean_staging_dataset:true
-
 '''
 
 RETURN = r'''
-
 content:
   description: The standard output returned running the IMS Catalog Populate module
   type: str
@@ -796,9 +805,6 @@ msg:
   type: str
   returned: sometimes
   sample: You cannot define directory datasets, the bootstrap dataset, or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE
-
-
-
 '''
 
 from ansible.module_utils.basic import AnsibleModule
