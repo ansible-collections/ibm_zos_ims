@@ -283,9 +283,10 @@ options:
   check_timestamp:
     description:
       - Determines if the utility should check timestamps of ACB members with duplicate names. 
-        If true, the utility will check if the ACB generation timestamp is different from the previously 
-        processed ACB member with the same name. If the timestamp is different, it will use the ACB with the
-        duplicate name. If not, it will ignore the ACB with the duplicate name. 
+      - If true, the utility will check if the ACB generation timestamp is different from the previously 
+        processed ACB member with the same name. 
+      - If the timestamp is different, it will use the ACB with the duplicate name. If not, 
+        it will ignore the ACB with the duplicate name. 
     type: bool
     required: false
     default: false
@@ -364,10 +365,11 @@ options:
           - UNCATLG
   directory_datasets:
     description:
-      - Optionally defines the IMS directory data sets that are used to store the ACBs. If this is ommitted,
-        the utility dynamically deletes any preexisting directory datasets and dynamically creates two new
-        datasets to store the ACBs. The data set name must conform to the same naming convention as for 
-        a system-created directory data set.
+      - Optionally defines the IMS directory data sets that are used to store the ACBs. 
+      - If this is ommitted, the utility dynamically deletes any preexisting directory datasets 
+        and dynamically creates two new datasets to store the ACBs. 
+      - The data set name must conform to the same naming convention as for a system-created 
+        directory data set.
     type: list
     elements: dict
     required: false
@@ -430,8 +432,9 @@ options:
   temp_acb_dataset:
     description:
       - An optional control statement to define an empty work data set to be used as an IMS.ACBLIB data set 
-        for the IMS Catalog Populate utility. If IMS Management of ACBs is not enabled, this statement is ommitted. 
-        This dataset does not need to conform to any IMS Catalog or system-defined naming convention
+        for the IMS Catalog Populate utility. 
+      - If IMS Management of ACBs is not enabled, this statement is ommitted. 
+      - This dataset does not need to conform to any IMS Catalog or system-defined naming convention
     type: dict
     required: false
     suboptions:
@@ -500,7 +503,7 @@ options:
   directory_staging_dataset:
     description:
       - Optionally defines the size and placement IMS of the directory staging data set. 
-        The dataset must follow the naming convention for the IMS Catalog Directory.
+      - The dataset must follow the naming convention for the IMS Catalog Directory.
     type: dict
     required: false
     suboptions:
@@ -623,9 +626,9 @@ options:
       managed_acbs:
         description:
           - Use the MANAGEDACBS control statement to perform the following actions:
-            Set up IMS to manage the runtime application control blocks for your databases and program views.
-            Update an IMS system that manages ACBs with new or modified ACBs from an ACB library data set.
-            Save ACBs from an ACB library to a staging data set for later importing into an IMS system that manages ACBs.
+          - Set up IMS to manage the runtime application control blocks for your databases and program views.
+          - Update an IMS system that manages ACBs with new or modified ACBs from an ACB library data set.
+          - Save ACBs from an ACB library to a staging data set for later importing into an IMS system that manages ACBs.
         type: dict
         required: false
         suboptions:
@@ -658,15 +661,15 @@ options:
                 default: false
               gsampcb:
                 description:
-                  - GSAM resources are included for MANAGEDACBS= running in DLI mode using PSB DFSCP001. When GSAMPCB is specified, 
-                    the IEFRDER batch log data set is not used by the catalog members information gather task.
+                  - GSAM resources are included for MANAGEDACBS= running in DLI mode using PSB DFSCP001. 
+                  - When GSAMPCB is specified, the IEFRDER batch log data set is not used by the catalog members information gather task.
                 type: bool
                 required: false
                 default: false
               gsamdbd:
                 description:
                   - The name of the changed GSAM database. You can use the gsamdbd variable with the STAGE or UPDATE parameter. 
-                    However, LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.          
+                  - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.          
                 type: str
                 required: false
                 default: false
@@ -703,13 +706,15 @@ options:
               gsamdbd:
                 description:
                   - The name of the changed GSAM database. You can use the gsamdbd variable with the STAGE or UPDATE parameter. 
-                    However, LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.          
+                  - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.          
                 type: str
                 required: false
                 default: false
 notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
+  - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB dataset.
+  - Specifying only I(reslib) without I(steplib) is not supported.
 author:
   - Jerry Li 
 '''
