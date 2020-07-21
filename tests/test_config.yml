@@ -6,7 +6,7 @@ ZOAU_ROOT: /u/omvsadm/mvsbuilds/103
 PYTHON_ROOT: /usr/lpp/izoda/v110/anaconda
 JAVA_ROOT: /usr/lpp/java
 
-environment_vars:
+environment:
     LIBPATH: '{{ ZOAU_ROOT}}/lib:{{ PYTHON_ROOT }}/lib:/lib:/usr/lib:.'
     ZOAUTIL_DIR: '{{ ZOAU_ROOT }}'
     ZOAU_ROOT: '{{ ZOAU_ROOT }}'
@@ -24,11 +24,11 @@ environment_vars:
     JAVA_HOME: '{{ JAVA_ROOT }}/java180/J8.0_64'
     STEPLIB: IMSBLD.I15RTSMM.COMRESL1
     LANG: C
-
-JOB_CARD: |-
-    //ANSIBLE JOB 'testing',
-    //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
-    //  MSGCLASS=H,NOTIFY=&SYSUID 
+extra_args:
+    JOB_CARD: |-
+        //ANSIBLE JOB 'testing',
+        //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
+        //  MSGCLASS=H,NOTIFY=&SYSUID 
 
 
 # environment:

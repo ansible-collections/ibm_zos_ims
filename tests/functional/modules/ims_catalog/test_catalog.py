@@ -67,7 +67,7 @@ def test_catalog_load_simple(ansible_zos_module):
                 psb_lib=cp.PSBLIB, 
                 dbd_lib=cp.DBDLIB, 
                 acb_lib=cp.ACBLIB, 
-                steplib=cp.steplib, 
+                steplib=cp.STEPLIB, 
                  reslib=cp.RESLIB, 
                  proclib=cp.PROCLIB, 
                  primary_log_dataset=cp.PRIMARYLOG, 
