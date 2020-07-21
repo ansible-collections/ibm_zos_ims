@@ -17,8 +17,12 @@
             IMSTESTL.IMS1.SDFSRESL
           ]
           proclib: IMSTESTL.IMS1.PROCLIB 
-          dbd_lib: IMSTESTL.IMS1.DBDLIB
-          psb_lib: IMSTESTL.IMS1.PSBLIB
+          dbd_lib: [
+            IMSTESTL.IMS1.DBDLIB
+          ]
+          psb_lib: [
+            IMSTESTL.IMS1.PSBLIB
+          ]
           buffer_pool_param_dataset: "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
           primary_log_dataset:
             dataset_name: IMSTESTL.IMS1.LOG1

@@ -195,12 +195,14 @@ options:
   psb_lib:
     description:
       - Defines IMS.PSBLIB dataset
-    type: str
+    type: list
+    elements: str
     required: true
   dbd_lib:
     description:
       - Defines IMS.DBDLIB datasets
-    type: str
+    type: list
+    elements: str
     required: true
   proclib:
     description:
@@ -537,8 +539,8 @@ def run_module():
       reslib=dict(type="list", required=False),
       buffer_pool_param_dataset=dict(type="str", required=False),
       primary_log_dataset=dict(type="dict", required=False),
-      psb_lib=dict(type="str", required=False),
-      dbd_lib=dict(type="str", required=False),
+      psb_lib=dict(type="list", required=False),
+      dbd_lib=dict(type="list", required=False),
       proclib=dict(type="str", required=False),
       steplib=dict(type="list", required=False),
       mode=dict(type="str", required=True),

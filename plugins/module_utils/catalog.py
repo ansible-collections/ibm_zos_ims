@@ -67,11 +67,11 @@ class catalog():
     
       #Generate DD statements for DBD and PSB libs. If they exist, we attach to an ims dd statement. 
       if self.parsed_args.get('psb_lib') is not None:
-        psbDataset = DatasetDefinition(self.parsed_args.get('psb_lib'))
-        imsDatasetList.append(psbDataset)
+        for i in self.parsed_args.get('psb_lib'):
+          imsDatasetList.append(DatasetDefinition(i))
       if self.parsed_args.get('dbd_lib') is not None:
-        dbdDatset = DatasetDefinition(self.parsed_args.get('dbd_lib'))
-        imsDatasetList.append(dbdDatset)
+        for i in self.parsed_args.get('dbd_lib'):
+          imsDatasetList.append(DatasetDefinition(i))
       if imsDatasetList is not None:
         imsDDStatement = DDStatement("IMS", imsDatasetList)
         dDStatementList.append(imsDDStatement)

@@ -1,4 +1,4 @@
-host: ec01105a.vmec.svl.ibm.com
+host: ec32024a.vmec.svl.ibm.com
 user: omvsadm
 python_path: /usr/lpp/izoda/v110/anaconda/bin/python3.6
 

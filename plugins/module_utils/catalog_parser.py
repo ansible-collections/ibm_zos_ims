@@ -32,8 +32,8 @@ class catalog_parser():
                volumes=dict(type="list", required=False, elements="str")
             ),
             required=True),
-          psb_lib=dict(arg_type="data_set", required = True),
-          dbd_lib=dict(arg_type="data_set", required = True),
+          psb_lib=dict(arg_type="list", elements="data_set", required = True),
+          dbd_lib=dict(arg_type="list", elements="data_set", required = True),
           proclib=dict(arg_type="data_set", required = True),
           steplib=dict(arg_type="list", elements="data_set", required = False),
           sysprint=dict(arg_type="data_set", required=False),
@@ -165,6 +165,8 @@ class catalog_parser():
           self._validate_directory_staging_dataset()
         
         self._validate_optional_datasets()
+        self._validate_acb_mode()
+
 
       except ValueError as error:
         self.result['msg'] = error.args
@@ -251,7 +253,6 @@ class catalog_parser():
         self.module.fail_json(**self.result)
 
   def _validate_optional_datasets(self):
-      print("validating optional datasets")
       if self.parsed_args.get("directory_datasets") is not None or \
           self.parsed_args.get("directory_staging_dataset") is not None or \
             self.parsed_args.get("bootstrap_dataset") is not None:
@@ -260,4 +261,13 @@ class catalog_parser():
                 if self.parsed_args.get("control_statements").get("managed_acbs").get("stage") is not None or \
                     self.parsed_args.get("control_statements").get("managed_acbs").get("update") is not None:
                       self.result['msg'] = "You cannot define directory datasets, the bootstrap dataset, or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE"
+                      self.module.fail_json(**self.result)
+  
+  def _validate_acb_mode(self):
+      if self.parsed_args.get("control_statements") is not None:
+        if self.parsed_args.get("control_statements").get("managed_acbs") is not None:
+           if self.parsed_args.get("control_statements").get("managed_acbs").get("stage") is not None or \
+                    self.parsed_args.get("control_statements").get("managed_acbs").get("update") is not None:
+                    if self.parsed_args.get("mode") == "LOAD":
+                      self.result['msg'] = "You cannot update or stage ACBs in catalog LOAD mode."
                       self.module.fail_json(**self.result)

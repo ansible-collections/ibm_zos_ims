@@ -273,12 +273,14 @@ options:
   psb_lib:
     description:
       - Defines IMS.PSBLIB dataset
-    type: str
+    type: list
+    elements: str
     required: true
   dbd_lib:
     description:
       - Defines IMS.DBDLIB datasets
-    type: str
+    type: list
+    elements: str
     required: true
   check_timestamp:
     description:
@@ -820,8 +822,8 @@ def run_module():
       buffer_pool_param_dataset=dict(type="str", required=False),
       primary_log_dataset=dict(type="dict", required=False),
       secondary_log_dataset=dict(type="dict", required=False),
-      psb_lib=dict(type="str", required=False),
-      dbd_lib=dict(type="str", required=False),
+      psb_lib=dict(type="list", required=False),
+      dbd_lib=dict(type="list", required=False),
       check_timestamp=dict(type="bool", required=False),
       acb_lib=dict(type="list", required=True),
       bootstrap_dataset=dict(type="dict", required=False),
