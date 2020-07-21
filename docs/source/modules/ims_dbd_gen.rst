@@ -73,9 +73,9 @@ batch
   member_list
     A list of member names if the source specified is a data set.
 
-    Is required if *location* is 'DATA_SET'.
+    Optionally, proceeding the source_member, a colon with a target name for the generated DBD member can be specified. If no target name is specified, source_name will be used as the target name.
 
-    If 'member_list' is empty and location is set to false, then src is expected to be a sequential data set.
+    If 'member_list' is empty and location is set to 'DATA_SET' or not specified, then src is expected to be a sequential data set.
 
 
     | **required**: False
@@ -150,9 +150,9 @@ location
 member_list
   A list of member names if the source specified is a data set.
 
-  Is required if *location* is 'DATA_SET'.
+  Optionally, proceeding the source_member, a colon with a target name for the generated DBD member can be specified. If no target name is specified, source_name will be used as the target name.
 
-  If 'member_list' is empty and location is set to false, then src is expected to be a sequential data set.
+  If 'member_list' is empty and location is set to 'DATA_SET' or not specified, then src is expected to be a sequential data set.
 
 
   | **required**: False
@@ -224,6 +224,10 @@ Examples
      ims_dbd_gen:
        src: SOME.DATA.SET.DBD.SRC
        'replace': true
+       member_list:
+         - 'DEDBJN21': 'DBD1'
+         - 'DEDBJN21': 'DBD2'
+         - 'DEDBJNV1': 'DBD3'
        dest: SOME.PARTITIONED.DATA.SET.DBDLIB
        sys_lib:
          - SOME.DATA.SET.SDFSMAC
@@ -253,10 +257,10 @@ Examples
          -
            src: SOME.DATA.SET.DBD.SRC
            location: DATA_SET
-           member_list: [DSMEMBR1, DSMEMBR2, DSMEMBR3]
+           member_list: [DSMEMBR1, DSMEMBR2 : target2, DSMEMBR3]
          -
            src: SOME.DATA.SET.DBD.SRC
-           member_list: [DSMEMBR4]
+           member_list: [DSMEMBR4 : target4]
            'replace': true
          -
            src: SOME.DATA.SET.DBD.SEQ

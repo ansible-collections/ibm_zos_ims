@@ -19,10 +19,8 @@ module = None
 
 def _create_temp_data_set(hlq):
     """Create a temporary data set.
-
     Arguments:
         hlq {str} -- The HLQ to use for the temporary data set's name.
-
     Returns:
         str -- The name of the temporary data set.
     """
@@ -35,10 +33,8 @@ def _create_temp_data_set(hlq):
 def _create_data_set(name, extra_args=None):
     """A wrapper around zoautil_py
     Dataset.create() to raise exceptions on failure.
-
     Arguments:
         name {str} -- The name of the data set to create.
-
     Raises:
         DatasetCreateError: When data set creation fails.
     """
@@ -51,11 +47,9 @@ def _create_data_set(name, extra_args=None):
 
 def _write_data_set(name, contents):
     """Write text to a data set.
-
     Arguments:
         name {str} -- The name of the data set.
         contents {str} -- The text to write to the data set.
-
     Raises:
         DatasetWriteError: When write to the data set fails.
     """
@@ -73,10 +67,8 @@ def _write_data_set(name, contents):
 def _delete_data_set(name):
     """A wrapper around zoautil_py
     Dataset.delete() to raise exceptions on failure.
-
     Arguments:
         name {str} -- The name of the data set to delete.
-
     Raises:
         DatasetDeleteError: When data set deletion fails.
     """

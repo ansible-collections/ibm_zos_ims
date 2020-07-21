@@ -1,6 +1,6 @@
 #!/bin/bash
 
-aansible-galaxy collection build ../ --force
+ansible-galaxy collection build ../ --force
 ansible-galaxy collection install ./ibm-ibm_zos_ims*.tar.gz -c -f --force-with-deps
 
 plugins_dir=$(pwd)/../plugins

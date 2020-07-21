@@ -5,6 +5,30 @@
 Releases
 ========
 
+Version 1.0.0-beta3
+-------------------
+
+Notes
+  * Update recommended
+  * Enhancement
+
+    * ims_acb_gen
+    * ims_dbd_gen
+    * ims_psb_gen
+  * Documentation updates
+  * Updated sample playbook
+
+Availability
+  * Galaxy
+  * GitHub
+
+Reference
+  * Supported by IBM z/OS core collection v1.2.0-beta.1 or later
+  * Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
+  * Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435 or later
+  * Supported by z/OS V2R3
+  * The z/OS® shell
+
 Version 1.0.0-beta2
 -------------------
 

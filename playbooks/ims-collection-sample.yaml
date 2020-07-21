@@ -20,7 +20,7 @@
 #  interact with your destination target and ensure that you have the required
 #  source and destination data sets cataloged.
 #
-#  There are 3 IMS modules being used in this playbook.
+#   There are 3 IMS modules being used in this playbook.
 #
 # Requirements:
 #   IBM z/OS IMS collection 1.0.0 or later
@@ -86,7 +86,7 @@
             DX41SK04,
           ]
         "replace": true
-        dest: IMS.ANSIBLE.DBDLIB
+        dest: IMSTESTL.ANS.DBDLIB
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
@@ -97,7 +97,7 @@
         location: DATA_SET
         member_list: [PSBGENL]
         replace: true
-        dest: IMS.ANSIBLE.PSBLIB
+        dest: IMSTESTL.ANS.PSBLIB
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
@@ -108,10 +108,10 @@
         psb_name:
           - PSBGENL
         psb_lib:
-          - IMS.ANSIBLE.PSBLIB
+          - IMSTESTL.ANS.PSBLIB
         dbd_lib:
-          - IMS.ANSIBLE.DBDLIB
-        acb_lib: IMS.ANSIBLE.ACBLIB
+          - IMSTESTL.ANS.DBDLIB
+        acb_lib: IMSTESTL.ANS.ACBLIB
         reslib:
           - IMSTESTL.IMS1.SDFSRESL
         steplib:
