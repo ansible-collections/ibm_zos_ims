@@ -20,7 +20,7 @@
 #  interact with your destination target and ensure that you have the required
 #  source and destination data sets cataloged.
 #
-#   There are 3 IMS modules being used in this playbook.
+#  There are 3 IMS modules being used in this playbook.
 #
 # Requirements:
 #   IBM z/OS IMS collection 1.0.0 or later

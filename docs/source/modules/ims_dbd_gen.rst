@@ -142,10 +142,7 @@ location
   | **choices**: DATA_SET, USS
 
 
-<<<<<<< HEAD
-=======
  
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
 member_list
   A list of member names if the source specified is a data set.

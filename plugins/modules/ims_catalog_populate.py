@@ -79,7 +79,7 @@ options:
           - EXCL
       record_format:
         description:
-          - the record format #Need to expand this
+          - the record format 
         type: str
         required: false
         choices:
@@ -90,12 +90,12 @@ options:
           - U
       record_length:
         description:
-          - the logical record length in bytes #Need to expand this
+          - the logical record length in bytes 
         type: int
         required: false
       block_size:
         description:
-          - the block size #Need to expand this
+          - the block size 
         type: int
         required: false
       primary:
@@ -187,7 +187,7 @@ options:
           - The record format 
         type: str
         required: false
-         choices:
+        choices:
           - FB
           - VB
           - FBA
@@ -368,7 +368,7 @@ options:
   directory_datasets:
     description:
       - Optionally defines the IMS directory data sets that are used to store the ACBs. 
-      - If this is ommitted, the utility dynamically deletes any preexisting directory datasets 
+      - If this is omitted, the utility dynamically deletes any preexisting directory datasets 
         and dynamically creates two new datasets to store the ACBs. 
       - The data set name must conform to the same naming convention as for a system-created 
         directory data set.
@@ -627,7 +627,7 @@ options:
         required: false
       managed_acbs:
         description:
-          - Use the MANAGEDACBS control statement to perform the following actions:
+          - Use the MANAGEDACBS control statement to perform the following actions
           - Set up IMS to manage the runtime application control blocks for your databases and program views.
           - Update an IMS system that manages ACBs with new or modified ACBs from an ACB library data set.
           - Save ACBs from an ACB library to a staging data set for later importing into an IMS system that manages ACBs.
@@ -725,15 +725,12 @@ EXAMPLES = r'''
 - name: Example of a loading the IMS Catalog
   ims_catalog_populate:
     mode: LOAD
-    acb_lib: [
-      SOME.IMS.ACBLIB
-    ]
-    reslib: [
-      SOME.IMS.SDFSRESL
-    ]
-    steplib: [
-      SOME.IMS.SDFSRESL
-    ]
+    acb_lib: 
+      - SOME.IMS.ACBLIB
+    reslib: 
+      - SOME.IMS.SDFSRESL
+    steplib: 
+      - SOME.IMS.SDFSRESL
     proclib: SOME.IMS.PROCLIB
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -744,15 +741,12 @@ EXAMPLES = r'''
 - name: Example of loading the IMS Catalog and the IMS Directory datasets with MANAGEDACBS enabled
   ims_catalog_populate:  
     mode: LOAD
-    acb_lib: [
-      SOME.IMS.ACBLIB
-    ]
-    reslib: [
-      SOME.IMS.SDFSRESL
-    ]
-    steplib: [
-      SOME.IMS.SDFSRESL
-    ]
+    acb_lib: 
+      - SOME.IMS.ACBLIB
+    reslib: 
+      - SOME.IMS.SDFSRESL
+    steplib: 
+      - SOME.IMS.SDFSRESL
     proclib: SOME.IMS.PROCLIB
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -765,15 +759,12 @@ EXAMPLES = r'''
 
 - name: Example of updating the IMS Catalog and staging libraries into the IMS directory staging data set
   mode: LOAD
-    acb_lib: [
-      SOME.IMS.ACBLIB
-    ]
-    reslib: [
-      SOME.IMS.SDFSRESL
-    ]
-    steplib: [
-      SOME.IMS.SDFSRESL
-    ]
+    acb_lib: 
+      - SOME.IMS.ACBLIB
+    reslib: 
+      - SOME.IMS.SDFSRESL
+    steplib: 
+      - SOME.IMS.SDFSRESL
     proclib: SOME.IMS.PROCLIB
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -784,7 +775,7 @@ EXAMPLES = r'''
       managed_acbs:
         stage:
           save_acb: UNCOND
-          clean_staging_dataset:true
+          clean_staging_dataset: true
 '''
 
 RETURN = r'''
@@ -798,10 +789,10 @@ rc:
   type: str
   returned: sometimes
   sample: '1'
-stderr: The standard error output returned from running the IMS Catalog Populate
+stderr: 
+  description: The standard error output returned from running the IMS Catalog Populate
   type: str
   returned: sometimes
-  sample: 
 msg:
   description: Messages returned from the IMS Catalog Populate module
   type: str
@@ -832,6 +823,7 @@ def run_module():
       directory_staging_dataset=dict(type="dict", required=False),
       proclib=dict(type="str", required=False),
       steplib=dict(type="list", required=False),
+      sysabend=dict(type="str", required=False),
       control_statements=dict(type="dict", required=False)
     )
 

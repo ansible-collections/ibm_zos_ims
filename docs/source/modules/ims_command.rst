@@ -12,11 +12,7 @@ ims_command -- Submit IMS Commands
 .. contents::
    :local:
    :depth: 1
-<<<<<<< HEAD
-
-=======
    
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
 
 Synopsis
 --------
@@ -31,10 +27,7 @@ Parameters
 ----------
 
 
-<<<<<<< HEAD
-=======
  
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
 batch
   submit multiple IMS commands with a single invocation of the module.
@@ -44,10 +37,7 @@ batch
   | **type**: list
 
 
-<<<<<<< HEAD
-=======
  
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
   command
     This is the (well-formatted) command to submit to IMS Batch.
@@ -57,10 +47,7 @@ batch
     | **type**: str
 
 
-<<<<<<< HEAD
-=======
  
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
   plex
     Specify the IMSPLEX in which the IMS Command will be submitted.
@@ -70,10 +57,7 @@ batch
     | **type**: str
 
 
-<<<<<<< HEAD
-=======
  
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
   route
     Specify the IMS System in which the IMS Command will be submitted.
@@ -86,10 +70,7 @@ batch
 
 
 
-<<<<<<< HEAD
-=======
  
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
 command
   This is the (well-formatted) command to submit to IMS Batch.
@@ -99,10 +80,7 @@ command
   | **type**: str
 
 
-<<<<<<< HEAD
-=======
  
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
 plex
   Specify the IMSPLEX in which the IMS Command will be submitted.
@@ -112,10 +90,7 @@ plex
   | **type**: str
 
 
-<<<<<<< HEAD
-=======
  
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
      
 route
   Specify the IMS System in which the IMS Command will be submitted.
@@ -189,11 +164,6 @@ Notes
 .. note::
    This module requires Structured Call Interface (SCI) and Operations Manager (OM) to be active in the target IMSplex.
 
-<<<<<<< HEAD
-   This module requires the ``STEPLIB`` environment variable to be set with the IMS RESLIB concatenated to it.
-
-=======
->>>>>>> e111e87bfaa98e8ead7058362e51afd3c6c95f66
 
 
 
