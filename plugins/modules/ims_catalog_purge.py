@@ -75,7 +75,7 @@ options:
           - EXCL
       record_format:
         description:
-          - the record format 
+          - The record format 
         type: str
         required: false
         choices:
@@ -86,12 +86,12 @@ options:
           - U
       record_length:
         description:
-          - the logical record length in bytes 
+          - The logical record length in bytes 
         type: int
         required: false
       block_size:
         description:
-          - the block size 
+          - The block size 
         type: int
         required: false
       primary:
