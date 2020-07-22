@@ -75,18 +75,28 @@ EXAMPLES = '''
 - name: Sample DBRC Single Command
   ims_dbrc:
     command: LIST.RECON STATUS
-    steplib: IMSBANK.IMS1.SDFSRESL
+    steplib:
+      - IMSTESTU.IMS1501.MARKER
+      - IMSTESTL.IMS1.EXITLIB
+      - IMSTESTG.IMS15R.TSTRES
+      - IMSBLD.IMS15R.USERLIB
+      - IMSBLD.I15RTSMM.CRESLIB
     dynalloc: IMSTESTL.IMS1.DYNALLOC
     genjcl: IMSTESTL.IMS1.GENJCL
     dbdlib: IMSTESTL.IMS1.DBDLIB
 
-- name: Sample DBRC Multiple Commands
+- name: Sample DBRC Multiple Commands with Dynalloc Specified
   ims_dbrc:
     command: 
       - LIST.RECON STATUS
       - LIST.DB ALL
       - LIST.DBDS DBD(CUSTOMER)
-    steplib: IMSBANK.IMS1.SDFSRESL
+    steplib:
+      - IMSTESTU.IMS1501.MARKER
+      - IMSTESTL.IMS1.EXITLIB
+      - IMSTESTG.IMS15R.TSTRES
+      - IMSBLD.IMS15R.USERLIB
+      - IMSBLD.I15RTSMM.CRESLIB
     dynalloc: IMSTESTL.IMS1.DYNALLOC
     genjcl: IMSTESTL.IMS1.GENJCL
     dbdlib: IMSTESTL.IMS1.DBDLIB
@@ -95,8 +105,14 @@ EXAMPLES = '''
   ims_dbrc:
     command: 
       - LIST.RECON STATUS
-      - LIST.DB ALL
-    steplib: IMSBANK.IMS1.SDFSRESL
+      - INIT.DB DBD(TESTDB)
+      - DELETE.DB DBD(TESTDB)
+    steplib:
+      - IMSTESTU.IMS1501.MARKER
+      - IMSTESTL.IMS1.EXITLIB
+      - IMSTESTG.IMS15R.TSTRES
+      - IMSBLD.IMS15R.USERLIB
+      - IMSBLD.I15RTSMM.CRESLIB
     genjcl: IMSTESTL.IMS1.GENJCL
     recon1: IMSBANK.IMS1.RECON1
     recon2: IMSBANK.IMS1.RECON2
@@ -113,24 +129,24 @@ changed:
 dbrc_output:
   description:
     The output provided by the specified DBRC Command(s).
-  type: list
+  type: list[dict]
   returned: sometimes
   contains:
     command:
       description:
-        The original command input to the module.
+        The original submitted command that corresponds to the output.
       returned: always
       type: str
-    data:
+    messages:
       description:
-        Parsed fields from the output content that is mapped to its corresponding value.
+        Compiled list of messages returned from the DBRC output.
+      returned: always
+      type: list
+    output:
+      description:
+        Parsed DBRC output that maps each field to its corresponding value.
       returned: always
       type: dict
-    output_content:
-      description:
-        Unformatted output response from the corresponding DBRC command.
-      returned: always
-      type: str
 failed:
   description:
     Indicates the outcome of the module.
@@ -140,6 +156,16 @@ msg:
   description:
     The output message that the `ims_dbrc` module generates.
   type: str
+  returned: always
+rc:
+  description:
+    The return code returned by the DBRC module.
+  type: int
+  returned: always
+unformatted_output:
+  description:
+    Unformatted output response from the all of the submitted DBRC commands.
+  type: list
   returned: always
 '''
 
