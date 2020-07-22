@@ -7,16 +7,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
   StdinDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd # pylint: disable=import-error
-import tempfile
-# from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
-#   MissingZOAUImport,
-# ) 
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
-# try:
-#   from zoautil_py import Datasets, types # pylint: disable=import-error
-# except Exception:
-#   Datasets = MissingZOAUImport()
-#   types = MissingZOAUImport()
 
 class IMSDbrc():
     DBRC_UTILITY = "dspurx00"
