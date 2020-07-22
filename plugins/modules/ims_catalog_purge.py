@@ -12,12 +12,14 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r'''
 ---
 
-module: ims_catalog_populate
-short_description: Add datasets to the IMS Catalog
+module: ims_catalog_purge
+short_description: Purge datasets from the IMS Catalog
 version_added: "2.9"
 description:
   - The IMS Catalog Purge  utility DFS3PU10 removes the segments that represent a DBD or PSB instance, 
-    all instances of a DBD version, or an entire DBD or PSB record from the IMS catalog. You can also
+    all instances of a DBD version, or an entire DBD or PSB record from the IMS catalog. You can also analyze
+    the catalog and generate delete statements for ACBs eligible for deletion, as well as update ACB retention
+    criteria. 
 options:
   mode:
     description:
