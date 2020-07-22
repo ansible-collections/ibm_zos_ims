@@ -21,7 +21,9 @@ description:
 options:
   mode:
     description:
-      - Indicates what mode the Catalog Populate Utility should be run as
+      - Determines which mode the utility runs in. ANALYSIS mode generates delete statements based on the
+        retention criteria and places them in the SYSUT1 datset. PURGE mode executes delete statements in the
+        SYSUT1 dataset. BOTH mode performs ANALYSIS and PURGE mode consecutively. 
     type: str
     required: true
     choices:
@@ -71,7 +73,7 @@ options:
           - EXCL
       record_format:
         description:
-          - the record format #Need to expand this
+          - the record format 
         type: str
         required: false
         choices:
@@ -82,12 +84,12 @@ options:
           - U
       record_length:
         description:
-          - the logical record length in bytes #Need to expand this
+          - the logical record length in bytes 
         type: int
         required: false
       block_size:
         description:
-          - the block size #Need to expand this
+          - the block size 
         type: int
         required: false
       primary:
@@ -146,52 +148,13 @@ options:
           - RRDS
           - ESDS
           - KSDS
-      storage_class:
-        description:
-          - The storage class for an SMS-managed dataset
-        type: str
-        required: false
-      data_class:
-        description:
-        type: str
-        required: false
-      management_class:
-        description:
-        type: str
-        required: false
-      key_length:
-        description:
-        type: int
-        required: false
-      key_offset:
-        description:
-        type: int
-        required: false
       volumes:
         description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
         type: list
         required: false
         elements: str
-      dataset_key_label:
-        description: 
-        type: str
-        required: false
-      key_label1:
-        description:
-        type: str
-        required false
-      key_encoding1:
-        description:
-        type: str
-        required: false
-      key_label2:
-        description:
-        type: str
-        required false
-      key_encoding2:
-        description:
-        type: str
-        required: false
   psb_lib:
     description:
       - Defines IMS.PSBLIB dataset
@@ -217,17 +180,6 @@ options:
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     type: list
     required: False
-  mode:
-    description:
-      - Determines which mode the utility runs in. ANALYSIS mode generates delete statements based on the
-        retention criteria and places them in the SYSUT1 datset. PURGE mode executes delete statements in the
-        SYSUT1 dataset. BOTH mode performs ANALYSIS and PURGE mode consecutively. 
-    type: str
-    required: true
-    choices:
-      - ANALYSIS
-      - PURGE
-      - BOTH
   delete_dbd_by_version:
     description:
       - Delete DBD instances based on name and version specified. If ANALYSIS mode is specified, it will 
@@ -285,9 +237,9 @@ options:
   delete:
     description:
       - Specifies a DBD or PSB instance or an entire DBD or PSB record to delete from the IMS catalog database.
-        This option must be used with PURGE mode and overrides any retention criteria, hence you can remove any 
+      - This option must be used with PURGE mode and overrides any retention criteria, hence you can remove any 
         DBD or PSB that would not otherwise be eligible for deletion
-    type: list:
+    type: list
     required: false
     elements: dict
     suboptions:
@@ -318,10 +270,10 @@ options:
     required: false
   resource_chkp_freq:
     description:
-      - Specifies the number of resource instances to be deleted or updated between checkpoints. Can be a 1-8 digit 
+      - Specifies the number of resource instances to be deleted or updated between checkpoints. Can be a 1 to 8 digit 
         numeric value from 1 to 99999999. The default value is 200.
-      type: int
-      required: false
+    type: int
+    required: false
   sysut1:
     description:
       - Defines the primary IMS log data set.
@@ -423,12 +375,10 @@ author:
 EXAMPLES = r'''
 - name: Purge the IMS Catalog of DBDs beginning with 'DB'
   ims_catalog_purge:
-    reslib: [
-      SOME.IMS.SDFSRESL
-    ]
-    steplib: [
-      SOME.IMS.SDFSRESL
-    ]
+    reslib: 
+      - SOME.IMS.SDFSRESL
+    steplib: 
+      - SOME.IMS.SDFSRESL
     proclib: SOME.IMS.PROCLIB 
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -438,17 +388,15 @@ EXAMPLES = r'''
     mode: PURGE
     delete:
       - resource: DBD
-        member_name: 'DB*'
-        time_stamp: '*'
+        member_name: 'AUTODB'
+        time_stamp: 500
 
 - name: Purge the IMS Catalog and the IMS Directory of DBDs beginning with 'DB'
   ims_catalog_purge:
-    reslib: [
-      SOME.IMS.SDFSRESL
-    ]
-    steplib: [
-      SOME.IMS.SDFSRESL
-    ]
+    reslib: 
+      - SOME.IMS.SDFSRESL
+    steplib: 
+      - SOME.IMS.SDFSRESL
     proclib: SOME.IMS.PROCLIB 
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -458,18 +406,16 @@ EXAMPLES = r'''
     mode: PURGE
     delete:
       - resource: DBD
-        member_name: 'DB*'
-        time_stamp: '*'
+        member_name: AUTODB
+        time_stamp: 500
     managed_acbs: true
 
 - name: Analyze the IMS Catalog and generate delete statements for resources eligible for deletion
   ims_catalog_purge:
-    reslib: [
-      SOME.IMS.SDFSRESL
-    ]
-    steplib: [
-      SOME.IMS.SDFSRESL
-    ]
+    reslib: 
+      - SOME.IMS.SDFSRESL
+    steplib: 
+      - SOME.IMS.SDFSRESL
     proclib: SOME.IMS.PROCLIB 
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -480,12 +426,10 @@ EXAMPLES = r'''
 
 - name: Update resource retention criteria for resources in the IMS Catalog
   ims_catalog_purge:
-    reslib: [
-      SOME.IMS.SDFSRESL
-    ]
-    steplib: [
-      SOME.IMS.SDFSRESL
-    ]
+    reslib: 
+      - SOME.IMS.SDFSRESL
+    steplib: 
+      - SOME.IMS.SDFSRESL
     proclib: SOME.IMS.PROCLIB 
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
@@ -495,11 +439,11 @@ EXAMPLES = r'''
     mode: ANALYSIS
     update_retention_criteria:
       - resource: DBD
-        member_name: '*'
+        member_name: AUTODB
         instances: 0
         days: 0
       - resource: PSB
-        member_name: '*'
+        member_name: DBF000
         instances: 0
         days: 0
 '''
@@ -515,7 +459,8 @@ rc:
   type: str
   returned: sometimes
   sample: '0'
-stderr: The standard error output returned from running the IMS Catalog Purge
+stderr: 
+  description: The standard error output returned from running the IMS Catalog Purge
   type: str
   returned: sometimes
   sample:  12.27.08 STC00143  +DFS671I OMVSADM8.STEP1. - FOR THIS EXECUTION, DBRC IS SET TO NO     IMS1
