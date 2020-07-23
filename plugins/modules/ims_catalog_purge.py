@@ -32,14 +32,26 @@ options:
       - LOAD
       - UPDATE
       - READ
-  irlm_enabled:
+  online_batch:
     description:
-      - Indicates if IRLM is used
+      - Indicates if this utility is to be run in a BMP region.
+    type: bool
+    required: false
+    default: false
+  ims_id: 
+    description:
+      - The identifier of the IMS system on which the job is to be run
+      - Required if online_batch is true
+    type: str
+    required: false
+  dbrc:
+    description:
+      - Indicates if IMS Database Recovery Control facility is enabled. 
     type: bool
     required: false
   irlm_id:
     description:
-      - The IRLM id if IRLM is enabled
+      - The IRLM id if IRLM is enabled. Cannot be specified when online_batch is true. 
     type: str
     required: false
   reslib:
@@ -157,6 +169,24 @@ options:
         type: list
         required: false
         elements: str
+      storage_class:
+        description:
+          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+            SMS-managed.
+        type: str
+        required: false
+      management_class:
+        description:
+          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
+      data_class:
+        description:
+          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
   psb_lib:
     description:
       - Defines IMS.PSBLIB dataset
@@ -173,7 +203,7 @@ options:
     description:
       - Defines the IMS.PROCLIB data set that contains the DFSDFxxx member that 
         defines various attributes of the IMS catalog that are required by the utility.
-    type: str
+    type: list
     required: true
   steplib:
     description:
@@ -365,6 +395,24 @@ options:
         type: list
         required: false
         elements: str
+      storage_class:
+        description:
+          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+            SMS-managed.
+        type: str
+        required: false
+      management_class:
+        description:
+          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
+      data_class:
+        description:
+          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
 notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
@@ -481,14 +529,16 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser.cat
 
 def run_module():
     module_args = dict(
-      irlm_enabled=dict(type="bool", required=False),
+      online_batch=dict(type="bool", required=False),
+      ims_id=dict(type="str", required=False),
+      dbrc=dict(type="bool", required=False),
       irlm_id=dict(type="str", required=False),
       reslib=dict(type="list", required=False),
       buffer_pool_param_dataset=dict(type="str", required=False),
       primary_log_dataset=dict(type="dict", required=False),
       psb_lib=dict(type="list", required=False),
       dbd_lib=dict(type="list", required=False),
-      proclib=dict(type="str", required=False),
+      proclib=dict(type="list", required=False),
       steplib=dict(type="list", required=False),
       mode=dict(type="str", required=True),
       delete_dbd_by_version=dict(type="dict", required=False),

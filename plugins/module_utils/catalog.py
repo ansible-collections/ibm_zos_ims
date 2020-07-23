@@ -75,8 +75,12 @@ class catalog():
       if imsDatasetList is not None:
         imsDDStatement = DDStatement("IMS", imsDatasetList)
         dDStatementList.append(imsDDStatement)
+      
+      proclibList=[]
       if self.parsed_args.get('proclib') is not None:
-        proclibDDStatement = DDStatement("PROCLIB", DatasetDefinition(self.parsed_args.get('proclib')))
+        for i in self.parsed_args.get('proclib'):
+          proclibList.append(DatasetDefinition(i))
+        proclibDDStatement = DDStatement("PROCLIB", proclibList)
         dDStatementList.append(proclibDDStatement)
   
       steplibDatasets=[]
@@ -136,15 +140,30 @@ class catalog():
       
       irlm_id = ""
       irlm_flag = "N"
-      if self.parsed_args.get('irlm_enabled'):
-        if self.parsed_args.get('irlm_id'):
-          irlm_id = self.parsed_args.get('irlm_id')
-          irlm_flag = "Y"
-        else: 
-          self.result['msg'] = "You must specify an irlm id"
+      if self.parsed_args.get('irlm_id') is not None:
+        irlm_id = self.parsed_args.get('irlm_id')
+        irlm_flag = "Y"
+
+      dbrc = "N"
+      if self.parsed_args.get("dbrc"):
+        dbrc = "Y"
+        if self.parsed_args.get("primary_log_dataset") is None:
+          self.result['msg'] = "You must specify a primary log dataset if dbrc is set to true"
+          self.result['rc']=1
           self.module.fail_json(**self.result)
-  
-      self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,N,{0},{1},,,,,,,,,,,'DFSDF=CAT'".format(irlm_flag, irlm_id)
+
+      imsid = ""
+      if self.parsed_args.get("online_batch"):
+        if self.parsed_args.get("ims_id") is not None:
+          imsid = self.parsed_args.get("ims_id")
+          self.paramString = "BMP,DFS3PU10,DFSCP001,,,,,,,,,,,{0},,,,,,".format(imsid)
+        else:
+          self.result['msg'] = "You must specify an ims_id when running in a BMP region (online_batch=true)"
+          self.result['rc']=1
+          self.module.fail_json(**self.result)
+      else:
+        self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,{0},{1},{2},,,,,,,,,,,'DFSDF=CAT'".format(dbrc, irlm_flag, irlm_id)
+
       self.dDStatements = self.dDStatements + dDStatementList
   
 
@@ -253,12 +272,16 @@ class catalog():
         
       irlm_id = ""
       irlm_flag = "N"
-      if self.parsed_args.get('irlm_enabled'):
-        if self.parsed_args.get('irlm_id'):
-          irlm_id = self.parsed_args.get('irlm_id')
-          irlm_flag = "Y"
-        else: 
-          self.result['msg'] = "You must specify an irlm id"
+      if self.parsed_args.get('irlm_id') is not None:
+        irlm_id = self.parsed_args.get('irlm_id')
+        irlm_flag = "Y"
+
+      dbrc = "N"
+      if self.parsed_args.get("dbrc"):
+        dbrc = "Y"
+        if self.parsed_args.get("primary_log_dataset") is None:
+          self.result['msg'] = "You must specify a primary log dataset if dbrc is set to true"
+          self.result['rc']=1
           self.module.fail_json(**self.result)
       
       mode = ""
@@ -267,10 +290,26 @@ class catalog():
         mode = 'DFSCPL00'
       elif mode_param == 'UPDATE':
         mode = "DFSCP001"
+        if self.parsed_args.get("primary_log_dataset") is None:
+          self.result['msg'] = "You must specify a primary log dataset in UPDATE mode"
+          self.result['rc']=1
+          self.module.fail_json(**self.result)
       elif mode_param == 'READ':
         mode = "DFSCP000"
-  
-      self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,N,{1},{2},,,,,,,,,,,'DFSDF=CAT'".format(mode, irlm_flag, irlm_id)
+
+      imsid = ""
+
+      if self.parsed_args.get("online_batch"):
+        if self.parsed_args.get("ims_id") is not None:
+          imsid = self.parsed_args.get("ims_id")
+          self.paramString = "BMP,DFS3PU00,DFSCP001,,,,,,,,,,,{0},,,,,,".format(imsid)
+        else:
+          self.result['msg'] = "You must specify an ims_id when running in a BMP region (online_batch=true)"
+          self.result['rc']=1
+          self.module.fail_json(**self.result)
+      else:
+        self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,{1},{2},{3},,,,,,,,,,,'DFSDF=CAT'".format(mode, dbrc, irlm_flag, irlm_id)
+
       self.dDStatements = self.dDStatements + dDStatementList
   
 
@@ -318,6 +357,10 @@ class catalog():
           if managed_acbs.get('stage').get("clean_staging_dataset") is True:
             managed_acbs_string.append(",DELETE")
           if managed_acbs.get('stage').get('GSAMPCB') is True:
+            if managed_acbs.get('stage').get("clean_staging_dataset") is True:
+              self.result['msg'] = "Both GSAMPCB and clean_staging_dataset cannot be true"
+              self.result['rc']=1
+              self.module.fail_json(**self.result)
             managed_acbs_string.append(",GSAMPCB")
           managed_acbs_string.append(")")
           return "".join(managed_acbs_string)
@@ -395,11 +438,3 @@ class catalog():
           sysut1List.append(" ".join(deleteString))
       
       return sysut1List
-
-
- 
-
-# def ims_resource(resource_name, dependencies): 
-#   if len(resource_name) > 8 and not isinstance(resource_name, str):
-#     raise ValueError('The resource name cannot be more than 8 characters')
-#   return resource_name

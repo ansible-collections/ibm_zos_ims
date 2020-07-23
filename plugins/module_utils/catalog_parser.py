@@ -11,7 +11,9 @@ class catalog_parser():
   def _validate_common_input(self):
       try:
         module_defs = dict(
-          irlm_enabled=dict(arg_type="bool", required=False),
+          online_batch=dict(arg_type="bool", required=False),
+          ims_id=dict(arg_type="str", required=False),
+          dbrc=dict(arg_type="bool", required=False),
           irlm_id=dict(arg_type="str", required=False),
           reslib=dict(arg_type="list", elements="data_set", required=False),
           buffer_pool_param_dataset=dict(arg_type="data_set", required=True),
@@ -29,12 +31,15 @@ class catalog_parser():
                record_length=dict(arg_type="int", required=False),
                block_size=dict(arg_type="int", required=False),
                type = dict(arg_type="str", required=False, choices=['SEQ','BASIC','LARGE','PDS','PDSE','LIBRARY','LDS','RRDS','ESDS','KSDS']),
-               volumes=dict(type="list", required=False, elements="str")
+               volumes=dict(type="list", required=False, elements="str"),
+               storage_class=dict(type="str", required=False),
+               management_class=dict(type="str", required=False),
+               data_class=dict(type="str", required=False)
             ),
-            required=True),
+            required=False),
           psb_lib=dict(arg_type="list", elements="data_set", required = True),
           dbd_lib=dict(arg_type="list", elements="data_set", required = True),
-          proclib=dict(arg_type="data_set", required = True),
+          proclib=dict(arg_type="list", elements="data_set", required = True),
           steplib=dict(arg_type="list", elements="data_set", required = False),
           sysprint=dict(arg_type="data_set", required=False),
         )
@@ -69,7 +74,10 @@ class catalog_parser():
               record_length=dict(arg_type="int", required=False),
               block_size=dict(arg_type="int", required=False),
               type=dict(arg_type="str", required=False, choices=['SEQ', 'BASIC', 'LARGE', 'PDS', 'PDSE', 'LIBRARY', 'LDS', 'RRDS', 'ESDS', 'KSDS']),
-              volumes=dict(type="list", required=False, elements="str")
+              volumes=dict(type="list", required=False, elements="str"),
+              storage_class=dict(type="str", required=False),
+              management_class=dict(type="str", required=False),
+              data_class=dict(type="str", required=False)
             ), 
             required=False),
           acb_lib=dict(arg_type="list", elements="data_set", required=True),
@@ -84,6 +92,9 @@ class catalog_parser():
               secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
               normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              storage_class=dict(type="str", required=False),
+              management_class=dict(type="str", required=False),
+              data_class=dict(type="str", required=False)
             ) 
           ),
           directory_datasets=dict(arg_type="list", elements="dict", required=False,
@@ -96,6 +107,9 @@ class catalog_parser():
               secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
               normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              storage_class=dict(type="str", required=False),
+              management_class=dict(type="str", required=False),
+              data_class=dict(type="str", required=False)
             ) 
           ),
           temp_acb_dataset=dict(arg_type="dict", required = False,
@@ -108,7 +122,10 @@ class catalog_parser():
               secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
               normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
-              volumes=dict(type="list", required=False, elements="str")
+              volumes=dict(type="list", required=False, elements="str"),
+              storage_class=dict(type="str", required=False),
+              management_class=dict(type="str", required=False),
+              data_class=dict(type="str", required=False)
             ) 
           ),
           directory_staging_dataset=dict(arg_type="dict", required = False,
@@ -121,6 +138,9 @@ class catalog_parser():
               secondary_unit=dict(arg_type="str", required=False, choices=['K', 'KB', 'M', 'MB', 'G', 'GB', 'C', 'CYL', 'T', 'TRK']),
               normal_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
+              storage_class=dict(type="str", required=False),
+              management_class=dict(type="str", required=False),
+              data_class=dict(type="str", required=False)
             ) 
           ),
           sysabend=dict(arg_type="data_set", required = False),
@@ -218,7 +238,10 @@ class catalog_parser():
                   conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
                   block_size=dict(arg_type="int", required=False),
                   type=dict(arg_type="str", required=False, choices=['SEQ', 'BASIC', 'LARGE', 'PDS', 'PDSE', 'LIBRARY', 'LDS', 'RRDS', 'ESDS', 'KSDS']),
-                  volumes=dict(type="list", required=False, elements="str")
+                  volumes=dict(type="list", required=False, elements="str"),
+                  storage_class=dict(type="str", required=False),
+                  management_class=dict(type="str", required=False),
+                  data_class=dict(type="str", required=False)
                 ), 
             required=False)
         )

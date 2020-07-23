@@ -1,5 +1,6 @@
 ZOAU_ROOT: /u/omvsadm/mvsbuilds/103
 PYTHON_ROOT: /usr/lpp/izoda/v110/anaconda
+# PYTHON_ROOT: /python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz
 JAVA_ROOT: /usr/lpp/java
 
 environment_vars:

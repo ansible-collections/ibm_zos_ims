@@ -36,14 +36,26 @@ options:
       - LOAD
       - UPDATE
       - READ
-  irlm_enabled:
+  online_batch:
     description:
-      - Indicates if IRLM is used
+      - Indicates if this utility is to be run in a BMP region.
+    type: bool
+    required: false
+    default: false
+  ims_id: 
+    description:
+      - The identifier of the IMS system on which the job is to be run
+      - Required if online_batch is true
+    type: str
+    required: false
+  dbrc:
+    description:
+      - Indicates if IMS Database Recovery Control facility is enabled. 
     type: bool
     required: false
   irlm_id:
     description:
-      - The IRLM id if IRLM is enabled
+      - The IRLM id if IRLM is enabled. Cannot be specified when online_batch is true. 
     type: str
     required: false
   reslib:
@@ -55,12 +67,13 @@ options:
     description:
       - Defines the buffer pool parameters data set.
     type: str
-    required: true
+    required: false 
   primary_log_dataset:
     description:
-      - Defines the primary IMS log data set.
+      - Defines the primary IMS log data set. This is required if dbrc is set to true or if
+        mode 'UPDATE' is selected
     type: dict
-    required: true
+    required: false
     suboptions:
       dataset_name:
         description:
@@ -161,6 +174,24 @@ options:
         type: list
         required: false
         elements: str
+      storage_class:
+        description:
+          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+            SMS-managed.
+        type: str
+        required: false
+      management_class:
+        description:
+          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
+      data_class:
+        description:
+          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
   secondary_log_dataset:
     description:
       - Defines the secondary IMS log data set.
@@ -270,6 +301,24 @@ options:
         type: list
         required: false
         elements: str
+      storage_class:
+        description:
+          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+            SMS-managed.
+        type: str
+        required: false
+      management_class:
+        description:
+          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
+      data_class:
+        description:
+          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
   psb_lib:
     description:
       - Defines IMS.PSBLIB dataset
@@ -365,6 +414,24 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
+      storage_class:
+        description:
+          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+            SMS-managed.
+        type: str
+        required: false
+      management_class:
+        description:
+          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
+      data_class:
+        description:
+          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
   directory_datasets:
     description:
       - Optionally defines the IMS directory data sets that are used to store the ACBs. 
@@ -431,6 +498,24 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
+      storage_class:
+        description:
+          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+            SMS-managed.
+        type: str
+        required: false
+      management_class:
+        description:
+          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
+      data_class:
+        description:
+          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
   temp_acb_dataset:
     description:
       - An optional control statement to define an empty work data set to be used as an IMS.ACBLIB data set 
@@ -502,6 +587,24 @@ options:
         type: list
         required: false
         elements: str
+      storage_class:
+        description:
+          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+            SMS-managed.
+        type: str
+        required: false
+      management_class:
+        description:
+          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
+      data_class:
+        description:
+          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
   directory_staging_dataset:
     description:
       - Optionally defines the size and placement IMS of the directory staging data set. 
@@ -564,11 +667,29 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
+      storage_class:
+        description:
+          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+            SMS-managed.
+        type: str
+        required: false
+      management_class:
+        description:
+          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
+      data_class:
+        description:
+          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
+            SMS-managed
+        type: str
+        required: false
   proclib:
     description:
       - Defines the IMS.PROCLIB data set that contains the DFSDFxxx member that 
         defines various attributes of the IMS catalog that are required by the utility.
-    type: str
+    type: list
     required: true
   steplib:
     description:
@@ -579,12 +700,12 @@ options:
     required: False
   sysabend:
     description:
-      - Defines the dump dataset
+      - Defines the dump dataset. This defaults to = \* 
     type: str
     required: false
   sysprint:
     description:
-      - Defines the output message dataset
+      - Defines the output message dataset This defaults to = \* 
     type: str
     required: false
   control_statements:
@@ -598,6 +719,7 @@ options:
           - Specifies that the DFS3PU00 utility list each DBD or PSB resource in the input ACB 
             library that is not added to the IMS catalog because it is a duplicate of an instance 
             that is already in the IMS catalog. 
+          - Equivalent to the DUPLIST control statement.
         type: bool
         required: false
         default: false
@@ -605,24 +727,28 @@ options:
         description:
           - If the IMS management of ACBs is enabled, the utility also lists each DBD or PSB resources that is either added 
             to the IMS directory or saved to the staging data set for importing into the IMS directory later. 
+          - Equivalent to the ISRTLIST control statement.
         type: bool
         required: false
         default: true
       max_error_msgs:
         description:
           - Terminate the IMS Catalog Populate utility when more than n messages indicate errors that prevent 
-            certain DBDs and PSBs from having their metadata that is written to the IMS catalog. 
+            certain DBDs and PSBs from having their metadata that is written to the IMS catalog.
+          - Equivalent to the ERRORMAX=n control statement. 
         type: int
         required: false
       resource_chkp_freq:
         description:
           - Specifies the number of DBD and PSB resource instances to be inserted between checkpoints. 
             n can be a 1 to 8 digit numeric value of 1 to 99999999. 
+          - Equivalent to the RESOURCE_CHKP_FREQ=n control statement.
         type: int
         required: false
       segment_chkp_freq:
         description:
           - Specifies the number of segments to be inserted between checkpoints. Can be a 1 to 8 digit numeric value of 1 to 99999999.
+          - Equivalent to the SEGMENT_CHKP_FREQ=n control statement.
         type: int
         required: false
       managed_acbs:
@@ -665,6 +791,7 @@ options:
                 description:
                   - GSAM resources are included for MANAGEDACBS= running in DLI mode using PSB DFSCP001. 
                   - When GSAMPCB is specified, the IEFRDER batch log data set is not used by the catalog members information gather task.
+                  - GSAMPCB and clean_staging_dataset are mutually exclusive.
                 type: bool
                 required: false
                 default: false
@@ -751,14 +878,12 @@ EXAMPLES = r'''
     dbd_lib: SOME.IMS.DBDLIB
     psb_lib: SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
-    primary_log_dataset:
-      dataset_name: SOME.IMS.LOG
     control_statements:
       managed_acbs:
         setup: true
 
 - name: Example of updating the IMS Catalog and staging libraries into the IMS directory staging data set
-  mode: LOAD
+  mode: UPDATE
     acb_lib: 
       - SOME.IMS.ACBLIB
     reslib: 
@@ -807,7 +932,9 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser.cat
 def run_module():
     module_args = dict(
       mode=dict(type="str", required=True),
-      irlm_enabled=dict(type="bool", required=False),
+      online_batch=dict(type="bool", required=False),
+      ims_id=dict(type="str", required=False),
+      dbrc=dict(type="bool", required=False),
       irlm_id=dict(type="str", required=False),
       reslib=dict(type="list", required=False),
       buffer_pool_param_dataset=dict(type="str", required=False),
@@ -821,7 +948,7 @@ def run_module():
       directory_datasets=dict(type="list", required=False),
       temp_acb_dataset=dict(type="dict", required=False),
       directory_staging_dataset=dict(type="dict", required=False),
-      proclib=dict(type="str", required=False),
+      proclib=dict(type="list", required=False),
       steplib=dict(type="list", required=False),
       sysabend=dict(type="str", required=False),
       control_statements=dict(type="dict", required=False)

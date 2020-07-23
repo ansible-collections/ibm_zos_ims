@@ -6,13 +6,15 @@ from pprint import pprint
 from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import CatalogInputParameters as cp # pylint: disable=import-error
 
 def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, proclib, primary_log_dataset,
-          buffer_pool_param_dataset, acb_lib, irlm_enabled=None, irlm_id=None, control_statements=None, bootstrap_dataset=None, 
+          buffer_pool_param_dataset, acb_lib, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, control_statements=None, bootstrap_dataset=None, 
           directory_dataset=None, temp_acb_dataset=None, directory_staging_dataset=None, 
           secondary_log_dataset=None, sysabend=None, check_timestamp=None):
 
     response = hosts.all.ims_catalog_populate(
+        online_batch=online_batch,
+        dbrc=dbrc,
+        ims_id=ims_id,
         irlm_id=irlm_id,
-        irlm_enabled=irlm_enabled,
         psb_lib=psb_lib,
         dbd_lib=dbd_lib,
         acb_lib=acb_lib,
@@ -39,12 +41,14 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
         assert validation_msg in result['content']
 
 def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, steplib, reslib, proclib,
-          buffer_pool_param_dataset, irlm_enabled=None, irlm_id=None, sysut1=None, update_retention_criteria=None,
+          buffer_pool_param_dataset, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, sysut1=None, update_retention_criteria=None,
           delete=None, managed_acbs=None, delete_dbd_by_version=None, resource_chkp_freq=None, mode='PURGE'):
     
     response = hosts.all.ims_catalog_purge(
+        online_batch=online_batch,
+        dbrc=dbrc,
+        ims_id=ims_id,
         irlm_id=irlm_id,
-        irlm_enabled=irlm_enabled,
         psb_lib=psb_lib,
         dbd_lib=dbd_lib,
         steplib=steplib,
