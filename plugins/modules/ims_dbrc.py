@@ -48,6 +48,11 @@ options:
       - The PDS, which contains the JCL and control statements for the utility that DBRC uses to generate a job.
     type: str
     required: false
+  max_rc:
+    description:
+      - The maximum acceptable return code allowed for the module to complete succesfully.
+    type: int
+    required: false
   recon1:
     description:
       - The RECON1 data set that will be used to complete the DBRC execution.
