@@ -250,9 +250,7 @@ class catalog_parser():
         self.parsed_args.update(parser.parse_args(self.params))
 
         if self.parsed_args.get("mode") == "ANALYSIS" or self.parsed_args.get("mode") == "BOTH":
-          print("got the mode")
           if self.parsed_args.get("delete") is not None:
-            print("is it failing?")
             self.result['msg'] = "Cannot specify delete parameters with 'ANALYSIS' or 'BOTH' mode"
             self.result['rc'] = 1
             self.module.fail_json(**self.result)

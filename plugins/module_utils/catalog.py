@@ -122,18 +122,15 @@ class catalog():
       dDStatementList = []
 
       sysinList = self._parse_sysin()
-      print("this is sysinList" + " ".join(sysinList))
       sysInDDStatement = DDStatement("SYSIN", StdinDefinition(sysinList))
       dDStatementList.append(sysInDDStatement)
 
       if self.parsed_args.get("delete") is not None:
         sysut1List = self._parse_sysut1()
-        print("this is sysut1List" + " ".join(sysut1List))
         sysut1DDStatement = DDStatement("SYSUT1", StdinDefinition(sysut1List))
       else:
         if self.parsed_args.get("sysut1") is not None:
           sysut1DDStatement = DDStatement("SYSUT1", DatasetDefinition(**{k: v for k, v in self.parsed_args.get('sysut1').items() if v is not None}))
-          # sysut1DDStatement = DDStatement("SYSUT1", StdoutDefinition())
         else:
           sysut1DDStatement = DDStatement("SYSUT1", StdoutDefinition())
       dDStatementList.append(sysut1DDStatement)
@@ -219,7 +216,6 @@ class catalog():
         directoryCount = 1
         for i in self.parsed_args.get('directory_datasets'):
           dirParams.update(i)
-          print("directory items: " + str(dirParams))
           if directoryCount >= 10:
             directoryDDStatement = DDStatement("IMSD00{0}".format(directoryCount), DatasetDefinition(**{k: v for k, v in dirParams.items() if v is not None}))
             dDStatementList.append(directoryDDStatement)
@@ -265,7 +261,6 @@ class catalog():
   
       controlList=[]
       if self.parsed_args.get('control_statements') is not None:
-        print("getting control statements")
         controlList = self._parse_control_statements()
         ctrlStateDDStatement = DDStatement("SYSINP", StdinDefinition(controlList))
         dDStatementList.append(ctrlStateDDStatement)
@@ -337,7 +332,6 @@ class catalog():
         if managed_acbs is not None:
           controlStr.append(self._parse_managed_acbs(managed_acbs))
         
-        print("util printing control string: " + " ".join(controlStr))
         return controlStr
     
     def _parse_managed_acbs(self, managed_acbs):

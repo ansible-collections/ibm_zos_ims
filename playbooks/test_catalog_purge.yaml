@@ -16,7 +16,9 @@
           steplib: [
             IMSTESTL.IMS1.SDFSRESL
           ]
-          proclib: IMSTESTL.IMS1.PROCLIB 
+          proclib: [
+            IMSTESTL.IMS1.PROCLIB
+          ] 
           dbd_lib: [
             IMSTESTL.IMS1.DBDLIB
           ]
