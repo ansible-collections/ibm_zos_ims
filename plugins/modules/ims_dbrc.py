@@ -183,7 +183,7 @@ def get_max_rc(raw_max_rc):
     try:
       return int(raw_max_rc)
     except:
-      result['msg'] = "Invalid input for \'max_rc\'."
+      result['msg'] = em.INVALID_MAX_RC
       module.fail_json(**result)
   else:
     return None

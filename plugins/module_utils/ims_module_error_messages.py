@@ -20,6 +20,7 @@ class DBRCErrorMessages():
     INCORRECT_DYNALLOC_TYPE = "'dynalloc' must be a string."
     INCORRECT_GENJCL_TYPE = "'genjcl' must be a string."
     INCORRECT_RECON_TYPE = "'recon' parameters must be strings."
+    INVALID_MAX_RC = "Invalid input for 'max_rc'."
     DYNALLOC_RECON_REQUIREMENT_MSG = "'dynalloc' or ('recon1', 'recon2', 'recon3') must be specified."
     SUCCESS_MSG = "Success"
     FAILURE_MSG = "Failure. See output for details."
