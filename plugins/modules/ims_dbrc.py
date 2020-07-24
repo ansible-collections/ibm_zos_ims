@@ -173,13 +173,24 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSDbrc import IMSDbrc  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
 
+def get_max_rc(raw_max_rc):
+  if raw_max_rc:
+    try:
+      return int(raw_max_rc)
+    except:
+      result['msg'] = "Invalid input for \'max_rc\'."
+      module.fail_json(**result)
+  else:
+    return None
+
 def run_module():
-  global module
+  global module, result
   module_args = dict(
     command=dict(type='list', required=True),
     dbdlib=dict(type='str', required=False),
     dynalloc=dict(type='str', required=False),
     genjcl=dict(type='str', required=False),
+    max_rc=dict(type='str', required=False),
     recon1=dict(type='str', required=False),
     recon2=dict(type='str', required=False),
     recon3=dict(type='str', required=False),
@@ -200,6 +211,7 @@ def run_module():
     supports_check_mode=True
   )
 
+  max_rc = get_max_rc(module.params['max_rc'])
   try:
     response = IMSDbrc.IMSDbrc(
       commands=module.params['command'],
@@ -207,6 +219,7 @@ def run_module():
       dynalloc=module.params['dynalloc'],
       dbdlib=module.params['dbdlib'],
       genjcl=module.params['genjcl'],
+      # max_rc=module.params['max_rc'],
       recon1=module.params['recon1'],
       recon2=module.params['recon2'],
       recon3=module.params['recon3']).execute()
@@ -216,6 +229,11 @@ def run_module():
     result['failed'] = response['failure_detected']
     result['rc'] = response['rc']
     result['changed'] = response['changed']
+
+    if max_rc and response['rc']: 
+      if int(response['rc']) <= max_rc:
+        result['msg'] = response['error'] if response['error'] else em.SUCCESS_MSG
+        module.exit_json(**result)
 
     if not result['dbrc_output']:
       if response['rc'] and int(response['rc']) > 4:
