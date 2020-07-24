@@ -65,7 +65,7 @@ def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, 
         assert result['rc'] == 0
         assert validation_msg in result['content']
 
-# Load mode, managed_acbs - setup=True
+# Scenario 2: Load mode, managed_acbs - setup=True
 def test_catalog_load_managed_acbs(ansible_zos_module):
     hosts = ansible_zos_module
     load_catalog(hosts, 
@@ -94,7 +94,7 @@ def test_catalog_load_managed_acbs(ansible_zos_module):
                 delete=cp.DELETES,
                 managed_acbs=True)
 
-# Update mode, managed_acbs - stage options(save_acb=UNCOND and clean_staging_dataset=True)
+# Scenario 3: Update mode, managed_acbs - stage options(save_acb=UNCOND and clean_staging_dataset=True)
 # and update option(replace_acb=UNCOND)
 def test_catalog_update_managed_acbs_stage_and_update(ansible_zos_module):
     hosts = ansible_zos_module
