@@ -1,6 +1,8 @@
 ZOAU_ROOT: /u/omvsadm/mvsbuilds/103
-PYTHON_ROOT: /usr/lpp/izoda/v110/anaconda
-# PYTHON_ROOT: /python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz
+# ZOAU_ROOT: /zoau/v1.0.3-ptf2
+# ZOAU_ROOT: "/usr/lpp/IBM/zoautil"
+# PYTHON_ROOT: /usr/lpp/izoda/v110/anaconda
+PYTHON_ROOT: "/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz"
 JAVA_ROOT: /usr/lpp/java
 
 environment_vars:
@@ -9,10 +11,10 @@ environment_vars:
     ZOAU_ROOT: '{{ ZOAU_ROOT }}'
     ZOAU_HOME: '{{ ZOAU_ROOT }}'
     PYTHONPATH: '{{ ZOAU_ROOT }}/lib:/lib:/usr/lib'
-    _BPXK_JOBLOG: STDERR 
+    # _BPXK_JOBLOG: STDERR 
     # environment variables for mvsutils/mvscmd
-    _BPXK_AUTOCVT: ON
-    #_CEE_RUNOPTS: '"FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"'
+    _BPXK_AUTOCVT: "ON"
+    _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
     _TAG_REDIR_ERR: txt
     _TAG_REDIR_IN: txt
     _TAG_REDIR_OUT: txt

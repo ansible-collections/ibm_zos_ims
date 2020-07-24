@@ -65,13 +65,13 @@ options:
     required: false
   buffer_pool_param_dataset:
     description:
-      - Defines the buffer pool parameters data set.
+      - Defines the buffer pool parameters data set. This option is required if you are running as a DLI. #Add checker
     type: str
     required: false 
   primary_log_dataset:
     description:
       - Defines the primary IMS log data set. This is required if dbrc is set to true or if
-        mode 'UPDATE' is selected
+        mode 'UPDATE' is selected #Check if you can not specify this while running as bmp in update mode
     type: dict
     required: false
     suboptions:

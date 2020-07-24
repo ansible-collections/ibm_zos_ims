@@ -29,9 +29,9 @@ options:
     type: str
     required: true
     choices:
-      - LOAD
-      - UPDATE
-      - READ
+      - PURGE
+      - BOTH
+      - ANALYSIS
   online_batch:
     description:
       - Indicates if this utility is to be run in a BMP region.
@@ -61,12 +61,12 @@ options:
     required: false
   buffer_pool_param_dataset:
     description:
-      - Defines the buffer pool parameters data set.
+      - Defines the buffer pool parameters data set. #similar behavior to catalog populate
     type: str
     required: true
   primary_log_dataset:
     description:
-      - Defines the primary IMS log data set.
+      - Defines the primary IMS log data set. #Similar behavior to catalog populate
     type: dict
     required: true
     suboptions:
@@ -308,7 +308,7 @@ options:
     required: false
   sysut1:
     description:
-      - Defines the primary IMS log data set.
+      - #add description
     type: dict
     required: true
     suboptions:
@@ -429,9 +429,12 @@ EXAMPLES = r'''
       - SOME.IMS.SDFSRESL
     steplib: 
       - SOME.IMS.SDFSRESL
-    proclib: SOME.IMS.PROCLIB 
-    dbd_lib: SOME.IMS.DBDLIB
-    psb_lib: SOME.IMS.PSBLIB
+    proclib: 
+      - SOME.IMS.PROCLIB 
+    dbd_lib: 
+      - SOME.IMS.DBDLIB
+    psb_lib: 
+      - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG1
@@ -447,9 +450,12 @@ EXAMPLES = r'''
       - SOME.IMS.SDFSRESL
     steplib: 
       - SOME.IMS.SDFSRESL
-    proclib: SOME.IMS.PROCLIB 
-    dbd_lib: SOME.IMS.DBDLIB
-    psb_lib: SOME.IMS.PSBLIB
+    proclib: 
+      - SOME.IMS.PROCLIB 
+    dbd_lib: 
+      - SOME.IMS.DBDLIB
+    psb_lib: 
+      - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG1
@@ -466,9 +472,12 @@ EXAMPLES = r'''
       - SOME.IMS.SDFSRESL
     steplib: 
       - SOME.IMS.SDFSRESL
-    proclib: SOME.IMS.PROCLIB 
-    dbd_lib: SOME.IMS.DBDLIB
-    psb_lib: SOME.IMS.PSBLIB
+    proclib: 
+      - SOME.IMS.PROCLIB 
+    dbd_lib: 
+      - SOME.IMS.DBDLIB
+    psb_lib: 
+      - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG1
@@ -480,9 +489,12 @@ EXAMPLES = r'''
       - SOME.IMS.SDFSRESL
     steplib: 
       - SOME.IMS.SDFSRESL
-    proclib: SOME.IMS.PROCLIB 
-    dbd_lib: SOME.IMS.DBDLIB
-    psb_lib: SOME.IMS.PSBLIB
+    proclib: 
+      - SOME.IMS.PROCLIB 
+    dbd_lib: 
+      - SOME.IMS.DBDLIB
+    psb_lib: 
+      - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG1
