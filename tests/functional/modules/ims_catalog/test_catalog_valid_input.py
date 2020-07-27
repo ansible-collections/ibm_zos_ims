@@ -6,13 +6,12 @@ from pprint import pprint
 from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import CatalogInputParameters as cp # pylint: disable=import-error
 
 def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, proclib, primary_log_dataset,
-          buffer_pool_param_dataset, acb_lib, irlm_enabled=None, irlm_id=None, control_statements=None, bootstrap_dataset=None, 
+          buffer_pool_param_dataset, acb_lib, irlm_id=None, control_statements=None, bootstrap_dataset=None, 
           directory_dataset=None, temp_acb_dataset=None, directory_staging_dataset=None, 
           secondary_log_dataset=None, sysabend=None, check_timestamp=None):
 
     response = hosts.all.ims_catalog_populate(
         irlm_id=irlm_id,
-        irlm_enabled=irlm_enabled,
         psb_lib=psb_lib,
         dbd_lib=dbd_lib,
         acb_lib=acb_lib,
@@ -39,12 +38,11 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
         assert validation_msg in result['content']
 
 def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, steplib, reslib, proclib,
-          buffer_pool_param_dataset, irlm_enabled=None, irlm_id=None, sysut1=None, update_retention_criteria=None,
+          buffer_pool_param_dataset, irlm_id=None, sysut1=None, update_retention_criteria=None,
           delete=None, managed_acbs=None, delete_dbd_by_version=None, resource_chkp_freq=None, mode='PURGE'):
     
     response = hosts.all.ims_catalog_purge(
         irlm_id=irlm_id,
-        irlm_enabled=irlm_enabled,
         psb_lib=psb_lib,
         dbd_lib=dbd_lib,
         steplib=steplib,
@@ -67,7 +65,7 @@ def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, 
         assert result['rc'] == 0
         assert validation_msg in result['content']
 
-# Load mode, managed_acbs - setup=True
+# Scenario 2: Load mode, managed_acbs - setup=True
 def test_catalog_load_managed_acbs(ansible_zos_module):
     hosts = ansible_zos_module
     load_catalog(hosts, 
@@ -80,8 +78,8 @@ def test_catalog_load_managed_acbs(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.LOADMODE,
-                validation_msg="DFS4434I",
-                managed_acbs={"setup":True})
+                validation_msg="DFS4533I",
+                control_statements={'managed_acbs':{"setup":True}})
 
     purge_catalog(hosts, 
                 psb_lib=cp.PSBLIB, 
@@ -96,7 +94,7 @@ def test_catalog_load_managed_acbs(ansible_zos_module):
                 delete=cp.DELETES,
                 managed_acbs=True)
 
-# Update mode, managed_acbs - stage options(save_acb=UNCOND and clean_staging_dataset=True)
+# Scenario 3: Update mode, managed_acbs - stage options(save_acb=UNCOND and clean_staging_dataset=True)
 # and update option(replace_acb=UNCOND)
 def test_catalog_update_managed_acbs_stage_and_update(ansible_zos_module):
     hosts = ansible_zos_module
@@ -109,11 +107,28 @@ def test_catalog_update_managed_acbs_stage_and_update(ansible_zos_module):
                 proclib=cp.PROCLIB, 
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
-                mode=cp.LOADMODE,
-                validation_msg="DFS4434I",
-                managed_acbs={"stage":{"save_acb":"UNCOND"},
-                                      {"clean_staging_dataset": True}},
-                              {"update":{"replace_acb": "UNCOND"}}        )
+                mode=cp.UPDATEMODE,
+                validation_msg="DFS4536I", 
+                control_statements = {
+                'managed_acbs': {
+                    'stage': {
+                        'save_acb': "UNCOND",
+                        'clean_staging_dataset': True
+                    }
+                }
+                })
+    load_catalog(hosts, 
+                psb_lib=cp.PSBLIB, 
+                dbd_lib=cp.DBDLIB, 
+                acb_lib=cp.ACBLIB, 
+                steplib=cp.STEPLIB, 
+                reslib=cp.RESLIB, 
+                proclib=cp.PROCLIB, 
+                primary_log_dataset=cp.PRIMARYLOG, 
+                buffer_pool_param_dataset=cp.BUFFERPOOL, 
+                mode=cp.UPDATEMODE,
+                validation_msg="DFS4534I",
+                control_statements={'managed_acbs':{'update':{'replace_acb':"UNCOND"}}})
 
     purge_catalog(hosts, 
                 psb_lib=cp.PSBLIB, 
@@ -126,7 +141,7 @@ def test_catalog_update_managed_acbs_stage_and_update(ansible_zos_module):
                 mode=cp.PURGEMODE,
                 validation_msg="DFS4518I",
                 delete=cp.DELETES,
-                managed_acbs=True)                
+                managed_acbs=True)
 
     
 

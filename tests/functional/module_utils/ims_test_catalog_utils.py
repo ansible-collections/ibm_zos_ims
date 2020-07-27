@@ -3,13 +3,13 @@ class CatalogInputParameters():
   DBDLIB = ["IMSTESTL.IMS1.DBDLIB"]
   ACBLIB = ["IMSTESTL.IMS1.ACBLIB"]
   STEPLIB = ["IMSTESTL.IMS1.SDFSRESL"]
-  PROCLIB = ['IMSTESTL.IMS1.PROCLIB']
-  RESLIB = ["IMSTESTL.IMS1.SDFSRESL"]
+  PROCLIB = "IMSTESTL.IMS1.PROCLIB"
+  RESLIB = ["IMSTESTL.IMS1.SDFSRESL"]    
   BUFFERPOOL = "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
   LOADMODE = "LOAD"
   UPDATEMODE = "UPDATE"
   PRIMARYLOG = {
-    "dataset_name": "IMSTESTL.IMS1.LOG1",
+    "dataset_name": "IMSTESTU.IMS1.LOG2",
     "disposition": "NEW",
     "normal_disposition": "DELETE",
     "record_format": "FB",
