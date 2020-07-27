@@ -28,25 +28,29 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
   #               }
   #             })
 
-  # # Generate vsam PSB
-  # response = hosts.all.ims_psb_gen(src=ps.SOURCE, location="DATA_SET", replace=True, member_list=['PGSAM1'], psb_name=None, dest=ps.DESTINATION, sys_lib=["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"])
-  # for result in response.contacted.values():
-  #     pprint(result)
-  #     print("Changed:", result['changed'])
-  #     assert result['changed'] == True
-  #     assert result['rc'] == 0
-  #     # Check for success message (if we remove return codes)
-  #     assert result['msg'] == 'PSBGEN execution was successful.'
+  #Generate vsam DBD
+  response = hosts.all.ims_dbd_gen(src=db.SOURCE, location="DATA_SET", replace=True, member_list=['DGSAM1'], dbd_name=None, dest=db.DESTINATION, sys_lib=["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"])
+  for result in response.contacted.values():
+      pprint(result)
+      print("Changed:", result['changed'])
+      assert result['changed'] == True
+      assert result['rc'] == 0
+      # Check for success message (if we remove return codes)
+      assert result['msg'] == 'DBDGEN execution was successful.'
+
+  # Generate vsam PSB
+  response = hosts.all.ims_psb_gen(src=ps.SOURCE, location="DATA_SET", replace=True, member_list=['PGSAM1'], psb_name=None, dest=ps.DESTINATION, sys_lib=["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"])
+  for result in response.contacted.values():
+      pprint(result)
+      print("Changed:", result['changed'])
+      assert result['changed'] == True
+      assert result['rc'] == 0
+      # Check for success message (if we remove return codes)
+      assert result['msg'] == 'PSBGEN execution was successful.'
   
   #Add to ACBLIB
-  response = hosts.all.ims_acb_gen(hosts, command_input=ac.COMMAND_INPUT_BUILD, psb_name=ac.PSB_NAME, psb_lib=ac.PSBLIB, dbd_lib=ac.DBDLIB, acb_lib=ac.ACBLIB, steplib=ac.STEPLIB, reslib=ac.RESLIB)
-  print("Result:", response)
-  for result in response.contacted.values():
-    pprint(result)
-    print("Changed:", result.get('changed'))
-    print("Return code:", result.get('rc'))
-    assert result.get('changed') == True
-    assert result.get('rc') <= 4
+  validate_acbgen(hosts, command_input=ac.COMMAND_INPUT_BUILD, psb_name=ac.PSB_NAME, dbd_name=ac.DBD_NAME, psb_lib=ac.PSBLIB, dbd_lib=ac.DBDLIB, acb_lib=ac.ACBLIB, steplib=ac.STEPLIB, reslib=ac.RESLIB)
+
 
   # # Add to the catalog
   # load_catalog(hosts, 
@@ -69,3 +73,36 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
   #             })
 
 
+def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
+                       dbd_lib=None, acb_lib=None, steplib=None, reslib=None,
+                       compression=None, build_psb=None, command_input=None):
+    arguments = {}
+    if psb_name:
+        arguments["psb_name"] = psb_name
+    if dbd_name:
+        arguments["dbd_name"] = dbd_name
+    if psb_lib:
+        arguments["psb_lib"] = psb_lib
+    if dbd_lib:
+        arguments["dbd_lib"] = dbd_lib
+    if acb_lib:
+        arguments["acb_lib"] = acb_lib
+    if steplib:
+        arguments["steplib"] = steplib
+    if reslib:
+        arguments["reslib"] = reslib
+    if compression:
+        arguments["compression"] = compression
+    if build_psb:
+        arguments["build_psb"] = build_psb
+    if command_input:
+        arguments["command_input"] = command_input
+
+    response = hosts.all.ims_acb_gen(**arguments)
+    print("Result:", response)
+    for result in response.contacted.values():
+        pprint(result)
+        print("Changed:", result.get('changed'))
+        print("Return code:", result.get('rc'))
+        assert result.get('changed') == True
+        assert result.get('rc') <= 4
