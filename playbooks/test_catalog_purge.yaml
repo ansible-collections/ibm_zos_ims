@@ -93,6 +93,9 @@
             - resource: PSB 
               member_name: 'IP*'
               time_stamp: '*'
+            - resource: PSB 
+              member_name: 'PG*'
+              time_stamp: '*'
           managed_acbs: true
 
             

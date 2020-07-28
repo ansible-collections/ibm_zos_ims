@@ -271,6 +271,7 @@ class catalog_parser():
   def _validate_directory_staging_dataset(self):
       if len(self.parsed_args.get("directory_datasets")) > 20:
         self.result['msg'] = "You cannot specify more than 20 IMS directory datasets"
+        self.result['rc'] = 1
         self.module.fail_json(**self.result)
 
   def _validate_optional_datasets(self):
@@ -282,6 +283,7 @@ class catalog_parser():
                 if self.parsed_args.get("control_statements").get("managed_acbs").get("stage") is not None or \
                     self.parsed_args.get("control_statements").get("managed_acbs").get("update") is not None:
                       self.result['msg'] = "You cannot define directory datasets, the bootstrap dataset, or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE"
+                      self.result['rc'] = 1
                       self.module.fail_json(**self.result)
   
   def _validate_acb_mode(self):
@@ -291,4 +293,5 @@ class catalog_parser():
                     self.parsed_args.get("control_statements").get("managed_acbs").get("update") is not None:
                     if self.parsed_args.get("mode") == "LOAD":
                       self.result['msg'] = "You cannot update or stage ACBs in catalog LOAD mode."
+                      self.result['rc'] = 1
                       self.module.fail_json(**self.result)

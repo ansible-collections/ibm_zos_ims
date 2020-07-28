@@ -5,7 +5,7 @@ from pprint import pprint
 def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, proclib, primary_log_dataset,
           buffer_pool_param_dataset, acb_lib, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, control_statements=None, bootstrap_dataset=None, 
           directory_dataset=None, temp_acb_dataset=None, directory_staging_dataset=None, 
-          secondary_log_dataset=None, sysabend=None, check_timestamp=None):
+          secondary_log_dataset=None, sysabend=None, check_timestamp=None, rc=0, changed=True):
 
     response = hosts.all.ims_catalog_populate(
         online_batch=online_batch,
@@ -33,13 +33,16 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
     for result in response.contacted.values():
         pprint(result)
         print("Changed:", result['changed'])
-        assert result['changed'] == False
-        assert result['rc'] == 0
-        assert validation_msg in result['content']
+        assert result['changed'] == changed
+        assert result['rc'] == rc
+        if rc == 0:
+          assert validation_msg in result['content']
+        else :
+          assert validation_msg in result['msg']
 
 def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, steplib, reslib, proclib,
           buffer_pool_param_dataset, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, sysut1=None, update_retention_criteria=None,
-          delete=None, managed_acbs=None, delete_dbd_by_version=None, resource_chkp_freq=None, mode='PURGE'):
+          delete=None, managed_acbs=None, delete_dbd_by_version=None, resource_chkp_freq=None, mode='PURGE', rc=0, changed=True):
     
     response = hosts.all.ims_catalog_purge(
         online_batch=online_batch,
@@ -64,10 +67,12 @@ def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, 
     for result in response.contacted.values():
         pprint(result)
         print("Changed:", result['changed'])
-        assert result['changed'] == False
-        assert result['rc'] == 0
-        assert validation_msg in result['content']
-
+        assert result['changed'] == changed
+        assert result['rc'] == rc
+        if rc == 0:
+          assert validation_msg in result['content']
+        else:
+          assert validation_msg in result['msg']
 
 
 
@@ -159,6 +164,11 @@ class CatalogInputParameters():
      { 
       "resource": "PSB",
       "member_name": "IP*",
+      "time_stamp": '*'
+    },
+    { 
+      "resource": "PSB",
+      "member_name": "PG*",
       "time_stamp": '*'
     }
     

@@ -20,6 +20,8 @@ def test_catalog_load_managed_acbs(ansible_zos_module):
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.LOADMODE,
                 validation_msg="You cannot update or stage ACBs in catalog LOAD mode.",
+                rc=1,
+                changed=False,
                 control_statements={
                     'managed_acbs':{
                         'stage': {

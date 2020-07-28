@@ -573,6 +573,7 @@ def run_module():
     parsed_args=catalog_parser(module, module.params, result).validate_purge_input()
     response = catalog(module, result, parsed_args).execute_catalog_purge()
     
+    result["changed"] = True
   
     module.exit_json(**response)
 

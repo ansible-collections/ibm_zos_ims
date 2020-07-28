@@ -6,7 +6,7 @@ from pprint import pprint
 from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import CatalogInputParameters as cp # pylint: disable=import-error
 from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import load_catalog, purge_catalog # pylint: disable=import-error
 
-
+# Simple scenario that loads the catalog without managed acb datasets and purges it
 def test_catalog_load_simple(ansible_zos_module):
     hosts = ansible_zos_module
     load_catalog(hosts, 
