@@ -21,7 +21,7 @@ class IMSDbrc():
         "OFF": False
     }
 
-    def __init__(self, commands, steplib, dynalloc=None, dbdlib=None, genjcl=None, recon1=None, recon2=None, recon3=None):
+    def __init__(self, commands, steplib, dynalloc=None, dbdlib=None, jclout=None, genjcl=None, recon1=None, recon2=None, recon3=None):
         """IMSDBRC constructor used to run DBRC commands using zos_raw.
 
         Args:
@@ -32,6 +32,8 @@ class IMSDbrc():
                 execution. Required if 'recon1', 'recon2', and 'recon3' are not specified. Defaults to None.
             dbdlib (str, optional): The data set that contains the database descriptions for the databases
                 that are under the control of DBRC. Defaults to None.
+            jclout (str, optional): The data set which is to receive generated JCL. It is required only for
+                the GENJCL commands. Defaults to None.
             genjcl (str, optional): The PDS, which contains the JCL and control statements for the utility
                 that DBRC uses to generate a job. Defaults to None.
             recon1 (str, optional): The RECON1 data set that will be used to complete the DBRC execution.
@@ -46,6 +48,7 @@ class IMSDbrc():
         self.steplib_list = steplib
         self.dynalloc = dynalloc
         self.dbdlib = dbdlib
+        self.jclout = jclout
         self.genjcl = genjcl
         self.recon1 = recon1
         self.recon2 = recon2
@@ -106,6 +109,9 @@ class IMSDbrc():
 
         if self.dynalloc and not isinstance(self.dynalloc, str):
             raise TypeError(em.INCORRECT_DYNALLOC_TYPE)
+
+        if self.jclout and not isinstance(self.jclout, str):
+            raise TypeError(em.INCORRECT_JCLOUT_TYPE)
 
         if self.genjcl and not isinstance(self.genjcl, str):
             raise TypeError(em.INCORRECT_GENJCL_TYPE)
@@ -254,6 +260,9 @@ class IMSDbrc():
             dbrc_utility_fields (list[str]): List that contains DDStatement objects.
         """
         if data_set:
+            # if name == 'jclout':
+            #     dbrc_utility_fields.append(DDStatement(name, DatasetDefinition(data_set, disposition='NEW', type='SEQ')))
+            # else:
             dbrc_utility_fields.append(DDStatement(name, DatasetDefinition(data_set)))
 
     def _build_utility_statements(self):
@@ -273,7 +282,9 @@ class IMSDbrc():
         self._add_utility_statement("recon2", self.recon2, dbrc_utility_fields)
         self._add_utility_statement("recon3", self.recon3, dbrc_utility_fields)
         self._add_utility_statement("jclpds", self.genjcl, dbrc_utility_fields)
+        self._add_utility_statement("jclout", self.jclout, dbrc_utility_fields)
         self._add_utility_statement("ims", self.dbdlib, dbrc_utility_fields)
+        # dbrc_utility_fields.append(DDStatement("JCLOUT", DatasetDefinition("IMSBANK2.IMS1.JCLOUT", type="SEQ")))
         dbrc_commands = StdinDefinition("\n".join(self.commands))
         sysin = DDStatement("sysin", dbrc_commands)
         sysprint = DDStatement("sysprint", StdoutDefinition())
@@ -294,7 +305,7 @@ class IMSDbrc():
         try:
             dbrc_utility_fields = self._build_utility_statements()
             response = MVSCmd.execute(IMSDbrc.DBRC_UTILITY, dbrc_utility_fields)
-            print("OUTPUT STARTS HERE ", response.stdout)
+            # print("OUTPUT STARTS HERE ", response.stdout)
             fields, original_output, failure_detected = self._parse_output(response.stdout)
             # fields, original_output = self._parse_output(TEST_INPUT)
             res = {

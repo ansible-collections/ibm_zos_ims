@@ -48,6 +48,11 @@ options:
       - The PDS, which contains the JCL and control statements for the utility that DBRC uses to generate a job.
     type: str
     required: false
+  jclout:
+    description:
+      - The data set which is to receive generated JCL. It is required only for the GENJCL commands.
+    type: str
+    required: false
   max_rc:
     description:
       - The maximum acceptable return code allowed for the module to complete succesfully.
@@ -195,6 +200,7 @@ def run_module():
     dbdlib=dict(type='str', required=False),
     dynalloc=dict(type='str', required=False),
     genjcl=dict(type='str', required=False),
+    jclout=dict(type='str', required=False),
     max_rc=dict(type='str', required=False),
     recon1=dict(type='str', required=False),
     recon2=dict(type='str', required=False),
@@ -225,6 +231,7 @@ def run_module():
       dbdlib=module.params['dbdlib'],
       genjcl=module.params['genjcl'],
       # max_rc=module.params['max_rc'],
+      jclout=module.params['jclout'],
       recon1=module.params['recon1'],
       recon2=module.params['recon2'],
       recon3=module.params['recon3']).execute()
