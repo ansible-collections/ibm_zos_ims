@@ -32,7 +32,7 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
         )
     for result in response.contacted.values():
         pprint(result)
-        print("Changed:", result['changed'])
+        # print("Changed:", result['changed'])
         assert result['changed'] == changed
         assert result['rc'] == rc
         if rc == 0:
@@ -66,7 +66,7 @@ def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, 
         )
     for result in response.contacted.values():
         pprint(result)
-        print("Changed:", result['changed'])
+        # print("Changed:", result['changed'])
         assert result['changed'] == changed
         assert result['rc'] == rc
         if rc == 0:
@@ -100,6 +100,19 @@ class CatalogInputParameters():
     "type": "SEQ"
   }
   PURGEMODE = "PURGE"
+  ANALYSISMODE = "ANALYSIS"
+  RETENTION = [
+    {'resource': 'DBD',
+     'member_name': '*',
+     'instances': '0',
+     'days': '0'
+    },
+    {'resource': 'PSB',
+     'member_name': '*',
+     'instances': '0',
+     'days': '0'
+    } 
+  ]
   DELETES=[
     { 
       "resource": "DBD",
@@ -114,6 +127,11 @@ class CatalogInputParameters():
     { 
       "resource": "DBD",
       "member_name": "DF*",
+      "time_stamp": '*'
+    },
+     { 
+      "resource": "DBD",
+      "member_name": "DG*",
       "time_stamp": '*'
     },
     { 
@@ -156,12 +174,17 @@ class CatalogInputParameters():
       "member_name": "DFH*",
       "time_stamp": '*'
     },
-     { 
+    { 
       "resource": "PSB",
       "member_name": "DFSI*",
       "time_stamp": '*'
     },
-     { 
+    { 
+      "resource": "PSB",
+      "member_name": "DFSS*",
+      "time_stamp": '*'
+    },
+    { 
       "resource": "PSB",
       "member_name": "IP*",
       "time_stamp": '*'

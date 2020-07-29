@@ -11,19 +11,6 @@ def test_catalog_load_managed_acbs(ansible_zos_module):
     
     hosts = ansible_zos_module
 
-    purge_catalog(hosts, 
-                psb_lib=cp.PSBLIB, 
-                dbd_lib=cp.DBDLIB, 
-                steplib=cp.STEPLIB, 
-                reslib=cp.RESLIB, 
-                proclib=cp.PROCLIB, 
-                primary_log_dataset=cp.PRIMARYLOG, 
-                buffer_pool_param_dataset=cp.BUFFERPOOL, 
-                mode=cp.PURGEMODE,
-                validation_msg="DELETE",
-                delete=cp.DELETES,
-                managed_acbs=True)
-
     load_catalog(hosts, 
                 psb_lib=cp.PSBLIB, 
                 dbd_lib=cp.DBDLIB, 

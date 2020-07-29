@@ -62,64 +62,64 @@
   environment: "{{ environment_vars }}"
 
   tasks:
-    - name: DBDGEN
-      ims_dbd_gen:
-        src: IMSTESTU.ANSI.DBD.SOURCE
-        location: DATA_SET
-        member_list:
-          [
-            DH41SK01,
-            DBFSAMD1,
-            DH41SK01,
-            DBFSAMD2,
-            DBFSAMD3,
-            HOSPVARD,
-            DSVNTZ30,
-            DX41SK01,
-            DX41SK03,
-            DX41SK05,
-            DX41SK06,
-            DX41SK07,
-            DX41SK08,
-            DX41SK09,
-            DX41SK02,
-            DX41SK04,
-          ]
-        "replace": true
-        dest: IMSTESTL.ANS.DBDLIB
-        sys_lib:
-          - IMSBLD.I15RTSMM.SDFSMAC
-          - SYS1.MACLIB
+    # - name: DBDGEN
+    #   ims_dbd_gen:
+    #     src: IMSTESTU.ANSI.DBD.SOURCE
+    #     location: DATA_SET
+    #     member_list:
+    #       [
+    #         DH41SK01,
+    #         DBFSAMD1,
+    #         DH41SK01,
+    #         DBFSAMD2,
+    #         DBFSAMD3,
+    #         HOSPVARD,
+    #         DSVNTZ30,
+    #         DX41SK01,
+    #         DX41SK03,
+    #         DX41SK05,
+    #         DX41SK06,
+    #         DX41SK07,
+    #         DX41SK08,
+    #         DX41SK09,
+    #         DX41SK02,
+    #         DX41SK04,
+    #       ]
+    #     "replace": true
+    #     dest: IMSTESTL.ANS.DBDLIB
+    #     sys_lib:
+    #       - IMSBLD.I15RTSMM.SDFSMAC
+    #       - SYS1.MACLIB
 
-    - name: PSBGEN
-      ims_psb_gen:
-        src: IMSTESTU.ANSI.PSB.SOURCE
-        location: DATA_SET
-        member_list: [PSBGENL]
-        replace: true
-        dest: IMSTESTL.ANS.PSBLIB
-        sys_lib:
-          - IMSBLD.I15RTSMM.SDFSMAC
-          - SYS1.MACLIB
+    # - name: PSBGEN
+    #   ims_psb_gen:
+    #     src: IMSTESTU.ANSI.PSB.SOURCE
+    #     location: DATA_SET
+    #     member_list: [PSBGENL]
+    #     replace: true
+    #     dest: IMSTESTL.ANS.PSBLIB
+    #     sys_lib:
+    #       - IMSBLD.I15RTSMM.SDFSMAC
+    #       - SYS1.MACLIB
 
-    - name: ACBGEN
-      ims_acb_gen:
-        command_input: BUILD
-        psb_name:
-          - PSBGENL
-        psb_lib:
-          - IMSTESTL.ANS.PSBLIB
-        dbd_lib:
-          - IMSTESTL.ANS.DBDLIB
-        acb_lib: IMSTESTL.ANS.ACBLIB
-        reslib:
-          - IMSTESTL.IMS1.SDFSRESL
-        steplib:
-          - IMSTESTL.IMS1.SDFSRESL
+    # - name: ACBGEN
+    #   ims_acb_gen:
+    #     command_input: BUILD
+    #     psb_name:
+    #       - PSBGENL
+    #     psb_lib:
+    #       - IMSTESTL.ANS.PSBLIB
+    #     dbd_lib:
+    #       - IMSTESTL.ANS.DBDLIB
+    #     acb_lib: IMSTESTL.ANS.ACBLIB
+    #     reslib:
+    #       - IMSTESTL.IMS1.SDFSRESL
+    #     steplib:
+    #       - IMSTESTL.IMS1.SDFSRESL
 
     - name: IMS Command
       ims_command:
-        command: DISPLAY DB AUTODB
+        command: IMPORT DEFN SOURCE(CATALOG)
         plex: PLEX1
         route: IMS1
 

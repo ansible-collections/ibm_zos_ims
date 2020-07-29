@@ -67,6 +67,9 @@
               member_name: 'DI21PART'
               time_stamp: '*'
             - resource: DBD
+              member_name: 'DG*'
+              time_stamp: '*'
+            - resource: DBD
               member_name: 'EMP*'
               time_stamp: '*'
             - resource: DBD
