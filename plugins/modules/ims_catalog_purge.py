@@ -40,8 +40,8 @@ options:
     default: false
   ims_id: 
     description:
-      - The identifier of the IMS system on which the job is to be run
-      - Required if online_batch is true
+      - The identifier of the IMS system on which the job is to be run.
+      - Required if online_batch is true.
     type: str
     required: false
   dbrc:
@@ -61,23 +61,23 @@ options:
     required: false
   buffer_pool_param_dataset:
     description:
-      - Defines the buffer pool parameters data set. #similar behavior to catalog populate
+      - Defines the buffer pool parameters data set. This option is required if you are running as a DLI. 
     type: str
     required: true
   primary_log_dataset:
     description:
-      - Defines the primary IMS log data set. #Similar behavior to catalog populate
+      - Defines the primary IMS log data set. This option is required if you are running as a DLI. 
     type: dict
     required: true
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset
+          - Describes the name of the dataset.
         type: str
         required: true
       disposition:
         description: 
-          - Status of dataset
+          - The status of the dataset.
         type: str
         required: false
         choices:
@@ -87,7 +87,7 @@ options:
           - EXCL
       record_format:
         description:
-          - The record format 
+          - The record format. 
         type: str
         required: false
         choices:
@@ -98,7 +98,7 @@ options:
           - U
       record_length:
         description:
-          - The logical record length in bytes 
+          - The logical record length in bytes. 
         type: int
         required: false
       block_size:
@@ -108,27 +108,27 @@ options:
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the dataset
+          - The amount of primary space to allocate for the dataset.
         type: int
         required: false
       primary_unit:
         description:
-          - The unit of size to use when specifying primary space
+          - The unit of size to use when specifying primary space.
         type: str
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset
+          - The amount of secondary space to allocate for the dataset.
         type: int
         required: false
       secondary_unit:
         description:
-          - The unit of size to sue when specifying secondary space.
+          - The unit of size to use when specifying secondary space.
         type: str
         required: false
       normal_disposition:
         description:
-          - What to do with the dataset after normal termination
+          - Dataset action after normal termination.
         type: str
         required: false
         choices:
@@ -138,7 +138,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - What to do with the dataset after abnormal termination
+          - Dataset action after abnormal termination.
         type: str
         required: false
         choices:
@@ -148,7 +148,7 @@ options:
           - UNCATLG
       type:
         description: 
-          - The type of dataset
+          - The type of dataset.
         type: str
         required: false
         choices:
@@ -177,25 +177,25 @@ options:
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
   psb_lib:
     description:
-      - Defines IMS.PSBLIB dataset
+      - Defines the IMS.PSBLIB dataset.
     type: list
     elements: str
     required: true
   dbd_lib:
     description:
-      - Defines IMS.DBDLIB datasets
+      - Defines the IMS.DBDLIB datasets.
     type: list
     elements: str
     required: true
@@ -245,7 +245,7 @@ options:
     suboptions:
       resource:
         description:
-          - Specifies whether a DBD or PSB should be updated
+          - Specifies whether a DBD or PSB should be updated.
         choices:
           - DBD
           - PSB
@@ -253,31 +253,31 @@ options:
         required: true
       member_name:
         description:
-          - The 8 character IMS name of the DBD or PSB resource. Wildcards are supported
+          - The 8 character IMS name of the DBD or PSB resource. Wildcards are supported.
         type: str
         required: true
       instances:
         description: 
-          - The number of instances of a DBD or PSB that must be retained in the DBD or PSB record
+          - The number of instances of a DBD or PSB that must be retained in the DBD or PSB record.
         type: int
         required: true
       days: 
         description:
-          - The number of days that an instance of a DBD or PSB must be retained before it can be purged
+          - The number of days that an instance of a DBD or PSB must be retained before it can be purged.
         type: int
         required: false
   delete:
     description:
       - Specifies a DBD or PSB instance or an entire DBD or PSB record to delete from the IMS catalog database.
       - This option must be used with PURGE mode and overrides any retention criteria, hence you can remove any 
-        DBD or PSB that would not otherwise be eligible for deletion
+        DBD or PSB that would not otherwise be eligible for deletion.
     type: list
     required: false
     elements: dict
     suboptions:
       resource:
         description:
-          - Specify whether you want to delete a DBD or PSB
+          - Specify whether you want to delete a DBD or PSB.
         type: str
         required: true
         choices:
@@ -285,12 +285,12 @@ options:
           - PSB
       member_name:
         description:
-          - The 8 character IMS name of the DBD or PSB resource. Wildcards are supported
+          - The 8 character IMS name of the DBD or PSB resource. Wildcards are supported.
         type: str
         required: true 
       time_stamp:
         description:
-          - The ACB timestamp that identifies the specific DBD or PSB instance to purge
+          - The ACB timestamp that identifies the specific DBD or PSB instance to purge.
         type: int
         required: true
   managed_acbs:
@@ -308,7 +308,8 @@ options:
     required: false
   sysut1:
     description:
-      - #add description
+      - The dataset where delete statements are written to either by the purge utility when specifying ANALYSIS or BOTH mode,
+        or by the user when specifying PURGE mode. 
     type: dict
     required: true
     suboptions:
@@ -319,7 +320,7 @@ options:
         required: true
       disposition:
         description: 
-          - Status of dataset
+          - The status of the dataset.
         type: str
         required: false
         choices:
@@ -334,27 +335,27 @@ options:
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the dataset
+          - The amount of primary space to allocate for the dataset.
         type: int
         required: false
       primary_unit:
         description:
-          - The unit of size to use when specifying primary space
+          - The unit of size to use when specifying primary space.
         type: str
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset
+          - The amount of secondary space to allocate for the dataset.
         type: int
         required: false
       secondary_unit:
         description:
-          - The unit of size to sue when specifying secondary space.
+          - The unit of size to use when specifying secondary space.
         type: str
         required: false
       normal_disposition:
         description:
-          - What to do with the dataset after normal termination
+          - Dataset action after normal termination.
         type: str
         required: false
         choices:
@@ -364,7 +365,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - What to do with the dataset after abnormal termination
+          - Dataset action after abnormal termination.
         type: str
         required: false
         choices:
@@ -374,7 +375,7 @@ options:
           - UNCATLG
       type:
         description: 
-          - The type of dataset
+          - The type of dataset.
         type: str
         required: false
         choices:
@@ -403,14 +404,14 @@ options:
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
 notes:

@@ -123,4 +123,6 @@
         plex: PLEX1
         route: IMS1
 
+    # Add catalog populate/purge steps
+
 # ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml

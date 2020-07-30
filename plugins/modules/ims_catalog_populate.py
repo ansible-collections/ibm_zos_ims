@@ -65,24 +65,24 @@ options:
     required: false
   buffer_pool_param_dataset:
     description:
-      - Defines the buffer pool parameters data set. This option is required if you are running as a DLI. #Add checker
+      - Defines the buffer pool parameters data set. This option is required if you are running as a DLI. 
     type: str
     required: false 
   primary_log_dataset:
     description:
       - Defines the primary IMS log data set. This is required if dbrc is set to true or if
-        mode 'UPDATE' is selected #Check if you can not specify this while running as bmp in update mode
+        mode 'UPDATE' is selected.
     type: dict
     required: false
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset
+          - Describes the name of the dataset.
         type: str
         required: true
       disposition:
         description: 
-          - Status of dataset
+          - The status of the dataset.
         type: str
         required: false
         choices:
@@ -92,7 +92,7 @@ options:
           - EXCL
       record_format:
         description:
-          - The record format 
+          - The record format. 
         type: str
         required: false
         choices:
@@ -103,37 +103,37 @@ options:
           - U
       record_length:
         description:
-          - The logical record length in bytes 
+          - The logical record length in bytes. 
         type: int
         required: false
       block_size:
         description:
-          - The block size 
+          - The block size. 
         type: int
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the dataset
+          - The amount of primary space to allocate for the dataset.
         type: int
         required: false
       primary_unit:
         description:
-          - The unit of size to use when specifying primary space
+          - The unit of size to use when specifying primary space.
         type: str
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset
+          - The amount of secondary space to allocate for the dataset.
         type: int
         required: false
       secondary_unit:
         description:
-          - The unit of size to sue when specifying secondary space.
+          - The unit of size to use when specifying secondary space.
         type: str
         required: false
       normal_disposition:
         description:
-          - What to do with the dataset after normal termination
+          - Dataset action after normal termination.
         type: str
         required: false
         choices:
@@ -143,7 +143,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - What to do with the dataset after abnormal termination
+          - Dataset action after abnormal termination.
         type: str
         required: false
         choices:
@@ -153,7 +153,7 @@ options:
           - UNCATLG
       type:
         description: 
-          - The type of dataset
+          - The type of dataset.
         type: str
         required: false
         choices:
@@ -183,13 +183,13 @@ options:
       management_class:
         description:
           - The management class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+            SMS-managed.
         type: str
         required: false
       data_class:
         description:
           - The data class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+            SMS-managed.
         type: str
         required: false
   secondary_log_dataset:
@@ -200,12 +200,12 @@ options:
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset
+          - Describes the name of the dataset.
         type: str
         required: true
       disposition:
         description: 
-          - Status of dataset
+          - The status of the dataset.
         type: str
         required: false
         choices:
@@ -215,7 +215,7 @@ options:
           - EXCL
       record_format:
         description:
-          - The record format 
+          - The record format. 
         type: str
         required: false
         choices:
@@ -226,7 +226,7 @@ options:
           - U
       record_length:
         description:
-          - The logical record length in bytes 
+          - The logical record length in bytes. 
         type: int
         required: false
       block_size:
@@ -236,27 +236,27 @@ options:
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the dataset
+          - The amount of primary space to allocate for the dataset.
         type: int
         required: false
       primary_unit:
         description:
-          - The unit of size to use when specifying primary space
+          - The unit of size to use when specifying primary space.
         type: str
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset
+          - The amount of secondary space to allocate for the dataset.
         type: int
         required: false
       secondary_unit:
         description:
-          - The unit of size to sue when specifying secondary space.
+          - The unit of size to use when specifying secondary space.
         type: str
         required: false
       normal_disposition:
         description:
-          - What to do with the dataset after normal termination
+          - Dataset action after normal termination.
         type: str
         required: false
         choices:
@@ -268,7 +268,7 @@ options:
           - UNCATALOG
       abnormal_disposition:
         description:
-          - What to do with the dataset after abnormal termination
+          - Dataset action after abnormal termination
         type: str
         required: false
         choices:
@@ -309,25 +309,25 @@ options:
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
   psb_lib:
     description:
-      - Defines IMS.PSBLIB dataset
+      - Defines the IMS.PSBLIB dataset.
     type: list
     elements: str
     required: true
   dbd_lib:
     description:
-      - Defines IMS.DBDLIB datasets
+      - Defines the IMS.DBDLIB datasets.
     type: list
     elements: str
     required: true
@@ -356,12 +356,12 @@ options:
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset
+          - Describes the name of the dataset.
         type: str
         required: true
       disposition:
         description: 
-          - Status of dataset
+          - The status of dataset.
         type: str
         required: false
         choices:
@@ -371,32 +371,32 @@ options:
           - EXCL
       block_size:
         description:
-          - The block size 
+          - The block size. 
         type: int
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the dataset
+          - The amount of primary space to allocate for the dataset.
         type: int
         required: false
       primary_unit:
         description:
-          - The unit of size to use when specifying primary space
+          - The unit of size to use when specifying primary space.
         type: str
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset
+          - The amount of secondary space to allocate for the dataset.
         type: int
         required: false
       secondary_unit:
         description:
-          - The unit of size to sue when specifying secondary space.
+          - The unit of size to use when specifying secondary space.
         type: str
         required: false
       normal_disposition:
         description:
-          - What to do with the dataset after normal termination
+          - Dataset action after normal termination.
         type: str
         required: false
         choices:
@@ -406,7 +406,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - What to do with the dataset after abnormal termination
+          - Dataset action after abnormal termination
         type: str
         required: false
         choices:
@@ -422,14 +422,14 @@ options:
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
   directory_datasets:
@@ -445,12 +445,12 @@ options:
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset
+          - Describes the name of the dataset.
         type: str
         required: true
       disposition:
         description: 
-          - Status of dataset
+          - The status of the dataset
         type: str
         required: false
         choices:
@@ -460,27 +460,27 @@ options:
           - EXCL
       primary:
         description:
-          - The amount of primary space to allocate for the dataset
+          - The amount of primary space to allocate for the dataset.
         type: int
         required: false
       primary_unit:
         description:
-          - The unit of size to use when specifying primary space
+          - The unit of size to use when specifying primary space.
         type: str
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset
+          - The amount of secondary space to allocate for the dataset.
         type: int
         required: false
       secondary_unit:
         description:
-          - The unit of size to sue when specifying secondary space.
+          - The unit of size to use when specifying secondary space.
         type: str
         required: false
       normal_disposition:
         description:
-          - What to do with the dataset after normal termination
+          - Dataset action after normal termination.
         type: str
         required: false
         choices:
@@ -490,7 +490,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - What to do with the dataset after abnormal termination
+          - Dataset action after abnormal termination.
         type: str
         required: false
         choices:
@@ -506,14 +506,14 @@ options:
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
   temp_acb_dataset:
@@ -521,18 +521,18 @@ options:
       - An optional control statement to define an empty work data set to be used as an IMS.ACBLIB data set 
         for the IMS Catalog Populate utility. 
       - If IMS Management of ACBs is not enabled, this statement is ommitted. 
-      - This dataset does not need to conform to any IMS Catalog or system-defined naming convention
+      - This dataset does not need to conform to any IMS Catalog or system-defined naming convention.
     type: dict
     required: false
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset
+          - Describes the name of the dataset.
         type: str
         required: true
       disposition:
         description: 
-          - Status of dataset
+          - The status of the dataset
         type: str
         required: false
         choices:
@@ -542,27 +542,27 @@ options:
           - EXCL
       primary:
         description:
-          - The amount of primary space to allocate for the dataset
+          - The amount of primary space to allocate for the dataset.
         type: int
         required: false
       primary_unit:
         description:
-          - The unit of size to use when specifying primary space
+          - The unit of size to use when specifying primary space.
         type: str
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset
+          - The amount of secondary space to allocate for the dataset.
         type: int
         required: false
       secondary_unit:
         description:
-          - The unit of size to sue when specifying secondary space.
+          - The unit of size to use when specifying secondary space.
         type: str
         required: false
       normal_disposition:
         description:
-          - What to do with the dataset after normal termination
+          - Dataset action after normal termination.
         type: str
         required: false
         choices:
@@ -572,7 +572,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - What to do with the dataset after abnormal termination
+          - Dataset action after abnormal termination.
         type: str
         required: false
         choices:
@@ -595,14 +595,14 @@ options:
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
   directory_staging_dataset:
@@ -619,7 +619,7 @@ options:
         required: true
       disposition:
         description: 
-          - Status of dataset
+          - The status of the dataset.
         type: str
         required: false
         choices:
@@ -629,27 +629,27 @@ options:
           - EXCL
       primary:
         description:
-          - The amount of primary space to allocate for the dataset
+          - The amount of primary space to allocate for the dataset.
         type: int
         required: false
       primary_unit:
         description:
-          - The unit of size to use when specifying primary space
+          - The unit of size to use when specifying primary space.
         type: str
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset
+          - The amount of secondary space to allocate for the dataset.
         type: int
         required: false
       secondary_unit:
         description:
-          - The unit of size to sue when specifying secondary space.
+          - The unit of size to use when specifying secondary space.
         type: str
         required: false
       normal_disposition:
         description:
-          - What to do with the dataset after normal termination
+          - Dataset action after normal termination.
         type: str
         required: false
         choices:
@@ -659,7 +659,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - What to do with the dataset after abnormal termination
+          - Dataset action after abnormal termination.
         type: str
         required: false
         choices:
@@ -675,14 +675,14 @@ options:
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
-            SMS-managed
+          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+            SMS-managed.
         type: str
         required: false
   proclib:
@@ -753,7 +753,7 @@ options:
         required: false
       managed_acbs:
         description:
-          - Use the MANAGEDACBS control statement to perform the following actions
+          - Use the MANAGEDACBS control statement to perform the following actions:
           - Set up IMS to manage the runtime application control blocks for your databases and program views.
           - Update an IMS system that manages ACBs with new or modified ACBs from an ACB library data set.
           - Save ACBs from an ACB library to a staging data set for later importing into an IMS system that manages ACBs.
@@ -762,7 +762,7 @@ options:
         suboptions:
           setup:
             description:
-              - Creates the IMS directory datasets that are required by IMS to manage application control blocks
+              - Creates the IMS directory datasets that are required by IMS to manage application control blocks.
             type: bool
             required: false
           stage:
@@ -774,7 +774,7 @@ options:
               save_acb:
                 description:
                   - If an ACB already exists in the IMS system, determines if it should be saved unconditionally or by
-                    latest timestamp
+                    the latest timestamp.
                 required: false
                 type: str
                 choices:
@@ -812,7 +812,7 @@ options:
               replace_acb:
                 description:
                   - If an ACB already exists in the IMS system, determines if it should be overwritten unconditionally or by
-                    latest timestamp
+                    the latest timestamp.
                 required: false
                 type: str
                 choices:
