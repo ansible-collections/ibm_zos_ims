@@ -4,7 +4,7 @@ from pprint import pprint
 
 def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, proclib, primary_log_dataset,
           buffer_pool_param_dataset, acb_lib, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, control_statements=None, bootstrap_dataset=None, 
-          directory_dataset=None, temp_acb_dataset=None, directory_staging_dataset=None, 
+          directory_datasets=None, temp_acb_dataset=None, directory_staging_dataset=None, 
           secondary_log_dataset=None, sysabend=None, check_timestamp=None, rc=0, changed=True):
 
     response = hosts.all.ims_catalog_populate(
@@ -24,7 +24,7 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
         mode=mode,
         control_statements=control_statements,
         bootstrap_dataset=bootstrap_dataset,
-        directory_datasets=directory_dataset,
+        directory_datasets=directory_datasets,
         temp_acb_dataset=temp_acb_dataset,
         directory_staging_dataset=directory_staging_dataset,
         primary_log_dataset=primary_log_dataset,
@@ -77,17 +77,19 @@ def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, 
 
 
 class CatalogInputParameters():
-  PSBLIB = ["IMSTESTL.IMS1.PSBLIB"]
-  DBDLIB = ["IMSTESTL.IMS1.DBDLIB"]
-  ACBLIB = ["IMSTESTL.IMS1.ACBLIB"]
-  STEPLIB = ["IMSTESTL.IMS1.SDFSRESL"]
-  PROCLIB = "IMSTESTL.IMS1.PROCLIB"
-  RESLIB = ["IMSTESTL.IMS1.SDFSRESL"]    
-  BUFFERPOOL = "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
+  HLQ1 = "IMSTESTL."
+  HLQ2 = "IMS1."
+  PSBLIB = [HLQ1 + HLQ2 + "PSBLIB"]
+  DBDLIB = [HLQ1 + HLQ2 + "DBDLIB"]
+  ACBLIB = [HLQ1 + HLQ2 + "ACBLIB"]
+  STEPLIB = [HLQ1 + HLQ2 + "SDFSRESL"]
+  PROCLIB = HLQ1 + HLQ2 + "PROCLIB"
+  RESLIB = [HLQ1 + HLQ2 + "SDFSRESL"]    
+  BUFFERPOOL = HLQ1 + HLQ2 + "PROCLIB(DFSVSMHP)"
   LOADMODE = "LOAD"
   UPDATEMODE = "UPDATE"
   PRIMARYLOG = {
-    "dataset_name": "IMSTESTU.IMS1.LOG2",
+    "dataset_name": HLQ1 + HLQ2 + "LOG",
     "disposition": "NEW",
     "normal_disposition": "DELETE",
     "record_format": "FB",
@@ -101,6 +103,23 @@ class CatalogInputParameters():
   }
   PURGEMODE = "PURGE"
   ANALYSISMODE = "ANALYSIS"
+  STAGE = HLQ1 + HLQ2 + "DFSCD000.STG"
+  BSDS = HLQ1 + HLQ2 + "DFSCD000.BSDS"
+  DIR1 = HLQ1 + HLQ2 + "DFSCD000.DI1001"
+  DIR2 = HLQ1 + HLQ2 + "DFSCD000.DI1002"
+  DIR3 = HLQ1 + HLQ2 + "DFSCD000.DI1003"
+  DIR_BATCH = [
+    {
+      'name': DIR1,
+      'state': 'absent',
+      'volumes': '222222'
+    },
+    {
+      'name': DIR2,
+      'state': 'absent',
+      'volumes': '222222'
+    }
+  ]
   RETENTION = [
     {'resource': 'DBD',
      'member_name': '*',

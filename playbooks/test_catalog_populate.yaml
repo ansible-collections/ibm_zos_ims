@@ -10,7 +10,7 @@
   tasks:
     - name: test ims_catalog_populate
       ims_catalog_populate:
-        mode: UPDATE 
+        mode: LOAD 
         dbrc: False
         acb_lib: [
           IMSTESTL.IMS1.ACBLIB
@@ -47,12 +47,12 @@
           # print_duplicate_resources: True
           # print_inserted_resources: False
           managed_acbs:
-            update:
-              replace_acb: UNCOND
+            # update:
+            #   replace_acb: UNCOND
             # stage: 
             #   save_acb: UNCOND
             #   clean_staging_dataset: true
-            # setup: true
+            setup: true
         # bootstrap_dataset:
         #   dataset_name: IMSTESTL.IMS1.DFSCD000.BSDS
         #   disposition: NEW

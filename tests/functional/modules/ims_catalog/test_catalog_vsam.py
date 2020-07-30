@@ -31,8 +31,6 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
   # Generate vsam DBD
   response = hosts.all.ims_dbd_gen(src=db.SOURCE, location="DATA_SET", replace=True, member_list=['DGSAM1'], dbd_name=None, dest=db.DESTINATION, sys_lib=["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"])
   for result in response.contacted.values():
-      pprint(result)
-      print("Changed:", result['changed'])
       assert result['changed'] == True
       assert result['rc'] == 0
       # Check for success message (if we remove return codes)
@@ -41,8 +39,6 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
   # Generate vsam PSB
   response = hosts.all.ims_psb_gen(src=ps.SOURCE, location="DATA_SET", replace=True, member_list=['PGSAM1'], psb_name=None, dest=ps.DESTINATION, sys_lib=["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"])
   for result in response.contacted.values():
-      pprint(result)
-      print("Changed:", result['changed'])
       assert result['changed'] == True
       assert result['rc'] == 0
       # Check for success message (if we remove return codes)
@@ -90,7 +86,8 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
                   }
                 }
               })
-
+  
+  # Purge catalog and directory
   purge_catalog(hosts, 
             psb_lib=cp.PSBLIB, 
             dbd_lib=cp.DBDLIB, 
