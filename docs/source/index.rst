@@ -8,15 +8,16 @@ IBM z/OS IMS collection
 The **IBM z/OS IMS collection**, also represented as **ibm\_zos\_ims**
 in this document, is part of the broader offering **Red Hat® Ansible
 Certified Content for IBM Z**. The IBM z/OS IMS collection supports tasks
-such as generating IMS Database Descriptors (DBD) and Program 
-Specification Blocks (PSB) and running IMS type-1 & type-2 commands.  
+such as generating IMS Database Descriptors (DBD), Program Specification
+Blocks (PSB), Application Control Blocks (ACB), and running IMS type-1
+& type-2 commands.
 
-The **IBM z/OS IMS collection** works closely with offerings such as the 
-`IBM z/OS core collection`_ to deliver a solution that will enable you to 
+The **IBM z/OS IMS collection** works closely with offerings such as the
+`IBM z/OS core collection`_ to deliver a solution that will enable you to
 automate tasks on z/OS.
 
 .. _IBM z/OS core collection:
-   https://github.com/ansible-collections/ibm_zos_core
+   https://galaxy.ansible.com/ibm/ibm_zos_core
 
 Red Hat Ansible Certified Content for IBM Z
 ===========================================
@@ -29,16 +30,18 @@ configuration management, provisioning, and application deployment in one
 easy-to-use platform.
 
 **The IBM z/OS IMS collection**, as part of the broader offering
-**Red Hat® Ansible Certified Content for IBM Z**, is available on Galaxy as 
+**Red Hat® Ansible Certified Content for IBM Z**, is available on Galaxy as
 community supported.
 
 Features
 ========
 
-The IBM z/OS IMS collection includes `modules`_, `sample playbooks`_, and
-ansible-doc to automate tasks on z/OS.
+The IBM z/OS IMS collection includes `action plugins`_, `modules`_,
+`sample playbooks`_, and ansible-doc to automate tasks on z/OS.
 
 
+.. _action plugins:
+   https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/action/
 .. _modules:
     https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/modules/
 .. _sample playbooks:
@@ -60,7 +63,7 @@ This collection is licensed under `Apache License, Version 2.0`_.
     https://opensource.org/licenses/Apache-2.0
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Getting Started
 
    installation

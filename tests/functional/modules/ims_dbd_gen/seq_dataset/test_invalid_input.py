@@ -50,16 +50,16 @@ def test_valid_seq_data_set_input_batch(ansible_zos_module):
     run_validate_failure.process_batch(hosts, batch_list, DESTINATION, SYSLIB, 3, 'Error assembling or linking source')
 
 # Here we pass invalid destination data set as input and and expect failure
-def test_invalid_dest_seq_data_input_single_src(ansible_zos_module):
-    hosts = ansible_zos_module
-    run_validate_failure.process_single_src(hosts, FB_DESTINATION, SYSLIB, 12, 'Error assembling or linking source', src=SOURCE, dbd_name='SEQ1', location='DATA_SET')
+# def test_invalid_dest_seq_data_input_single_src(ansible_zos_module):
+#     hosts = ansible_zos_module
+#     run_validate_failure.process_single_src(hosts, FB_DESTINATION, SYSLIB, 12, 'Error assembling or linking source', src=SOURCE, dbd_name='SEQ1', location='DATA_SET')
 
-def test_invalid_dest_seq_data_input_batch(ansible_zos_module):
-    hosts = ansible_zos_module
-    batch_list = [
-        {'src': SOURCE, 'dbd_name': 'SEQ1', 'location': 'DATA_SET'}
-    ]
-    run_validate_failure.process_batch(hosts, batch_list, FB_DESTINATION, SYSLIB, 12, 'Error assembling or linking source')
+# def test_invalid_dest_seq_data_input_batch(ansible_zos_module):
+#     hosts = ansible_zos_module
+#     batch_list = [
+#         {'src': SOURCE, 'dbd_name': 'SEQ1', 'location': 'DATA_SET'}
+#     ]
+#     run_validate_failure.process_batch(hosts, batch_list, FB_DESTINATION, SYSLIB, 12, 'Error assembling or linking source')
 
 # Here we pass non existing SEQ data set as input source and expect failure
 def test_non_existing_seq_data_input_single_src(ansible_zos_module):

@@ -56,6 +56,7 @@
 - hosts: all
   collections:
     - ibm.ibm_zos_ims
+    - ibm.ibm_zos_core
   gather_facts: no
 
   environment: "{{ environment_vars }}"
@@ -85,7 +86,7 @@
             DX41SK04,
           ]
         "replace": true
-        dest: IMSTESTU.ANSI.DBDLIB2
+        dest: IMSTESTL.ANS.DBDLIB
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
@@ -96,10 +97,25 @@
         location: DATA_SET
         member_list: [PSBGENL]
         replace: true
-        dest: IMSTESTU.ANSI.PSBLIB2
+        dest: IMSTESTL.ANS.PSBLIB
         sys_lib:
           - IMSBLD.I15RTSMM.SDFSMAC
           - SYS1.MACLIB
+
+    - name: ACBGEN
+      ims_acb_gen:
+        command_input: BUILD
+        psb_name:
+          - PSBGENL
+        psb_lib:
+          - IMSTESTL.ANS.PSBLIB
+        dbd_lib:
+          - IMSTESTL.ANS.DBDLIB
+        acb_lib: IMSTESTL.ANS.ACBLIB
+        reslib:
+          - IMSTESTL.IMS1.SDFSRESL
+        steplib:
+          - IMSTESTL.IMS1.SDFSRESL
 
     - name: IMS Command
       ims_command:
@@ -107,4 +123,4 @@
         plex: PLEX1
         route: IMS1
 
-# ./playbookrunner.sh playbooks/inventory playbooks/ims-collection-sample.yaml
+# ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml

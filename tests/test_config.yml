@@ -1,6 +1,29 @@
 host: ec33016a.vmec.svl.ibm.com
 user: omvsadm
-python_path: /usr/lpp/izoda/v110/anaconda/bin/python3.6
+python_path: /python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3
+environment:
+  _BPXK_AUTOCVT: "ON"
+  _CEE_RUNOPTS: "'FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'"
+  _TAG_REDIR_ERR: txt
+  _TAG_REDIR_IN: txt
+  _TAG_REDIR_OUT: txt
+  LANG: C
+  ZOAU_ROOT: "/u/omvsadm/mvsutil"
+  ZOAU_HOME: "/u/omvsadm/mvsutil"
+  LIBPATH: "/u/omvsadm/mvsutil/lib:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:."
+  ZOAUTIL_DIR: "/u/omvsadm/mvsutil"
+  PYTHONPATH: "/u/omvsadm/mvsutil/lib"
+  PATH: "/u/omvsadm/mvsutil/bin:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin" 
+  STEPLIB: IMSTESTL.IMS1.SDFSRESL #'IMSBLD.I15RTSMM.COMRESL1'
+extra_args:
+    JOB_CARD: |-
+      //ANSIBLE JOB 'testing',
+      //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
+      //  MSGCLASS=H,NOTIFY=&SYSUID
+      
+# host: ec01105a.vmec.svl.ibm.com
+# user: omvsadm
+# python_path: /usr/lpp/izoda/v110/anaconda/bin/python3.6
 # environment:
 #   MANPATH: /usr/man/%L
 #   FFI_LIB: "/usr/lpp/izoda/v110/anaconda/lib/ffi"
@@ -33,25 +56,9 @@ python_path: /usr/lpp/izoda/v110/anaconda/bin/python3.6
 #   PATH: "/usr/lpp/zoautil/v100/bin:/usr/lpp/rsusr/ported/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/usr/lpp/izoda/v110/anaconda/bin"
 #   # Java environment
 #   JAVA_HOME: /usr/lpp/java/java180/J8.0_64
-
-# ZOAU_ROOT: /u/omvsadm/mvsutil
-# PYTHON_ROOT: /u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz/usr/lpp/IBM/cyp/v3r8/pyz
-# JAVA_ROOT: /usr/lpp/java
-environment:
-    LIBPATH: '/u/omvsadm/mvsutil/lib:/u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:.'
-    ZOAUTIL_DIR: '/u/omvsadm/mvsutil'
-    ZOAU_ROOT: '/u/omvsadm/mvsutil'
-    ZOAU_HOME: '/u/omvsadm/mvsutil'
-    PYTHONPATH: '/u/omvsadm/mvsutil/lib:/lib:/usr/lib'
-    _BPXK_JOBLOG: STDERR 
-    # environment variables for mvsutils/mvscmd
-    _BPXK_AUTOCVT: ON
-    #_CEE_RUNOPTS: '"FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"'
-    _TAG_REDIR_ERR: txt
-    _TAG_REDIR_IN: txt
-    _TAG_REDIR_OUT: txt
-    TOOLS_ROOT: '/usr/lpp/rsusr/ported'
-    PATH: '/u/omvsadm/mvsutil/bin:/usr/lpp/rsusr/ported/bin:/usr/lpp/java/java180/J8.0_64/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/u/oeusr01/usr/lpp/IBM/cyp/v3r8/pyz/usr/lpp/IBM/cyp/v3r8/pyz/bin'
-    JAVA_HOME: /usr/lpp/java/java180/J8.0_64
-    STEPLIB: IMSBLD.I15RTSMM.COMRESL1
-    LANG: C
+# extra_args:
+#     STEPLIB: IMSNEW.DIPTI.IM00.SDFSRESL
+#     JOB_CARD: |-
+#       //ANSIBLE JOB 'testing',
+#       //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
+#       //  MSGCLASS=H,NOTIFY=&SYSUID  

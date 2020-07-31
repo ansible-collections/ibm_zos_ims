@@ -15,11 +15,13 @@ USS = ip.REMOTE_PSBGEN01_SOURCE
 
 """
 Work flow for Combination functional tests goes as follows:
-1. All three inputs - uss, dataset, seq dataset  
-2. 2 inputs - uss, dataset
-3. 2 inputs - uss, seq dataset
-4. 2 inputs - dataset, seq dataset
-5. list of datasets with list of members
+1. prereq for acbgen
+2. All three inputs - uss, dataset, seq dataset  
+3. 2 inputs - uss, dataset
+4. 2 inputs - uss, seq dataset
+5. 2 inputs - dataset, seq dataset
+6. list of datasets with list of members -- single src and batch
+7. memberlist with target names defined
 """
 
 GEN_SUCCESS_MSG = 'PSBGEN execution was successful.'
@@ -35,8 +37,6 @@ def validate_single_src(hosts, dest, sys_lib, src, location='DATA_SET', replace=
         assert result['rc'] == 0
         # Check for success message (if we remove return codes)
         assert result['msg'] == GEN_SUCCESS_MSG
-        
-           
 
 def validate_batch(hosts, batch_list, dest, sys_lib):
     print(batch_list)
@@ -49,7 +49,7 @@ def validate_batch(hosts, batch_list, dest, sys_lib):
         assert result['rc'] == 0
         # Check for success message (if we remove return codes)
         assert result['msg'] == GEN_SUCCESS_MSG
-           
+
 def test_psb_gen_dataset_prereq(ansible_zos_module):
     hosts = ansible_zos_module
     response = hosts.all.ims_psb_gen(dest=DESTINATION, sys_lib=SYSLIB, src=SOURCE, location="DATA_SET", 
@@ -61,7 +61,6 @@ def test_psb_gen_dataset_prereq(ansible_zos_module):
         assert result['rc'] == 0
         # Check for success message (if we remove return codes)
         assert result['msg'] == GEN_SUCCESS_MSG
-
 
 def test_psb_gen_basic_combination(ansible_zos_module):
     hosts = ansible_zos_module
@@ -109,3 +108,11 @@ def test_pdb_gen_list_datasets(ansible_zos_module):
 def test_psb_gen_single_src_member_list(ansible_zos_module):
     hosts = ansible_zos_module
     validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE, location= 'DATA_SET', member_list=['PSBGENL', 'PSBNOOG', 'PSBGENL', 'PSBLOAD', 'PSBGENL', 'PSBLOAD', 'PSBGENL', 'PSBLOAD'], replace=True)
+
+def test_psb_gen_target_name(ansible_zos_module):
+    hosts = ansible_zos_module
+    batch_list = [
+        {'src': SOURCE, 'location': 'DATA_SET', 'member_list': [{'PSBGENL':'H1'}, {'PSBGENL': 'H2'}], 'replace': True},
+        {'src': SEQ, 'psb_name': 'H3'}
+    ]
+    validate_batch(hosts, batch_list, DESTINATION, SYSLIB)
