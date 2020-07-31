@@ -753,7 +753,7 @@ options:
         required: false
       managed_acbs:
         description:
-          - Use the MANAGEDACBS control statement to perform the following actions:
+          - Use the MANAGEDACBS control statement to perform the following actions.
           - Set up IMS to manage the runtime application control blocks for your databases and program views.
           - Update an IMS system that manages ACBs with new or modified ACBs from an ACB library data set.
           - Save ACBs from an ACB library to a staging data set for later importing into an IMS system that manages ACBs.

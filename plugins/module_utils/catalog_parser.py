@@ -16,7 +16,7 @@ class catalog_parser():
           dbrc=dict(arg_type="bool", required=False),
           irlm_id=dict(arg_type="str", required=False),
           reslib=dict(arg_type="list", elements="data_set", required=False),
-          buffer_pool_param_dataset=dict(arg_type="data_set", required=True),
+          buffer_pool_param_dataset=dict(arg_type="data_set", required=False),
           primary_log_dataset=dict(arg_type="dict", 
             options=dict(
               dataset_name=dict(arg_type="data_set", required=True),

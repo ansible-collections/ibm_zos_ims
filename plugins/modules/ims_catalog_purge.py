@@ -63,7 +63,7 @@ options:
     description:
       - Defines the buffer pool parameters data set. This option is required if you are running as a DLI. 
     type: str
-    required: true
+    required: false
   primary_log_dataset:
     description:
       - Defines the primary IMS log data set. This option is required if you are running as a DLI. 

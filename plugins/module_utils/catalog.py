@@ -159,7 +159,12 @@ class catalog():
           self.result['rc']=1
           self.module.fail_json(**self.result)
       else:
-        self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,{0},{1},{2},,,,,,,,,,,'DFSDF=CAT'".format(dbrc, irlm_flag, irlm_id)
+        if self.parsed_args.get("buffer_pool_param_dataset") is None:
+          self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI"
+          self.result['rc']=1
+          self.module.fail_json(**self.result)
+        else: 
+          self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,{0},{1},{2},,,,,,,,,,,'DFSDF=CAT'".format(dbrc, irlm_flag, irlm_id)
 
       self.dDStatements = self.dDStatements + dDStatementList
   
@@ -303,7 +308,12 @@ class catalog():
           self.result['rc']=1
           self.module.fail_json(**self.result)
       else:
-        self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,{1},{2},{3},,,,,,,,,,,'DFSDF=CAT'".format(mode, dbrc, irlm_flag, irlm_id)
+        if self.parsed_args.get("buffer_pool_param_dataset") is None:
+          self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI"
+          self.result['rc']=1
+          self.module.fail_json(**self.result)
+        else: 
+          self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,{1},{2},{3},,,,,,,,,,,'DFSDF=CAT'".format(mode, dbrc, irlm_flag, irlm_id)
 
       self.dDStatements = self.dDStatements + dDStatementList
   
