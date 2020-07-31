@@ -488,7 +488,6 @@ EXAMPLES = r'''
   ims_catalog_purge:
     online_batch: True
     ims_id: IMS1
-    dbrc: True
     reslib: 
       - SOME.IMS.SDFSRESL
     steplib: 

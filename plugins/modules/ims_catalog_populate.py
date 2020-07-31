@@ -853,7 +853,6 @@ EXAMPLES = r'''
   ims_catalog_populate:
     online_batch: True
     ims_id: IMS1
-    dbrc: True
     mode: LOAD
     acb_lib: 
       - SOME.IMS.ACBLIB
