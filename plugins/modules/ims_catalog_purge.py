@@ -484,8 +484,11 @@ EXAMPLES = r'''
       dataset_name: SOME.IMS.LOG1
     mode: ANALYSIS
 
-- name: Update resource retention criteria for resources in the IMS Catalog
+- name: Update resource retention criteria for resources in the IMS Catalog while running as BMP
   ims_catalog_purge:
+    online_batch: True
+    ims_id: IMS1
+    dbrc: True
     reslib: 
       - SOME.IMS.SDFSRESL
     steplib: 
@@ -531,7 +534,7 @@ msg:
   description: Messages returned from the IMS Catalog Purge module
   type: str
   returned: sometimes
-  sample: 
+  sample: You must specify a buffer pool parameter dataset when running as DLI.
 '''
 
 

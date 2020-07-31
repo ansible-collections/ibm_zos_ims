@@ -160,7 +160,7 @@ class catalog():
           self.module.fail_json(**self.result)
       else:
         if self.parsed_args.get("buffer_pool_param_dataset") is None:
-          self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI"
+          self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."
           self.result['rc']=1
           self.module.fail_json(**self.result)
         else: 
@@ -309,7 +309,7 @@ class catalog():
           self.module.fail_json(**self.result)
       else:
         if self.parsed_args.get("buffer_pool_param_dataset") is None:
-          self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI"
+          self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."
           self.result['rc']=1
           self.module.fail_json(**self.result)
         else: 

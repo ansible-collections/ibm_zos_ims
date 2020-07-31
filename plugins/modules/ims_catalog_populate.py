@@ -849,8 +849,11 @@ author:
 '''
 
 EXAMPLES = r'''
-- name: Example of a loading the IMS Catalog
+- name: Example of a loading the IMS Catalog running as a BMP
   ims_catalog_populate:
+    online_batch: True
+    ims_id: IMS1
+    dbrc: True
     mode: LOAD
     acb_lib: 
       - SOME.IMS.ACBLIB
