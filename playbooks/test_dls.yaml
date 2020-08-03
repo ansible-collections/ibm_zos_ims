@@ -9,7 +9,7 @@
       
     tasks:
       - name: test ims_catalog_populate
-        command: dls -s IMSTESTL.IMS1.DFSCD000.BSDS
+        command: dls -s IMSTESTL.IMS1.DFSCD000.STG
         register: response
 
       - debug:

@@ -94,7 +94,8 @@ class catalog_parser():
               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
               storage_class=dict(type="str", required=False),
               management_class=dict(type="str", required=False),
-              data_class=dict(type="str", required=False)
+              data_class=dict(type="str", required=False),
+              volumes=dict(type="list", required=False, elements="str")
             ) 
           ),
           directory_datasets=dict(arg_type="list", elements="dict", required=False,
@@ -109,7 +110,8 @@ class catalog_parser():
               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
               storage_class=dict(type="str", required=False),
               management_class=dict(type="str", required=False),
-              data_class=dict(type="str", required=False)
+              data_class=dict(type="str", required=False),
+              volumes=dict(type="list", required=False, elements="str")
             ) 
           ),
           temp_acb_dataset=dict(arg_type="dict", required = False,
@@ -140,7 +142,8 @@ class catalog_parser():
               conditional_disposition=dict(arg_type="str", required=False, choices=['KEEP', 'DELETE', 'CATLG', 'CATALOG', 'UNCATLG']),
               storage_class=dict(type="str", required=False),
               management_class=dict(type="str", required=False),
-              data_class=dict(type="str", required=False)
+              data_class=dict(type="str", required=False),
+              volumes=dict(type="list", required=False, elements="str")
             ) 
           ),
           sysabend=dict(arg_type="data_set", required = False),
