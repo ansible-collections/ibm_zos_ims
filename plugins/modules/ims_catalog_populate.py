@@ -21,15 +21,15 @@ DOCUMENTATION = r'''
 ---
 
 module: ims_catalog_populate
-short_description: Add datasets to the IMS Catalog
+short_description: Add data sets to the IMS Catalog
 version_added: "2.9"
 description:
-  - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances 
+  - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances
     into the database data sets of the IMS catalog from ACB library data sets.
 options:
   mode:
     description:
-      - Indicates what mode the Catalog Populate utility is to be run in.
+      - Indicates the mode in which the Catalog Populate utility must be run.
     type: str
     required: true
     choices:
@@ -42,32 +42,32 @@ options:
     type: bool
     required: false
     default: false
-  ims_id: 
+  ims_id:
     description:
-      - The identifier of the IMS system on which the job is to be run
+      - The identifier of the IMS system on which the job is to be run.
       - Required if online_batch is true
     type: str
     required: false
   dbrc:
     description:
-      - Indicates if IMS Database Recovery Control facility is enabled. 
+      - Indicates if the IMS Database Recovery Control facility is enabled.
     type: bool
     required: false
   irlm_id:
     description:
-      - The IRLM id if IRLM is enabled. Cannot be specified when online_batch is true. 
+      - The IRLM ID if IRLM is enabled. Cannot be specified when online_batch is true.
     type: str
     required: false
   reslib:
     description:
-      - Points to an authorized library that contains the IMS SVC modules. 
+      - Points to an authorized library that contains the IMS SVC modules.
     type: list
     required: false
   buffer_pool_param_dataset:
     description:
-      - Defines the buffer pool parameters data set. This option is required if you are running as a DLI. 
+      - Defines the buffer pool parameters data set. This option is required if you are running the utility as a DLI.
     type: str
-    required: false 
+    required: false
   primary_log_dataset:
     description:
       - Defines the primary IMS log data set. This is required if dbrc is set to true or if
@@ -77,12 +77,12 @@ options:
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset.
+          - Describes the name of the data set.
         type: str
         required: true
       disposition:
-        description: 
-          - The status of the dataset.
+        description:
+          - The status of the data set.
         type: str
         required: false
         choices:
@@ -92,7 +92,7 @@ options:
           - EXCL
       record_format:
         description:
-          - The record format. 
+          - The record format.
         type: str
         required: false
         choices:
@@ -103,17 +103,17 @@ options:
           - U
       record_length:
         description:
-          - The logical record length in bytes. 
+          - The logical record length in bytes.
         type: int
         required: false
       block_size:
         description:
-          - The block size. 
+          - The block size.
         type: int
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the dataset.
+          - The amount of primary space to allocate for the data set.
         type: int
         required: false
       primary_unit:
@@ -123,7 +123,7 @@ options:
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset.
+          - The amount of secondary space to allocate for the data set.
         type: int
         required: false
       secondary_unit:
@@ -133,7 +133,7 @@ options:
         required: false
       normal_disposition:
         description:
-          - Dataset action after normal termination.
+          - Data set action after normal termination.
         type: str
         required: false
         choices:
@@ -143,7 +143,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - Dataset action after abnormal termination.
+          - Data set action after abnormal termination.
         type: str
         required: false
         choices:
@@ -152,8 +152,8 @@ options:
           - CATLG
           - UNCATLG
       type:
-        description: 
-          - The type of dataset.
+        description:
+          - The type of data set.
         type: str
         required: false
         choices:
@@ -176,19 +176,19 @@ options:
         elements: str
       storage_class:
         description:
-          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+          - The storage class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets taht are not
+          - The management class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets taht are not
+          - The data class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
@@ -200,12 +200,12 @@ options:
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset.
+          - Describes the name of the data set.
         type: str
         required: true
       disposition:
-        description: 
-          - The status of the dataset.
+        description:
+          - The status of the data set.
         type: str
         required: false
         choices:
@@ -215,7 +215,7 @@ options:
           - EXCL
       record_format:
         description:
-          - The record format. 
+          - The record format.
         type: str
         required: false
         choices:
@@ -226,17 +226,17 @@ options:
           - U
       record_length:
         description:
-          - The logical record length in bytes. 
+          - The logical record length in bytes.
         type: int
         required: false
       block_size:
         description:
-          - The block size 
+          - The block size.
         type: int
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the dataset.
+          - The amount of primary space to allocate for the data set.
         type: int
         required: false
       primary_unit:
@@ -246,7 +246,7 @@ options:
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset.
+          - The amount of secondary space to allocate for the data set.
         type: int
         required: false
       secondary_unit:
@@ -256,7 +256,7 @@ options:
         required: false
       normal_disposition:
         description:
-          - Dataset action after normal termination.
+          - Data set action after normal termination.
         type: str
         required: false
         choices:
@@ -268,7 +268,7 @@ options:
           - UNCATALOG
       abnormal_disposition:
         description:
-          - Dataset action after abnormal termination
+          - Data set action after abnormal termination
         type: str
         required: false
         choices:
@@ -279,8 +279,8 @@ options:
           - CATALOG
           - UNCATALOG
       type:
-        description: 
-          - The type of dataset
+        description:
+          - The type of data set.
         type: str
         required: false
         choices:
@@ -303,65 +303,65 @@ options:
         elements: str
       storage_class:
         description:
-          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+          - The storage class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+          - The management class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+          - The data class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
   psb_lib:
     description:
-      - Defines the IMS.PSBLIB dataset.
+      - Defines the IMS.PSBLIB data set.
     type: list
     elements: str
     required: true
   dbd_lib:
     description:
-      - Defines the IMS.DBDLIB datasets.
+      - Defines the IMS.DBDLIB data sets.
     type: list
     elements: str
     required: true
   check_timestamp:
     description:
-      - Determines if the utility should check timestamps of ACB members with duplicate names. 
-      - If true, the utility will check if the ACB generation timestamp is different from the previously 
-        processed ACB member with the same name. 
-      - If the timestamp is different, it will use the ACB with the duplicate name. If not, 
-        it will ignore the ACB with the duplicate name. 
+      - Determines if the utility should check timestamps of ACB members with duplicate names.
+      - If true, the utility will check if the ACB generation timestamp is different from the previously
+        processed ACB member with the same name.
+      - If the timestamp is different, it will use the ACB with the duplicate name. If not,
+        it will ignore the ACB with the duplicate name.
     type: bool
     required: false
     default: false
   acb_lib:
     description:
-      - Defines an ACB library data set that contains the ACB members that are used to populate the IMS catalog. 
+      - Defines an ACB library data set that contains the ACB members that are used to populate the IMS catalog.
         This DD statement is required.
     type: list
     elements: str
     required: true
   bootstrap_dataset:
     description:
-      - Optionally defines the IMS directory bootstrap data set. 
+      - Optionally defines the IMS directory bootstrap data set.
     type: dict
     required: false
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset.
+          - Describes the name of the data set.
         type: str
         required: true
       disposition:
-        description: 
-          - The status of dataset.
+        description:
+          - The status of the data set.
         type: str
         required: false
         choices:
@@ -371,12 +371,12 @@ options:
           - EXCL
       block_size:
         description:
-          - The block size. 
+          - The block size.
         type: int
         required: false
       primary:
         description:
-          - The amount of primary space to allocate for the dataset.
+          - The amount of primary space to allocate for the data set.
         type: int
         required: false
       primary_unit:
@@ -386,7 +386,7 @@ options:
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset.
+          - The amount of secondary space to allocate for the data set.
         type: int
         required: false
       secondary_unit:
@@ -396,7 +396,7 @@ options:
         required: false
       normal_disposition:
         description:
-          - Dataset action after normal termination.
+          - Data set action after normal termination.
         type: str
         required: false
         choices:
@@ -406,7 +406,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - Dataset action after abnormal termination
+          - Data set action after abnormal termination
         type: str
         required: false
         choices:
@@ -416,28 +416,28 @@ options:
           - UNCATLG
       storage_class:
         description:
-          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+          - The storage class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+          - The management class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+          - The data class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
   directory_datasets:
     description:
-      - Optionally defines the IMS directory data sets that are used to store the ACBs. 
-      - If this is omitted, the utility dynamically deletes any preexisting directory datasets 
-        and dynamically creates two new datasets to store the ACBs. 
-      - The data set name must conform to the same naming convention as for a system-created 
+      - Optionally defines the IMS directory data sets that are used to store the ACBs.
+      - If this is omitted, the utility dynamically deletes any preexisting directory data sets
+        and dynamically creates two new data sets to store the ACBs.
+      - The data set name must conform to the same naming convention as for a system-created
         directory data set.
     type: list
     elements: dict
@@ -445,12 +445,12 @@ options:
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset.
+          - Describes the name of the data set.
         type: str
         required: true
       disposition:
-        description: 
-          - The status of the dataset
+        description:
+          - The status of the data set.
         type: str
         required: false
         choices:
@@ -460,7 +460,7 @@ options:
           - EXCL
       primary:
         description:
-          - The amount of primary space to allocate for the dataset.
+          - The amount of primary space to allocate for the data set.
         type: int
         required: false
       primary_unit:
@@ -470,7 +470,7 @@ options:
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset.
+          - The amount of secondary space to allocate for the data set.
         type: int
         required: false
       secondary_unit:
@@ -480,7 +480,7 @@ options:
         required: false
       normal_disposition:
         description:
-          - Dataset action after normal termination.
+          - Data set action after normal termination.
         type: str
         required: false
         choices:
@@ -490,7 +490,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - Dataset action after abnormal termination.
+          - Data set action after abnormal termination.
         type: str
         required: false
         choices:
@@ -500,39 +500,39 @@ options:
           - UNCATLG
       storage_class:
         description:
-          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+          - The storage class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+          - The management class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+          - The data class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
   temp_acb_dataset:
     description:
-      - An optional control statement to define an empty work data set to be used as an IMS.ACBLIB data set 
-        for the IMS Catalog Populate utility. 
-      - If IMS Management of ACBs is not enabled, this statement is ommitted. 
-      - This dataset does not need to conform to any IMS Catalog or system-defined naming convention.
+      - An optional control statement to define an empty work data set to be used as an IMS.ACBLIB data set
+        for the IMS Catalog Populate utility.
+      - If IMS Management of ACBs is not enabled, this statement is ommitted.
+      - This data set does not need to conform to any IMS Catalog or system-defined naming convention.
     type: dict
     required: false
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset.
+          - Describes the name of the data set.
         type: str
         required: true
       disposition:
-        description: 
-          - The status of the dataset
+        description:
+          - The status of the data set.
         type: str
         required: false
         choices:
@@ -542,7 +542,7 @@ options:
           - EXCL
       primary:
         description:
-          - The amount of primary space to allocate for the dataset.
+          - The amount of primary space to allocate for the data set.
         type: int
         required: false
       primary_unit:
@@ -552,7 +552,7 @@ options:
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset.
+          - The amount of secondary space to allocate for the data set.
         type: int
         required: false
       secondary_unit:
@@ -562,7 +562,7 @@ options:
         required: false
       normal_disposition:
         description:
-          - Dataset action after normal termination.
+          - Data set action after normal termination.
         type: str
         required: false
         choices:
@@ -572,7 +572,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - Dataset action after abnormal termination.
+          - Data set action after abnormal termination.
         type: str
         required: false
         choices:
@@ -589,37 +589,37 @@ options:
         elements: str
       storage_class:
         description:
-          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+          - The storage class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+          - The management class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+          - The data class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
   directory_staging_dataset:
     description:
-      - Optionally defines the size and placement IMS of the directory staging data set. 
-      - The dataset must follow the naming convention for the IMS Catalog Directory.
+      - Optionally defines the size and placement IMS of the directory staging data set.
+      - The data set must follow the naming convention for the IMS Catalog Directory.
     type: dict
     required: false
     suboptions:
       dataset_name:
         description:
-          - Describes the name of the dataset
+          - Describes the name of the data set.
         type: str
         required: true
       disposition:
-        description: 
-          - The status of the dataset.
+        description:
+          - The status of the data set.
         type: str
         required: false
         choices:
@@ -629,7 +629,7 @@ options:
           - EXCL
       primary:
         description:
-          - The amount of primary space to allocate for the dataset.
+          - The amount of primary space to allocate for the data set.
         type: int
         required: false
       primary_unit:
@@ -639,7 +639,7 @@ options:
         required: false
       secondary:
         description:
-          - The amount of secondary space to allocate for the dataset.
+          - The amount of secondary space to allocate for the data set.
         type: int
         required: false
       secondary_unit:
@@ -649,7 +649,7 @@ options:
         required: false
       normal_disposition:
         description:
-          - Dataset action after normal termination.
+          - Data set action after normal termination.
         type: str
         required: false
         choices:
@@ -659,7 +659,7 @@ options:
           - UNCATLG
       abnormal_disposition:
         description:
-          - Dataset action after abnormal termination.
+          - Data set action after abnormal termination.
         type: str
         required: false
         choices:
@@ -669,85 +669,85 @@ options:
           - UNCATLG
       storage_class:
         description:
-          - The storage class for an SMS-managed dataset. Not valid for datasets that are not 
+          - The storage class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       management_class:
         description:
-          - The management class for an SMS-managed dataset. Not valid for datasets that are not
+          - The management class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
       data_class:
         description:
-          - The data class for an SMS-managed dataset. Not valid for datasets that are not
+          - The data class for an SMS-managed data set. Not valid for data sets that are not
             SMS-managed.
         type: str
         required: false
   proclib:
     description:
-      - Defines the IMS.PROCLIB data set that contains the DFSDFxxx member that 
+      - Defines the IMS.PROCLIB data set that contains the DFSDFxxx member. The  DFSDFxxx member
         defines various attributes of the IMS catalog that are required by the utility.
     type: list
     required: true
   steplib:
     description:
-      - Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules. 
+      - Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules.
       - The steplib parameter can also be specified in the target inventory's environment_vars.
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     type: list
     required: False
   sysabend:
     description:
-      - Defines the dump dataset. This defaults to = \* 
+      - Defines the dump data set. This defaults to = \*
     type: str
     required: false
   sysprint:
     description:
-      - Defines the output message dataset This defaults to = \* 
+      - Defines the output message data set This defaults to = \*
     type: str
     required: false
   control_statements:
     description:
-      - The control statement parameters
+      - The control statement parameters.
     type: dict
     required: false
     suboptions:
       print_duplicate_resources:
         description:
-          - Specifies that the DFS3PU00 utility list each DBD or PSB resource in the input ACB 
-            library that is not added to the IMS catalog because it is a duplicate of an instance 
-            that is already in the IMS catalog. 
+          - Specifies that the DFS3PU00 utility lists each DBD or PSB resource in the input ACB
+            library that is not added to the IMS catalog because it is a duplicate of an instance
+            in the IMS catalog.
           - Equivalent to the DUPLIST control statement.
         type: bool
         required: false
         default: false
       print_inserted_resources:
         description:
-          - If the IMS management of ACBs is enabled, the utility also lists each DBD or PSB resources that is either added 
-            to the IMS directory or saved to the staging data set for importing into the IMS directory later. 
+          - If the IMS management of ACBs is enabled, the utility also lists each DBD or PSB resources that is either added
+            to the IMS directory or saved to the staging data set for importing into the IMS directory later.
           - Equivalent to the ISRTLIST control statement.
         type: bool
         required: false
         default: true
       max_error_msgs:
         description:
-          - Terminate the IMS Catalog Populate utility when more than n messages indicate errors that prevent 
+          - Terminate the IMS Catalog Populate utility when more than n messages indicate errors that prevent
             certain DBDs and PSBs from having their metadata that is written to the IMS catalog.
-          - Equivalent to the ERRORMAX=n control statement. 
+          - Equivalent to the ERRORMAX=n control statement.
         type: int
         required: false
       resource_chkp_freq:
         description:
-          - Specifies the number of DBD and PSB resource instances to be inserted between checkpoints. 
-            n can be a 1 to 8 digit numeric value of 1 to 99999999. 
+          - Specifies the number of DBD and PSB resource instances to be inserted between checkpoints.
+            n can be a 1 to 8 digit numeric value between 1 to 99999999.
           - Equivalent to the RESOURCE_CHKP_FREQ=n control statement.
         type: int
         required: false
       segment_chkp_freq:
         description:
-          - Specifies the number of segments to be inserted between checkpoints. Can be a 1 to 8 digit numeric value of 1 to 99999999.
+          - Specifies the number of segments to be inserted between checkpoints. Can be a 1 to 8 digit numeric value between 1 to 99999999.
           - Equivalent to the SEGMENT_CHKP_FREQ=n control statement.
         type: int
         required: false
@@ -762,12 +762,12 @@ options:
         suboptions:
           setup:
             description:
-              - Creates the IMS directory datasets that are required by IMS to manage application control blocks.
+              - Creates the IMS directory data sets that are required by IMS to manage application control blocks.
             type: bool
             required: false
           stage:
-            description: 
-              - Saves ACBs from the input ACB libraries to a staging dataset.
+            description:
+              - Saves ACBs from the input ACB libraries to a staging data set.
             type: dict
             required: false
             suboptions:
@@ -789,7 +789,7 @@ options:
                 default: false
               gsampcb:
                 description:
-                  - GSAM resources are included for MANAGEDACBS= running in DLI mode using PSB DFSCP001. 
+                  - GSAM resources are included for MANAGEDACBS= running in DLI mode using PSB DFSCP001.
                   - When GSAMPCB is specified, the IEFRDER batch log data set is not used by the catalog members information gather task.
                   - GSAMPCB and clean_staging_dataset are mutually exclusive.
                 type: bool
@@ -797,16 +797,16 @@ options:
                 default: false
               gsamdbd:
                 description:
-                  - The name of the changed GSAM database. You can use the gsamdbd variable with the STAGE or UPDATE parameter. 
-                  - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.          
+                  - The name of the changed GSAM database. You can use the gsamdbd variable with the STAGE or UPDATE parameter.
+                  - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.
                 type: str
                 required: false
                 default: false
           update:
             description:
-              - Updates existing IMS directory system datasets directly in exclusive mode. The ACBs are not placed in the 
-                staging dataset. 
-            type: dict
+              - Updates the existing IMS directory system data sets directly in exclusive mode. The ACBs are not placed in the
+                staging data set.
+            type: dic
             required: false
             suboptions:
               replace_acb:
@@ -820,32 +820,32 @@ options:
                   - UNCOND
               share_mode:
                 description:
-                  - For dynamic option (DOPT) PSBs only, allocates the required IMS directory data sets in a shared mode 
-                    so that DOPT PSBs can be added to the IMS catalog without interrupting online processing.
+                  - For dynamic option (DOPT) PSBs only, allocates the required IMS directory data sets in a shared mode
+                    so that the DOPT PSBs can be added to the IMS catalog without interrupting online processing.
                 type: bool
                 required: false
                 default: false
               gsampcb:
                 description:
-                  - GSAM resources are included for MANAGEDACBS= running in DLI mode using PSB DFSCP001. When GSAMPCB is specified, 
+                  - GSAM resources are included for MANAGEDACBS= running in DLI mode using PSB DFSCP001. When GSAMPCB is specified,
                     the IEFRDER batch log data set is not used by the catalog members information gather task.
                 type: bool
                 required: false
                 default: false
               gsamdbd:
                 description:
-                  - The name of the changed GSAM database. You can use the gsamdbd variable with the STAGE or UPDATE parameter. 
-                  - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.          
+                  - The name of the changed GSAM database. You can use the gsamdbd variable with the STAGE or UPDATE parameter.
+                  - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.
                 type: str
                 required: false
                 default: false
 notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
-  - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB dataset.
+  - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB data set.
   - Specifying only I(reslib) without I(steplib) is not supported.
 author:
-  - Jerry Li 
+  - Jerry Li
 '''
 
 EXAMPLES = r'''
@@ -867,7 +867,7 @@ EXAMPLES = r'''
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG
 
-- name: Example of loading the IMS Catalog and the IMS Directory datasets with MANAGEDACBS enabled
+- name: Example of loading the IMS Catalog and the IMS Directory data sets with MANAGEDACBS enabled
   ims_catalog_populate:  
     mode: LOAD
     acb_lib: 
@@ -907,24 +907,24 @@ EXAMPLES = r'''
 
 RETURN = r'''
 content:
-  description: The standard output returned running the IMS Catalog Populate module
+  description: The standard output returned running the IMS Catalog Populate module.
   type: str
   returned: sometimes
   sample: DFS4434I INSTANCE 2020200562326 OF DBD AUTODB   WAS ADDED TO A NEWLY CREATED RECORD IN THE IMS CATALOG.
 rc:
-  description: The return code from the IMS Catalog Populate utility
+  description: The return code from the IMS Catalog Populate utility.
   type: str
   returned: sometimes
   sample: '1'
 stderr: 
-  description: The standard error output returned from running the IMS Catalog Populate
+  description: The standard error output returned from running the IMS Catalog Populate utility.
   type: str
   returned: sometimes
 msg:
-  description: Messages returned from the IMS Catalog Populate module
+  description: Messages returned from the IMS Catalog Populate module.
   type: str
   returned: sometimes
-  sample: You cannot define directory datasets, the bootstrap dataset, or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE
+  sample: You cannot define directory data sets, the bootstrap data set, or directory staging data sets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE
 '''
 
 from ansible.module_utils.basic import AnsibleModule
