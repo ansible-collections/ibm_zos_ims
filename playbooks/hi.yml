@@ -1,0 +1,28 @@
+---
+- hosts: all
+  collections:
+    - ibm.ibm_zos_ims
+    - ibm.ibm_zos_core
+  gather_facts: no
+
+  environment: "{{ environment_vars }}"
+
+  vars:
+    - all_data_sets:
+      - ketan.test.x
+      # - ketan.test.y
+      # - ketan.test.z
+  tasks:
+
+    - name: Add data set to target
+      zos_data_set:
+        name: "{{ item }}"
+        record_format: u
+        record_length: 25
+        space_primary: 100
+        space_type: TRK
+        # state: absent
+        type: pds
+        volume: "{{ VOLUME }}"
+        replace: yes
+      loop: "{{ all_data_sets }}"
