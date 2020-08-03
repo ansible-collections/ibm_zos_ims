@@ -8,9 +8,13 @@
     environment: "{{ environment_vars }}"
       
     tasks:
-      - name: test ims_catalog_populate
-        command: dls -s IMSTESTL.IMS1.DFSCD000.STG
-        register: response
+      # - name: test ims_catalog_populate
+      #   command: dls -s IMSTESTL.IMS1.DFSCD000.STG
+      #   register: response
 
-      - debug:
-          var: response
+      # - debug:
+      #     var: response
+      - name: test zos_dataset
+        zos_data_set:
+          name: IMSTESTL.IMS1.DFSCD000.BSDS
+          state: absent

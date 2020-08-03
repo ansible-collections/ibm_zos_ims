@@ -126,7 +126,7 @@ def test_catalog_define_bootstrap(ansible_zos_module):
 
     # Verify the bootstrap dataset was created with the specified parameters
     estimated_size_in_bytes = 0
-    response = hosts.all.command("dls -s IMSTESTL.IMS1.DFSCD000.BSDS")
+    response = hosts.all.command("dls -s " + cp.BSDS)
    
     for result in response.contacted.values():
       for line in result.get("stdout_lines", []):
@@ -189,7 +189,7 @@ def test_catalog_define_staging(ansible_zos_module):
 
     # Verify the staging dataset was created with the specified parameters
     estimated_size_in_bytes = 0
-    response = hosts.all.command("dls -s IMSTESTL.IMS1.DFSCD000.STG")
+    response = hosts.all.command("dls -s " + cp.STAGE)
    
     for result in response.contacted.values():
       for line in result.get("stdout_lines", []):
