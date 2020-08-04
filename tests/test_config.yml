@@ -1,18 +1,18 @@
-host: ec33002a.vmec.svl.ibm.com
+host: ec33003a.vmec.svl.ibm.com
 user: omvsadm
 python_path: /python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3.8
 
-# ZOAU_ROOT: /zoau/v1.0.3-ptf2
-ZOAU_ROOT: /u/omvsadm/mvsbuilds/1032
+ZOAU_ROOT: /zoau/v1.0.3-ptf2
+# ZOAU_ROOT: /u/omvsadm/mvsbuilds/1032
 PYTHON_ROOT: "/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz"
 JAVA_ROOT: /usr/lpp/java
 
 environment:
-    LIBPATH: '/u/omvsadm/mvsbuilds/1032/lib:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:.'
-    ZOAUTIL_DIR: '/u/omvsadm/mvsbuilds/1032'
-    ZOAU_ROOT: '/u/omvsadm/mvsbuilds/1032'
-    ZOAU_HOME: '/u/omvsadm/mvsbuilds/1032'
-    PYTHONPATH: '/u/omvsadm/mvsbuilds/1032/lib:/lib:/usr/lib'
+    LIBPATH: '/zoau/v1.0.3-ptf2/lib:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:.'
+    ZOAUTIL_DIR: '/zoau/v1.0.3-ptf2'
+    ZOAU_ROOT: '/zoau/v1.0.3-ptf2'
+    ZOAU_HOME: '/zoau/v1.0.3-ptf2'
+    PYTHONPATH: '/zoau/v1.0.3-ptf2/lib:/lib:/usr/lib'
     _BPXK_JOBLOG: STDERR 
     # environment variables for mvsutils/mvscmd
     _BPXK_AUTOCVT: "ON"
@@ -21,7 +21,7 @@ environment:
     _TAG_REDIR_IN: txt
     _TAG_REDIR_OUT: txt
     TOOLS_ROOT: '/usr/lpp/rsusr/ported'
-    PATH: '/u/omvsadm/mvsbuilds/1032/bin:/usr/lpp/rsusr/ported/bin:/usr/lpp/java/java180/J8.0_64/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin'
+    PATH: '/zoau/v1.0.3-ptf2/bin:/usr/lpp/rsusr/ported/bin:/usr/lpp/java/java180/J8.0_64/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin'
     JAVA_HOME: '/usr/lpp/java/java180/J8.0_64'
     STEPLIB: IMSBLD.I15RTSMM.COMRESL1
     LANG: C
