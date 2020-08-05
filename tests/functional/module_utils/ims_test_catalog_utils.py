@@ -32,8 +32,6 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
         )
     for result in response.contacted.values():
         pprint(result)
-        # print("Changed:", result['changed'])
-        assert result['changed'] == changed
         assert result['rc'] == rc
         if rc == 0:
           assert validation_msg in result['content']
@@ -66,8 +64,6 @@ def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, 
         )
     for result in response.contacted.values():
         pprint(result)
-        # print("Changed:", result['changed'])
-        assert result['changed'] == changed
         assert result['rc'] == rc
         if rc == 0:
           assert validation_msg in result['content']
