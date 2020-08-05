@@ -123,4 +123,23 @@
         plex: PLEX1
         route: IMS1
 
+    - name: Sample DBRC Module -- LIST commands
+      ims_dbrc:
+        command:
+          - "LIST.RECON STATUS"
+          - "LIST.DB ALL"
+          - "LIST.LOG"
+          - "LIST.CAGRP"
+        steplib:
+          - IMSTESTU.IMS1501.MARKER
+          - IMSTESTL.IMS1.EXITLIB
+          - IMSTESTG.IMS15R.TSTRES
+          - IMSBLD.IMS15R.USERLIB
+          - IMSBLD.I15RTSMM.CRESLIB
+        dbdlib: IMSTESTL.IMS1.DBDLIB
+        genjcl: IMSTESTL.IMS1.GENJCL
+        recon1: IMSTESTL.IMS1.RECON1
+        recon2: IMSTESTL.IMS1.RECON2
+        recon3: IMSTESTL.IMS1.RECON3
+
 # ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml
