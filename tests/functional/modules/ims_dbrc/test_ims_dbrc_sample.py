@@ -20,13 +20,9 @@ def test_ims_dbrc_sample(ansible_zos_module):
             "LIST.BKOUT ALL",
             "LIST.LOG",
             "LIST.CAGRP"],
-        # command=['GENJCL.ARCHIVE SSID(IMS1) OLDS(DFSOLP01, DFSOLP02)'],
-        # command=['DELETE.DB DBD(TESTDB)','INIT.DB DBD(TESTDB)','GENJCL.RECEIVE DBD(TESTDB)'],
-        # command=['INIT.DB DBD(TESTDB)','GENJCL.RECEIVE DBD(TESTDB)','DELETE.DB DBD(TESTDB)'],
         steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL, jclout=ip.JCLOUT,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
         pprint(result)
-        assert result['msg'] == em.SUCCESS_MSG    
-        # assert False
+        assert result['msg'] == em.SUCCESS_MSG
