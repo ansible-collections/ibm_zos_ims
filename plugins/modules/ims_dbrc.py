@@ -23,18 +23,18 @@ description:
   - Use DBRC to record and manage information that is stored in a set of VSAM
     data sets that are collectively called the Recovery Control (RECON) data set.
   - Based on this information, you can use DBRC to advise IMS about how to proceed
-    for certain IMS actions.
+    with certain IMS actions.
 author:
   - Omar Elbarmawi (@oelbarmawi)
 options:
   command:
     description:
-      - This is the (well-formatted) DBRC command to submit.
+      - This is the well-formatted DBRC command to submit.
     type: list
     required: true
   dbdlib:
     description:
-      - The data set that contains the database descriptions for the databases that are under the control of DBRC.
+      - The data set that contains the descriptions for the databases that are under the control of DBRC.
     type: str
     required: false
   dynalloc:
@@ -50,7 +50,7 @@ options:
     required: false
   jclout:
     description:
-      - The data set which is to receive generated JCL. It is required only for the GENJCL commands.
+      - The data set which is to receive the generated JCL. It is required only for the GENJCL commands.
     type: str
     required: false
   max_rc:
