@@ -151,6 +151,13 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
+      volumes:
+        description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
+        type: list
+        required: false
+        elements: str
       type:
         description:
           - The type of data set.
@@ -278,6 +285,13 @@ options:
           - UNCATLG
           - CATALOG
           - UNCATALOG
+      volumes:
+        description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
+        type: list
+        required: false
+        elements: str
       type:
         description:
           - The type of data set.
@@ -414,6 +428,13 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
+      volumes:
+        description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
+        type: list
+        required: false
+        elements: str
       storage_class:
         description:
           - The storage class for an SMS-managed data set. Not valid for data sets that are not
@@ -498,6 +519,13 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
+      volumes:
+        description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
+        type: list
+        required: false
+        elements: str
       storage_class:
         description:
           - The storage class for an SMS-managed data set. Not valid for data sets that are not
@@ -667,6 +695,13 @@ options:
           - KEEP
           - CATLG
           - UNCATLG
+      volumes:
+        description:
+          - A list of volume serials. When providing multiple volumes, processing will begin with
+            the first volume in the provided list. Offline volumes are not considered.
+        type: list
+        required: false
+        elements: str
       storage_class:
         description:
           - The storage class for an SMS-managed data set. Not valid for data sets that are not

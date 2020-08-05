@@ -130,7 +130,6 @@ def test_catalog_define_bootstrap(ansible_zos_module):
    
     for result in response.contacted.values():
       for line in result.get("stdout_lines", []):
-        print("dls stdout: " + line)
         lineList = line.split()
         estimated_size_in_bytes=int(lineList[-1])
       estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
