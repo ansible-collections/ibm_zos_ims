@@ -8,6 +8,11 @@ __metaclass__ = type
 
 def test_ims_dbrc_sample(ansible_zos_module):
     hosts = ansible_zos_module
+    # Create the JCLOUT data set if it's not already present
+    response = hosts.all.zos_data_set(name=ip.JCLOUT, state="present", type="SEQ", replace=True)
+    for ds_result in response.contacted.values():
+        assert ds_result['changed'] == True
+
     results = hosts.all.ims_dbrc(
         command=[
             "LIST.RECON STATUS", 
