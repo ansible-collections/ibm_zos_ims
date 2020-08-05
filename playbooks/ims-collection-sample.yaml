@@ -122,5 +122,124 @@
           command: DISPLAY DB AUTODB
           plex: PLEX1
           route: IMS1
+
+      - name: test ims_catalog_populate
+        ims_catalog_populate:
+          mode: LOAD 
+          dbrc: False
+          acb_lib: [
+            IMSTESTL.IMS1.ACBLIB
+          ]
+          reslib: [
+            IMSTESTL.IMS1.SDFSRESL
+          ]
+          steplib: [
+            IMSTESTL.IMS1.SDFSRESL
+          ]
+          proclib: [
+            IMSTESTL.IMS1.PROCLIB
+          ]
+          dbd_lib: [
+            IMSTESTL.IMS1.DBDLIB
+          ]
+          psb_lib: [
+            IMSTESTL.IMS1.PSBLIB
+          ]
+          buffer_pool_param_dataset: "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
+          primary_log_dataset:
+            dataset_name: IMSTESTL.IMS1.LOG1
+            disposition: NEW
+            normal_disposition: DELETE
+            record_format: FB
+            record_length: 4092
+            block_size: 4096
+            primary: 100
+            primary_unit: CYL
+            secondary: 75
+            secondary_unit: CYL
+            type: SEQ
+          control_statements:
+            managed_acbs:
+              setup: true
+        
+      - name: test ims_catalog_purge
+        ims_catalog_purge:
+          reslib: [
+            IMSTESTL.IMS1.SDFSRESL
+          ]
+          steplib: [
+            IMSTESTL.IMS1.SDFSRESL
+          ]
+          proclib: [
+            IMSTESTL.IMS1.PROCLIB
+          ] 
+          dbd_lib: [
+            IMSTESTL.IMS1.DBDLIB
+          ]
+          psb_lib: [
+            IMSTESTL.IMS1.PSBLIB
+          ]
+          buffer_pool_param_dataset: "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
+          primary_log_dataset:
+            dataset_name: IMSTESTL.IMS1.LOG1
+            disposition: NEW
+            normal_disposition: DELETE
+            record_format: FB
+            record_length: 4092
+            block_size: 4096
+            primary: 100
+            primary_unit: CYL
+            secondary: 75
+            secondary_unit: CYL
+            type: SEQ
+          mode: PURGE
+          delete:
+            - resource: DBD
+              member_name: 'DB*'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'AUTODB'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'DFSCX'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'DI21PART'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'DG*'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'EMP*'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'IV*'
+              time_stamp: '*' 
+            - resource: DBD
+              member_name: 'SI*'
+              time_stamp: '*' 
+            - resource: PSB 
+              member_name: 'AUT*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'DBF*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'DFH*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'DFSI*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'DFSS*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'IP*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'PG*'
+              time_stamp: '*'
+          managed_acbs: true
+      
   
   # ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml

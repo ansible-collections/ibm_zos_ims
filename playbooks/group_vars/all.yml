@@ -1,8 +1,4 @@
-# ZOAU_ROOT: /u/omvsadm/mvsbuilds/103
-# ZOAU_ROOT: /zoau/v1.0.3-ptf2
-ZOAU_ROOT: /u/omvsadm/mvsbuilds/1032
-# ZOAU_ROOT: "/usr/lpp/IBM/zoautil"
-# PYTHON_ROOT: /usr/lpp/izoda/v110/anaconda
+ZOAU_ROOT: /zoau/v1.0.3-ptf2
 PYTHON_ROOT: "/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz"
 JAVA_ROOT: /usr/lpp/java
 
