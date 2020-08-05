@@ -67,11 +67,13 @@ options:
   recon2:
     description:
       - The RECON2 data set that will be used to complete the DBRC execution.
+      - Required if `dynalloc` is not specified.
     type: str
     required: false
   recon3:
     description:
       - The RECON3 data set that will be used to complete the DBRC execution.
+      - Required if `dynalloc` is not specified.
     type: str
     required: false
   steplib:
