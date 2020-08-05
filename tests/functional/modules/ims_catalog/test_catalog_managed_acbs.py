@@ -40,7 +40,7 @@ def test_catalog_load_managed_acbs(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.PURGEMODE,
-                validation_msg="DFS4518I",
+                validation_msg="",
                 delete=cp.DELETES,
                 managed_acbs=True)
 
@@ -89,7 +89,7 @@ def test_catalog_update_managed_acbs_stage_and_update(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.PURGEMODE,
-                validation_msg="DFS4518I",
+                validation_msg="",
                 delete=cp.DELETES,
                 managed_acbs=True)
 
@@ -145,7 +145,7 @@ def test_catalog_define_bootstrap(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.PURGEMODE,
-                validation_msg="DFS4518I",
+                validation_msg="",
                 delete=cp.DELETES,
                 managed_acbs=True)
 
@@ -208,7 +208,7 @@ def test_catalog_define_staging(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.PURGEMODE,
-                validation_msg="DFS4518I",
+                validation_msg="",
                 delete=cp.DELETES,
                 managed_acbs=True)
 
@@ -287,7 +287,7 @@ def test_catalog_define_directory(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.PURGEMODE,
-                validation_msg="DFS4518I",
+                validation_msg="",
                 delete=cp.DELETES,
                 managed_acbs=True)
 
