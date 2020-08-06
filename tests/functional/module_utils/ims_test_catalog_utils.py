@@ -118,12 +118,12 @@ class CatalogInputParameters():
   ]
   RETENTION = [
     {'resource': 'DBD',
-     'member_name': '*',
+     'member_name': "*",
      'instances': '0',
      'days': '0'
     },
     {'resource': 'PSB',
-     'member_name': '*',
+     'member_name': "*",
      'instances': '0',
      'days': '0'
     } 
