@@ -11,13 +11,13 @@
       - name: Load ZOAU onto EC
         copy:
           src: "../zoau-1.0.3-latest.pax"
-          dest: "/u/omvsadm/mvsbuilds/103/"
+          dest: "/zoau/v1.0.3-ptf2/zoau-1.0.3-latest.pax"
           mode: 0777
         
       - name: Unpax ZOAU
         shell: pax -p e -rf zoau-1.0.3-latest.pax
         args:
-          chdir: "/u/omvsadm/mvsbuilds/103/"
+          chdir: "/zoau/v1.0.3-ptf2"
         register: output
         failed_when: "output.rc > 1 and 'cannot set uid/gid' not in output.stderr"
       
