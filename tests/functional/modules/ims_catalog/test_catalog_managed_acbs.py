@@ -101,6 +101,9 @@ def test_catalog_define_bootstrap(ansible_zos_module):
     response = hosts.all.zos_data_set(name=cp.BSDS, state="absent")
     for result in response.contacted.values():
       assert result['message'] == ''
+      if result['changed'] == False:
+        response = hosts.all.zos_data_set(name=cp.BSDS, state="absent", volume="SCR03")
+        
     
     # Load catalog while defining the bootstrap dataset
     load_catalog(hosts, 
@@ -162,6 +165,8 @@ def test_catalog_define_staging(ansible_zos_module):
     response = hosts.all.zos_data_set(name=cp.STAGE, state="absent")
     for result in response.contacted.values():
       assert result['message'] == ''
+      if result['changed'] == False:
+        response = hosts.all.zos_data_set(name=cp.STAGE, state="absent", volume="SCR03")
     
     # Load catalog while defining the staging dataset
     load_catalog(hosts, 
@@ -224,6 +229,8 @@ def test_catalog_define_directory(ansible_zos_module):
     response = hosts.all.zos_data_set(batch=cp.DIR_BATCH)
     for result in response.contacted.values():
       assert result['message'] == ''
+      if result['changed'] == False:
+        response = hosts.all.zos_data_set(name=cp.DIR_BATCH, state="absent", volume="SCR03")
     
     # Load catalog while defining the directory datasets
     load_catalog(hosts, 
