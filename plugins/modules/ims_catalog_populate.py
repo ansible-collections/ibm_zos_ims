@@ -1003,7 +1003,7 @@ def run_module():
     parsed_args=catalog_parser(module, module.params, result).validate_populate_input()
     response = catalog(module, result, parsed_args).execute_catalog_populate()
 
-    if module.params['mode'] is not "READ":
+    if module.params['mode'] != "READ":
       result["changed"] = True
     
     module.exit_json(**response)
