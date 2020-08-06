@@ -100,7 +100,6 @@ def test_catalog_define_bootstrap(ansible_zos_module):
     # Delete the bootstrap dataset first
     response = hosts.all.zos_data_set(name=cp.BSDS, state="absent")
     for result in response.contacted.values():
-      assert result['changed'] == True
       assert result['message'] == ''
     
     # Load catalog while defining the bootstrap dataset
@@ -162,7 +161,6 @@ def test_catalog_define_staging(ansible_zos_module):
     # Delete the staging dataset first
     response = hosts.all.zos_data_set(name=cp.STAGE, state="absent")
     for result in response.contacted.values():
-      assert result['changed'] == True
       assert result['message'] == ''
     
     # Load catalog while defining the staging dataset
@@ -225,7 +223,6 @@ def test_catalog_define_directory(ansible_zos_module):
     # Delete the directory datasets first
     response = hosts.all.zos_data_set(batch=cp.DIR_BATCH)
     for result in response.contacted.values():
-      assert result['changed'] == True
       assert result['message'] == ''
     
     # Load catalog while defining the directory datasets

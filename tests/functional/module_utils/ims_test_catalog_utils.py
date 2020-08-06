@@ -98,6 +98,12 @@ class CatalogInputParameters():
     "type": "SEQ"
   }
   PURGEMODE = "PURGE"
+  SYSUT1 = {
+    "dataset_name": "IMSTESTL.IMS1.ASYS",
+    "disposition": "NEW",
+    "normal_disposition": "DELETE",
+    "type": "SEQ"
+  }
   ANALYSISMODE = "ANALYSIS"
   STAGE = HLQ1 + HLQ2 + "DFSCD000.STG"
   BSDS = HLQ1 + HLQ2 + "DFSCD000.BSDS"
