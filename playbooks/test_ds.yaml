@@ -8,64 +8,64 @@
     environment: "{{ environment_vars }}"
       
     tasks:
-      - name: setup catalog
-        ims_catalog_populate:
-          mode: LOAD 
-          dbrc: False
-          acb_lib: [
-            IMSTESTL.IMS1.ACBLIB
-          ]
-          reslib: [
-            IMSTESTL.IMS1.SDFSRESL
-          ]
-          steplib: [
-            IMSTESTL.IMS1.SDFSRESL
-          ]
-          proclib: [
-            IMSTESTL.IMS1.PROCLIB
-          ]
-          dbd_lib: [
-            IMSTESTL.IMS1.DBDLIB
-          ]
-          psb_lib: [
-            IMSTESTL.IMS1.PSBLIB
-          ]
-          buffer_pool_param_dataset: "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
-          primary_log_dataset:
-            dataset_name: IMSTESTL.IMS1.LOG1
-            disposition: NEW
-            normal_disposition: DELETE
-            record_format: FB
-            record_length: 4092
-            block_size: 4096
-            primary: 100
-            primary_unit: CYL
-            secondary: 75
-            secondary_unit: CYL
-            type: SEQ
-          control_statements:
-            managed_acbs:
-              setup: true
+      # - name: setup catalog
+      #   ims_catalog_populate:
+      #     mode: LOAD 
+      #     dbrc: False
+      #     acb_lib: [
+      #       IMSTESTL.IMS1.ACBLIB
+      #     ]
+      #     reslib: [
+      #       IMSTESTL.IMS1.SDFSRESL
+      #     ]
+      #     steplib: [
+      #       IMSTESTL.IMS1.SDFSRESL
+      #     ]
+      #     proclib: [
+      #       IMSTESTL.IMS1.PROCLIB
+      #     ]
+      #     dbd_lib: [
+      #       IMSTESTL.IMS1.DBDLIB
+      #     ]
+      #     psb_lib: [
+      #       IMSTESTL.IMS1.PSBLIB
+      #     ]
+      #     buffer_pool_param_dataset: "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
+      #     primary_log_dataset:
+      #       dataset_name: IMSTESTL.IMS1.LOG1
+      #       disposition: NEW
+      #       normal_disposition: DELETE
+      #       record_format: FB
+      #       record_length: 4092
+      #       block_size: 4096
+      #       primary: 100
+      #       primary_unit: CYL
+      #       secondary: 75
+      #       secondary_unit: CYL
+      #       type: SEQ
+      #     control_statements:
+      #       managed_acbs:
+      #         setup: true
 
-      - name: gen dbd
-        ims_dbd_gen:
-          src: IMSTESTU.ANSI.DBD.SOURCE
-          location: DATA_SET
-          replace: true
-          member_list:
-            - DGSAM1
-          dest: IMSTESTL.IMS1.DBDLIB
-          sys_lib: 
-            - IMSBLD.I15RTSMM.SDFSMAC 
-            - SYS1.MACLIB
+      # - name: gen dbd
+      #   ims_dbd_gen:
+      #     src: IMSTESTL.ANSIBLE.DBD.SRC
+      #     location: DATA_SET
+      #     replace: true
+      #     member_list:
+      #       - DGSAM1
+      #     dest: IMSTESTL.IMS1.DBDLIB
+      #     sys_lib: 
+      #       - IMSBLD.I15RTSMM.SDFSMAC 
+      #       - SYS1.MACLIB
       
       - name: gen psb
         ims_psb_gen:
-          src: IMSTESTU.ANSI.PSB.SOURCE
+          src: IMSTESTL.ANSIBLE.PSB.SRC
           location: DATA_SET
           replace: true
           member_list:
-            - PGSAM1
+            - PSBGENL
           dest: IMSTESTL.IMS1.PSBLIB
           sys_lib: 
             - IMSBLD.I15RTSMM.SDFSMAC 
@@ -75,7 +75,7 @@
         ims_acb_gen:
           command_input: BUILD
           psb_name: 
-            - PGSAM1
+            - PSBGENL
           psb_lib: 
             - IMSTESTL.IMS1.PSBLIB
           dbd_lib: 
