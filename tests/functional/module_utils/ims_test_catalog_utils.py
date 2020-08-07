@@ -105,6 +105,7 @@ class CatalogInputParameters():
     "type": "SEQ"
   }
   ANALYSISMODE = "ANALYSIS"
+  TEMP_ACB = HLQ1 + HLQ2 + "ACB.TEMP"
   STAGE = HLQ1 + HLQ2 + "DFSCD000.STG"
   BSDS = HLQ1 + HLQ2 + "DFSCD000.BSDS"
   DIR1 = HLQ1 + HLQ2 + "DFSCD000.DI1001"

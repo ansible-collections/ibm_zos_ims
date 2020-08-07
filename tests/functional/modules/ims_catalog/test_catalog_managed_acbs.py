@@ -300,7 +300,132 @@ def test_catalog_define_directory(ansible_zos_module):
     for result in response.contacted.values():
       assert result['changed'] == True
       assert result['message'] == ''
+
+"""
+Scenario 7: Test the creation of the temp_acb_dataset, which holds ACBs that reference 
+GSAM database. Test catalog in load mode with managed acbs setup = true or no managedacbs
+options specified. Specify the temp_acb_dataset fields. The temp_acb_dataset can be named
+anything, I recommend sticking with your first two IMS library qualifiers with the 3rd
+qualifier being whatever you want. Verify the temp acb dataset is created with the specified
+values. Purge the catalog. 
+"""
+def test_creation_of_temp_acb_dataset_with_managed_acbs(ansible_zos_module):
+    hosts = ansible_zos_module
     
+    # Delete TEMP_ACB data set before the test
+    response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
+    for result in response.contacted.values():
+      assert result['message'] == ''
+    
+    temp_acb_data_set = {
+      'dataset_name': cp.TEMP_ACB,
+      'disposition': 'NEW',
+      'normal_disposition': 'CATLG',
+      'primary': 200,
+      'volumes': ['222222']
+    }
+    load_catalog(hosts, 
+                psb_lib=cp.PSBLIB, 
+                dbd_lib=cp.DBDLIB, 
+                acb_lib=cp.ACBLIB, 
+                steplib=cp.STEPLIB, 
+                reslib=cp.RESLIB, 
+                proclib=cp.PROCLIB, 
+                primary_log_dataset=cp.PRIMARYLOG, 
+                temp_acb_dataset=temp_acb_data_set,
+                buffer_pool_param_dataset=cp.BUFFERPOOL, 
+                mode=cp.LOADMODE,
+                validation_msg="DFS4533I",
+                control_statements = {
+                  'managed_acbs': {
+                      'setup': True
+                  }
+                })
+
+    estimated_size_in_bytes = 0
+    response = hosts.all.command("dls -s " + cp.TEMP_ACB)
+    for result in response.contacted.values():
+      for line in result.get("stdout_lines", []):
+        lineList = line.split()
+        estimated_size_in_bytes = int(lineList[-1])
+      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+      assert estimated_size_in_unit == 200
+
+    purge_catalog(hosts, 
+                psb_lib=cp.PSBLIB, 
+                dbd_lib=cp.DBDLIB, 
+                steplib=cp.STEPLIB, 
+                reslib=cp.RESLIB, 
+                proclib=cp.PROCLIB, 
+                primary_log_dataset=cp.PRIMARYLOG, 
+                buffer_pool_param_dataset=cp.BUFFERPOOL, 
+                mode=cp.PURGEMODE,
+                validation_msg="",
+                delete=cp.DELETES,
+                managed_acbs=True)
+    
+    # Delete TEMP_ACB data set after the test
+    response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
+    for result in response.contacted.values():
+      assert result['changed'] == True
+      assert result['message'] == ''
+
+def test_creation_of_temp_acb_dataset_without_managed_acbs(ansible_zos_module):
+    hosts = ansible_zos_module
+    
+    # Delete TEMP_ACB data set before the test
+    response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
+    for result in response.contacted.values():
+      assert result['message'] == ''
+    
+    temp_acb_data_set = {
+      'dataset_name': cp.TEMP_ACB,
+      'disposition': 'NEW',
+      'normal_disposition': 'CATLG',
+      'primary': 200,
+      'volumes': ['222222']
+    }
+    load_catalog(hosts, 
+                psb_lib=cp.PSBLIB, 
+                dbd_lib=cp.DBDLIB, 
+                acb_lib=cp.ACBLIB, 
+                steplib=cp.STEPLIB, 
+                reslib=cp.RESLIB, 
+                proclib=cp.PROCLIB, 
+                primary_log_dataset=cp.PRIMARYLOG, 
+                temp_acb_dataset=temp_acb_data_set,
+                buffer_pool_param_dataset=cp.BUFFERPOOL, 
+                mode=cp.LOADMODE,
+                validation_msg="DFS4434I"
+                )
+
+    estimated_size_in_bytes = 0
+    response = hosts.all.command("dls -s " + cp.TEMP_ACB)
+    for result in response.contacted.values():
+      for line in result.get("stdout_lines", []):
+        lineList = line.split()
+        estimated_size_in_bytes = int(lineList[-1])
+      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+      assert estimated_size_in_unit == 200
+
+    purge_catalog(hosts, 
+                psb_lib=cp.PSBLIB, 
+                dbd_lib=cp.DBDLIB, 
+                steplib=cp.STEPLIB, 
+                reslib=cp.RESLIB, 
+                proclib=cp.PROCLIB, 
+                primary_log_dataset=cp.PRIMARYLOG, 
+                buffer_pool_param_dataset=cp.BUFFERPOOL, 
+                mode=cp.PURGEMODE,
+                validation_msg="",
+                delete=cp.DELETES,
+                managed_acbs=True)
+    
+    # Delete TEMP_ACB data set after the test
+    response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
+    for result in response.contacted.values():
+      assert result['changed'] == True
+      assert result['message'] == ''    
 
 
 def bytes_to_unit(number_of_bytes, unit):
