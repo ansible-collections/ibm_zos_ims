@@ -895,9 +895,12 @@ EXAMPLES = r'''
       - SOME.IMS.SDFSRESL
     steplib: 
       - SOME.IMS.SDFSRESL
-    proclib: SOME.IMS.PROCLIB
-    dbd_lib: SOME.IMS.DBDLIB
-    psb_lib: SOME.IMS.PSBLIB
+    proclib: 
+      - SOME.IMS.PROCLIB
+    dbd_lib: 
+      - SOME.IMS.DBDLIB
+    psb_lib: 
+      - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG
@@ -911,9 +914,12 @@ EXAMPLES = r'''
       - SOME.IMS.SDFSRESL
     steplib: 
       - SOME.IMS.SDFSRESL
-    proclib: SOME.IMS.PROCLIB
-    dbd_lib: SOME.IMS.DBDLIB
-    psb_lib: SOME.IMS.PSBLIB
+    proclib: 
+      - SOME.IMS.PROCLIB
+    dbd_lib: 
+      - SOME.IMS.DBDLIB
+    psb_lib: 
+      - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
     control_statements:
       managed_acbs:
@@ -927,9 +933,12 @@ EXAMPLES = r'''
       - SOME.IMS.SDFSRESL
     steplib: 
       - SOME.IMS.SDFSRESL
-    proclib: SOME.IMS.PROCLIB
-    dbd_lib: SOME.IMS.DBDLIB
-    psb_lib: SOME.IMS.PSBLIB
+    proclib: 
+      - SOME.IMS.PROCLIB
+    dbd_lib: 
+      - SOME.IMS.DBDLIB
+    psb_lib: 
+      - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG
