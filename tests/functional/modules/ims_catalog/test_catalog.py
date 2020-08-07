@@ -30,8 +30,8 @@ def test_catalog_load_simple(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.PURGEMODE,
-                # validation_msg="DFS4518I",
-                validation_msg="",
+                validation_msg="DFS4518I",
+                # validation_msg="",
                 sysut1=cp.SYSUT1,
                 delete=cp.DELETES)
 

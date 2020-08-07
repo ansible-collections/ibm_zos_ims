@@ -18,8 +18,8 @@ def test_catalog_purge_analysis(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.ANALYSISMODE,
-                # validation_msg="DFS4430I",
-                validation_msg="",
+                validation_msg="DFS4430I",
+                # validation_msg="",
                 sysut1=cp.SYSUT1,
                 changed=False
                 )
@@ -50,8 +50,8 @@ def test_catalog_update_retention(ansible_zos_module):
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.ANALYSISMODE,
                 update_retention_criteria=cp.RETENTION,
-                # validation_msg="UPDATE DBD",
-                validation_msg="",
+                validation_msg="UPDATE DBD",
+                # validation_msg="",
                 sysut1=cp.SYSUT1,
                 changed=False
                 )
@@ -65,7 +65,7 @@ def test_catalog_update_retention(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG, 
                 buffer_pool_param_dataset=cp.BUFFERPOOL, 
                 mode=cp.PURGEMODE,
-                # validation_msg="DFS4518I",
-                validation_msg="",
+                validation_msg="DFS4518I",
+                # validation_msg="",
                 sysut1=cp.SYSUT1,
                 delete=cp.DELETES)
