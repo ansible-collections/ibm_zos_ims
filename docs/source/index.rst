@@ -52,8 +52,8 @@ The IBM z/OS IMS collection includes `action plugins`_, `modules`_,
    :maxdepth: 1
    :caption: Getting Started
 
-   requirements
    installation
+   requirements
    playbooks
 
 .. toctree::

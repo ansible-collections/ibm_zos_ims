@@ -13,8 +13,8 @@ managed node as the **host**.
 
 Control node
 ============
-The controller is where the Ansible engine is installed which ends up
-running the playbook. Refer to our main documentation for more on
+The controller is where the Ansible engine that runs the playbook is installed.
+Refer to the RedHat Ansible Certified Content documentation for more on
 the `controllers dependencies`_.
 
 .. _controllers dependencies:
@@ -24,9 +24,10 @@ the `controllers dependencies`_.
 Managed node
 ============
 
-The managed z/OS node is the host that will be managed by Ansible identified in
-the Ansbiel inventory. The managed node requires dependencies that are specific
-to each release of the **IBM z/OS IMS collection**.
+The managed z/OS node is the host that is managed by Ansible, as identified in
+the Ansible inventory. The managed node has dependencies that are specific
+to each release of the **IBM z/OS IMS collection**. Review the details of the
+dependencies before you proceed to install the IBM z/OS IMS collection.
 
 .. toctree::
    :maxdepth: 3

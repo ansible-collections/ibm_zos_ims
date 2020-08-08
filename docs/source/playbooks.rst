@@ -12,11 +12,11 @@ a managed node (host) to be managed with Ansible.
 .. _Ansible playbook:
    https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html#playbooks-intro
 
-Sample playbooks are **included** in the **IBM z/OS IMS collection** that
-demonstrate how to use the collection content. You can find the samples on
+Sample playbooks that demonstrate how to use the collection content are **included**
+in the **IBM z/OS IMS collection**. You can find the samples on
 `Github`_ or in the collections playbooks directory included with the
 installation. For more information about the collections installation and
-hierarchy, refer to the main `installation`_ documentation.
+hierarchy, refer to the RedHat Ansible Certified Content `installation`_ documentation.
 
 .. _Github:
    https://github.com/ansible-collections/ibm_zos_ims/tree/master/playbooks

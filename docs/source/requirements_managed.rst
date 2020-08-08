@@ -18,14 +18,17 @@ Dependencies
 * `IBM IMS V15 or later`_
 
 .. note::
-   Currently, the only supported shell is the ``z/OS® shell``; this is because
-   shells such as ``bash`` handle the reading and writing of untagged files
-   differently. ``bash`` added enhanced ASCII support in 4.3 and thus differs
-   from 4.2; we encourage users avoid using ``ansible_shell_executable`` to
-   change the default shell as does `Ansible documentation`_. Should the
-   ``bash`` shell be the only shell available, you will need to control how
-   new and existing files are tagged and encoded, this can be controlled by
-   setting both "_ENCODE_FILE_NEW" and "_ENCODE_FILE_EXISTING"; for example,
+   Currently, only ``z/OS® shell`` is supported . Using ``ansible_shell_executable``
+   to change the default shell is discouraged. For more information, see
+   `Ansible documentation`_.
+
+   Shells such as ``bash``are not supported because they handle the reading and
+   writing of untagged files differently. ``bash`` added enhanced ASCII support
+   in 4.3 and thus differs from 4.2. If ``bash`` shell is the only shell
+   available, you will need to control how the new and existing files are tagged
+   and encoded. This can be controlled by
+   setting both "_ENCODE_FILE_NEW" and "_ENCODE_FILE_EXISTING".
+   For example,
 
    * _ENCODE_FILE_NEW: "IBM-1047"
    * _ENCODE_FILE_EXISTING: "IBM-1047"
