@@ -58,6 +58,11 @@ options:
       - The IRLM ID if IRLM is enabled. Cannot be specified when online_batch is true.
     type: str
     required: false
+  modstat:
+    description:
+      - Describes the IMS MODSTAT data set.
+    type: str
+    required: false
   reslib:
     description:
       - Points to an authorized library that contains the IMS SVC modules.
@@ -982,6 +987,7 @@ def run_module():
       ims_id=dict(type="str", required=False),
       dbrc=dict(type="bool", required=False),
       irlm_id=dict(type="str", required=False),
+      modstat=dict(type="str", required=False),
       reslib=dict(type="list", required=False),
       buffer_pool_param_dataset=dict(type="str", required=False),
       primary_log_dataset=dict(type="dict", required=False),

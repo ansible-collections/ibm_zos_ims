@@ -2,7 +2,7 @@ import pytest
 from pprint import pprint
 
 
-def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, proclib, primary_log_dataset,
+def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, modstat, proclib, primary_log_dataset,
           buffer_pool_param_dataset, acb_lib, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, control_statements=None, bootstrap_dataset=None, 
           directory_datasets=None, temp_acb_dataset=None, directory_staging_dataset=None, 
           secondary_log_dataset=None, sysabend=None, check_timestamp=None, rc=0, changed=True):
@@ -17,6 +17,7 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
         acb_lib=acb_lib,
         steplib=steplib,
         reslib=reslib,
+        modstat=modstat,
         proclib=proclib,
         sysabend=sysabend,
         check_timestamp=check_timestamp,
@@ -82,6 +83,7 @@ class CatalogInputParameters():
   PROCLIB = HLQ1 + HLQ2 + "PROCLIB"
   RESLIB = [HLQ1 + HLQ2 + "SDFSRESL"]    
   BUFFERPOOL = HLQ1 + HLQ2 + "PROCLIB(DFSVSMHP)"
+  MODSTAT = HLQ1 + HLQ2 + "MODSTAT"
   LOADMODE = "LOAD"
   UPDATEMODE = "UPDATE"
   PRIMARYLOG = {

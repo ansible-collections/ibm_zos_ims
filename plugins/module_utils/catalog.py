@@ -201,6 +201,10 @@ class catalog():
         iefrder2DDStatement = DDStatement("IEFRDER2", DatasetDefinition(**{k: v for k, v in self.parsed_args.get('secondary_log_dataset').items() if v is not None}))
         dDStatementList.append(iefrder2DDStatement)
       
+      if self.parsed_args.get('modstat') is not None:
+        modstatDDStatement = DDStatement("MODSTAT", DatasetDefinition(self.parsed_args.get('modstat')))
+        dDStatementList.append(modstatDDStatement)
+      
       if self.parsed_args.get('bootstrap_dataset') is not None:
         bootParams= {
           "record_length": 96,

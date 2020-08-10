@@ -58,6 +58,7 @@ class catalog_parser():
 
       try:
         module_defs = dict(
+          modstat=dict(arg_type="data_set", required=False),
           mode=dict(arg_type="str", required=True, choices=['LOAD', 'UPDATE', 'READ']),
           check_timestamp=dict(arg_type="bool", required=False),
           secondary_log_dataset=dict(arg_type="dict", 
