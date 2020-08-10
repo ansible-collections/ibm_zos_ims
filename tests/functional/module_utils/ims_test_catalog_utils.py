@@ -2,8 +2,8 @@ import pytest
 from pprint import pprint
 
 
-def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, modstat, proclib, primary_log_dataset,
-          buffer_pool_param_dataset, acb_lib, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, control_statements=None, bootstrap_dataset=None, 
+def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, proclib, primary_log_dataset,
+          buffer_pool_param_dataset, acb_lib, modstat=None, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, control_statements=None, bootstrap_dataset=None, 
           directory_datasets=None, temp_acb_dataset=None, directory_staging_dataset=None, 
           secondary_log_dataset=None, sysabend=None, check_timestamp=None, rc=0, changed=True):
 
