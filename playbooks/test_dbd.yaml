@@ -1,0 +1,21 @@
+---
+  - hosts: all
+    collections:
+      - ibm.ibm_zos_ims
+      - ibm.ibm_zos_core
+    gather_facts: no
+  
+    environment: "{{ environment_vars }}"
+  
+    tasks:
+      - name: DBDGEN
+        ims_dbd_gen:
+          src: IMSTESTU.ANSIBLE.DBD.SOURCE
+          location: DATA_SET
+          member_list:
+            ['DGSAM1']
+          "replace": true
+          dest: IMSTESTL.IMS1.DBDLIB
+          sys_lib:
+            - IMSBLD.I15RTSMM.SDFSMAC
+            - SYS1.MACLIB

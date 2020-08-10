@@ -76,6 +76,8 @@ def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, 
 class CatalogInputParameters():
   HLQ1 = "IMSTESTL."
   HLQ2 = "IMS1."
+  PSBSOURCE = "IMSTESTL.ANSIBLE.PSB.SRC"
+  DBDSOURCE = "IMSTESTL.ANSIBLE.DBD.SRC"
   PSBLIB = [HLQ1 + HLQ2 + "PSBLIB"]
   DBDLIB = [HLQ1 + HLQ2 + "DBDLIB"]
   ACBLIB = [HLQ1 + HLQ2 + "ACBLIB"]
@@ -84,6 +86,7 @@ class CatalogInputParameters():
   RESLIB = [HLQ1 + HLQ2 + "SDFSRESL"]    
   BUFFERPOOL = HLQ1 + HLQ2 + "PROCLIB(DFSVSMHP)"
   MODSTAT = HLQ1 + HLQ2 + "MODSTAT"
+  PSB_NAME = ["PGSAM1"]
   LOADMODE = "LOAD"
   UPDATEMODE = "UPDATE"
   PRIMARYLOG = {
