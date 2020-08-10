@@ -2,9 +2,9 @@
 .. © Copyright IBM Corporation 2020                                          .
 .. ...........................................................................
 
-=========
-z/OS Core
-=========
+========
+z/OS IMS
+========
 
 The **IBM z/OS core collection**, also represented as **ibm\_zos\_core**
 in this document, is part of the broader offering **Red Hat® Ansible
