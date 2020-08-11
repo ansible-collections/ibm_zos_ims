@@ -29,7 +29,7 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
               })
 
   # Generate vsam DBD
-  response = hosts.all.ims_dbd_gen(src=cp.DBDSOURCE, location="DATA_SET", replace=True, member_list=['DGSAM1'], dbd_name=None, dest=cp.DBDLIB, sys_lib=["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"])
+  response = hosts.all.ims_dbd_gen(src=cp.DBDSOURCE, location="DATA_SET", replace=True, member_list=['DGSAM1'], dbd_name=None, dest=cp.DBDDEST, sys_lib=["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"])
   for result in response.contacted.values():
       assert result['changed'] == True
       assert result['rc'] == 0
@@ -37,7 +37,7 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
       assert result['msg'] == 'DBDGEN execution was successful.'
 
   # Generate vsam PSB
-  response = hosts.all.ims_psb_gen(src=cp.PSBSOURCE, location="DATA_SET", replace=True, member_list=['PGSAM1'], psb_name=None, dest=cp.PSBLIB, sys_lib=["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"])
+  response = hosts.all.ims_psb_gen(src=cp.PSBSOURCE, location="DATA_SET", replace=True, member_list=['PGSAM1'], psb_name=None, dest=cp.PSBDEST, sys_lib=["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"])
   for result in response.contacted.values():
       assert result['changed'] == True
       assert result['rc'] == 0
@@ -45,7 +45,7 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
       assert result['msg'] == 'PSBGEN execution was successful.'
   
   # Add to ACBLIB
-  validate_acbgen(hosts, command_input=ac.COMMAND_INPUT_BUILD, psb_name=cp.PSB_NAME, psb_lib=cp.PSBLIB, dbd_lib=cp.DBDLIB, acb_lib=cp.ACBLIB, steplib=cp.STEPLIB, reslib=cp.RESLIB)
+  validate_acbgen(hosts, command_input=ac.COMMAND_INPUT_BUILD, psb_name=cp.PSB_NAME, psb_lib=cp.PSBLIB, dbd_lib=cp.DBDLIB, acb_lib=cp.ACBDEST, steplib=cp.STEPLIB, reslib=cp.RESLIB)
 
 
   # Add to the catalog staging directory
