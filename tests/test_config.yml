@@ -30,7 +30,6 @@ extra_args:
         //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
         //  MSGCLASS=H,NOTIFY=&SYSUID 
 
-        
 # host: ec33016a.vmec.svl.ibm.com
 # user: omvsadm
 # python_path: /python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3
