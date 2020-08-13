@@ -12,5 +12,3 @@ export ANSIBLE_CONNECTION_PLUGINS=${plugins_dir}/connection
 export ANSIBLE_CONFIG=$(pwd)/ansible.cfg
 
 python3 -m pytest --host-pattern=all --zinventory=${1:-test_config.yml} $2 -vvv
-
-#./run.sh test_config.yml functional/modules/ims_catalog/test_catalog.py
