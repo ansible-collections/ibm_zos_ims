@@ -21,7 +21,7 @@ authors:
   - Seema Phalke <seema.s.phalke@ibm.com> 
 
 # Description
-description: The IBM z/OS IMS collection includes action plugins, modules and sample playbooks to automate tasks for IBM IMS.
+description: The IBM z/OS IMS collection includes modules and sample playbooks to automate tasks for IBM IMS.
 
 
 # This collection is licensed under Apache License, Version 2.0
