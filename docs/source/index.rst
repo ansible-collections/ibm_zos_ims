@@ -37,12 +37,10 @@ community supported.
 Features
 ========
 
-The IBM z/OS IMS collection includes `action plugins`_, `modules`_,
+The IBM z/OS IMS collection includes `modules`_,
 `sample playbooks`_, and ansible-doc to automate tasks on z/OS.
 
 
-.. _action plugins:
-   https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/action/
 .. _modules:
     https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/modules/
 .. _sample playbooks:
