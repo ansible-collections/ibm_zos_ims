@@ -25,4 +25,5 @@ def test_ims_dbrc_sample(ansible_zos_module):
     )
     for result in results.contacted.values():
         pprint(result)
+        assert result['changed'] == True
         assert result['msg'] == em.SUCCESS_MSG

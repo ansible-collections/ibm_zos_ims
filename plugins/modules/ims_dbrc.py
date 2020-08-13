@@ -184,6 +184,8 @@ unformatted_output:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSDbrc import IMSDbrc  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
+from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
+import re
 
 def get_max_rc(raw_max_rc):
   if raw_max_rc:
@@ -193,6 +195,16 @@ def get_max_rc(raw_max_rc):
       result['msg'] = em.INVALID_MAX_RC
       module.fail_json(**result)
   else:
+    return None
+
+def get_step_lib_from_environment_var():
+  try:
+    step_lib_list = list(filter(None, re.split("[\\s,]+", env_fallback('STEPLIB'))))
+    result['steplibber'] = step_lib_list
+    return step_lib_list
+  except AnsibleFallbackNotFound:
+    # result['msg'] = "The input option 'steplib' is not provided. Please provide it in the environment variables 'STEPLIB', or in the module input option 'steplib'. "
+    # module.fail_json(**result)
     return None
 
 def run_module():
@@ -225,14 +237,17 @@ def run_module():
   )
 
   max_rc = get_max_rc(module.params['max_rc'])
+  combined_step_lib = module.params['steplib']
+  environ_step_lib = get_step_lib_from_environment_var()
+  if environ_step_lib:
+    combined_step_lib = module.params['steplib'] + environ_step_lib
   try:
     response = IMSDbrc.IMSDbrc(
       commands=module.params['command'],
-      steplib=module.params['steplib'],
+      steplib=combined_step_lib,
       dynalloc=module.params['dynalloc'],
       dbdlib=module.params['dbdlib'],
       genjcl=module.params['genjcl'],
-      # max_rc=module.params['max_rc'],
       jclout=module.params['jclout'],
       recon1=module.params['recon1'],
       recon2=module.params['recon2'],

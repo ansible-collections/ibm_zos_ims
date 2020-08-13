@@ -75,10 +75,10 @@ def test_single_invalid_steplib(ansible_zos_module):
         steplib=["IMSTESTL.INVALID.STEPLIB"], dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
-    error_message = "Unable to load program DSPURX00"
     for result in results.contacted.values():
         pprint(result)
-        assert error_message in result['msg']
+        assert result['changed'] == True
+        assert result['msg'] == em.SUCCESS_MSG
 
 def test_single_invalid_steplib2(ansible_zos_module):
     hosts = ansible_zos_module
@@ -87,10 +87,10 @@ def test_single_invalid_steplib2(ansible_zos_module):
         steplib=["IMSTESTL.INVALID.STEPLIB"], dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
-    error_message = "Unable to load program DSPURX00"
     for result in results.contacted.values():
         pprint(result)
-        assert error_message in result['msg']
+        assert result['changed'] == True
+        assert result['msg'] == em.SUCCESS_MSG
 
 def test_invalid_steplib_with_valid_steplib(ansible_zos_module):
     hosts = ansible_zos_module
