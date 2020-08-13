@@ -20,6 +20,9 @@ description:
     all instances of a DBD version, or an entire DBD or PSB record from the IMS catalog. You can also analyze
     the catalog and generate delete statements for ACBs eligible for deletion, as well as update the ACB retention
     criteria.
+
+author:
+  - Jerry Li (@th365thli)
 options:
   mode:
     description:
@@ -419,8 +422,6 @@ notes:
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
   - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB data set.
   - Specifying only I(reslib) without I(steplib) is not supported.
-author:
-  - Jerry Li 
 '''
 
 EXAMPLES = r'''
