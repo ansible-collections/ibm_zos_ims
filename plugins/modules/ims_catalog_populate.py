@@ -363,7 +363,6 @@ options:
   acb_lib:
     description:
       - Defines an ACB library data set that contains the ACB members that are used to populate the IMS catalog.
-        This DD statement is required.
     type: list
     elements: str
     required: true
