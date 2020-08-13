@@ -21,7 +21,7 @@ DOCUMENTATION = r'''
 ---
 
 module: ims_catalog_populate
-short_description: Add data sets to the  IMS Catalog
+short_description: Add records to the  IMS Catalog
 version_added: "2.9"
 description:
   - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances
