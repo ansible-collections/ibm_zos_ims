@@ -26,6 +26,9 @@ version_added: "2.9"
 description:
   - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances
     into the database data sets of the IMS catalog from ACB library data sets.
+    
+author:
+  - Jerry Li (@th365thli)
 options:
   mode:
     description:
@@ -883,8 +886,6 @@ notes:
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
   - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB data set.
   - Specifying only I(reslib) without I(steplib) is not supported.
-author:
-  - Jerry Li
 '''
 
 EXAMPLES = r'''
