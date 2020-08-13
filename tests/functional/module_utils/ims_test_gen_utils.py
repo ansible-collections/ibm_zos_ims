@@ -5,7 +5,7 @@ class DBDInputParameters():
     EMPTY_SEQ_SOURCE = "IMSTESTL.ANS.SEQEMP"
     FB_DESTINATION = "IMSTESTL.ANS.RECFOR"
     SYSLIB = ["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"]
-    REMOTE_DBDGEN02_SOURCE = "/tmp/dbdgen02.dbd"
+    REMOTE_DBDGEN02_SOURCE = "/tmp/dbdgen02"
     REMOTE_DBDGEN04_SOURCE = "/tmp/dbdgen04"
     LOCAL_EMPTY_SOURCE = "functional/modules/ims_dbd_gen/uss_file/data/dbdgenEmptyInput"
     DESTINATION_RF = "IMSTESTL.ANS.RECFOR"
