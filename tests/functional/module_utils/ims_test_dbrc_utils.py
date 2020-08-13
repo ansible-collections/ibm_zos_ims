@@ -10,7 +10,7 @@ class DBRCInputParameters():
     ]
     DBDLIB = HLQ1 + HLQ2 + "DBDLIB"
     DYNALLOC = HLQ1 + HLQ2 + "SDFSRESL"
-    GENJCL = HLQ1 + HLQ2 + "GENJCL"
+    GENJCL = HLQ1 + HLQ2 + "PROCLIB"
     JCLOUT = HLQ1 + HLQ2 + "JCLOUT"
     RECON1 = HLQ1 + HLQ2 + "RECON1"
     RECON2 = HLQ1 + HLQ2 + "RECON2"
