@@ -9,14 +9,6 @@ ANSIBLE_METADATA = {
   'supported_by': 'community'
 }
 
-
-# ToDo:
-# - update dfsreslb to match what is being used for acblib. We also want to be able to take the variable input as precedence but if not supplied will search for an reslib env variable.
-# - can add additional detail on buffer pool configuration https://www.ibm.com/support/knowledgecenter/SS6SUT_1.4.0/com.ibm.imstools.bpl14.doc.ug/topics/bplucon_definepools.htm
-# - If things are optional, state under what circumstances parameters should or shouldnt be required.
-#   Given that the directory datasets are not required regardless of mACB, is this still relevant? Is reslib required?
-
-
 DOCUMENTATION = r'''
 ---
 
