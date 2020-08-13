@@ -13,7 +13,7 @@ DOCUMENTATION = r'''
 ---
 
 module: ims_catalog_purge
-short_description: Purge data sets from the IMS Catalog
+short_description: Purge records from the IMS Catalog
 version_added: "2.9"
 description:
   - The IMS Catalog Purge  utility DFS3PU10 removes the segments that represent a DBD or PSB instance,
