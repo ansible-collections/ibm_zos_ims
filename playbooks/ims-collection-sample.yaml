@@ -240,6 +240,25 @@
               member_name: 'PG*'
               time_stamp: '*'
           managed_acbs: true
-      
+
+      - name: Sample DBRC Module -- LIST commands
+        ims_dbrc:
+          command:
+            - "LIST.RECON STATUS"
+            - "LIST.DB ALL"
+            - "LIST.LOG"
+            - "LIST.CAGRP"
+          steplib:
+            - IMSTESTU.IMS1501.MARKER
+            - IMSTESTL.IMS1.EXITLIB
+            - IMSTESTG.IMS15R.TSTRES
+            - IMSBLD.IMS15R.USERLIB
+            - IMSBLD.I15RTSMM.CRESLIB
+          dbd_lib: IMSTESTL.IMS1.DBDLIB
+          genjcl_input_dataset: IMSTESTL.IMS1.PROCLIB
+          genjcl_output_dataset: IMSTESTL.IMS1.JCLOUT
+          recon1: IMSTESTL.IMS1.RECON1
+          recon2: IMSTESTL.IMS1.RECON2
+          recon3: IMSTESTL.IMS1.RECON3      
   
   # ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml
