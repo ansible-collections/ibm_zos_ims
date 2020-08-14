@@ -21,35 +21,35 @@ class IMSDbrc():
         "OFF": False
     }
 
-    def __init__(self, commands, steplib, dynalloc=None, dbdlib=None, jclout=None, genjcl=None, recon1=None, recon2=None, recon3=None):
+    def __init__(self, commands, steplib, dynamic_allocation_dataset=None, dbd_lib=None, genjcl_ouput_dataset=None, genjcl_input_dataset=None, recon1=None, recon2=None, recon3=None):
         """IMSDBRC constructor used to run DBRC commands using zos_raw.
 
         Args:
             commands (str, list[str]): List of the DBRC commands to be executed.
             steplib (str, list[str]): List of STEPLIB datasets that contain the IMS nucleus and the
                 required action modules.
-            dynalloc (str, optional): The DYNALLOC data set that will be used to complete the DBRC
+            dynamic_allocation_dataset (str, optional): The dynamic allocation data set that will be used to complete the DBRC
                 execution. Required if 'recon1', 'recon2', and 'recon3' are not specified. Defaults to None.
-            dbdlib (str, optional): The data set that contains the database descriptions for the databases
+            dbd_lib (str, optional): The data set that contains the database descriptions for the databases
                 that are under the control of DBRC. Defaults to None.
-            jclout (str, optional): The data set which is to receive generated JCL. It is required only for
+            genjcl_ouput_dataset (str, optional): The data set which is to receive generated JCL. It is required only for
                 the GENJCL commands. Defaults to None.
-            genjcl (str, optional): The PDS, which contains the JCL and control statements for the utility
+            genjcl_input_dataset (str, optional): The PDS, which contains the JCL and control statements for the utility
                 that DBRC uses to generate a job. Defaults to None.
             recon1 (str, optional): The RECON1 data set that will be used to complete the DBRC execution.
-                Defaults to None. Required if 'dynalloc' is not specified.
+                Defaults to None. Required if 'dynamic_allocation_dataset' is not specified.
             recon2 (str, optional): The RECON2 data set that will be used to complete the DBRC execution.
-                Defaults to None. Required if 'dynalloc' is not specified.
+                Defaults to None. Required if 'dynamic_allocation_dataset' is not specified.
             recon3 (str, optional): The RECON3 data set that will be used to complete the DBRC execution.
-                Defaults to None. Required if 'dynalloc' is not specified.
+                Defaults to None. Required if 'dynamic_allocation_dataset' is not specified.
         """
         self.commands = commands
         self._original_commands = commands
         self.steplib_list = steplib
-        self.dynalloc = dynalloc
-        self.dbdlib = dbdlib
-        self.jclout = jclout
-        self.genjcl = genjcl
+        self.dynamic_allocation_dataset = dynamic_allocation_dataset
+        self.dbd_lib = dbd_lib
+        self.genjcl_ouput_dataset = genjcl_ouput_dataset
+        self.genjcl_input_dataset = genjcl_input_dataset
         self.recon1 = recon1
         self.recon2 = recon2
         self.recon3 = recon3
@@ -76,14 +76,14 @@ class IMSDbrc():
             self.commands = [self.commands.strip().replace(" ", " -\n")]
 
     def _assert_dynalloc_recon_requirement(self):
-        """This assertion function validates that either the 'dynalloc' parameter was specified, or 
+        """This assertion function validates that either the 'dynamic_allocation_dataset' parameter was specified, or 
         all of the recon parameters were specified. This is a requirement to run the DBRC utility.
 
         Raises:
-            ValueError: Neither dynalloc nor all three recon data sets were specified.
+            ValueError: Neither dynamic_allocation_dataset nor all three recon data sets were specified.
         """
         # TODO: Determine if each of the RECONs need to be present or just 1 minimum
-        if not self.dynalloc and not (self.recon1 and self.recon2 and self.recon3):
+        if not self.dynamic_allocation_dataset and not (self.recon1 and self.recon2 and self.recon3):
             raise ValueError(em.DYNALLOC_RECON_REQUIREMENT_MSG)
 
     def _assert_valid_input_types(self):
@@ -104,16 +104,16 @@ class IMSDbrc():
         elif not isinstance(self.steplib_list, list) or not all(isinstance(steplib, str) for steplib in self.steplib_list):
             raise TypeError(em.INCORRECT_STEPLIB_TYPE)
 
-        if self.dbdlib and not isinstance(self.dbdlib, str):
+        if self.dbd_lib and not isinstance(self.dbd_lib, str):
             raise TypeError(em.INCORRECT_DBDLIB_TYPE)
 
-        if self.dynalloc and not isinstance(self.dynalloc, str):
+        if self.dynamic_allocation_dataset and not isinstance(self.dynamic_allocation_dataset, str):
             raise TypeError(em.INCORRECT_DYNALLOC_TYPE)
 
-        if self.jclout and not isinstance(self.jclout, str):
+        if self.genjcl_ouput_dataset and not isinstance(self.genjcl_ouput_dataset, str):
             raise TypeError(em.INCORRECT_JCLOUT_TYPE)
 
-        if self.genjcl and not isinstance(self.genjcl, str):
+        if self.genjcl_input_dataset and not isinstance(self.genjcl_input_dataset, str):
             raise TypeError(em.INCORRECT_GENJCL_TYPE)
 
         if self.recon1 and not isinstance(self.recon1, str):
@@ -260,9 +260,6 @@ class IMSDbrc():
             dbrc_utility_fields (list[str]): List that contains DDStatement objects.
         """
         if data_set:
-            # if name == 'jclout':
-            #     dbrc_utility_fields.append(DDStatement(name, DatasetDefinition(data_set, disposition='NEW', type='SEQ')))
-            # else:
             dbrc_utility_fields.append(DDStatement(name, DatasetDefinition(data_set)))
 
     def _build_utility_statements(self):
@@ -274,17 +271,16 @@ class IMSDbrc():
         """
         dbrc_utility_fields = []
         steplib_data_set_definitions = [DatasetDefinition(steplib) for steplib in self.steplib_list]
-        if self.dynalloc:
-            steplib_data_set_definitions.append(DatasetDefinition(self.dynalloc))
+        if self.dynamic_allocation_dataset:
+            steplib_data_set_definitions.append(DatasetDefinition(self.dynamic_allocation_dataset))
         steplib = DDStatement("steplib", steplib_data_set_definitions)
         dbrc_utility_fields.append(steplib)
         self._add_utility_statement("recon1", self.recon1, dbrc_utility_fields)
         self._add_utility_statement("recon2", self.recon2, dbrc_utility_fields)
         self._add_utility_statement("recon3", self.recon3, dbrc_utility_fields)
-        self._add_utility_statement("jclpds", self.genjcl, dbrc_utility_fields)
-        self._add_utility_statement("jclout", self.jclout, dbrc_utility_fields)
-        self._add_utility_statement("ims", self.dbdlib, dbrc_utility_fields)
-        # dbrc_utility_fields.append(DDStatement("JCLOUT", DatasetDefinition("IMSBANK2.IMS1.JCLOUT", type="SEQ")))
+        self._add_utility_statement("jclpds", self.genjcl_input_dataset, dbrc_utility_fields)
+        self._add_utility_statement("genjcl", self.genjcl_ouput_dataset, dbrc_utility_fields)
+        self._add_utility_statement("ims", self.dbd_lib, dbrc_utility_fields)
         dbrc_commands = StdinDefinition("\n".join(self.commands))
         sysin = DDStatement("sysin", dbrc_commands)
         sysprint = DDStatement("sysprint", StdoutDefinition())
@@ -305,7 +301,6 @@ class IMSDbrc():
         try:
             dbrc_utility_fields = self._build_utility_statements()
             response = MVSCmd.execute(IMSDbrc.DBRC_UTILITY, dbrc_utility_fields)
-            # print("OUTPUT STARTS HERE ", response.stdout)
             fields, original_output, failure_detected = self._parse_output(response.stdout)
             # fields, original_output = self._parse_output(TEST_INPUT)
             res = {

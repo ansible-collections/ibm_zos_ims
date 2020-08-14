@@ -11,7 +11,7 @@ def test_delete_db_for_clean_up_before(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["DELETE.DB DBD(TESTDB)"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
@@ -21,7 +21,7 @@ def test_init_db_command(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["INIT.DB DBD(TESTDB) SHARELVL(1) TYPEFP"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
@@ -33,7 +33,7 @@ def test_genjcl_image_copy_command(ansible_zos_module):
     results = hosts.all.ims_dbrc(
         command=["CHANGE.DB DBD(TESTDB) ALTER NOAUTH ICREQ  TYPEIMS NORAND"],
         # command=["GENJCL.IC DBD(TESTDB) COPIES(1)"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
@@ -44,7 +44,7 @@ def test_delete_db_for_clean_up_after(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["DELETE.DB DBD(TESTDB)"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
@@ -59,7 +59,7 @@ def test_init_change_delete_all_together(ansible_zos_module):
             "CHANGE.DB DBD(TESTDB2) ALTER NOAUTH ICREQ TYPEIMS NORAND",
             "DELETE.DB DBD(TESTDB2)"
             ],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
@@ -70,7 +70,7 @@ def test_delete_log_random(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["DELETE.LOG STARTIME(07054121212023456) INTERIM"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():

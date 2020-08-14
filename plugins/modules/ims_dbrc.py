@@ -32,25 +32,27 @@ options:
       - This is the well-formatted DBRC command to submit.
     type: list
     required: true
-  dbdlib:
+  dbd_lib:
     description:
       - The data set that contains the descriptions for the databases that are under the control of DBRC.
     type: str
     required: false
-  dynalloc:
+  dynamic_allocation_dataset:
     description:
-      - The DYNALLOC data set that will be used to complete the DBRC execution.
-      - Required if `recon` is not specified.
+      - The dynamic allocation data set that will be used to complete the DBRC execution.
+      - Required if `recon1`, `recon2`, and `recon3` are not specified.
     type: str
     required: false
-  genjcl:
+  genjcl_input_dataset:
     description:
-      - The PDS, which contains the JCL and control statements for the utility that DBRC uses to generate a job.
+      - The PDS, which contains the skeletal JCL members used by the DBRC utility to generate JCL.
+      - Equivalent to the JCLPDS control statement.
     type: str
     required: false
-  jclout:
+  genjcl_ouput_dataset:
     description:
       - The data set which is to receive the generated JCL. It is required only for the GENJCL commands.
+      - Equivalent to the JCLOUT control statement.
     type: str
     required: false
   max_rc:
@@ -61,19 +63,19 @@ options:
   recon1:
     description:
       - The RECON1 data set that will be used to complete the DBRC execution.
-      - Required if `dynalloc` is not specified.
+      - Required if `dynamic_allocation_dataset` is not specified.
     type: str
     required: false
   recon2:
     description:
       - The RECON2 data set that will be used to complete the DBRC execution.
-      - Required if `dynalloc` is not specified.
+      - Required if `dynamic_allocation_dataset` is not specified.
     type: str
     required: false
   recon3:
     description:
       - The RECON3 data set that will be used to complete the DBRC execution.
-      - Required if `dynalloc` is not specified.
+      - Required if `dynamic_allocation_dataset` is not specified.
     type: str
     required: false
   steplib:
@@ -93,11 +95,12 @@ EXAMPLES = '''
       - IMSTESTG.IMS15R.TSTRES
       - IMSBLD.IMS15R.USERLIB
       - IMSBLD.I15RTSMM.CRESLIB
-    dynalloc: IMSTESTL.IMS1.DYNALLOC
-    genjcl: IMSTESTL.IMS1.GENJCL
-    dbdlib: IMSTESTL.IMS1.DBDLIB
+    dbd_lib: IMSTESTL.IMS1.DBDLIB
+    genjcl_input_dataset: IMSTESTL.IMS1.GENJCL
+    genjcl_output_dataset: IMSTESTL.IMS1.JCLOUT
+    dynamic_allocation_dataset: IMSTESTL.IMS1.DYNALLOC
 
-- name: Sample DBRC Multiple Commands with Dynalloc Specified
+- name: Sample DBRC Multiple Commands with dynamic_allocation_dataset Specified
   ims_dbrc:
     command: 
       - LIST.RECON STATUS
@@ -109,9 +112,10 @@ EXAMPLES = '''
       - IMSTESTG.IMS15R.TSTRES
       - IMSBLD.IMS15R.USERLIB
       - IMSBLD.I15RTSMM.CRESLIB
-    dynalloc: IMSTESTL.IMS1.DYNALLOC
-    genjcl: IMSTESTL.IMS1.GENJCL
-    dbdlib: IMSTESTL.IMS1.DBDLIB
+    dbd_lib: IMSTESTL.IMS1.DBDLIB
+    genjcl_input_dataset: IMSTESTL.IMS1.GENJCL
+    genjcl_output_dataset: IMSTESTL.IMS1.JCLOUT
+    dynamic_allocation_dataset: IMSTESTL.IMS1.SDFSRESL
 
 - name: Sample DBRC Multiple Commands with RECON specified
   ims_dbrc:
@@ -125,11 +129,12 @@ EXAMPLES = '''
       - IMSTESTG.IMS15R.TSTRES
       - IMSBLD.IMS15R.USERLIB
       - IMSBLD.I15RTSMM.CRESLIB
-    genjcl: IMSTESTL.IMS1.GENJCL
+    dbd_lib: IMSTESTL.IMS1.DBDLIB
+    genjcl_input_dataset: IMSTESTL.IMS1.GENJCL
+    genjcl_output_dataset: IMSTESTL.IMS1.JCLOUT
     recon1: IMSTESTL.IMS1.RECON1
     recon2: IMSTESTL.IMS1.RECON2
     recon3: IMSTESTL.IMS1.RECON3
-    dbdlib: IMSTESTL.IMS1.DBDLIB
 '''
 
 RETURN = '''
@@ -203,18 +208,16 @@ def get_step_lib_from_environment_var():
     result['steplibber'] = step_lib_list
     return step_lib_list
   except AnsibleFallbackNotFound:
-    # result['msg'] = "The input option 'steplib' is not provided. Please provide it in the environment variables 'STEPLIB', or in the module input option 'steplib'. "
-    # module.fail_json(**result)
     return None
 
 def run_module():
   global module, result
   module_args = dict(
     command=dict(type='list', required=True),
-    dbdlib=dict(type='str', required=False),
-    dynalloc=dict(type='str', required=False),
-    genjcl=dict(type='str', required=False),
-    jclout=dict(type='str', required=False),
+    dbd_lib=dict(type='str', required=False),
+    dynamic_allocation_dataset=dict(type='str', required=False),
+    genjcl_input_dataset=dict(type='str', required=False),
+    genjcl_ouput_dataset=dict(type='str', required=False),
     max_rc=dict(type='str', required=False),
     recon1=dict(type='str', required=False),
     recon2=dict(type='str', required=False),
@@ -245,10 +248,10 @@ def run_module():
     response = IMSDbrc.IMSDbrc(
       commands=module.params['command'],
       steplib=combined_step_lib,
-      dynalloc=module.params['dynalloc'],
-      dbdlib=module.params['dbdlib'],
-      genjcl=module.params['genjcl'],
-      jclout=module.params['jclout'],
+      dbd_lib=module.params['dbd_lib'],
+      dynamic_allocation_dataset=module.params['dynamic_allocation_dataset'],
+      genjcl_input_dataset=module.params['genjcl_input_dataset'],
+      genjcl_ouput_dataset=module.params['genjcl_ouput_dataset'],
       recon1=module.params['recon1'],
       recon2=module.params['recon2'],
       recon3=module.params['recon3']).execute()

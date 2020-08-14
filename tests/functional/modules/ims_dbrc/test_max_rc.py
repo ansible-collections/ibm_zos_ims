@@ -10,7 +10,7 @@ def test_delete_db_that_does_not_exist_without_max_rc(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["DELETE.DB DBD(DOESNOTEXIST2)"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
@@ -21,7 +21,7 @@ def test_delete_db_that_does_not_exist(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["DELETE.DB DBD(DOESNOTEXIST)"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3, max_rc="12"
     )
     for result in results.contacted.values():
@@ -32,7 +32,7 @@ def test_max_rc_not_high_enough(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["DELETE.DB DBD(DOESNOTEXIST)"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3, max_rc="4"
     )
     for result in results.contacted.values():
@@ -43,7 +43,7 @@ def test_delete_db_that_does_not_exist_different_max_rc(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["DELETE.DB DBD(DOESNOTEXIST2)"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3, max_rc=12
     )
     for result in results.contacted.values():

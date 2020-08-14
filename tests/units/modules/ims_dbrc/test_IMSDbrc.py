@@ -27,7 +27,7 @@ test_data_IMSDbrc_extraction_values = [
 @pytest.mark.parametrize("line_input, expected_output_dict", test_data_IMSDbrc_extraction_values)
 def test_IMSDbrc_extract_values(zos_import_mocker, line_input, expected_output_dict):
     # mocker, importer = zos_import_mocker
-    imsdbrc = IMSDbrc("SAMPLE COMMAND", "SAMPLE STEPLIB", dynalloc="SAMPLE DYNALLOC")
+    imsdbrc = IMSDbrc("SAMPLE COMMAND", "SAMPLE STEPLIB", dynamic_allocation_dataset="SAMPLE DYNALLOC")
     actual_output = imsdbrc._extract_values(line_input)
     assert len(actual_output) == len(expected_output_dict)
     print(actual_output)

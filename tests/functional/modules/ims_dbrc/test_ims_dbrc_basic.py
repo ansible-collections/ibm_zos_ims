@@ -17,12 +17,11 @@ def test_ims_dbrc_valid_1(ansible_zos_module):
         command = [
             "INIT.DB DBD(TESTDB)",
             "LIST.DBDS DBD(TESTDB)",
-            # "CHANGE.DB DBD(TESTDB) ALTER NOAUTH ICREQ  TYPEIMS NORAND",
             "DELETE.DB DBD(TESTDB)"],
         steplib = ip.STEPLIB,
-        dynalloc = ip.DYNALLOC, 
-        genjcl = ip.GENJCL,
-        dbdlib = ip.DBDLIB
+        dynamic_allocation_dataset = ip.DYNALLOC, 
+        genjcl_input_dataset = ip.GENJCL_INPUT_DS,
+        dbd_lib = ip.DBD_LIB
     )
     for result in results.contacted.values():
         pprint(result)
@@ -35,14 +34,13 @@ def test_ims_dbrc_valid_1a(ansible_zos_module):
     results = hosts.all.ims_dbrc(
         command = "DELETE.DB DBD(TESTDB)",
         steplib = ip.STEPLIB,
-        dynalloc = ip.DYNALLOC, 
-        genjcl = ip.GENJCL,
-        dbdlib = ip.DBDLIB,
+        dynamic_allocation_dataset = ip.DYNALLOC, 
+        genjcl_input_dataset = ip.GENJCL_INPUT_DS,
+        dbd_lib = ip.DBD_LIB,
         max_rc = 12
     )
     for result in results.contacted.values():
         pprint(result)
-        # assert result['rc'] <= 4
         assert result['msg'] == em.SUCCESS_MSG
 
 def test_ims_dbrc_sample(ansible_zos_module):
@@ -55,8 +53,8 @@ def test_ims_dbrc_sample(ansible_zos_module):
             "LIST.LOG",
             "LIST.CAGRP"],
         steplib=ip.STEPLIB,
-        dbdlib=ip.DBDLIB,
-        genjcl=ip.GENJCL,
+        dbd_lib=ip.DBD_LIB,
+        genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1,
         recon2=ip.RECON2,
         recon3=ip.RECON3
@@ -71,9 +69,9 @@ def test_ims_dbrc_valid_2_commands(ansible_zos_module):
     results = hosts.all.ims_dbrc(
         command = ["LIST.RECON STATUS", "LIST.DB ALL "],
         steplib=ip.STEPLIB,
-        dynalloc=ip.DYNALLOC,
-        genjcl=ip.GENJCL,
-        dbdlib=ip.DBDLIB,
+        dynamic_allocation_dataset=ip.DYNALLOC,
+        genjcl_input_dataset=ip.GENJCL_INPUT_DS,
+        dbd_lib=ip.DBD_LIB,
         recon1=ip.RECON1,
         recon2=ip.RECON2,
         recon3=ip.RECON3
@@ -88,9 +86,9 @@ def test_ims_dbrc_valid_3_commands(ansible_zos_module):
     results = hosts.all.ims_dbrc(
         command = ["LIST.RECON STATUS", "LIST.DB ALL", "LIST.DBDS DBD(CUSTOMER)"],
         steplib=ip.STEPLIB,
-        dynalloc=ip.DYNALLOC,
-        genjcl=ip.GENJCL,
-        dbdlib=ip.DBDLIB,
+        dynamic_allocation_dataset=ip.DYNALLOC,
+        genjcl_input_dataset=ip.GENJCL_INPUT_DS,
+        dbd_lib=ip.DBD_LIB,
         recon1=ip.RECON1,
         recon2=ip.RECON2,
         recon3=ip.RECON3

@@ -10,7 +10,7 @@ def test_single_change_command_no_parameters(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["CHANGE.RECON"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
@@ -24,7 +24,7 @@ def test_single_change_command_incorrect_parameters(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["CHANGE.PRILOG NORMAL"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
@@ -35,7 +35,7 @@ def test_single_change_command(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["CHANGE.PRILOG"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():

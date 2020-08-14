@@ -10,7 +10,7 @@ def test_single_list_command(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["LIST.RECON STATUS"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():
@@ -24,8 +24,8 @@ def test_single_list_command_with_dynalloc_no_genjcl_nor_recon(ansible_zos_modul
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["LIST.RECON STATUS"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB,
-        dynalloc=ip.DYNALLOC
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB,
+        dynamic_allocation_dataset=ip.DYNALLOC
     )
     for result in results.contacted.values():
         pprint(result)
@@ -38,9 +38,9 @@ def test_single_list_command_with_dynalloc_and_recon(ansible_zos_module):
     hosts = ansible_zos_module
     results = hosts.all.ims_dbrc(
         command=["LIST.RECON STATUS"],
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3,
-        dynalloc=ip.DYNALLOC
+        dynamic_allocation_dataset=ip.DYNALLOC
     )
     for result in results.contacted.values():
         pprint(result)
@@ -60,7 +60,7 @@ def test_multiple_list_commands(ansible_zos_module):
     ]
     results = hosts.all.ims_dbrc(
         command=commands,
-        steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+        steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
         recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3
     )
     for result in results.contacted.values():

@@ -254,8 +254,9 @@
             - IMSTESTG.IMS15R.TSTRES
             - IMSBLD.IMS15R.USERLIB
             - IMSBLD.I15RTSMM.CRESLIB
-          dbdlib: IMSTESTL.IMS1.DBDLIB
-          genjcl: IMSTESTL.IMS1.GENJCL
+          dbd_lib: IMSTESTL.IMS1.DBDLIB
+          genjcl_input_dataset: IMSTESTL.IMS1.PROCLIB
+          genjcl_output_dataset: IMSTESTL.IMS1.JCLOUT
           recon1: IMSTESTL.IMS1.RECON1
           recon2: IMSTESTL.IMS1.RECON2
           recon3: IMSTESTL.IMS1.RECON3      

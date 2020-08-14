@@ -13,7 +13,7 @@ def test_invalid_max_rc(ansible_zos_module):
     for invalid_rc in invalid_max_rc:
         results = hosts.all.ims_dbrc(
             command=["LIST.RECON STATUS"],
-            steplib=ip.STEPLIB, dbdlib=ip.DBDLIB, genjcl=ip.GENJCL,
+            steplib=ip.STEPLIB, dbd_lib=ip.DBD_LIB, genjcl_input_dataset=ip.GENJCL_INPUT_DS,
             recon1=ip.RECON1, recon2=ip.RECON2, recon3=ip.RECON3, max_rc=invalid_rc
         )
         for result in results.contacted.values():
