@@ -22,7 +22,7 @@ Dependencies
    to change the default shell is discouraged. For more information, see
    `Ansible documentation`_.
 
-   Shells such as ``bash``are not supported because they handle the reading and
+   Shells such as ``bash`` are not supported because they handle the reading and
    writing of untagged files differently. ``bash`` added enhanced ASCII support
    in 4.3 and thus differs from 4.2. If ``bash`` shell is the only shell
    available, you will need to control how the new and existing files are tagged
