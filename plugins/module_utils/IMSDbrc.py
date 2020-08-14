@@ -21,7 +21,7 @@ class IMSDbrc():
         "OFF": False
     }
 
-    def __init__(self, commands, steplib, dynamic_allocation_dataset=None, dbd_lib=None, genjcl_ouput_dataset=None, genjcl_input_dataset=None, recon1=None, recon2=None, recon3=None):
+    def __init__(self, commands, steplib, dynamic_allocation_dataset=None, dbd_lib=None, genjcl_output_dataset=None, genjcl_input_dataset=None, recon1=None, recon2=None, recon3=None):
         """IMSDBRC constructor used to run DBRC commands using zos_raw.
 
         Args:
@@ -32,7 +32,7 @@ class IMSDbrc():
                 execution. Required if 'recon1', 'recon2', and 'recon3' are not specified. Defaults to None.
             dbd_lib (str, optional): The data set that contains the database descriptions for the databases
                 that are under the control of DBRC. Defaults to None.
-            genjcl_ouput_dataset (str, optional): The data set which is to receive generated JCL. It is required only for
+            genjcl_output_dataset (str, optional): The data set which is to receive generated JCL. It is required only for
                 the GENJCL commands. Defaults to None.
             genjcl_input_dataset (str, optional): The PDS, which contains the JCL and control statements for the utility
                 that DBRC uses to generate a job. Defaults to None.
@@ -48,7 +48,7 @@ class IMSDbrc():
         self.steplib_list = steplib
         self.dynamic_allocation_dataset = dynamic_allocation_dataset
         self.dbd_lib = dbd_lib
-        self.genjcl_ouput_dataset = genjcl_ouput_dataset
+        self.genjcl_output_dataset = genjcl_output_dataset
         self.genjcl_input_dataset = genjcl_input_dataset
         self.recon1 = recon1
         self.recon2 = recon2
@@ -110,7 +110,7 @@ class IMSDbrc():
         if self.dynamic_allocation_dataset and not isinstance(self.dynamic_allocation_dataset, str):
             raise TypeError(em.INCORRECT_DYNALLOC_TYPE)
 
-        if self.genjcl_ouput_dataset and not isinstance(self.genjcl_ouput_dataset, str):
+        if self.genjcl_output_dataset and not isinstance(self.genjcl_output_dataset, str):
             raise TypeError(em.INCORRECT_JCLOUT_TYPE)
 
         if self.genjcl_input_dataset and not isinstance(self.genjcl_input_dataset, str):
@@ -279,7 +279,7 @@ class IMSDbrc():
         self._add_utility_statement("recon2", self.recon2, dbrc_utility_fields)
         self._add_utility_statement("recon3", self.recon3, dbrc_utility_fields)
         self._add_utility_statement("jclpds", self.genjcl_input_dataset, dbrc_utility_fields)
-        self._add_utility_statement("genjcl", self.genjcl_ouput_dataset, dbrc_utility_fields)
+        self._add_utility_statement("genjcl", self.genjcl_output_dataset, dbrc_utility_fields)
         self._add_utility_statement("ims", self.dbd_lib, dbrc_utility_fields)
         dbrc_commands = StdinDefinition("\n".join(self.commands))
         sysin = DDStatement("sysin", dbrc_commands)

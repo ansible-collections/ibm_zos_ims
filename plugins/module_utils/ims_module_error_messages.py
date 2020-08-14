@@ -22,7 +22,7 @@ class DBRCErrorMessages():
     INCORRECT_DBDLIB_TYPE = "'dbd_lib' must be a string."
     INCORRECT_DYNALLOC_TYPE = "'dynamic_allocation_dataset' must be a string."
     INCORRECT_GENJCL_TYPE = "'genjcl_input_dataset' must be a string."
-    INCORRECT_JCLOUT_TYPE = "'genjcl_ouput_dataset' must be a string."
+    INCORRECT_JCLOUT_TYPE = "'genjcl_output_dataset' must be a string."
     INCORRECT_RECON_TYPE = "'recon' parameters must be strings."
     INVALID_MAX_RC = "Invalid input for 'max_rc'."
     DYNALLOC_RECON_REQUIREMENT_MSG = "'dynamic_allocation_dataset' or ('recon1', 'recon2', 'recon3') must be specified."

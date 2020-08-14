@@ -50,7 +50,7 @@ options:
       - Equivalent to the JCLPDS control statement.
     type: str
     required: false
-  genjcl_ouput_dataset:
+  genjcl_output_dataset:
     description:
       - The data set which is to receive the generated JCL. It is required only for the GENJCL commands.
       - Equivalent to the JCLOUT control statement.
@@ -221,7 +221,7 @@ def run_module():
     dbd_lib=dict(type='str', required=False),
     dynamic_allocation_dataset=dict(type='str', required=False),
     genjcl_input_dataset=dict(type='str', required=False),
-    genjcl_ouput_dataset=dict(type='str', required=False),
+    genjcl_output_dataset=dict(type='str', required=False),
     max_rc=dict(type='str', required=False),
     recon1=dict(type='str', required=False),
     recon2=dict(type='str', required=False),
@@ -255,7 +255,7 @@ def run_module():
       dbd_lib=module.params['dbd_lib'],
       dynamic_allocation_dataset=module.params['dynamic_allocation_dataset'],
       genjcl_input_dataset=module.params['genjcl_input_dataset'],
-      genjcl_ouput_dataset=module.params['genjcl_ouput_dataset'],
+      genjcl_output_dataset=module.params['genjcl_output_dataset'],
       recon1=module.params['recon1'],
       recon2=module.params['recon2'],
       recon3=module.params['recon3']).execute()
