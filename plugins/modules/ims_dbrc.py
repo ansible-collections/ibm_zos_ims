@@ -83,6 +83,9 @@ options:
       - List of STEPLIB datasets that contain the IMS nucleus and the required action modules.
     type: list
     required: true
+notes:
+  - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
+  - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
 '''
 
 EXAMPLES = '''
