@@ -24,8 +24,8 @@ Notes
 * Updated sample playbook
 
 Availability
-
 ------------
+
 * `Galaxy`_
 * `GitHub`_
 
@@ -48,7 +48,7 @@ Reference
    https://galaxy.ansible.com/ibm/ibm_zos_ims
 
 Version 1.0.0-beta3
--------------------
+====================
 
 Notes
   * Update recommended
@@ -72,7 +72,7 @@ Reference
   * The z/OS® shell
 
 Version 1.0.0-beta2
--------------------
+====================
 
 Notes
   * Update recommended
@@ -91,7 +91,7 @@ Reference
   * Supported by IBM z/OS core collection 1.0.0 or later
 
 Version 1.0.0-beta1
--------------------
+====================
 
 Notes
   * Initial beta release of IBM z/OS IMS collection, referred to as ibm_zos_ims
