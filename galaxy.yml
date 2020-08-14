@@ -39,7 +39,7 @@ dependencies:
 repository: https://github.com/ansible-collections/ibm_zos_ims
 
 # The URL to any online docs
-documentation: https://ansible-collections.github.io/ibm_zos_ims/index.html
+documentation: https://ibm.github.io/z_ansible_collections_doc/index.html
 
 # The URL to the homepage of the collection/project
 homepage: https://www.ibm.com/support/z-content-solutions/ansible/
