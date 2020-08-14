@@ -16,6 +16,22 @@ class ErrorMessages():
     SUBMISSION_ERROR_MSG = "Error submitting IMS Command."
     SUCCESS_MSG = "Success"
 
+class DBRCErrorMessages():
+    INCORRECT_CMD_TYPE = "'commands' must be a string or list of strings."
+    INCORRECT_STEPLIB_TYPE = "'steplib' must be a string or list of strings."
+    INCORRECT_DBDLIB_TYPE = "'dbd_lib' must be a string."
+    INCORRECT_DYNALLOC_TYPE = "'dynamic_allocation_dataset' must be a string."
+    INCORRECT_GENJCL_TYPE = "'genjcl_input_dataset' must be a string."
+    INCORRECT_JCLOUT_TYPE = "'genjcl_output_dataset' must be a string."
+    INCORRECT_RECON_TYPE = "'recon' parameters must be strings."
+    INVALID_MAX_RC = "Invalid input for 'max_rc'."
+    DYNALLOC_RECON_REQUIREMENT_MSG = "'dynamic_allocation_dataset' or ('recon1', 'recon2', 'recon3') must be specified."
+    SUCCESS_MSG = "Success"
+    FAILURE_MSG = "Failure. See output for details."
+    EMPTY_OUTPUT_MSG = "DBRC command(s) could not be processed. Please check input parameters."
+    MISSING_COMMAND = "missing required arguments: command"
+    MISSING_STEPLIB = "missing required arguments: steplib"
+    
 class ACBGENErrorMessages():
     INCORRECT_COMMAND_INPUT_TYPE = "'command_input' must be a string."
     INCORRECT_COMPRESSION_TYPE = "'compression' must be a string - PRECOMP,POSTCOMP, in any combination. The default is none."    

@@ -2,11 +2,53 @@
 .. © Copyright IBM Corporation 2020                                          .
 .. ...........................................................................
 
+========
 Releases
 ========
 
+Version 1.1.0-beta.1
+====================
+
+Notes
+-----
+
+* Update recommended
+* New modules
+
+  * ``ims_catalog_populate``
+  * ``ims_catalog_purge``
+  * ``ims_dbrc``
+* Documentation 
+
+  * Update documentation in support of `centralized content`_.
+* Updated sample playbook
+
+Availability
+------------
+
+* `Galaxy`_
+* `GitHub`_
+
+Reference
+---------
+
+* Supported by IBM z/OS core collection v1.2.0-beta.1 or later
+* Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
+* Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435 or later
+* Supported by z/OS V2R3
+* The z/OS® shell
+
+.. _centralized content:
+   https://ibm.github.io/z_ansible_collections_doc/index.html
+
+.. _GitHub:
+   https://github.com/ansible-collections/ibm_zos_ims
+
+.. _Galaxy:
+   https://galaxy.ansible.com/ibm/ibm_zos_ims
+
 Version 1.0.0-beta3
--------------------
+====================
 
 Notes
   * Update recommended
@@ -30,7 +72,7 @@ Reference
   * The z/OS® shell
 
 Version 1.0.0-beta2
--------------------
+====================
 
 Notes
   * Update recommended
@@ -49,7 +91,7 @@ Reference
   * Supported by IBM z/OS core collection 1.0.0 or later
 
 Version 1.0.0-beta1
--------------------
+====================
 
 Notes
   * Initial beta release of IBM z/OS IMS collection, referred to as ibm_zos_ims
