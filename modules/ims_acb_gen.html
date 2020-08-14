@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ims_acb_gen – Generate IMS ACB &mdash; IBM z/OS IMS Collection 1.0.0-beta1 documentation</title>
+  <title>ims_acb_gen – Generate IMS ACB &mdash; IBM z/OS IMS Collection 1.1.0-beta.1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ims_command – Submit IMS Commands" href="ims_command.html" />
+    <link rel="next" title="ims_catalog_populate – Add records to the IMS Catalog" href="ims_catalog_populate.html" />
     <link rel="prev" title="Modules" href="../modules.html" /> 
 </head>
 
@@ -83,40 +83,37 @@
               <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirements-single.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../playbooks-single.html">Playbooks</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Reference</span></p>
+<p class="caption"><span class="caption-text">Ansible Content</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../modules.html#module-reference">Module reference</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">ims_acb_gen – Generate IMS ACB</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#synopsis">Synopsis</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#notes">Notes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#return-values">Return Values</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ims_acb_gen – Generate IMS ACB</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#return-values">Return Values</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="ims_command.html">ims_command – Submit IMS Commands</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ims_dbd_gen.html">ims_dbd_gen – Generate IMS DBD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ims_psb_gen.html">ims_psb_gen – Generate IMS PSB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ims_catalog_populate.html">ims_catalog_populate – Add records to the  IMS Catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ims_catalog_purge.html">ims_catalog_purge – Purge records from the IMS Catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ims_command.html">ims_command – Submit IMS Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ims_dbd_gen.html">ims_dbd_gen – Generate IMS DBD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ims_dbrc.html">ims_dbrc – Submit IMS DBRC Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ims_psb_gen.html">ims_psb_gen – Generate IMS PSB</a></li>
 </ul>
 </li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../playbooks.html">Playbooks</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Community guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../community_guides.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../community_guides.html#helpful-links">Helpful Links</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Requirements</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Requirements</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Appendices</span></p>
+<p class="caption"><span class="caption-text">Release Notes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Releases</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../community_guides.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 </ul>
 
             
@@ -350,11 +347,10 @@
 <p class="admonition-title">Note</p>
 <p>The <em>steplib</em> parameter can also be specified in the target inventory’s environment_vars.</p>
 <p>The <em>steplib</em> input parameter to the module will take precedence over the value specified in the environment_vars.</p>
-<p>If only the <em>steplib</em> parameter is specified, then only the <em>steplib</em> concatination will be used to resolve the IMS RESLIB dataset.</p>
+<p>If only the <em>steplib</em> parameter is specified, then only the <em>steplib</em> concatenation will be used to resolve the IMS RESLIB dataset.</p>
 <p>If both <em>steplib</em> and <em>reslib</em> are specified, then both parameters will be used by the ACB Maintenenace Utility and <em>reslib</em> will be used to resolve the IMS RESLIB dataset.</p>
 <p>Specifying only <em>reslib</em> without <em>steplib</em> is not supported.</p>
 <p>The ACB Maintenenace utility SYSUT3/SYSUT4 DD options are not supported by this module.</p>
-<p>The current implementation of the ims_acb_gen module requires a jobcard to be specified using the JOB_CARD variable in the target inventory’s group variables. See the sample <a class="reference external" href="https://github.com/ansible-collections/ibm_zos_ims/blob/master/playbooks/group_vars/all.yml">group_vars</a> provided with our sample playbook for an example of the JOB_CARD variable.</p>
 </div>
 </div>
 <div class="section" id="return-values">
@@ -366,7 +362,11 @@
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>sample</strong>: ACBGEN execution is successful.</div>
 </div>
 </dd>
@@ -375,6 +375,8 @@
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: list</div>
 </div>
 </dd>
@@ -383,7 +385,11 @@
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>sample</strong>: 0</div>
 </div>
 </dd>
@@ -392,7 +398,19 @@
 </div>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
+</div>
+<div class="line-block">
 <div class="line"><strong>type</strong>: bool</div>
+</div>
+</dd>
+<dt>debug</dt><dd><div class="line-block">
+<div class="line">additional messages returned from ZOAU.</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>returned</strong>: always</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>type</strong>: str</div>
 </div>
 </dd>
 </dl>
@@ -408,7 +426,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ims_command.html" class="btn btn-neutral float-right" title="ims_command – Submit IMS Commands" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ims_catalog_populate.html" class="btn btn-neutral float-right" title="ims_catalog_populate – Add records to the IMS Catalog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../modules.html" class="btn btn-neutral float-left" title="Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
