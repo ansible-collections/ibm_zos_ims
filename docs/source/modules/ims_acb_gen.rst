@@ -12,7 +12,7 @@ ims_acb_gen -- Generate IMS ACB
 .. contents::
    :local:
    :depth: 1
-
+   
 
 Synopsis
 --------
@@ -28,6 +28,7 @@ Parameters
 ----------
 
 
+ 
      
 acb_lib
   The ACB Maintenance utility maintains the prebuilt blocks (ACB) library (IMS.ACBLIB). The ACB library is a consolidated library of program (PSB) and database (DBD) descriptions.
@@ -39,6 +40,7 @@ acb_lib
   | **type**: str
 
 
+ 
      
 build_psb
   Specifies whether ims_acb_gen rebuilds all PSBs that reference a changed DBD in the *dbdname* parameter.
@@ -53,6 +55,7 @@ build_psb
   | **default**: True
 
 
+ 
      
 command_input
   This field specifies two command options(BUILD/DELETE).
@@ -67,6 +70,7 @@ command_input
   | **choices**: BUILD, DELETE
 
 
+ 
      
 compression
   PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
@@ -79,6 +83,7 @@ compression
   | **default**: none
 
 
+ 
      
 dbd_lib
   The ACB Maintenance utility receives input from the IMS DBDLIB data set.
@@ -90,6 +95,7 @@ dbd_lib
   | **type**: list
 
 
+ 
      
 dbd_name
   The name of the DBD(s). Specifies that blocks are built or deleted for this DBD, and for all PSBs that reference this DBD either directly or indirectly through logical relationships.
@@ -99,6 +105,7 @@ dbd_name
   | **type**: list
 
 
+ 
      
 psb_lib
   The ACB Maintenance utility receives input from the IMS PSBLIB data set.
@@ -112,6 +119,7 @@ psb_lib
   | **type**: list
 
 
+ 
      
 psb_name
   The name of the PS**s**. Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
@@ -123,6 +131,7 @@ psb_name
   | **type**: list
 
 
+ 
      
 reslib
   Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated to it in the reslib field must be authorized through the Authorized Program Facility (APF).
@@ -132,6 +141,7 @@ reslib
   | **type**: list
 
 
+ 
      
 steplib
   Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries that are concatenated to SDFSRESL, you must specify the *reslib* parameter.
@@ -233,51 +243,65 @@ Notes
 Return Values
 -------------
 
-
-   
-                              
-       msg
-        | Execution result message from the ims_acb_gen module.
       
-        | **returned**: always
-        | **type**: str
-        | **sample**: ACBGEN execution is successful.
+                              
+         msg
+            | Execution result message from the ims_acb_gen module.
+            
+            | **returned**: always
+            
+            | **type**: str
 
+                  
+            | **sample**: ACBGEN execution is successful.
+      
             
       
-      
+         
                               
-       content
-        | The response from the execution of the ACB Maintenance Utility.
-      
-        | **returned**: always
-        | **type**: list
-      
-      
-                              
-       rc
-        | The resulting return code from the ACB Maintenance Utility.
-      
-        | **returned**: always
-        | **type**: str
-        | **sample**: 0
+         content
+            | The response from the execution of the ACB Maintenance Utility.
+            
+            | **returned**: always
+            
+            | **type**: list
 
+      
+      
+         
+                              
+         rc
+            | The resulting return code from the ACB Maintenance Utility.
+            
+            | **returned**: always
+            
+            | **type**: str
+
+                  
+            | **sample**: 0
+      
             
       
-      
+         
                               
-       changed
-        | Indicates if any changes were made during module execution.
+         changed
+            | Indicates if any changes were made during module execution.
+            
+            | **returned**: always
+            
+            | **type**: bool
+
       
-        | **returned**: always
-        | **type**: bool
       
-      
+         
                               
-       debug
-        | additional messages returned from ZOAU.
+         debug
+            | additional messages returned from ZOAU.
+            
+            | **returned**: always
+            
+            | **type**: str
+
       
-        | **returned**: always
-        | **type**: str
       
         
