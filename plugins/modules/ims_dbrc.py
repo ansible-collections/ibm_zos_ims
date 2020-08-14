@@ -16,12 +16,13 @@ DOCUMENTATION = r'''
 
 module: ims_dbrc
 
-short_description: Submit IMS Database Recovery Control (DBRC) Commands
+short_description: Submit IMS DBRC Commands
 version_added: "2.9"
 
 description:
-  - Use DBRC to record and manage information that is stored in a set of VSAM
-    data sets that are collectively called the Recovery Control (RECON) data set.
+  - Use Database Recovery Control (DBRC) to record and manage information that is 
+    stored in a set of VSAM data sets that are collectively called the Recovery 
+    Control (RECON) data set.
   - Based on this information, you can use DBRC to advise IMS about how to proceed
     with certain IMS actions.
 author:
