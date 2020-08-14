@@ -191,7 +191,7 @@ unformatted_output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.IMSDbrc import IMSDbrc  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.dbrc import dbrc  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
 from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
 import re
@@ -249,7 +249,7 @@ def run_module():
   if environ_step_lib:
     combined_step_lib = module.params['steplib'] + environ_step_lib
   try:
-    response = IMSDbrc.IMSDbrc(
+    response = dbrc.dbrc(
       commands=module.params['command'],
       steplib=combined_step_lib,
       dbd_lib=module.params['dbd_lib'],
