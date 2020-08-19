@@ -9,7 +9,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
 
-class IMSDbrc():
+class dbrc():
     DBRC_UTILITY = "dspurx00"
     REPLACEMENT_VALUES = {
         "** NONE **": None,
@@ -165,8 +165,8 @@ class IMSDbrc():
                 fields[key] = None
             else:
                 value = value_list[0].strip()
-                if value in IMSDbrc.REPLACEMENT_VALUES:
-                    value = IMSDbrc.REPLACEMENT_VALUES[value]
+                if value in dbrc.REPLACEMENT_VALUES:
+                    value = dbrc.REPLACEMENT_VALUES[value]
                 fields[key] = value
             i += 1
             
@@ -300,7 +300,7 @@ class IMSDbrc():
         """
         try:
             dbrc_utility_fields = self._build_utility_statements()
-            response = MVSCmd.execute(IMSDbrc.DBRC_UTILITY, dbrc_utility_fields)
+            response = MVSCmd.execute(dbrc.DBRC_UTILITY, dbrc_utility_fields)
             fields, original_output, failure_detected = self._parse_output(response.stdout)
             # fields, original_output = self._parse_output(TEST_INPUT)
             res = {
