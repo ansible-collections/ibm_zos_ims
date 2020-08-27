@@ -9,7 +9,7 @@ from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import loa
 """
 Scenario 4: Invalid mode option=load, managed_acbs with stage
 """
-def test_catalog_load_managed_acbs(ansible_zos_module):
+def test_catalog_stage_managed_acbs_in_update(ansible_zos_module):
     hosts = ansible_zos_module
     load_catalog(hosts, 
                 psb_lib=cp.PSBLIB, 
