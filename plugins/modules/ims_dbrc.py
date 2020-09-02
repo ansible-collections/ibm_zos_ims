@@ -206,11 +206,9 @@ def get_max_rc(raw_max_rc):
   else:
     return None
 
-def get_step_lib_from_environment_var():
+def get_steplib_from_env_var():
   try:
-    step_lib_list = list(filter(None, re.split("[\\s,]+", env_fallback('STEPLIB'))))
-    result['steplibber'] = step_lib_list
-    return step_lib_list
+    return list(filter(None, re.split("[\\s,]+", env_fallback('STEPLIB'))))
   except AnsibleFallbackNotFound:
     return None
 
@@ -245,9 +243,9 @@ def run_module():
 
   max_rc = get_max_rc(module.params['max_rc'])
   combined_step_lib = module.params['steplib']
-  environ_step_lib = get_step_lib_from_environment_var()
-  if environ_step_lib:
-    combined_step_lib = module.params['steplib'] + environ_step_lib
+  env_steplib = get_steplib_from_env_var()
+  if env_steplib:
+    combined_step_lib = module.params['steplib'] + env_steplib
   try:
     response = dbrc.dbrc(
       commands=module.params['command'],
