@@ -25,7 +25,7 @@ INVALID_ACBLIB = ip.INVALID_ACBLIB
 INVALID_STEPLIB = ip.INVALID_STEPLIB
 INVALID_RESLIB = ip.INVALID_RESLIB
 INVALID_PSB = ip.INVALID_PSB
-INVALID_PSBS =ip.INVALID_PSBS
+INVALID_PSBS = ip.INVALID_PSBS
 INVALID_DBD = ip.INVALID_DBD
 INVALID_DBDS = ip.INVALID_DBDS
 INVALID_COMP = ip.INVALID_COMP
@@ -42,7 +42,7 @@ GEN_SUCCESS_MSG_PSB = 'PSBGEN execution was successful'
 
 """
 Work flow for Combination functional tests goes as follows:
-1. PSB name doesn't exists as string, BUILD PSB=PSB_NAME 
+1. PSB name doesn't exists as string, BUILD PSB=PSB_NAME
 2. Invalid PSBs as list, BUILD PSB=PSB_NAME
 3. Invalid DBD, BUILD DBD=DBD_NAME
 4. Invalid DBDs, BUILD DBD=DBD_NAME
@@ -58,18 +58,19 @@ Work flow for Combination functional tests goes as follows:
 14. Invalid DBDLIB - LIB not exists
 15. Invalid STEPLIB - LIB authorized and exists
 16. Invalid RESLIB - LIB authorized and exists
-17. Invalid COMP 
+17. Invalid COMP
 18. PSBLIB with no psbs and DBDLIB populated, BUILD PSB=ALL
 19. DBDLIB with no dbds and PSBLIB populated, BUILD PSB=ALL
-20. Invalid ACBLIB 
+20. Invalid ACBLIB
 """
 
 
 # def test_dbd_gen_dataset_prereq(ansible_zos_module):
 #     hosts = ansible_zos_module
 #     # validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE, location='DATA_SET', member_list=['DEDBJN21'], replace=True)
-#     response = hosts.all.ims_dbd_gen(dest=DBD_DESTINATION, sys_lib=SYSLIB, src=DBD_SOURCE, location="DATA_SET", replace=True, 
-#                 member_list=["DH41SK01", "DBFSAMD1", "DH41SK01", "DBFSAMD2","DBFSAMD3", "HOSPVARD", "DSVNTZ30", "DX41SK01", "DX41SK03", "DX41SK05", "DX41SK06", "DX41SK07", "DX41SK08", "DX41SK09", "DX41SK02", "DX41SK04"])
+#     response = hosts.all.ims_dbd_gen(dest=DBD_DESTINATION, sys_lib=SYSLIB, src=DBD_SOURCE, location="DATA_SET", replace=True,
+#                 member_list=["DH41SK01", "DBFSAMD1", "DH41SK01", "DBFSAMD2","DBFSAMD3", "HOSPVARD", "DSVNTZ30", "DX41SK01",
+#                             "DX41SK03", "DX41SK05", "DX41SK06", "DX41SK07", "DX41SK08", "DX41SK09", "DX41SK02", "DX41SK04"])
 #     for result in response.contacted.values():
 #         print(result)
 #         print("Changed:", result['changed'])
@@ -77,8 +78,6 @@ Work flow for Combination functional tests goes as follows:
 #         assert result['rc'] == 0
 #         # Check for success message (if we remove return codes)
 #         assert result['msg'] == GEN_SUCCESS_MSG_DBD
-
-
 
 # def test_psb_gen_dataset_prereq(ansible_zos_module):
 #     hosts = ansible_zos_module

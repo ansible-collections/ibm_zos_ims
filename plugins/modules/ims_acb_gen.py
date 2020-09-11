@@ -56,50 +56,54 @@ options:
     type: list
   dbd_name:
     description:
-      - The name of the DBD(s). Specifies that blocks are built or deleted for this DBD, and for all PSBs that reference this DBD either directly or indirectly through logical relationships.
+      - The name of the DBD(s). Specifies that blocks are built or deleted for this DBD, and for all PSBs that reference this DBD
+        either directly or indirectly through logical relationships.
     required: false
     type: list
   acb_lib:
     description:
-      - The ACB Maintenance utility maintains the prebuilt blocks (ACB) library (IMS.ACBLIB). The ACB library is a consolidated library of program (PSB) and database (DBD) descriptions.
-      - The IMS acb_lib must be used exclusively. The module can only be executed using an ACB library which is not concurrently allocated to an active IMS system.
+      - The ACB Maintenance utility maintains the prebuilt blocks (ACB) library (IMS.ACBLIB). The ACB library is a consolidated
+        library of program (PSB) and database (DBD) descriptions.
+      - The IMS acb_lib must be used exclusively. The module can only be executed using an ACB library which is not concurrently
+        allocated to an active IMS system.
     required: true
     type: str
   psb_lib:
     description:
       - The ACB Maintenance utility receives input from the IMS PSBLIB data set.
-      - The ACB Maintenance utility does not change the PSB(s) in PSBLIB. If changes are made in PSBs or DBDs that require changes in the associated PSB,
-        make these changes before running the module.
-      - Changes in PSBs might also require modifications to the affected application programs. For example, if a DBD has a segment name changed,
-        all PSBs which are sensitive to that segment must have their SENSEG statements changed.
+      - The ACB Maintenance utility does not change the PSB(s) in PSBLIB. If changes are made in PSBs or DBDs that require changes
+        in the associated PSB, make these changes before running the module.
+      - Changes in PSBs might also require modifications to the affected application programs. For example, if a DBD has a segment
+        name changed, all PSBs which are sensitive to that segment must have their SENSEG statements changed.
     required: true
     type: list
   dbd_lib:
     description:
       - The ACB Maintenance utility receives input from the IMS DBDLIB data set.
-      - The ACB Maintenance utility does not change the DBD(s) in DBDLIB. If changes are made in PSBs or DBDs that require changes in the associated DBD,
-        make these changes before running the module.
+      - The ACB Maintenance utility does not change the DBD(s) in DBDLIB. If changes are made in PSBs or DBDs that require changes
+        in the associated DBD, make these changes before running the module.
     required: true
     type: list
   steplib:
     description:
-      - Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries
-        that are concatenated to SDFSRESL, you must specify the I(reslib) parameter.
+      - Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by
+      having unauthorized libraries that are concatenated to SDFSRESL, you must specify the I(reslib) parameter.
       - The steplib parameter can also be specified in the target inventory's environment_vars.
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     required: false
     type: list
   reslib:
     description:
-      - Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated to it in the
-        reslib field must be authorized through the Authorized Program Facility (APF).
+      - Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated
+        to it in the reslib field must be authorized through the Authorized Program Facility (APF).
     required: false
     type: list
   build_psb:
     description:
       - Specifies whether ims_acb_gen rebuilds all PSBs that reference a changed DBD in the I(dbdname) parameter.
       - TRUE indicates that ims_acb_gen rebuilds all PSBs that reference the changed DBD on the I(dbdname) parameter.
-      - FALSE indicates that ims_acb_gen does not rebuild PSBs that reference the changed DBD if the changed DBD does not change the physical structure of the database.
+      - FALSE indicates that ims_acb_gen does not rebuild PSBs that reference the changed DBD if the changed DBD does not change the physical
+        structure of the database.
     required: false
     type: bool
     default: true
@@ -107,7 +111,8 @@ notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
   - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB dataset.
-  - If both I(steplib) and I(reslib) are specified, then both parameters will be used by the ACB Maintenenace Utility and I(reslib) will be used to resolve the IMS RESLIB dataset.
+  - If both I(steplib) and I(reslib) are specified, then both parameters will be used by the ACB Maintenenace Utility and I(reslib) will be
+    used to resolve the IMS RESLIB dataset.
   - Specifying only I(reslib) without I(steplib) is not supported.
   - The ACB Maintenenace utility SYSUT3/SYSUT4 DD options are not supported by this module.
 '''
@@ -190,15 +195,12 @@ changed:
   type: bool
 debug:
   description:
-    - additional messages returned from ZOAU. 
-    - For more information, refer to the L(ZOAU messages documentation,https://www.ibm.com/support/knowledgecenter/en/SSKFYE_1.0.0/bgy.html)  
+    - additional messages returned from ZOAU.
+    - For more information, refer to the L(ZOAU messages documentation,https://www.ibm.com/support/knowledgecenter/en/SSKFYE_1.0.0/bgy.html)
   returned: always
   type: str
 '''
-
-
 module = None
-
 
 def str_or_list_of_str(contents, dependencies):
     if isinstance(contents, list):
@@ -219,8 +221,8 @@ def run_module():
     module_args = dict(
         command_input=dict(type="str", required=True, choices=["build", "BUILD", "delete", "DELETE"]),
         compression=dict(type="str", required=False, choices=[
-                         "precomp", "postcomp", "precomp,postcomp", 
-                         "PRECOMP", "POSTCOMP", "PRECOMP,POSTCOMP"]),        
+                         "precomp", "postcomp", "precomp,postcomp",
+                         "PRECOMP", "POSTCOMP", "PRECOMP,POSTCOMP"]),
         psb_name=dict(type="list", elements="str", required=False),
         dbd_name=dict(type="list", elements="str", required=False),
         acb_lib=dict(type="str", required=True),
@@ -249,7 +251,7 @@ def run_module():
         compression=dict(arg_type="str", required=False, default=""),
         psb_name=dict(arg_type=str_or_list_of_str, required=False),
         dbd_name=dict(arg_type=str_or_list_of_str,
-                      required=False), 
+                      required=False),
         acb_lib=dict(arg_type="str", required=True),
         psb_lib=dict(arg_type="list", elements="str", required=True),
         dbd_lib=dict(arg_type="list", elements="str", required=True),
@@ -306,7 +308,7 @@ def run_module():
         else:
             result['changed'] = True
             result['content'] = response.get('output', "")
-            result['debug'] = response.get('error', "")  
+            result['debug'] = response.get('error', "")
             result['msg'] = em.SUCCESS_MSG
             if response.get('rc', 8) <= 4:
                 result['rc'] = 0
