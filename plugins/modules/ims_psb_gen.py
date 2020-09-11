@@ -29,7 +29,6 @@ options:
             - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
             - If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
         type: str
-        default: no
         required: false
     location:
         description:
@@ -58,14 +57,12 @@ options:
                 not specified, then src is expected to be a sequential data set.
         type: list
         elements: str or dict with single key-value pair
-        default: no
         required: false
     psb_name:
         description:
             - Target name of the generated PSB member.
             - This parameter is only required and applies if src is a sequential data set.
         type: str
-        default: no
         required: false
     batch:
         description:
@@ -81,7 +78,6 @@ options:
                     - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
                     - If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
                 type: str
-                default: no
                 required: true
             location:
                 description:
@@ -108,27 +104,23 @@ options:
                         not specified, then src is expected to be a sequential data set.
                 type: list
                 elements: str or dict with single key-value pair
-                default: no
                 required: false
             psb_name:
                 description:
                     - Target name of the generated PSB member.
                     - This parameter is only required and applies if src is a sequential data set.
                 type: str
-                default: no
                 required: false
     sys_lib:
         description:
             - A list of required macro libraries that are needed to compile the PSB source. These libraries will
                 be used as the sys_lib at compile time.
         type: list
-        default: no
         required: true
     dest:
         description:
             - The target output PSBLIB partitioned data set in which the PSB members will be generated.
         type: str
-        default: no
         required: true
 notes:
     - Currently ims_psb_gen does not support copying symbolic links from both local to
@@ -136,7 +128,9 @@ notes:
 
 '''
 
+
 EXAMPLES = r'''
+---
 - name: Basic example of IMS PSBGEN module with single data set
     ims_psb_gen:
         src: /tmp/src/somefile
@@ -179,6 +173,7 @@ EXAMPLES = r'''
 '''
 
 RETURN = r"""
+---
 batch_result:
         description:
                 List of output for each PSBGEN run on each element in the list of input source if input is batch.

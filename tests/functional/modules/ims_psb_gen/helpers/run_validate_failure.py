@@ -13,6 +13,7 @@ __metaclass__ = type
 GEN_FAIL_MSG = 'FAILURE - PSBGEN execution unsuccessful'
 BATCH_SUCCESS_RETURN_TEXT = 'success'
 
+
 def process_batch(hosts, batch_list, dest, sys_lib, return_code, std_error_string):
     # print(batch_list)
     response = hosts.all.ims_psb_gen(
@@ -20,7 +21,7 @@ def process_batch(hosts, batch_list, dest, sys_lib, return_code, std_error_strin
     for result in response.contacted.values():
         pprint(result)
         print("Changed:", result['changed'])
-        assert result['changed'] == False
+        assert not result['changed']
         assert result['rc'] == return_code
         # Check for success message (if we remove return codes)
         assert result['msg'] == GEN_FAIL_MSG
@@ -36,7 +37,7 @@ def process_single_src(hosts, dest, sys_lib, return_code, std_error_string, src,
     for result in response.contacted.values():
         pprint(result)
         print("Changed:", result['changed'])
-        assert result['changed'] == False
+        assert not result['changed']
         assert result['rc'] == return_code
         # Check for success message (if we remove return codes)
         assert std_error_string in result['msg']
