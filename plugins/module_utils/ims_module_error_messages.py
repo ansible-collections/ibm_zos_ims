@@ -1,4 +1,5 @@
 from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 class ErrorMessages():
     BATCH_FAILURE_MSG = "Failed. Check 'msg' field in 'ims_output' for more details."
     INVALID_CHAR_IN_CMD = "Invalid character(s) found in command."

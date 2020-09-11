@@ -4,6 +4,7 @@
 # LICENSE: [GNU General Public License version 3](https://opensource.org/licenses/GPL-3.0)
 
 from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 import pytest
 from ibm_zos_ims.tests.helpers.ztest import ZTestHelper
 import sys
