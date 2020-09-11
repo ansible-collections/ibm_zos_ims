@@ -8,6 +8,8 @@ from pprint import pprint
 import os
 import sys
 
+__metaclass__ = type
+
 GEN_SUCCESS_MSG = 'PSBGEN execution was successful.'
 BATCH_SUCCESS_RETURN_TEXT = 'success'
 

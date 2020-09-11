@@ -7,6 +7,9 @@ from pprint import pprint
 import os
 import sys
 
+__metaclass__ = type
+
+
 GEN_FAIL_MSG = 'FAILURE - PSBGEN execution unsuccessful'
 BATCH_SUCCESS_RETURN_TEXT = 'success'
 
