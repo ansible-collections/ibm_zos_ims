@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import (absolute_import, division, print_function)
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as em # pylint: disable=import-error
 from pprint import pprint
 import pytest
@@ -14,11 +15,11 @@ ROUTE = "IMS1"
 
 #We clean up the environment, making sure all resources are deleted
 def test_clean_env(ansible_zos_module):
-    hosts = ansible_zos_module  
+    hosts = ansible_zos_module
     delete_pgm_response = hosts.all.ims_command(command='DELETE PGM NAME(PYTEST)', plex=PLEX, route=ROUTE)
     for result in delete_pgm_response.contacted.values():
         assert result['ims_output'][0] != None
-    
+
     delete_tran_response = hosts.all.ims_command(command='DELETE TRAN NAME(PYTEST)', plex=PLEX, route=ROUTE)
     for result in delete_tran_response.contacted.values():
         assert result['ims_output'][0] != None
@@ -54,7 +55,7 @@ def test_stop_tran(ansible_zos_module):
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         for data in result['ims_output'][0]['type_2_response']:
             assert data['CC'] == SUCCESSFUL_CC
-        
+
     query_tran_response = hosts.all.ims_command(command='QUERY TRAN NAME(PYTEST) SHOW(STATUS)', plex=PLEX, route=ROUTE)
     for result in query_tran_response.contacted.values():
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
@@ -72,7 +73,7 @@ def test_start_tran(ansible_zos_module):
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         for data in result['ims_output'][0]['type_2_response']:
             assert data['CC'] == SUCCESSFUL_CC
-        
+
     query_tran_response = hosts.all.ims_command(command='QUERY TRAN NAME(PYTEST) SHOW(STATUS)', plex=PLEX, route=ROUTE)
     for result in query_tran_response.contacted.values():
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
@@ -101,10 +102,10 @@ def test_delete_tran_and_like(ansible_zos_module):
     delete_tran_response = hosts.all.ims_command(command='DELETE TRAN NAME(PYTEST)', plex=PLEX, route=ROUTE)
     for result in delete_tran_response.contacted.values():
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
-        
+
 #Delete initial program
 def test_delete_initial_pgm(ansible_zos_module):
-    hosts = ansible_zos_module  
+    hosts = ansible_zos_module
     delete_pgm_response = hosts.all.ims_command(command='DELETE PGM NAME(PYTEST)', plex=PLEX, route=ROUTE)
     for result in delete_pgm_response.contacted.values():
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC

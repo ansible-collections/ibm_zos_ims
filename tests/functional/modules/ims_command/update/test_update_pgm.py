@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import (absolute_import, division, print_function)
 from pprint import pprint
 import pytest
 
@@ -19,12 +20,12 @@ Work flow for UPDATE PGM:
 """
 def print_return_codes(result):
     pprint(result)
-    try: 
+    try:
         print("IMS_RETURN_CODE:",result['ims_output'][0]['command_return']['ims_member_messages'][0]['cmderr rc'])
         print("IMS_REASON_CODE:",result['ims_output'][0]['command_return']['ims_member_messages'][0]['rsn'])
     except:
-        pass   
- 
+        pass
+
 def create_update_and_delete(hosts, update_cmd, pgm_name, second_update=None):
     clean_env(hosts, pgm_name)
     create_pgm(hosts, pgm_name)
