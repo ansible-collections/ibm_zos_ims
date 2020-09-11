@@ -63,5 +63,3 @@ class ZTestHelper(object):
             'JOB_CARD': self._extra_args.get("extra_args").get("JOB_CARD"),
         }
         return ims_info
-
-
