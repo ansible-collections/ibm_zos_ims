@@ -3,11 +3,13 @@
 # Copyright (c) IBM Corporation 2020
 # LICENSE: [GNU General Public License version 3](https://opensource.org/licenses/GPL-3.0)
 
+from __future__ import (absolute_import, division, print_function)
 import pytest
 from ibm_zos_ims.tests.helpers.ztest import ZTestHelper
 import sys
 from mock import MagicMock
 import importlib
+
 
 def pytest_addoption(parser):
     """ Add CLI options and modify optons for pytest-ansible where needed. """
@@ -26,17 +28,17 @@ def z_python_interpreter(request):
 
 @pytest.fixture(scope='function')
 def ansible_zos_module(request, z_python_interpreter):
-    """ Initialize pytest-ansible plugin with values from 
+    """ Initialize pytest-ansible plugin with values from
     our YAML config and inject interpreter path into inventory. """
     interpreter, inventory, ims_variables = z_python_interpreter
     # next two lines perform similar action to ansible_adhoc fixture
     plugin = request.config.pluginmanager.getplugin("ansible")
     adhoc = plugin.initialize(request.config, request, **inventory)
-    # * Inject our environment 
+    # * Inject our environment
     hosts = adhoc['options']['inventory_manager']._inventory.hosts
     for host in hosts.values():
         host.vars['ansible_python_interpreter'] = interpreter
-        host.vars['STEPLIB'] = ims_variables["STEPLIB"] 
+        host.vars['STEPLIB'] = ims_variables["STEPLIB"]
         host.vars['JOB_CARD'] = ims_variables["JOB_CARD"]
     yield adhoc
 
@@ -46,17 +48,17 @@ def ansible_zos_module(request, z_python_interpreter):
 # * across test files.
 @pytest.fixture(scope='function')
 def zos_import_mocker(mocker):
-    """ A wrapper fixture around the pytest-mock mocker fixture. 
-    Abstracts the requirements for mocking zoautil_py module, zoautil_py needs to be mocked 
-    in order to import most Ansible modules designed for z/OS use. 
-    Returns a tuple containing a mocker object and the perform_imports() function. 
+    """ A wrapper fixture around the pytest-mock mocker fixture.
+    Abstracts the requirements for mocking zoautil_py module, zoautil_py needs to be mocked
+    in order to import most Ansible modules designed for z/OS use.
+    Returns a tuple containing a mocker object and the perform_imports() function.
     The perform_imports() function accepts an import or a list of imports as arguments.
     Arguments should be provided as a string or a list of strings."""
     mocker.patch.dict('sys.modules', zoautil_py=MagicMock())
 
     def perform_imports(imports):
         """ The perform_imports() function accepts an import or a list of imports as arguments.
-        Arguments should be provided as a string or a list of strings. 
+        Arguments should be provided as a string or a list of strings.
         Returns the import(s) for use. """
         if type(imports) == str:
             newimp = importlib.import_module(imports)
