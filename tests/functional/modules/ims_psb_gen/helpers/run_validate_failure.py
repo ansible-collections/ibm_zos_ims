@@ -1,4 +1,6 @@
-from __future__ import absolute_import, division
+# -*- coding: utf-8 -*-
+
+from __future__ import (absolute_import, division, print_function)
 from ansible.module_utils.basic import AnsibleModule
 from pprint import pprint
 
@@ -22,7 +24,7 @@ def process_batch(hosts, batch_list, dest, sys_lib, return_code, std_error_strin
 
         # check for correct error message
         assert std_error_string in result['batch_result'][-1]['return_text']
-            
+
 
 def process_single_src(hosts, dest, sys_lib, return_code, std_error_string, src, location='DATA_SET', replace=True, member_list=None, psb_name=None):
     # print(srcList)
