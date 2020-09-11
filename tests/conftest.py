@@ -16,6 +16,7 @@ def pytest_addoption(parser):
     parser.addoption("--zinventory", "-Z", action="store", default="test_config.yml",
                      help="Absolute path to YAML file containing inventory info for functional testing.")
 
+
 @pytest.fixture(scope="session")
 def z_python_interpreter(request):
     """ Generate temporary shell wrapper for python interpreter. """
@@ -25,6 +26,7 @@ def z_python_interpreter(request):
     inventory = helper.get_inventory_info()
     ims_vars = helper.build_ims_dict()
     yield (interpreter_str, inventory, ims_vars)
+
 
 @pytest.fixture(scope='function')
 def ansible_zos_module(request, z_python_interpreter):
