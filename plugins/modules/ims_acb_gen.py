@@ -202,6 +202,7 @@ debug:
 '''
 module = None
 
+
 def str_or_list_of_str(contents, dependencies):
     if isinstance(contents, list):
         for item in contents:

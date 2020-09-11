@@ -9,6 +9,7 @@ import re
 
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ACBGENErrorMessages as em  # pylint: disable=import-error
 
+__metaclass__ = type
 
 class acbgen(object):
     ACBGEN_UTILITY = "DFSRRC00"
