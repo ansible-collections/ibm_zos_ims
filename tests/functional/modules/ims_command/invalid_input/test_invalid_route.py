@@ -15,14 +15,14 @@ def test_invalid_route(ansible_zos_module):
     hosts = ansible_zos_module
     response = hosts.all.ims_command(command='QUERY PGM', plex=PLEX, route="thisroutedoesntexist")
     for result in response.contacted.values():
-        assert result['ims_output'][0]['msg'] is em.NON_ZERO_RC_MSG
+        assert result['ims_output'][0]['msg'] == em.NON_ZERO_RC_MSG
 
 
 def test_invalid_characters_for_route(ansible_zos_module):
     hosts = ansible_zos_module
     response = hosts.all.ims_command(command='QUERY PGM', plex=PLEX, route="r4&$o&$*te")
     for result in response.contacted.values():
-        assert result['ims_output'][0]['msg'] is em.INVALID_ROUTE_MSG
+        assert result['ims_output'][0]['msg'] == em.INVALID_ROUTE_MSG
 
 
 def test_batch_invalid_route(ansible_zos_module):
@@ -31,7 +31,7 @@ def test_batch_invalid_route(ansible_zos_module):
     response = hosts.all.ims_command(batch=batch_list)
     for result in response.contacted.values():
         pprint(result)
-        assert result['msg'] is em.BATCH_FAILURE_MSG
+        assert result['msg'] == em.BATCH_FAILURE_MSG
         assert result['changed'] is False
 
 
@@ -44,7 +44,7 @@ def test_batch_malformed_plex_multiple(ansible_zos_module):
     response = hosts.all.ims_command(batch=batch_list)
     for result in response.contacted.values():
         pprint(result)
-        assert result['msg'] is em.BATCH_FAILURE_MSG
+        assert result['msg'] == em.BATCH_FAILURE_MSG
         assert result['changed'] is False
 
 
@@ -58,5 +58,5 @@ def test_batch_correct_and_malformed_plex(ansible_zos_module):
     for result in response.contacted.values():
         pprint(result)
         assert result['changed'] is True
-        assert int(result['ims_output'][0]['command_return']['ctl.rc']) is 0
-        assert result['ims_output'][1]['msg'] is em.NON_ZERO_RC_MSG
+        assert int(result['ims_output'][0]['command_return']['ctl.rc']) == 0
+        assert result['ims_output'][1]['msg'] == em.NON_ZERO_RC_MSG

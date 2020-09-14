@@ -23,7 +23,7 @@ def test_invalid_query(ansible_zos_module, command, plex, route):
     hosts = ansible_zos_module
     response = hosts.all.ims_command(command=command, plex=plex, route=route)
     for result in response.contacted.values():
-        assert result['ims_output'][0]['msg'] is em.NON_ZERO_RC_MSG
+        assert result['ims_output'][0]['msg'] == em.NON_ZERO_RC_MSG
 
 
 invalid_char_params = [
@@ -40,21 +40,21 @@ def test_invalid_command_characters(ansible_zos_module, command, plex, route):
         pprint(result)
         msg = result['ims_output'][0]['msg']
         err = result['ims_output'][0]['err']
-        assert (msg is em.NON_ZERO_RC_MSG) or (err is em.INVALID_CHAR_IN_CMD)
+        assert (msg == em.NON_ZERO_RC_MSG) or (err == em.INVALID_CHAR_IN_CMD)
 
 
 def test_malformed_command(ansible_zos_module):
     hosts = ansible_zos_module
     response = hosts.all.ims_command(command='QUY PGM SHOW(ALL)', plex=PLEX, route=ROUTE)
     for result in response.contacted.values():
-        assert result['ims_output'][0]['msg'] is em.NON_ZERO_RC_MSG
+        assert result['ims_output'][0]['msg'] == em.NON_ZERO_RC_MSG
 
 
 def test_missing_command(ansible_zos_module):
     hosts = ansible_zos_module
     response = hosts.all.ims_command(plex=PLEX, route=ROUTE)
     for result in response.contacted.values():
-        assert result['ims_output'][0]['msg'] is em.MISSING_COMMAND
+        assert result['ims_output'][0]['msg'] == em.MISSING_COMMAND
 
 
 def test_batch_missing_command(ansible_zos_module):
@@ -80,7 +80,7 @@ def test_batch_malformed_command_multiple(ansible_zos_module):
         pprint(result)
         assert result['changed'] is False
         for output in result['ims_output']:
-            assert int(output['command_return']['ctl.rc']) is not 0
+            assert int(output['command_return']['ctl.rc']) != 0
 
 
 def test_batch_correct_and_malformed_commands(ansible_zos_module):
@@ -94,5 +94,5 @@ def test_batch_correct_and_malformed_commands(ansible_zos_module):
     for result in response.contacted.values():
         pprint(result)
         assert result['changed'] is True
-        assert int(result['ims_output'][0]['command_return']['ctl.rc']) is 0
-        assert result['ims_output'][1]['msg'] is em.NON_ZERO_RC_MSG
+        assert int(result['ims_output'][0]['command_return']['ctl.rc']) == 0
+        assert result['ims_output'][1]['msg'] == em.NON_ZERO_RC_MSG

@@ -31,7 +31,7 @@ def test_query_imsplex_positive(ansible_zos_module, cmd):
         assert(int(result['ims_output'][0]['command_return']['ctl.rc']) == 0)
         for i in range(0, len(result['ims_output'][0]['type_2_response'])):
             a = result['ims_output'][0]['type_2_response'][i]['CC']
-            assert(int(a) is 0)
+            assert(int(a) == 0)
 
 
 test_data_negative = [
@@ -49,7 +49,7 @@ def test_query_imsplex_negative(ansible_zos_module, cmd):
     hosts = ansible_zos_module
     response = hosts.all.ims_command(command=cmd, plex=PLEX)
     for result in response.contacted.values():
-        assert result['ims_output'][0]['msg'] is em.NON_ZERO_RC_MSG
+        assert result['ims_output'][0]['msg'] == em.NON_ZERO_RC_MSG
 
 
 def test_batch_query_imsplex_basic(ansible_zos_module):
@@ -57,7 +57,7 @@ def test_batch_query_imsplex_basic(ansible_zos_module):
     batch_list = [{"command": "QUERY IMSPLEX", "plex": PLEX}]
     response = hosts.all.ims_command(batch=batch_list)
     for result in response.contacted.values():
-        assert result['ims_output'][0]['command_return']['ctl.rc'] is SUCCESSFUL_RC
+        assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         assert 'type_2_response' in result['ims_output'][0]
 
 
@@ -73,6 +73,6 @@ def test_batch_query_imsplex_multiple(ansible_zos_module):
     response = hosts.all.ims_command(batch=batch_list)
     for result in response.contacted.values():
         for output in result['ims_output']:
-            assert int(output['command_return']['ctl.rc']) is 0
+            assert int(output['command_return']['ctl.rc']) == 0
             for response in output['type_2_response']:
-                assert int(response['CC']) is 0
+                assert int(response['CC']) == 0

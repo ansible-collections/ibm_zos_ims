@@ -37,7 +37,7 @@ def create_validate_and_delete(hosts, create_cmd, pgm_name):
             pass
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         for data in result['ims_output'][0]['type_2_response']:
-            assert data['CC'] is SUCCESSFUL_CC
+            assert data['CC'] == SUCCESSFUL_CC
 
     created_pgm = False
     query_response = hosts.all.ims_command(command='QUERY PGM NAME(' + pgm_name + ')', plex=PLEX, route=ROUTE)

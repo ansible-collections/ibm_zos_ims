@@ -33,7 +33,7 @@ def test_create_initial_pgm(ansible_zos_module):
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         for data in result['ims_output'][0]['type_2_response']:
             assert data['CC'] == SUCCESSFUL_CC
-            assert data['PgmName'] is 'PYTEST'
+            assert data['PgmName'] == 'PYTEST'
 
 
 # Create and Delete an empty TRAN
@@ -44,7 +44,7 @@ def test_create_validate_and_delete_tran(ansible_zos_module):
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         for data in result['ims_output'][0]['type_2_response']:
             assert data['CC'] == SUCCESSFUL_CC
-            assert data['Trancode'] is 'PYTEST'
+            assert data['Trancode'] == 'PYTEST'
 
     delete_tran_response = hosts.all.ims_command(command='DELETE TRAN NAME(PYTEST)', plex=PLEX, route=ROUTE)
     for result in delete_tran_response.contacted.values():
@@ -59,7 +59,7 @@ def test_create_tran_with_attribute(ansible_zos_module):
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         for data in result['ims_output'][0]['type_2_response']:
             assert data['CC'] == SUCCESSFUL_CC
-            assert data['Trancode'] is 'PYTEST'
+            assert data['Trancode'] == 'PYTEST'
 
 
 # Create another TRAN like the one with attributes
@@ -70,7 +70,7 @@ def test_create_like_tran(ansible_zos_module):
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         for data in result['ims_output'][0]['type_2_response']:
             assert data['CC'] == SUCCESSFUL_CC
-            assert data['Trancode'] is 'PYCOPY'
+            assert data['Trancode'] == 'PYCOPY'
 
 
 def test_create_validate_and_delete_tran_batch(ansible_zos_module):
@@ -86,7 +86,7 @@ def test_create_validate_and_delete_tran_batch(ansible_zos_module):
         for output in result['ims_output']:
             assert output['command_return']['ctl.rc'] == SUCCESSFUL_RC
             for data in output['type_2_response']:
-                assert data['CC'] is SUCCESSFUL_CC
+                assert data['CC'] == SUCCESSFUL_CC
 
     delete_batch_list = [
         {"command": "DELETE TRAN NAME(PYTEST1)", "plex": PLEX, "route": ROUTE},

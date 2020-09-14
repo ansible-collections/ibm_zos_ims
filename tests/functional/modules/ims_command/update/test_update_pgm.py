@@ -63,29 +63,29 @@ def update_batch(hosts, batch_list):
     for result in update_response.contacted.values():
         print_return_codes(result)
         for output in result['ims_output']:
-            assert output['command_return']['ctl.rc'] is SUCCESSFUL_RC
+            assert output['command_return']['ctl.rc'] == SUCCESSFUL_RC
 
 
 def update_pgm(hosts, update_cmd):
     update_response = hosts.all.ims_command(command=update_cmd, plex=PLEX, route=ROUTE)
     for result in update_response.contacted.values():
         print_return_codes(result)
-        assert result['ims_output'][0]['command_return']['ctl.rc'] is SUCCESSFUL_RC
+        assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
 
 
 def create_pgm(hosts, pgm_name):
     create_response = hosts.all.ims_command(command='CREATE PGM NAME(' + pgm_name + ')', plex=PLEX, route=ROUTE)
     for result in create_response.contacted.values():
         print_return_codes(result)
-        assert result['ims_output'][0]['command_return']['ctl.rc'] is SUCCESSFUL_RC
+        assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         for data in result['ims_output'][0]['type_2_response']:
-            assert data['CC'] is SUCCESSFUL_CC
+            assert data['CC'] == SUCCESSFUL_CC
 
 
 def delete_pgm(hosts, pgm_name):
     delete_response = hosts.all.ims_command(command='DELETE PGM NAME(' + pgm_name + ')', plex=PLEX, route=ROUTE)
     for result in delete_response.contacted.values():
-        assert result['ims_output'][0]['command_return']['ctl.rc'] is SUCCESSFUL_RC
+        assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         return True
 
 

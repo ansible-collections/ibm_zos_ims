@@ -19,7 +19,7 @@ def test_command_with_single_quotes(ansible_zos_module):
     for result in results.contacted.values():
         pprint(result)
         assert result['changed'] is True
-        assert result['msg'] is "Success"
+        assert result['msg'] == "Success"
 
 
 # Test double quotation functions properly
