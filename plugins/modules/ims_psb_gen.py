@@ -129,48 +129,48 @@ notes:
 '''
 
 
-EXAMPLES = r'''
+EXAMPLES = r"""
 ---
 - name: Basic example of IMS PSBGEN module with single data set
-    ims_psb_gen:
-        src: /tmp/src/somefile
-        location: USS
-        replace: true
-        dest: SOME.DATA.SET.PSBLIB
-        sys_lib:
-            - SOME.DATA.SET.SDFSMAC
-            - SYS1.MACLIB
+  ims_psb_gen:
+    src: /tmp/src/somefile
+    location: USS
+    replace: true
+    dest: SOME.DATA.SET.PSBLIB
+    sys_lib:
+    - SOME.DATA.SET.SDFSMAC
+    - SYS1.MACLIB
 
 - name: Basic example of IMS PSBGEN module
-    ims_psb_gen:
-        batch:
-            -
-                src: /tmp/psbgen02
-                location: USS
-                replace: true
-            -
-                src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
-                location: DATA_SET
-                member_list: [PSBGENL : TARGET1, PSBGENL : TARGET2]
-            -
-                src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
-                member_list: [PSBGENL, PSBGENL]
-                replace: true
-            -
-                src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
-                member_list:
-                    - 'COGPSBL':'TARGET3'
-                    - 'COGPSBL2': 'TARGET4'
-                replace: true
-            -
-                src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SQ
-                location: DATA_SET
-                psb_name: SEQ
-        dest: IMSBANK.IMS1.PSBLIB
-        sys_lib:
-            - IMSBLD.I15RTSMM.SDFSMAC
-            - SYS1.MACLIB
-'''
+  ims_psb_gen:
+    batch:
+    -
+      src: /tmp/psbgen02
+      location: USS
+      replace: true
+    -
+      src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
+      location: DATA_SET
+      member_list: [PSBGENL : TARGET1, PSBGENL : TARGET2]
+    -
+      src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
+      member_list: [PSBGENL, PSBGENL]
+      replace: true
+    -
+      src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
+      member_list:
+      - 'COGPSBL': 'TARGET3'
+      - 'COGPSBL2': 'TARGET4'
+      replace: true
+    -
+      src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SQ
+      location: DATA_SET
+      psb_name: SEQ
+    dest: IMSBANK.IMS1.PSBLIB
+    sys_lib:
+    - IMSBLD.I15RTSMM.SDFSMAC
+    - SYS1.MACLIB
+"""
 
 RETURN = r"""
 ---
