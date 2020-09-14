@@ -55,7 +55,7 @@ options:
                 specified, source_name will be used as the target name.
             - If 'member_list' is empty and location is set to 'DATA_SET' or
                 not specified, then src is expected to be a sequential data set.
-            - Elements are of the list are str or dict with single key-value 
+            - Elements are of the list are str or dict with single key-value
                 pair
         type: list
         required: false
@@ -103,7 +103,7 @@ options:
                         specified, source_name will be used as the target name.
                     - If 'member_list' is empty and location is set to 'DATA_SET' or
                         not specified, then src is expected to be a sequential data set.
-                    - Elements are of the list are str or dict with single 
+                    - Elements are of the list are str or dict with single
                         key-value
                 type: list
                 required: false
