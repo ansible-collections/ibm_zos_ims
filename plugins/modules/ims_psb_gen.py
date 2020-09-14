@@ -55,8 +55,9 @@ options:
                 specified, source_name will be used as the target name.
             - If 'member_list' is empty and location is set to 'DATA_SET' or
                 not specified, then src is expected to be a sequential data set.
+            - Elements are of the list are str or dict with single key-value 
+                pair
         type: list
-        elements: str or dict with single key-value pair
         required: false
     psb_name:
         description:
@@ -102,8 +103,9 @@ options:
                         specified, source_name will be used as the target name.
                     - If 'member_list' is empty and location is set to 'DATA_SET' or
                         not specified, then src is expected to be a sequential data set.
+                    - Elements are of the list are str or dict with single 
+                        key-value
                 type: list
-                elements: str or dict with single key-value pair
                 required: false
             psb_name:
                 description:
@@ -178,6 +180,7 @@ batch_result:
         description:
                 List of output for each PSBGEN run on each element in the list of input source if input is batch.
         type: list
+        returned: on batch call
         elements: dict
         contains:
                 return_text:
