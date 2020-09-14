@@ -1,4 +1,4 @@
-host: ec32024a.vmec.svl.ibm.com
+host: ec33002a.vmec.svl.ibm.com
 user: omvsadm
 python_path: /python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3
 environment:
@@ -14,7 +14,7 @@ environment:
   ZOAUTIL_DIR: "/zoau/v1.0.3-ptf2"
   PYTHONPATH: "/zoau/v1.0.3-ptf2/lib"
   PATH: "/zoau/v1.0.3-ptf2/bin:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
-  STEPLIB: IMSBLD.I15RTSMM.COMRESL1
+  STEPLIB: IMSTESTL.IMS1.SDFSRESL #'IMSBLD.I15RTSMM.COMRESL1'
 extra_args:
     JOB_CARD: |-
       //ANSIBLE JOB 'testing',
