@@ -9,6 +9,8 @@ import re
 
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ACBGENErrorMessages as em  # pylint: disable=import-error
 
+__metaclass__ = type
+
 
 class acbgen(object):
     ACBGEN_UTILITY = "DFSRRC00"
@@ -94,12 +96,11 @@ class acbgen(object):
         else:
             reslib = self.steplib
 
-        if self.reslib:    
+        if self.reslib:
             reslib_data_set_definitions = [
                 DatasetDefinition(reslib) for reslib in self.reslib]
             reslib_dd_statement = DDStatement("DFSRESLB", reslib_data_set_definitions)
             acbgen_utility_fields.append(reslib_dd_statement)
-    
         if self.psb_lib:
             for psblib in self.psb_lib:
                 ims_dataset_list.append(DatasetDefinition(psblib))
@@ -303,7 +304,7 @@ class acbgen(object):
             response = self.compress()
             self.result = self.combine_results(response)
             if self.result.get("rc") > 4:
-                return self.result        
+                return self.result
         acbgen_utility_fields = self._build_acbgen_statements()
         response = MVSCmd.execute(
             acbgen.ACBGEN_UTILITY, acbgen_utility_fields, param_string, verbose=True)
