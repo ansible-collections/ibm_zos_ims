@@ -2,6 +2,10 @@
 # Copyright (c) IBM Corporation 2020
 # LICENSE: [GNU General Public License version 3](https://opensource.org/licenses/GPL-3.0)
 
+from __future__ import (absolute_import, division, print_function)
+
+__metaclass__ = type
+
 import os
 # import paramiko
 import stat
@@ -49,7 +53,7 @@ class ZTestHelper(object):
         This is useful in situations where no environment variables are assumed to be set. """
         interpreter_string = ''
         for key, value in self._environment.items():
-            interpreter_string += 'export {0}={1} ;'.format(key, value) 
+            interpreter_string += 'export {0}={1} ;'.format(key, value)
         interpreter_string += self._python_path
         return interpreter_string
 
@@ -59,5 +63,3 @@ class ZTestHelper(object):
             'JOB_CARD': self._extra_args.get("extra_args").get("JOB_CARD"),
         }
         return ims_info
-
-
