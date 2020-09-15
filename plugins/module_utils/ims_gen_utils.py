@@ -149,21 +149,21 @@ def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
 
     if not overwrite:
         # check if destination already has member
-        rc = data_set_member_exists(dest+'('+member+')', run_command)
+        rc = data_set_member_exists(dest + '(' + member + ')', run_command)
         if rc:
             return 3, '', 'Destination data set member already exists: ' + member
 
     ldcommand = 'ld -o '
-    ldcommand = 'ld -o "//\''+dest+'('+member+')'+'\'" ' + tmpFile
+    ldcommand = 'ld -o "//\'' + dest + '(' + member + ')' + '\'" ' + tmpFile
 
     # store sys_libs
     syslibCommand = ''
     for syslib in syslib_list:
-        syslibCommand = syslibCommand + ' -I '+syslib
+        syslibCommand = syslibCommand + ' -I ' + syslib
     out += "Attempting to run assemble command. "
 
     # assemble and create output object
-    ascommand = 'as -mOBJECT'+syslibCommand + ' -o' + tmpFile + ' ' + filename
+    ascommand = 'as -mOBJECT' + syslibCommand + ' -o' + tmpFile + ' ' + filename
     rc, out, stderr = run_command(ascommand)
     if rc != 0:
         return rc, out, stderr
@@ -179,7 +179,7 @@ def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
     run_command('rm ' + tmpFile)
 
     # check with member is present in the destination data set after assemble and compile
-    rc = data_set_member_exists(dest+'('+member+')', run_command)
+    rc = data_set_member_exists(dest + '(' + member + ')', run_command)
     if not rc:
         return 4, '', 'Error when processing, destination data does not have member: ' + member
 
@@ -215,24 +215,24 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
         return 1, '', 'Either source member or destination member should be set.'
     if not overwrite:
         # check if destination data set already has member
-        rc = data_set_member_exists(dest+'('+dest_member+')', run_command)
+        rc = data_set_member_exists(dest + '(' + dest_member + ')', run_command)
         if rc:
-            return 3, '', 'Destination data set member already exists: ' + dest_member +'.'
+            return 3, '', 'Destination data set member already exists: ' + dest_member + '.'
 
     # store sys_libs
     syslibCommand = ''
     for sys_lib in syslib_list:
-        syslibCommand = syslibCommand + ' -I '+sys_lib
+        syslibCommand = syslibCommand + ' -I ' + sys_lib
     out += "Attempt to run assemble command. "
 
     # assemble and create output object
     if src_member == '':
         # sequential data set
-        ascommand = 'as -mOBJECT'+syslibCommand + ' -o' + \
-            tmpFile+' "//\''+source+'\'"'
+        ascommand = 'as -mOBJECT' + syslibCommand + ' -o' + \
+            tmpFile + ' "//\'' + source + '\'"'
     else:
-        ascommand = 'as -mOBJECT'+syslibCommand + ' -o' + \
-            tmpFile+' "//\''+source+'('+src_member+')'+'\'"'
+        ascommand = 'as -mOBJECT' + syslibCommand + ' -o' + \
+            tmpFile + ' "//\'' + source + '(' + src_member + ')' + '\'"'
 
     rc, out, stderr = run_command(ascommand)
     if rc != 0:
@@ -240,7 +240,7 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
 
     # input is seqential data set
     ldcommand = 'ld -o '
-    ldcommand = 'ld -o "//\''+dest+'('+dest_member+')'+'\'" ' + tmpFile
+    ldcommand = 'ld -o "//\'' + dest + '(' + dest_member + ')' + '\'" ' + tmpFile
 
     # link the generated output to source
     out += "Attempt to run link command."
@@ -253,9 +253,9 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
     run_command('rm ' + tmpFile)
 
     # check with member is present in the destination data set after assemble and compile
-    rc = data_set_member_exists(dest+'('+dest_member+')', run_command)
+    rc = data_set_member_exists(dest + '(' + dest_member + ')', run_command)
     if not rc:
-        return 4, '', 'Error when processing. Destination data set does not have member: ' + dest_member +'.'
+        return 4, '', 'Error when processing. Destination data set does not have member: ' + dest_member + '.'
 
     # return success
     out += 'run_gen_data_set succeeded for source: ' + source
@@ -309,7 +309,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                 # Check if destination psblib/dbdlib exists
                 # process data set if member_list exists and not empty
                 if 'member_list' in source and not (not source['member_list']) :
-                    module.log('Generating ' + dest+' for source: ' +src + ' with members: ')
+                    module.log('Generating ' + dest + ' for source: ' + src + ' with members: ')
                     # loop through members
                     members_text = ''
                     # validate member_list
@@ -345,7 +345,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                             return src, return_code, return_text, failed
                         #Check if member exists
                         rc = data_set_member_exists(
-                            src+'('+src_member+')', run_command)
+                            src + '(' + src_member + ')', run_command)
                         if not rc:
                             # result['ims_output'].append({
                             #     'return_code': 2,
@@ -382,7 +382,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         module.log(msg=out)
                         # save member name for printing output
                         members_text = members_text + '(' + src_member + ') '
-                        return_text = 'Generated ' + dest+' for source: ' + \
+                        return_text = 'Generated ' + dest + ' for source: ' + \
                             src + ' with members: ' + members_text
                         module.log(return_text)
                 else:
@@ -408,11 +408,11 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         #     msg='Input parameter member_name is not set.', **result)
                         failed = True
                         return_code = 1
-                        return_text = 'Input parameter ' + member_name_str + ' is not set for given sequential data source: '+src
+                        return_text = 'Input parameter ' + member_name_str + ' is not set for given sequential data source: ' + src
                         return src, return_code, return_text, failed
 
                     # continue processing flat data set
-                    module.log(str('Generating ' + dest+' for source: ' + \
+                    module.log(str('Generating ' + dest + ' for source: ' + \
                         src + ' with member: ' + member_name))
 
                     if not data_set_exists(src, run_command):
@@ -449,12 +449,12 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         return src, return_code, return_text, failed
 
                     module.log(msg=out)
-                    module.log(str('Generated ' + dest+' for source: ' + \
-                        src + ' with member: ' + member_name +'.'))
+                    module.log(str('Generated ' + dest + ' for source: ' + \
+                        src + ' with member: ' + member_name + '.'))
 
         elif location == 'USS':
             # process USS file
-            module.log(str('Generating ' + dest+' for source: ' + src))
+            module.log(str('Generating ' + dest + ' for source: ' + src))
             rc, stderr = file_exists(src, run_command)
             if not rc:
                 # result['ims_output'].append({
@@ -468,7 +468,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
 
                 failed = True
                 return_code = 1
-                return_text = 'Failed to validate input file: '+src
+                return_text = 'Failed to validate input file: ' + src
                 result['stderr'] = stderr
                 return src, return_code, return_text, failed
 
@@ -492,7 +492,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                 return src, return_code, return_text, failed
 
             module.log(msg=out)
-            module.log('Generated ' + dest+' for source: ' + src)
+            module.log('Generated ' + dest + ' for source: ' + src)
     else:
         # result['ims_output'].append({
         #     'return_code': 1,
