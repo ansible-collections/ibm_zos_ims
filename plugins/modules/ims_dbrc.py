@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) IBM Corporation 2019, 2020
 # Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
+from __future__ import (absolute_import, division, print_function)
 
 __metaclass__ = type
 
@@ -20,8 +21,8 @@ short_description: Submit IMS DBRC Commands
 version_added: "2.9"
 
 description:
-  - Use Database Recovery Control (DBRC) to record and manage information that is 
-    stored in a set of VSAM data sets that are collectively called the Recovery 
+  - Use Database Recovery Control (DBRC) to record and manage information that is
+    stored in a set of VSAM data sets that are collectively called the Recovery
     Control (RECON) data set.
   - Based on this information, you can use DBRC to advise IMS about how to proceed
     with certain IMS actions.
@@ -106,7 +107,7 @@ EXAMPLES = '''
 
 - name: Sample DBRC Multiple Commands with dynamic_allocation_dataset Specified
   ims_dbrc:
-    command: 
+    command:
       - LIST.RECON STATUS
       - LIST.DB ALL
       - LIST.DBDS DBD(CUSTOMER)
@@ -123,7 +124,7 @@ EXAMPLES = '''
 
 - name: Sample DBRC Multiple Commands with RECON specified
   ims_dbrc:
-    command: 
+    command:
       - LIST.RECON STATUS
       - INIT.DB DBD(TESTDB)
       - DELETE.DB DBD(TESTDB)
@@ -192,116 +193,121 @@ unformatted_output:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.dbrc import dbrc  # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em  # pylint: disable=import-error
 from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
 import re
 
+
 def get_max_rc(raw_max_rc):
-  if raw_max_rc:
-    try:
-      return int(raw_max_rc)
-    except:
-      result['msg'] = em.INVALID_MAX_RC
-      module.fail_json(**result)
-  else:
-    return None
+    if raw_max_rc:
+        try:
+            return int(raw_max_rc)
+        except Exception:
+            result['msg'] = em.INVALID_MAX_RC
+            module.fail_json(**result)
+    else:
+        return None
+
 
 def get_step_lib_from_environment_var():
-  try:
-    step_lib_list = list(filter(None, re.split("[\\s,]+", env_fallback('STEPLIB'))))
-    result['steplibber'] = step_lib_list
-    return step_lib_list
-  except AnsibleFallbackNotFound:
-    return None
+    try:
+        step_lib_list = list(filter(None, re.split("[\\s,]+", env_fallback('STEPLIB'))))
+        result['steplibber'] = step_lib_list
+        return step_lib_list
+    except AnsibleFallbackNotFound:
+        return None
+
 
 def run_module():
-  global module, result
-  module_args = dict(
-    command=dict(type='list', required=True),
-    dbd_lib=dict(type='str', required=False),
-    dynamic_allocation_dataset=dict(type='str', required=False),
-    genjcl_input_dataset=dict(type='str', required=False),
-    genjcl_output_dataset=dict(type='str', required=False),
-    max_rc=dict(type='str', required=False),
-    recon1=dict(type='str', required=False),
-    recon2=dict(type='str', required=False),
-    recon3=dict(type='str', required=False),
-    steplib=dict(type='list', required=True)
-  )
+    global module, result
+    module_args = dict(
+        command=dict(type='list', required=True),
+        dbd_lib=dict(type='str', required=False),
+        dynamic_allocation_dataset=dict(type='str', required=False),
+        genjcl_input_dataset=dict(type='str', required=False),
+        genjcl_output_dataset=dict(type='str', required=False),
+        max_rc=dict(type='int', required=False),
+        recon1=dict(type='str', required=False),
+        recon2=dict(type='str', required=False),
+        recon3=dict(type='str', required=False),
+        steplib=dict(type='list', required=True)
+    )
 
-  result = dict(
-    changed=False,
-    msg='',
-    rc='',
-    failed=True,
-    dbrc_output={},
-    unformatted_output=[]
-  )
-  
-  module = AnsibleModule(
-    argument_spec=module_args,
-    supports_check_mode=True
-  )
+    result = dict(
+        changed=False,
+        msg='',
+        rc='',
+        failed=True,
+        dbrc_output={},
+        unformatted_output=[]
+    )
 
-  max_rc = get_max_rc(module.params['max_rc'])
-  combined_step_lib = module.params['steplib']
-  environ_step_lib = get_step_lib_from_environment_var()
-  if environ_step_lib:
-    combined_step_lib = module.params['steplib'] + environ_step_lib
-  try:
-    response = dbrc.dbrc(
-      commands=module.params['command'],
-      steplib=combined_step_lib,
-      dbd_lib=module.params['dbd_lib'],
-      dynamic_allocation_dataset=module.params['dynamic_allocation_dataset'],
-      genjcl_input_dataset=module.params['genjcl_input_dataset'],
-      genjcl_output_dataset=module.params['genjcl_output_dataset'],
-      recon1=module.params['recon1'],
-      recon2=module.params['recon2'],
-      recon3=module.params['recon3']).execute()
+    module = AnsibleModule(
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
 
-    result['dbrc_output'] = response['dbrc_fields']
-    result['unformatted_output'] = response['original_output']
-    result['failed'] = response['failure_detected']
-    result['rc'] = response['rc']
-    result['changed'] = response['changed']
+    max_rc = get_max_rc(module.params['max_rc'])
+    combined_step_lib = module.params['steplib']
+    environ_step_lib = get_step_lib_from_environment_var()
+    if environ_step_lib:
+        combined_step_lib = module.params['steplib'] + environ_step_lib
+    try:
+        response = dbrc.dbrc(
+            commands=module.params['command'],
+            steplib=combined_step_lib,
+            dbd_lib=module.params['dbd_lib'],
+            dynamic_allocation_dataset=module.params['dynamic_allocation_dataset'],
+            genjcl_input_dataset=module.params['genjcl_input_dataset'],
+            genjcl_output_dataset=module.params['genjcl_output_dataset'],
+            recon1=module.params['recon1'],
+            recon2=module.params['recon2'],
+            recon3=module.params['recon3']).execute()
 
-    if max_rc and response['rc']: 
-      if int(response['rc']) <= max_rc:
-        result['msg'] = response['error'] if response['error'] else em.SUCCESS_MSG
-        module.exit_json(**result)
+        result['dbrc_output'] = response['dbrc_fields']
+        result['unformatted_output'] = response['original_output']
+        result['failed'] = response['failure_detected']
+        result['rc'] = response['rc']
+        result['changed'] = response['changed']
 
-    if not result['dbrc_output']:
-      if response['rc'] and int(response['rc']) > 4:
-        result['msg'] = response['error'] if response['error'] else em.FAILURE_MSG
-      else:
-        result['msg'] = em.EMPTY_OUTPUT_MSG
+        if max_rc and response['rc']:
+            if int(response['rc']) <= max_rc:
+                result['msg'] = response['error'] if response['error'] else em.SUCCESS_MSG
+                module.exit_json(**result)
 
-      if response['error']:
-        print("An error occurred:", response['error'])
+        if not result['dbrc_output']:
+            if response['rc'] and int(response['rc']) > 4:
+                result['msg'] = response['error'] if response['error'] else em.FAILURE_MSG
+            else:
+                result['msg'] = em.EMPTY_OUTPUT_MSG
 
-      result['changed'] = False
-      module.fail_json(**result)
+            if response['error']:
+                print("An error occurred:", response['error'])
 
-    elif result['failed']:
-      result['msg'] = em.FAILURE_MSG
-      module.fail_json(**result)
+            result['changed'] = False
+            module.fail_json(**result)
 
-    else:
-      result['msg'] = em.SUCCESS_MSG
+        elif result['failed']:
+            result['msg'] = em.FAILURE_MSG
+            module.fail_json(**result)
 
-  except Exception as e:
-    result['msg'] = repr(e)
-    module.fail_json(**result)
-    
-  finally:
-    # _delete_data_set(sysin_data_set)
-    pass
+        else:
+            result['msg'] = em.SUCCESS_MSG
 
-  module.exit_json(**result)
+    except Exception as e:
+        result['msg'] = repr(e)
+        module.fail_json(**result)
+
+    finally:
+        # _delete_data_set(sysin_data_set)
+        pass
+
+    module.exit_json(**result)
+
 
 def main():
-  run_module()
+    run_module()
+
 
 if __name__ == '__main__':
-  main()
+    main()
