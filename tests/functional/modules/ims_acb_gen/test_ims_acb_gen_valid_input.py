@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from __future__ import (absolute_import, division, print_function)
 from pprint import pprint
 import pytest
 from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import ACBInputParameters as ip
@@ -81,7 +81,7 @@ def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
         pprint(result)
         print("Changed:", result.get('changed'))
         print("Return code:", result.get('rc'))
-        assert result.get('changed') == True
+        assert result.get('changed')
         assert result.get('rc') <= 4
 
 
