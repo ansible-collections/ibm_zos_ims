@@ -1,2 +1,5 @@
+tests/functional/modules/ims_psb_gen/uss_file/data/PWMGAT.psb no-smart-quotes # IBM-1047 encoding not recognized
+tests/functional/modules/ims_psb_gen/uss_file/data/psbgen01 no-smart-quotes # IBM-1047 encoding not recognized
 tests/functional/modules/ims_dbd_gen/uss_file/data/WMGAT.dbd no-smart-quotes # IBM-1047 encoding not recognized
 tests/functional/modules/ims_dbd_gen/uss_file/data/dbdgen02 no-smart-quotes # IBM-1047 encoding not recognized
+
