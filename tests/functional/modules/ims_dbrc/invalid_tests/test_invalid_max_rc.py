@@ -19,5 +19,5 @@ def test_invalid_max_rc(ansible_zos_module):
         )
         for result in results.contacted.values():
             pprint(result)
-            assert result['msg'] == em.INVALID_MAX_RC
+            assert result['msg'] != em.SUCCESS_MSG
             assert result['changed'] is False

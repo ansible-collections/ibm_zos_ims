@@ -143,15 +143,10 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
-changed:
-  description:
-    Indicates if this module effectively modified the target state.
-  type: boolean
-  returned: always
 dbrc_output:
   description:
     The output provided by the specified DBRC Command(s).
-  type: list[dict]
+  type: list
   returned: sometimes
   contains:
     command:
@@ -169,11 +164,6 @@ dbrc_output:
         Parsed DBRC output that maps each field to its corresponding value.
       returned: always
       type: dict
-failed:
-  description:
-    Indicates the outcome of the module.
-  type: boolean
-  returned: always
 msg:
   description:
     The output message that the `ims_dbrc` module generates.
