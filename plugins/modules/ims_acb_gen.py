@@ -41,7 +41,6 @@ options:
       - The default is none.
     type: str
     required: false
-    default: none
   psb_name:
     description:
       - The name of the PSB(s). Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
