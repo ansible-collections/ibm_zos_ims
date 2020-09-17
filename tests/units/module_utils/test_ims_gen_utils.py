@@ -23,16 +23,19 @@ member_names_test_data = [
     ("#ABC", True),
     ("@def", True),
     ("$GHI", True),
-    ("de-fg", False), # cannot contain hypens
+    ("de-fg", False),  # cannot contain hypens
     ("MemberNamesCannotBeThisLong", False),
-    ("3DBDS", False), # cannot start with a number
+    ("3DBDS", False),  # cannot start with a number
     # illegal chars
     ("&ABC", False),
     ("*DEF", False)
 ]
+
+
 @pytest.mark.parametrize("test_input, expected", member_names_test_data)
 def test_is_valid_member_str(test_input, expected):
     assert is_valid_member_str(test_input) == expected
+
 
 data = [
     # simple list of strings with legal member names
@@ -42,13 +45,14 @@ data = [
     # list of strings and dicts with legal member names
     (["abc", {"def": "ghi"}, "jkl"], True, ''),
     # list of strings and dicts with some invalid member names
-    (["abc", {"def": "ghi"}, "jkl-mno"], False, ims_em.INVALID_MEMBER_NAME+str("jkl-mno")),
+    (["abc", {"def": "ghi"}, "jkl-mno"], False, ims_em.INVALID_MEMBER_NAME + str("jkl-mno")),
     # list of strings, dicts, and list -- invalid
     (["abc", {"def": "ghi"}, "jkl", ["ABC", "DEF", "GHI"]], False, ims_em.INVALID_MEMBER_LIST_TYPE),
     # list of dicts where dict is larger than single-entry
-    (["abc", {"def": "ghi", "jkl":"mno"}, "pqr"], False, ims_em.INVALID_MEMBER_LIST_TYPE),
-
+    (["abc", {"def": "ghi", "jkl": "mno"}, "pqr"], False, ims_em.INVALID_MEMBER_LIST_TYPE),
 ]
+
+
 @pytest.mark.parametrize("member_list, expected_flag, expected_str", data)
 def test_validate_member_list(member_list, expected_flag, expected_str):
     result_flag, result_str = validate_member_list(member_list)

@@ -31,7 +31,6 @@ options:
       - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
       - If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.
     type: str
-    default: no
     required: false
   location:
     description:
@@ -58,16 +57,15 @@ options:
         specified, source_name will be used as the target name.
       - If 'member_list' is empty and location is set to 'DATA_SET' or
         not specified, then src is expected to be a sequential data set.
+      - Elements are of the list are str or dict with single key-value
+        pair
     type: list
-    elements: str or dict with single key-value pair
-    default: no
     required: false
   dbd_name:
       description:
         - Target name of the generated DBD member.
         - This parameter is only required and applies if src is a sequential data set.
       type: str
-      default: no
       required: false
   batch:
       description:
@@ -83,7 +81,6 @@ options:
             - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
             - If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.
           type: str
-          default: no
           required: true
         location:
           description:
@@ -110,29 +107,26 @@ options:
               specified, source_name will be used as the target name.
             - If 'member_list' is empty and location is set to 'DATA_SET' or
               not specified, then src is expected to be a sequential data set.
+            - Elements are of the list are str or dict with single key-value
+              pair
           type: list
-          elements: str or dict with single key-value pair
-          default: no
           required: false
         dbd_name:
           description:
             - Target name of the generated DBD member.
             - This parameter is only required and applies if src is a sequential data set.
           type: str
-          default: no
           required: false
   sys_lib:
     description:
       - A list of required macro libraries that are needed to compile the DBD source. These libraries will
         be used as the sys_lib at compile time.
     type: list
-    default: no
     required: true
   dest:
     description:
       - The target output DBDLIB partitioned data set where the DBD members will be generated to.
     type: str
-    default: no
     required: true
 notes:
   - Currently ims_dbd_gen does not support copying symbolic links from both local to
@@ -216,6 +210,7 @@ batch_result:
     description:
         List of output for each DBDGEN run on each element in the list of input source if input is batch.
     type: list
+    returned: on batch call
     elements: dict
     contains:
         return_text:

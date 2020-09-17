@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from __future__ import (absolute_import, division, print_function)
 from pprint import pprint
 import pytest
 from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import ACBInputParameters as ip
@@ -123,7 +123,7 @@ def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
     for result in response.contacted.values():
         pprint(result)
         print("Changed:", result.get('changed'))
-        assert result.get('changed') == False
+        assert result.get('changed') is False
         if result.get('rc'):
             assert result.get('rc') != 0
         elif result.get('msg'):

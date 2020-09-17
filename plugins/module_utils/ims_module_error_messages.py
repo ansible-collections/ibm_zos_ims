@@ -1,9 +1,13 @@
 from __future__ import (absolute_import, division, print_function)
+
 __metaclass__ = type
+
+
 class ErrorMessages():
     BATCH_FAILURE_MSG = "Failed. Check 'msg' field in 'ims_output' for more details."
     INVALID_CHAR_IN_CMD = "Invalid character(s) found in command."
-    INVALID_MEMBER_LIST_TYPE = "Received unexpected type in member_list. Member_list is expected to be a list of strings specifying the source members and/or single-entry dicts where the key specifies the source member as a str and the value specifies the target name as a str."
+    INVALID_MEMBER_LIST_TYPE = "Received unexpected type in member_list. Member_list is expected to be a list of strings specifying the source members \
+        and/or single-entry dicts where the key specifies the source member as a str and the value specifies the target name as a str."
     INVALID_MEMBER_NAME = "Received invalid name for a data set member: "
     INVALID_PLEX_MSG = "Malformed Plex."
     INVALID_ROUTE_MSG = "One or more routes specified are malformed."
@@ -17,6 +21,7 @@ class ErrorMessages():
     REXX_RETURN_CODE_MSG = "The following REXX error code was returned: "
     SUBMISSION_ERROR_MSG = "Error submitting IMS Command."
     SUCCESS_MSG = "Success"
+
 
 class ACBGENErrorMessages():
     INCORRECT_COMMAND_INPUT_TYPE = "'command_input' must be a string."

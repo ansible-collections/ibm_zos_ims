@@ -2,59 +2,63 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 import re
 from pprint import pprint
-
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as ims_em
 
 ZOAUTIL_TEMP_USS = "/tmp/test.jcl"
 ZOAUTIL_TEMP_USS2 = "/tmp/test2.jcl"
 
 
-def submit_uss_jcl(module):
-    (conv_rc, stdout, stderr) = module.run_command('iconv -f ISO8859-1 -t IBM-1047 %s > %s' %(ZOAUTIL_TEMP_USS, ZOAUTIL_TEMP_USS2),use_unsafe_shell=True)
-    if conv_rc == 0:
-        pprint('Submitting JCL in USS')
-        rc, stdout, stderr = module.run_command(['submit', '-j', ZOAUTIL_TEMP_USS2])
-        print(rc)
-        if rc != 0:
-            raise SubmitJCLError('SUBMIT JOB FAILED:  Stderr :' + stderr)
-        if 'Error' in stderr:
-            raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
-        if 'Not accepted by JES' in stderr:
-            raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
-        if stdout !=  '':
-            jobId = stdout.replace("\n", "").strip()
-        else:
-            raise SubmitJCLError('SUBMIT JOB FAILED: ' + 'NO JOB ID IS RETURNED. PLEASE CHECK THE JCL.')
-        pprint('this is the job id')
-        pprint(jobId)
-    else:
-        module.fail_json(msg='The Local file encoding conversion failed. Please check the source file.'+ stderr, **result)
-    return jobId
+# def submit_uss_jcl(module):
+#     (conv_rc, stdout, stderr) = module.run_command('iconv -f ISO8859-1 -t IBM-1047 %s > %s' % (ZOAUTIL_TEMP_USS, ZOAUTIL_TEMP_USS2), use_unsafe_shell=True)
+#     if conv_rc == 0:
+#         pprint('Submitting JCL in USS')
+#         rc, stdout, stderr = module.run_command(['submit', '-j', ZOAUTIL_TEMP_USS2])
+#         print(rc)
+#         if rc != 0:
+#             raise SubmitJCLError('SUBMIT JOB FAILED:  Stderr :' + stderr)
+#         if 'Error' in stderr:
+#             raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
+#         if 'Not accepted by JES' in stderr:
+#             raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
+#         if stdout != '':
+#             jobId = stdout.replace("\n", "").strip()
+#         else:
+#             raise SubmitJCLError('SUBMIT JOB FAILED: ' + 'NO JOB ID IS RETURNED. PLEASE CHECK THE JCL.')
+#         pprint('this is the job id')
+#         pprint(jobId)
+#     else:
+#         module.fail_json(msg='The Local file encoding conversion failed. Please check the source file.' + stderr, **result)
+#     return jobId
+
 
 class Error(Exception):
     pass
+
 
 class SubmitJCLError(Error):
     def __init__(self, jobs):
         self.msg = 'An error occurred during submission of jobs "{0}"'.format(jobs)
 
+
 def data_set_exists(name, run_command):
     """Checks for existence of data set."""
-    rc, _, stderr = run_command('head "//\'{}\'"'.format(name))
+    rc, stdout, stderr = run_command('head "//\'{0}\'"'.format(name))
     if rc != 0 or (stderr and 'EDC5049I' in stderr):
         return False
     return True
 
+
 def data_set_member_exists(name, run_command):
     """Checks for existence of data set member."""
-    rc, _, stderr = run_command('head "//\'{}\'"'.format(name))
+    rc, stdout, stderr = run_command('head "//\'{0}\'"'.format(name))
     if rc != 0 or (stderr and 'EDC5067I' in stderr):
         return False
     return True
 
+
 def file_exists(name, run_command):
     """Checks for existence of USS file on the host machine."""
-    _, stdout, stderr = run_command('file {}'.format(name))
+    rc, stdout, stderr = run_command('file {0}'.format(name))
 
     if stdout and ('FSUM6484' in stdout):
         return False, stdout
@@ -68,6 +72,7 @@ def file_exists(name, run_command):
 #         return False, stderr
 #     return True, ''
 
+
 def validate_member_list(member_list):
     """This function validates member list.
     Arguments:
@@ -76,13 +81,12 @@ def validate_member_list(member_list):
         {bool} -- flag marking valid parameters
         {str} -- return text containing error message
     """
-
     for member in member_list:
         return_text = ''
         # process member as a str
         if isinstance(member, str):
             if not is_valid_member_str(member):
-                return False, ims_em.INVALID_MEMBER_NAME+str(member)
+                return False, ims_em.INVALID_MEMBER_NAME + str(member)
 
         # process member as a dict
         elif isinstance(member, dict):
@@ -90,27 +94,28 @@ def validate_member_list(member_list):
             if len(member) != 1:
                 return False, ims_em.INVALID_MEMBER_LIST_TYPE
 
-            src_member, target_name = [(k,v) for k,v in member.items()][0]
+            src_member, target_name = [(k, v) for k, v in member.items()][0]
 
             # src_member must be a str and a valid member name
             if not isinstance(src_member, str):
                 return False, ims_em.INVALID_MEMBER_LIST_TYPE
             else:
                 if not is_valid_member_str(src_member):
-                    return False, ims_em.INVALID_MEMBER_NAME+str(src_member)
+                    return False, ims_em.INVALID_MEMBER_NAME + str(src_member)
 
             # target_name must be a str and a valid member name
             if not isinstance(target_name, str):
                 return False, ims_em.INVALID_MEMBER_LIST_TYPE
             else:
                 if not is_valid_member_str(target_name):
-                    return False, ims_em.INVALID_MEMBER_NAME+str(target_name)
+                    return False, ims_em.INVALID_MEMBER_NAME + str(target_name)
         # process member as non-str, non-dict
         else:
             return_text = ims_em.INVALID_MEMBER_LIST_TYPE
 
             return False, return_text
     return True, ''
+
 
 def is_valid_member_str(member_name):
     """This function checks if member is a valid name
@@ -121,7 +126,8 @@ def is_valid_member_str(member_name):
     """
 
     # re.fullmatch returns an re.Match object if there is a match or None
-    return re.fullmatch(r"^[A-Z$#@]{1}[A-Z0-9$#@]{0,7}$", str(member_name),re.IGNORECASE) != None
+    return re.fullmatch(r"^[A-Z$#@]{1}[A-Z0-9$#@]{0,7}$", str(member_name), re.IGNORECASE) is not None
+
 
 def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
     """This function runs PSBGEN or DBDGEN when specifically using USS file as input source. It runs
@@ -261,6 +267,7 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
     out += 'run_gen_data_set succeeded for source: ' + source
     return 0, out, ''
 
+
 def execute_gen_command(source, dest, syslib_list, run_command, module, result):
     location_type = {'DATA_SET', 'USS', None}
     DSN_REGEX = r'^(?:(?:[A-Z]{1}[A-Z0-9]{0,7})(?:[.]{1})){1,21}[A-Z]{1}[A-Z0-9]{0,7}(?:\([A-Z]{1}[A-Z0-9]{0,7}\)){0,1}$'
@@ -290,7 +297,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
         overwrite = source['replace']
 
     if location in location_type:
-        if location == 'DATA_SET' or location == None:
+        if location == 'DATA_SET' or location is None:
             data_set_name_pattern = re.compile(DSN_REGEX)
             check = data_set_name_pattern.search(src)
             if not check:
@@ -308,7 +315,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
             else:
                 # Check if destination psblib/dbdlib exists
                 # process data set if member_list exists and not empty
-                if 'member_list' in source and not (not source['member_list']) :
+                if 'member_list' in source and source['member_list']:
                     module.log('Generating ' + dest + ' for source: ' + src + ' with members: ')
                     # loop through members
                     members_text = ''
@@ -328,7 +335,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         # else:
                         #     throw error
                         else:
-                            src_member, target_name = [(k,v) for k,v in item.items()][0]
+                            src_member, target_name = [(k, v) for k, v in item.items()][0]
 
                         if src_member == '':
                             # result['ims_output'].append({
@@ -343,7 +350,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                             return_code = 2
                             return_text = 'Data source could not be validated. Data set member is empty.'
                             return src, return_code, return_text, failed
-                        #Check if member exists
+                        # Check if member exists
                         rc = data_set_member_exists(
                             src + '(' + src_member + ')', run_command)
                         if not rc:
@@ -360,7 +367,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                             return_text = 'Data source could not be validated. Data set member does not exist: ' + src_member
                             return src, return_code, return_text, failed
 
-                            #TODO Failed to validate DBD source - {0} instead of DBD to handle both
+                            # TODO Failed to validate DBD source - {0} instead of DBD to handle both
 
                         rc, out, stderr = run_gen_data_set(
                             src, src_member, dest, target_name, syslib_list, overwrite, run_command)
@@ -412,8 +419,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         return src, return_code, return_text, failed
 
                     # continue processing flat data set
-                    module.log(str('Generating ' + dest + ' for source: ' + \
-                        src + ' with member: ' + member_name))
+                    module.log(str('Generating ' + dest + ' for source: ' + src + ' with member: ' + member_name))
 
                     if not data_set_exists(src, run_command):
                         # result['ims_output'].append({
@@ -449,8 +455,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         return src, return_code, return_text, failed
 
                     module.log(msg=out)
-                    module.log(str('Generated ' + dest + ' for source: ' + \
-                        src + ' with member: ' + member_name + '.'))
+                    module.log(str('Generated ' + dest + ' for source: ' + src + ' with member: ' + member_name + '.'))
 
         elif location == 'USS':
             # process USS file
