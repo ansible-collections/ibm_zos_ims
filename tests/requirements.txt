@@ -8,4 +8,4 @@ ansible==2.9.6
 pytest-ansible==2.2.2
 oyaml==0.9
 shellescape==3.8.1
-astroid>=2.5
+pylint>=2.5
