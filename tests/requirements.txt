@@ -4,3 +4,4 @@ mock==3.0.5
 ansible==2.9.4
 pytest-ansible==2.2.2
 oyaml==0.9
+astroid == 2.3.3
