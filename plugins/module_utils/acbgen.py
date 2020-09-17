@@ -197,9 +197,8 @@ class acbgen(object):
                     if psb == "ALL":
                         psb_str = command_input + " PSB=ALL"
                         break
-                    else:
-                        psb_str = command_input + \
-                            " PSB=(" + ",".join(psbnames) + ")"
+                    psb_str = command_input + \
+                        " PSB=(" + ",".join(psbnames) + ")"
         return psb_str
 
     def _split_lines_dbd(self):
