@@ -1,13 +1,11 @@
-# Copyright (c) 2019, 2020 Blake Becker <blake.becker@ibm.com>
-# Copyright (c) IBM Corporation 2020
-# LICENSE: [GNU General Public License version 3](https://opensource.org/licenses/GPL-3.0)
+# Copyright (c) IBM Corporation 2019, 2020
+# Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
 from __future__ import (absolute_import, division, print_function)
 
 __metaclass__ = type
 
 import os
-# import paramiko
 import stat
 import uuid
 from collections import OrderedDict
