@@ -126,7 +126,7 @@ RETURN = '''
 failed:
   description:
     Indicates the outcome of the module.
-  type: boolean
+  type: bool
   returned: always
 ims_output:
   description:
