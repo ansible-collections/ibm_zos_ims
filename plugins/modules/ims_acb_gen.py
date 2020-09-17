@@ -285,9 +285,8 @@ def run_module():
             module.fail_json(
                 msg=(
                     "The input option 'steplib' is not provided. Please provide it in the environment"
-                    " variables 'STEPLIB', or in the module input option 'steplib'. "
-                ),
-                **result
+                    " variables 'STEPLIB', or in the module input option 'steplib'."
+                )
             )
 
     try:
