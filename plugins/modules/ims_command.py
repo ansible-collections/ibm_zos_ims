@@ -126,7 +126,7 @@ RETURN = '''
 failed:
   description:
     Indicates the outcome of the module.
-  type: boolean
+  type: bool
   returned: always
 ims_output:
   description:
@@ -349,7 +349,7 @@ def _copy_temp_file(content):
         with open(tmp_file.name, 'w') as f:
             f.write(content)
         f.close()
-        chmod(tmp_file.name, 0o755)
+        chmod(tmp_file.name, 0o744)
         dir_name = path.dirname(tmp_file.name)
         script_name = path.basename(tmp_file.name)
     except Exception:

@@ -13,7 +13,7 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_m
 __metaclass__ = type
 
 
-class acbgen(object):
+class acbgen():
     ACBGEN_UTILITY = "DFSRRC00"
     COMPRESS_UTILITY = "IEBCOPY"
 
@@ -197,9 +197,8 @@ class acbgen(object):
                     if psb == "ALL":
                         psb_str = command_input + " PSB=ALL"
                         break
-                    else:
-                        psb_str = command_input + \
-                            " PSB=(" + ",".join(psbnames) + ")"
+                    psb_str = command_input + \
+                        " PSB=(" + ",".join(psbnames) + ")"
         return psb_str
 
     def _split_lines_dbd(self):

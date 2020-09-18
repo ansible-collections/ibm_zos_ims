@@ -3,12 +3,7 @@
 # Copyright (c) IBM Corporation 2020
 # Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
-from __future__ import absolute_import, print_function
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ACBGENErrorMessages as em
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.acbgen.acbgen import acbgen  # pylint: disable=import-error
-from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
-
+from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 ANSIBLE_METADATA = {
@@ -26,7 +21,6 @@ description:
   - The ims_dbd_gen and ims_psb_gen modules can be used to generate the associated IMS database descriptors (DBDs) and program specification
     block (PSBs) to be used with the ims_acb_gen module.
   - The DBD and PSB control blocks will be merged and expanded into an IMS internal format called application control blocks (ACBs).
-
 author:
   - Dipti Gandhi (@ddgandhi)
   - Jerry Li (@th365thli)
@@ -47,7 +41,6 @@ options:
       - The default is none.
     type: str
     required: false
-    default: none
   psb_name:
     description:
       - The name of the PSB(s). Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
@@ -87,7 +80,7 @@ options:
   steplib:
     description:
       - Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by
-      having unauthorized libraries that are concatenated to SDFSRESL, you must specify the I(reslib) parameter.
+        having unauthorized libraries that are concatenated to SDFSRESL, you must specify the I(reslib) parameter.
       - The steplib parameter can also be specified in the target inventory's environment_vars.
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     required: false
@@ -200,7 +193,13 @@ debug:
   returned: always
   type: str
 '''
-module = None
+
+from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ACBGENErrorMessages as em  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.acbgen.acbgen import acbgen  # pylint: disable=import-error
+
+# module = None
 
 
 def str_or_list_of_str(contents, dependencies):
@@ -283,8 +282,12 @@ def run_module():
             list_str = steplib_str.split(" ")
             steplib += list_str
         except AnsibleFallbackNotFound as e:
-            module.fail_json(msg="The input option 'steplib' is not provided. Please provide it in the environment "
-                             "variables 'STEPLIB', or in the module input option 'steplib'. ", **result)
+            module.fail_json(
+                msg=(
+                    "The input option 'steplib' is not provided. Please provide it in the environment"
+                    " variables 'STEPLIB', or in the module input option 'steplib'."
+                )
+            )
 
     try:
         acbgen_obj = acbgen(
