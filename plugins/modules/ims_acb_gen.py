@@ -199,7 +199,7 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_m
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.acbgen.acbgen import acbgen  # pylint: disable=import-error
 
-# module = None
+module = None
 
 
 def str_or_list_of_str(contents, dependencies):

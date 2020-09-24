@@ -13,7 +13,7 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_m
 __metaclass__ = type
 
 
-class acbgen():
+class acbgen(object):
     ACBGEN_UTILITY = "DFSRRC00"
     COMPRESS_UTILITY = "IEBCOPY"
 
