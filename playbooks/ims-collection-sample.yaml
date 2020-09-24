@@ -53,74 +53,212 @@
 ###############################################################################
 
 ---
-- hosts: all
-  collections:
-    - ibm.ibm_zos_ims
-    - ibm.ibm_zos_core
-  gather_facts: no
+  - hosts: all
+    collections:
+      - ibm.ibm_zos_ims
+      - ibm.ibm_zos_core
+    gather_facts: no
+  
+    environment: "{{ environment_vars }}"
+  
+    tasks:
+      - name: DBDGEN
+        ims_dbd_gen:
+          src: IMSTESTL.ANSIBLE.DBD.SRC
+          location: DATA_SET
+          member_list:
+            [
+              DH41SK01,
+              DBFSAMD1,
+              DH41SK01,
+              DBFSAMD2,
+              DBFSAMD3,
+              HOSPVARD,
+              DSVNTZ30,
+              DX41SK01,
+              DX41SK03,
+              DX41SK05,
+              DX41SK06,
+              DX41SK07,
+              DX41SK08,
+              DX41SK09,
+              DX41SK02,
+              DX41SK04,
+            ]
+          "replace": true
+          dest: IMSTESTL.ANS.DBDLIB
+          sys_lib:
+            - IMSBLD.I15RTSMM.SDFSMAC
+            - SYS1.MACLIB
+  
+      - name: PSBGEN
+        ims_psb_gen:
+          src: IMSTESTL.ANSIBLE.PSB.SRC
+          location: DATA_SET
+          member_list: [PSBGENL]
+          replace: true
+          dest: IMSTESTL.ANS.PSBLIB
+          sys_lib:
+            - IMSBLD.I15RTSMM.SDFSMAC
+            - SYS1.MACLIB
+  
+      - name: ACBGEN
+        ims_acb_gen:
+          command_input: BUILD
+          psb_name:
+            - PSBGENL
+          psb_lib:
+            - IMSTESTL.ANS.PSBLIB
+          dbd_lib:
+            - IMSTESTL.ANS.DBDLIB
+          acb_lib: IMSTESTL.ANS.ACBLIB
+          reslib:
+            - IMSTESTL.IMS1.SDFSRESL
+          steplib:
+            - IMSTESTL.IMS1.SDFSRESL
+  
+      - name: IMS Command
+        ims_command:
+          command: DISPLAY DB AUTODB
+          plex: PLEX1
+          route: IMS1
 
-  environment: "{{ environment_vars }}"
-
-  tasks:
-    - name: DBDGEN
-      ims_dbd_gen:
-        src: IMSTESTL.ANSIBLE.DBD.SRC
-        location: DATA_SET
-        member_list:
-          [
-            DH41SK01,
-            DBFSAMD1,
-            DH41SK01,
-            DBFSAMD2,
-            DBFSAMD3,
-            HOSPVARD,
-            DSVNTZ30,
-            DX41SK01,
-            DX41SK03,
-            DX41SK05,
-            DX41SK06,
-            DX41SK07,
-            DX41SK08,
-            DX41SK09,
-            DX41SK02,
-            DX41SK04,
+      - name: test ims_catalog_populate
+        ims_catalog_populate:
+          mode: LOAD 
+          dbrc: False
+          acb_lib: [
+            IMSTESTL.IMS1.ACBLIB
           ]
-        "replace": true
-        dest: IMSTESTL.ANS.DBDLIB
-        sys_lib:
-          - IMSBLD.I15RTSMM.SDFSMAC
-          - SYS1.MACLIB
+          reslib: [
+            IMSTESTL.IMS1.SDFSRESL
+          ]
+          steplib: [
+            IMSTESTL.IMS1.SDFSRESL
+          ]
+          proclib: [
+            IMSTESTL.IMS1.PROCLIB
+          ]
+          dbd_lib: [
+            IMSTESTL.IMS1.DBDLIB
+          ]
+          psb_lib: [
+            IMSTESTL.IMS1.PSBLIB
+          ]
+          buffer_pool_param_dataset: "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
+          primary_log_dataset:
+            dataset_name: IMSTESTL.IMS1.LOG1
+            disposition: NEW
+            normal_disposition: DELETE
+            record_format: FB
+            record_length: 4092
+            block_size: 4096
+            primary: 100
+            primary_unit: CYL
+            secondary: 75
+            secondary_unit: CYL
+            type: SEQ
+          control_statements:
+            managed_acbs:
+              setup: true
+        
+      - name: test ims_catalog_purge
+        ims_catalog_purge:
+          reslib: [
+            IMSTESTL.IMS1.SDFSRESL
+          ]
+          steplib: [
+            IMSTESTL.IMS1.SDFSRESL
+          ]
+          proclib: [
+            IMSTESTL.IMS1.PROCLIB
+          ] 
+          dbd_lib: [
+            IMSTESTL.IMS1.DBDLIB
+          ]
+          psb_lib: [
+            IMSTESTL.IMS1.PSBLIB
+          ]
+          buffer_pool_param_dataset: "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
+          primary_log_dataset:
+            dataset_name: IMSTESTL.IMS1.LOG1
+            disposition: NEW
+            normal_disposition: DELETE
+            record_format: FB
+            record_length: 4092
+            block_size: 4096
+            primary: 100
+            primary_unit: CYL
+            secondary: 75
+            secondary_unit: CYL
+            type: SEQ
+          mode: PURGE
+          delete:
+            - resource: DBD
+              member_name: 'DB*'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'AUTODB'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'DFSCX'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'DI21PART'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'DG*'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'EMP*'
+              time_stamp: '*'
+            - resource: DBD
+              member_name: 'IV*'
+              time_stamp: '*' 
+            - resource: DBD
+              member_name: 'SI*'
+              time_stamp: '*' 
+            - resource: PSB 
+              member_name: 'AUT*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'DBF*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'DFH*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'DFSI*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'DFSS*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'IP*'
+              time_stamp: '*'
+            - resource: PSB 
+              member_name: 'PG*'
+              time_stamp: '*'
+          managed_acbs: true
 
-    - name: PSBGEN
-      ims_psb_gen:
-        src: IMSTESTL.ANSIBLE.PSB.SRC
-        location: DATA_SET
-        member_list: [PSBGENL]
-        replace: true
-        dest: IMSTESTL.ANS.PSBLIB
-        sys_lib:
-          - IMSBLD.I15RTSMM.SDFSMAC
-          - SYS1.MACLIB
-
-    - name: ACBGEN
-      ims_acb_gen:
-        command_input: BUILD
-        psb_name:
-          - PSBGENL
-        psb_lib:
-          - IMSTESTL.ANS.PSBLIB
-        dbd_lib:
-          - IMSTESTL.ANS.DBDLIB
-        acb_lib: IMSTESTL.ANS.ACBLIB
-        reslib:
-          - IMSTESTL.IMS1.SDFSRESL
-        steplib:
-          - IMSTESTL.IMS1.SDFSRESL
-
-    - name: IMS Command
-      ims_command:
-        command: DISPLAY DB AUTODB
-        plex: PLEX1
-        route: IMS1
-
-# ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml
+      - name: Sample DBRC Module -- LIST commands
+        ims_dbrc:
+          command:
+            - "LIST.RECON STATUS"
+            - "LIST.DB ALL"
+            - "LIST.LOG"
+            - "LIST.CAGRP"
+          steplib:
+            - IMSTESTU.IMS1501.MARKER
+            - IMSTESTL.IMS1.EXITLIB
+            - IMSTESTG.IMS15R.TSTRES
+            - IMSBLD.IMS15R.USERLIB
+            - IMSBLD.I15RTSMM.CRESLIB
+          dbd_lib: IMSTESTL.IMS1.DBDLIB
+          genjcl_input_dataset: IMSTESTL.IMS1.PROCLIB
+          genjcl_output_dataset: IMSTESTL.IMS1.JCLOUT
+          recon1: IMSTESTL.IMS1.RECON1
+          recon2: IMSTESTL.IMS1.RECON2
+          recon3: IMSTESTL.IMS1.RECON3      
+  
+  # ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml
