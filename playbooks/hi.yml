@@ -8,7 +8,7 @@
   environment: "{{ environment_vars }}"
 
   vars:
-    - VOLUME: KETAN1
+    - VOLUME: usrv01
     - all_data_sets:
       - ketan.test.x
       # - ketan.test.y
