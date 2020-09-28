@@ -47,8 +47,8 @@
 ################################################################################
 # Configure dependency installations
 ################################################################################
-PYZ: "/python/usr/lpp/IBM/cyp/v3r8/pyz"
-ZOAU: "/zoau/"
+PYZ: "/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz"
+ZOAU: "/zoau/v1.0.3-ptf2"
 
 ################################################################################
 # Playbook enviroment variables
