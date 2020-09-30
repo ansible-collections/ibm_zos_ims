@@ -67,7 +67,7 @@ def test_psb_gen_dataset_prereq(ansible_zos_module):
 
 def test_psb_gen_basic_combination(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51')
+    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=SOURCE, checksum='58715368daf0bcfddb5947900423702aad30fc51')
     batch_list = [
         {'src': USS, 'location': 'USS', 'replace': True},
         {'src': SOURCE, 'location': 'DATA_SET', 'member_list': ['PSBGENL', 'PSBLOAD']},
@@ -79,7 +79,7 @@ def test_psb_gen_basic_combination(ansible_zos_module):
 
 def test_psb_gen_uss_dataset(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51')
+    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=SOURCE, checksum='58715368daf0bcfddb5947900423702aad30fc51')
     batch_list = [
         {'src': USS, 'location': 'USS', 'replace': True},
         {'src': SOURCE, 'location': 'DATA_SET', 'member_list': ['PSBGENL', 'PSBNOOG']},
@@ -89,7 +89,7 @@ def test_psb_gen_uss_dataset(ansible_zos_module):
 
 def test_psb_gen_uss_seqDataset(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51')
+    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=SOURCE, checksum='58715368daf0bcfddb5947900423702aad30fc51')
     batch_list = [
         {'src': USS, 'location': 'USS', 'replace': True},
         {'src': SEQ, 'location': 'DATA_SET', 'psb_name': 'SEQ1'}
