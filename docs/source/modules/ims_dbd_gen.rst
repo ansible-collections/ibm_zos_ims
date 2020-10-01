@@ -73,6 +73,8 @@ batch
 
     If 'member_list' is empty and location is set to 'DATA_SET' or not specified, then src is expected to be a sequential data set.
 
+    Elements are of the list are str or dict with single key-value pair
+
 
     | **required**: False
     | **type**: list
@@ -140,6 +142,8 @@ member_list
   Optionally, proceeding the source_member, a colon with a target name for the generated DBD member can be specified. If no target name is specified, source_name will be used as the target name.
 
   If 'member_list' is empty and location is set to 'DATA_SET' or not specified, then src is expected to be a sequential data set.
+
+  Elements are of the list are str or dict with single key-value pair
 
 
   | **required**: False
@@ -278,6 +282,7 @@ Return Values
        batch_result
         | List of output for each DBDGEN run on each element in the list of input source if input is batch.
       
+        | **returned**: on batch call
         | **type**: list
               
    

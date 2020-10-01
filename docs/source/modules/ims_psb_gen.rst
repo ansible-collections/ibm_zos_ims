@@ -60,6 +60,8 @@ batch
 
     If 'member_list' is empty and location is set to 'DATA_SET' or not specified, then src is expected to be a sequential data set.
 
+    Elements are of the list are str or dict with single key-value
+
 
     | **required**: False
     | **type**: list
@@ -128,6 +130,8 @@ member_list
 
   If 'member_list' is empty and location is set to 'DATA_SET' or not specified, then src is expected to be a sequential data set.
 
+  Elements are of the list are str or dict with single key-value pair
+
 
   | **required**: False
   | **type**: list
@@ -182,6 +186,7 @@ Examples
 .. code-block:: yaml+jinja
 
    
+   ---
    - name: Basic example of IMS PSBGEN module with single data set
      ims_psb_gen:
        src: /tmp/src/somefile
@@ -189,38 +194,38 @@ Examples
        replace: true
        dest: SOME.DATA.SET.PSBLIB
        sys_lib:
-         - SOME.DATA.SET.SDFSMAC
-         - SYS1.MACLIB
+       - SOME.DATA.SET.SDFSMAC
+       - SYS1.MACLIB
 
    - name: Basic example of IMS PSBGEN module
      ims_psb_gen:
        batch:
-         -
-           src: /tmp/psbgen02
-           location: USS
-           replace: true
-         -
-           src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
-           location: DATA_SET
-           member_list: [PSBGENL : TARGET1, PSBGENL : TARGET2]
-         -
-           src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
-           member_list: [PSBGENL, PSBGENL]
-           replace: true
-         -
-           src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
-           member_list:
-             - 'COGPSBL':'TARGET3'
-             - 'COGPSBL2': 'TARGET4'
-           replace: true
-         -
-           src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SQ
-           location: DATA_SET
-           psb_name: SEQ
+       -
+         src: /tmp/psbgen02
+         location: USS
+         replace: true
+       -
+         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
+         location: DATA_SET
+         member_list: [PSBGENL : TARGET1, PSBGENL : TARGET2]
+       -
+         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
+         member_list: [PSBGENL, PSBGENL]
+         replace: true
+       -
+         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC
+         member_list:
+         - 'COGPSBL': 'TARGET3'
+         - 'COGPSBL2': 'TARGET4'
+         replace: true
+       -
+         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SQ
+         location: DATA_SET
+         psb_name: SEQ
        dest: IMSBANK.IMS1.PSBLIB
        sys_lib:
-         - IMSBLD.I15RTSMM.SDFSMAC
-         - SYS1.MACLIB
+       - IMSBLD.I15RTSMM.SDFSMAC
+       - SYS1.MACLIB
 
 
 
@@ -245,6 +250,7 @@ Return Values
        batch_result
         | List of output for each PSBGEN run on each element in the list of input source if input is batch.
       
+        | **returned**: on batch call
         | **type**: list
               
    
