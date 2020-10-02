@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as em # pylint: disable=import-error
+from __future__ import (absolute_import, division, print_function)
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as em  # pylint: disable=import-error
 
 import pytest
 # from pprint import pprint
@@ -12,6 +12,7 @@ PLEX = "PLEX1"
 SUCCESSFUL_RC = '00000000'
 SUCCESSFUL_CC = '0'
 
+
 test_data_positive = [
     ('QUERY IMSPLEX'),
     ('QUERY IMSPLEX NAME(C*)'),
@@ -19,6 +20,8 @@ test_data_positive = [
     ('QUERY IMSPLEX STATUS(READY)'),
     ('QUERY IMSPLEX SHOW(ALL)'),
 ]
+
+
 @pytest.mark.parametrize("cmd", test_data_positive)
 def test_query_imsplex_positive(ansible_zos_module, cmd):
     hosts = ansible_zos_module
@@ -30,20 +33,24 @@ def test_query_imsplex_positive(ansible_zos_module, cmd):
             a = result['ims_output'][0]['type_2_response'][i]['CC']
             assert(int(a) == 0)
 
+
 test_data_negative = [
-    ('QUERY IMSPLEX NAME(ZZZ)'), # non-existent
-    ('QUERY IMSPLEX NAME(AABBCCDDE)'), # >8 characters
-    ('QUERY IMSPLEX TYPE(*)'), # wild card - not allowed
-    ('QUERY IMSPLEX TYPE(ABC)'), # other invalid option
-    ('QUERY IMSPLEX STATUS(ABC)'), # invalid option
-    ('QUERY IMSPLEX SHOW(ZZZ)') # non-existent
+    ('QUERY IMSPLEX NAME(ZZZ)'),   # non-existent
+    ('QUERY IMSPLEX NAME(AABBCCDDE)'),   # >8 characters
+    ('QUERY IMSPLEX TYPE(*)'),   # wild card - not allowed
+    ('QUERY IMSPLEX TYPE(ABC)'),   # other invalid option
+    ('QUERY IMSPLEX STATUS(ABC)'),   # invalid option
+    ('QUERY IMSPLEX SHOW(ZZZ)')   # non-existent
 ]
+
+
 @pytest.mark.parametrize("cmd", test_data_negative)
 def test_query_imsplex_negative(ansible_zos_module, cmd):
     hosts = ansible_zos_module
     response = hosts.all.ims_command(command=cmd, plex=PLEX)
     for result in response.contacted.values():
         assert result['ims_output'][0]['msg'] == em.NON_ZERO_RC_MSG
+
 
 def test_batch_query_imsplex_basic(ansible_zos_module):
     hosts = ansible_zos_module
@@ -52,6 +59,7 @@ def test_batch_query_imsplex_basic(ansible_zos_module):
     for result in response.contacted.values():
         assert result['ims_output'][0]['command_return']['ctl.rc'] == SUCCESSFUL_RC
         assert 'type_2_response' in result['ims_output'][0]
+
 
 def test_batch_query_imsplex_multiple(ansible_zos_module):
     hosts = ansible_zos_module
@@ -68,5 +76,3 @@ def test_batch_query_imsplex_multiple(ansible_zos_module):
             assert int(output['command_return']['ctl.rc']) == 0
             for response in output['type_2_response']:
                 assert int(response['CC']) == 0
-
-

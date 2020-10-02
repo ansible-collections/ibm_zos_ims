@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division
+from __future__ import (absolute_import, division, print_function)
 
 import os
 import sys
@@ -26,37 +26,39 @@ SYSLIB = ip.SYSLIB
 LOCAL_SOURCE = "functional/modules/ims_dbd_gen/uss_file/data/dbdgen02"
 REMOTE_SOURCE = ip.REMOTE_DBDGEN02_SOURCE
 
+
 def test_ims_dbd_gen_sample(ansible_zos_module):
     hosts = ansible_zos_module
     dest = DESTINATION
     sys_lib = SYSLIB
     hosts.all.copy(src=LOCAL_SOURCE, dest=REMOTE_SOURCE)
-    results = hosts.all.ims_dbd_gen(src=SOURCE, location="DATA_SET", member_list=["DEDBJN21", "DEDBJN21"],dest=dest,sys_lib=sys_lib)
+    results = hosts.all.ims_dbd_gen(src=SOURCE, location="DATA_SET", member_list=["DEDBJN21", "DEDBJN21"], dest=dest, sys_lib=sys_lib)
     for result in results.contacted.values():
         pprint(result)
-        assert result['changed'] == True
+        assert result['changed']
         assert result['rc'] == 0
         # Check for success message (if we remove return codes)
         assert result['msg'] == GEN_SUCCESS_MSG
+
 
 def test_ims_dbd_gen_sample_batch(ansible_zos_module):
     hosts = ansible_zos_module
     src_list = [{'src': USS, 'location': "USS", "replace": True},
                 {'src': SOURCE,
-                'location': "DATA_SET",
-                'member_list': ["DEDBJN21", "DEDBJN21"]},
+                    'location': "DATA_SET",
+                    'member_list': ["DEDBJN21", "DEDBJN21"]},
                 {'src': SOURCE,
-                'member_list': ["DEDBJN21", "DEDBJN21"],
-                'replace': True},
+                    'member_list': ["DEDBJN21", "DEDBJN21"],
+                    'replace': True},
                 {'src': SEQ,
-                'location': "DATA_SET",
-                'dbd_name': 'SEQ1'}]
+                    'location': "DATA_SET",
+                    'dbd_name': 'SEQ1'}]
     dest = DESTINATION
     sys_lib = SYSLIB
-    results = hosts.all.ims_dbd_gen(batch=src_list,dest=dest,sys_lib=sys_lib)
+    results = hosts.all.ims_dbd_gen(batch=src_list, dest=dest, sys_lib=sys_lib)
     for result in results.contacted.values():
         pprint(result)
-        assert result['changed'] == True
+        assert result['changed']
         assert result['rc'] == 0
         # Check for success message (if we remove return codes)
         assert result['msg'] == GEN_SUCCESS_MSG

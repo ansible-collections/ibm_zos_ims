@@ -174,7 +174,7 @@ Return Values
         | Indicates the outcome of the module.
       
         | **returned**: always
-        | **type**: boolean
+        | **type**: bool
       
       
                               

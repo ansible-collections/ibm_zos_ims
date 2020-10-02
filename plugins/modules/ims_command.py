@@ -3,7 +3,7 @@
 # Copyright (c) IBM Corporation 2019, 2020
 # Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
-from __future__ import absolute_import
+from __future__ import (absolute_import, division, print_function)
 
 __metaclass__ = type
 
@@ -72,7 +72,7 @@ options:
     required: false
 notes:
   - This module requires Structured Call Interface (SCI) and Operations Manager (OM) to be active in the target IMSplex.
-  - This module requires the C(STEPLIB) environment variable to be set with the IMS RESLIB concatenated to it. 
+  - This module requires the C(STEPLIB) environment variable to be set with the IMS RESLIB concatenated to it.
 '''
 
 EXAMPLES = '''
@@ -126,7 +126,7 @@ RETURN = '''
 failed:
   description:
     Indicates the outcome of the module.
-  type: boolean
+  type: bool
   returned: always
 ims_output:
   description:
@@ -199,9 +199,10 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 from os import chmod, path, remove
 from tempfile import NamedTemporaryFile
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_command_utils import REXX_TEMPLATE # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as em # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_command_utils import REXX_TEMPLATE  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as em  # pylint: disable=import-error
 # from traceback import format_exc
+
 
 def format_ims_command(raw_command):
     """Cleans and verifies the user entered an IMS Command.
@@ -216,13 +217,14 @@ def format_ims_command(raw_command):
     """
     is_valid = True
     if not raw_command:
-      is_valid = False
-      error_msg = em.MISSING_COMMAND
-      return is_valid, error_msg, None
+        is_valid = False
+        error_msg = em.MISSING_COMMAND
+        return is_valid, error_msg, None
 
     command = raw_command.strip()
     command = command.replace('\"', '\"\"')
     return is_valid, None, command
+
 
 def format_plex(raw_plex):
     """Cleans and verifies the user input for Plex is valid.
@@ -236,9 +238,9 @@ def format_plex(raw_plex):
         {str} -- Formatted plex.
     """
     if not raw_plex:
-      is_valid = False
-      error_msg = em.MISSING_PLEX
-      return is_valid, error_msg, None
+        is_valid = False
+        error_msg = em.MISSING_PLEX
+        return is_valid, error_msg, None
 
     plex = raw_plex.strip()
     if not plex.isalnum():
@@ -247,6 +249,7 @@ def format_plex(raw_plex):
         return is_valid, error_msg, None
     is_valid = True
     return is_valid, None, plex
+
 
 def format_route(raw_route):
     """Cleans and formats route list into valid REXX input.
@@ -260,8 +263,8 @@ def format_route(raw_route):
         {list} -- List of validated routes.
     """
     raw_route_list = raw_route
-    if type(raw_route) == str:
-      raw_route_list = list(raw_route)
+    if isinstance(raw_route, str):
+        raw_route_list = list(raw_route)
     if raw_route_list:
         delimiter = ","
         route_list = []
@@ -274,7 +277,8 @@ def format_route(raw_route):
                 return is_valid, error_msg, None
         is_valid = True
         return is_valid, None, delimiter.join(route_list)
-    return True, None, None # style?
+    return True, None, None  # style?
+
 
 def verify_return_code(output):
     """Verifies the output returned from the REXX script does not contain a non-zero
@@ -299,6 +303,7 @@ def verify_return_code(output):
         return False, msg
     return True, None
 
+
 def submit_rexx(ims_command, plex, route, module):
     """This function will use the user input to submit a REXX script
     using the REXX template.
@@ -311,45 +316,47 @@ def submit_rexx(ims_command, plex, route, module):
         {str} -- Return code
         {str} -- Output
         {str} -- Error
-    """    
+    """
     try:
         command = ims_command
         if route:
-            command += "~{}".format(route)
+            command += "~{0}".format(route)
         rexx_script = REXX_TEMPLATE % (command, plex)
         dir_name, script_name = _copy_temp_file(rexx_script)
         cmd = path.join(dir_name, script_name)
         rc, out, err = module.run_command(args=cmd, cwd=dir_name, use_unsafe_shell=True)
     except Exception:
         err = em.SUBMISSION_ERROR_MSG
-        return None, None, err # style?
+        return None, None, err  # style?
     finally:
         remove(path.join(dir_name, script_name))
     return rc, out, err
 
+
 def _copy_temp_file(content):
     """This function creates a temporary file and sets the permissions of that file.
-    
+
     Arguments:
         content {str} -- The contents of the file to be created.
-    
+
     Returns:
         {str} -- Name of the directory in which the file is located.
         {str} -- Name of the file itself.
-    """    
+    """
     delete_on_close = False
     try:
         tmp_file = NamedTemporaryFile(delete=delete_on_close)
         with open(tmp_file.name, 'w') as f:
             f.write(content)
         f.close()
-        chmod(tmp_file.name, 0o755)
+        chmod(tmp_file.name, 0o744)
         dir_name = path.dirname(tmp_file.name)
         script_name = path.basename(tmp_file.name)
     except Exception:
         remove(tmp_file)
         raise
     return dir_name, script_name
+
 
 def scan_for_rexx_error(rexx_output):
     """Scans for a REXX error in the rexx_output
@@ -402,9 +409,9 @@ def execute_ims_command(command, plex, route, module):
         result['msg'] = em.JSON_DECODE_ERROR_MSG
         rexx_error = scan_for_rexx_error(out)
         if rexx_error:
-          result['err'] = rexx_error
+            result['err'] = rexx_error
         else:
-          result['err'] = err
+            result['err'] = err
         return False, result
 
     is_valid, err = verify_return_code(json_output)
@@ -412,7 +419,7 @@ def execute_ims_command(command, plex, route, module):
         json_output['msg'] = err
         json_output['err'] = em.NON_ZERO_ERR_MSG
         return False, json_output
-    if rc == None:
+    if rc is None:
         json_output['msg'] = err
         return False, json_output
     elif rc != 0:
@@ -425,6 +432,7 @@ def execute_ims_command(command, plex, route, module):
 
     return True, json_output
 
+
 def run_module():
     module_args = dict(
         command=dict(type='str', required=False),
@@ -432,14 +440,14 @@ def run_module():
         route=dict(type='list', required=False),
 
         batch=dict(
-          type='list',
-          required=False,
-          elements='dict',
-          options=dict(
-            command=dict(type='str', required=True),
-            plex=dict(type='str', required=True),
-            route=dict(type='list', required=False)
-          )
+            type='list',
+            required=False,
+            elements='dict',
+            options=dict(
+                command=dict(type='str', required=True),
+                plex=dict(type='str', required=True),
+                route=dict(type='list', required=False)
+            )
         )
     )
 
@@ -494,8 +502,10 @@ def run_module():
     result['msg'] = em.SUCCESS_MSG
     module.exit_json(**result)
 
+
 def main():
     run_module()
+
 
 if __name__ == '__main__':
     main()
