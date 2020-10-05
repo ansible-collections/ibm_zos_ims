@@ -1,6 +1,6 @@
 host: ec33003a.vmec.svl.ibm.com
 user: omvsadm
-python_path: /python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3
+python_path: /python/3.8.3.ptf1/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3
 environment:
   _BPXK_AUTOCVT: "ON"
   _CEE_RUNOPTS: "'FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'"
@@ -10,10 +10,10 @@ environment:
   LANG: C
   ZOAU_ROOT: "/zoau/v1.0.3-ptf2"
   ZOAU_HOME: "/zoau/v1.0.3-ptf2"
-  LIBPATH: "/zoau/v1.0.3-ptf2/lib:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:."
+  LIBPATH: "/zoau/v1.0.3-ptf2/lib:/python/3.8.3.ptf1/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:."
   ZOAUTIL_DIR: "/zoau/v1.0.3-ptf2"
   PYTHONPATH: "/zoau/v1.0.3-ptf2/lib"
-  PATH: "/zoau/v1.0.3-ptf2/bin:/python/v3.8.0-ga/usr/lpp/IBM/cyp/v3r8/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin" 
+  PATH: "/zoau/v1.0.3-ptf2/bin:/python/3.8.3.ptf1/usr/lpp/IBM/cyp/v3r8/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
   STEPLIB: IMSTESTL.IMS1.SDFSRESL #'IMSBLD.I15RTSMM.COMRESL1'
 extra_args:
     JOB_CARD: |-
