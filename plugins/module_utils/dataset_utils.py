@@ -1,14 +1,16 @@
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_raw import MVSCmd # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
 import tempfile
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import ( # pylint: disable=import-error
-  MissingZOAUImport,
-) 
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import (  # pylint: disable=import-error
+    MissingZOAUImport,
+)
 import tempfile
 import pprint
 try:
-    from zoautil_py import Datasets, types # pylint: disable=import-error
+    from zoautil_py import Datasets, types  # pylint: disable=import-error
 except Exception:
     Datasets = MissingZOAUImport()
     types = MissingZOAUImport()
@@ -30,6 +32,7 @@ def _create_temp_data_set(hlq):
     )
     return temp_data_set_name
 
+
 def _create_data_set(name, extra_args=None):
     """A wrapper around zoautil_py
     Dataset.create() to raise exceptions on failure.
@@ -44,6 +47,7 @@ def _create_data_set(name, extra_args=None):
     if rc > 0:
         raise DatasetCreateError(name, rc)
     return
+
 
 def _write_data_set(name, contents):
     """Write text to a data set.
@@ -64,6 +68,7 @@ def _write_data_set(name, contents):
         raise DatasetWriteError(name, rc, stderr)
     return
 
+
 def _delete_data_set(name):
     """A wrapper around zoautil_py
     Dataset.delete() to raise exceptions on failure.
@@ -77,9 +82,11 @@ def _delete_data_set(name):
         raise DatasetDeleteError(name, rc)
     return
 
+
 class Error(Exception):
     def __init__(self, *args):
         super(Error, self).__init__(*args)
+
 
 class DatasetWriteError(Error):
     def __init__(self, data_set, rc, message=""):
@@ -88,12 +95,14 @@ class DatasetWriteError(Error):
         )
         super(DatasetWriteError, self).__init__(self.msg)
 
+
 class DatasetDeleteError(Error):
     def __init__(self, data_set, rc):
         self.msg = 'An error occurred during deletion of data set "{0}". RC={1}'.format(
             data_set, rc
         )
         super(DatasetDeleteError, self).__init__(self.msg)
+
 
 class DatasetCreateError(Error):
     def __init__(self, data_set, rc):

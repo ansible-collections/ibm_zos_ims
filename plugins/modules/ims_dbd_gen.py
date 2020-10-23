@@ -3,7 +3,7 @@
 # Copyright (c) IBM Corporation 2019, 2020
 # Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
-from __future__ import absolute_import
+from __future__ import (absolute_import, division, print_function)
 
 __metaclass__ = type
 
@@ -31,7 +31,6 @@ options:
       - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
       - If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.
     type: str
-    default: no
     required: false
   location:
     description:
@@ -53,21 +52,20 @@ options:
   member_list:
     description:
       - A list of member names if the source specified is a data set.
-      - Optionally, proceeding the source_member, a colon with a target name for 
+      - Optionally, proceeding the source_member, a colon with a target name for
         the generated DBD member can be specified. If no target name is
         specified, source_name will be used as the target name.
       - If 'member_list' is empty and location is set to 'DATA_SET' or
         not specified, then src is expected to be a sequential data set.
+      - Elements are of the list are str or dict with single key-value
+        pair
     type: list
-    elements: str or dict with single key-value pair
-    default: no
     required: false
   dbd_name:
       description:
         - Target name of the generated DBD member.
         - This parameter is only required and applies if src is a sequential data set.
       type: str
-      default: no
       required: false
   batch:
       description:
@@ -83,7 +81,6 @@ options:
             - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
             - If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.
           type: str
-          default: no
           required: true
         location:
           description:
@@ -105,34 +102,31 @@ options:
         member_list:
           description:
             - A list of member names if the source specified is a data set.
-            - Optionally, proceeding the source_member, a colon with a target name for 
+            - Optionally, proceeding the source_member, a colon with a target name for
               the generated DBD member can be specified. If no target name is
               specified, source_name will be used as the target name.
             - If 'member_list' is empty and location is set to 'DATA_SET' or
               not specified, then src is expected to be a sequential data set.
+            - Elements are of the list are str or dict with single key-value
+              pair
           type: list
-          elements: str or dict with single key-value pair
-          default: no
           required: false
         dbd_name:
           description:
             - Target name of the generated DBD member.
             - This parameter is only required and applies if src is a sequential data set.
           type: str
-          default: no
           required: false
   sys_lib:
     description:
       - A list of required macro libraries that are needed to compile the DBD source. These libraries will
         be used as the sys_lib at compile time.
     type: list
-    default: no
     required: true
   dest:
     description:
       - The target output DBDLIB partitioned data set where the DBD members will be generated to.
     type: str
-    default: no
     required: true
 notes:
   - Currently ims_dbd_gen does not support copying symbolic links from both local to
@@ -216,6 +210,7 @@ batch_result:
     description:
         List of output for each DBDGEN run on each element in the list of input source if input is batch.
     type: list
+    returned: on batch call
     elements: dict
     contains:
         return_text:
@@ -256,7 +251,9 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_gen_utils import data_set_exists, data_set_member_exists, file_exists, run_gen_file, run_gen_data_set, execute_gen_command # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_gen_utils import \
+    data_set_exists, data_set_member_exists, file_exists, run_gen_file, run_gen_data_set, execute_gen_command  # pylint: disable=import-error
+
 
 def run_module():
     # define available arguments/parameters a user can pass to the module
@@ -273,61 +270,44 @@ def run_module():
         dbd_name=dict(type='str', required=False),
 
         batch=dict(
-          type='list',
-          required=False,
-          elements='dict',
-          options=dict(
-            src=dict(type='str', required=False),
-            location=dict(type='str', default='DATA_SET', choices=['DATA_SET', 'USS']),
-            replace=dict(type='bool', required=False, default=True),
+            type='list',
+            required=False,
+            elements='dict',
+            options=dict(
+                src=dict(type='str', required=False),
+                location=dict(type='str', default='DATA_SET', choices=['DATA_SET', 'USS']),
+                replace=dict(type='bool', required=False, default=True),
 
-            # TODO member_list is required if location is 'DATA_SET'
-            member_list=dict(type='list', required=False),
-            # member_list=dict(type='list', elements='str', required=False),
-
-            dbd_name=dict(type='str', required=False),
-
-          )
-        ),
+                # TODO member_list is required if location is 'DATA_SET'
+                member_list=dict(type='list', required=False),
+                dbd_name=dict(type='str', required=False))),
 
         sys_lib=dict(type='list', required=True),
-        dest=dict(type='str', required=True)
-    )
+        dest=dict(type='str', required=True))
 
     # TODO - enforce batch and single source params are mutually exclusive
 
-    result = dict(
-        changed=False,
-        # original_message='',
-        # rc= -1,
-        # message=''
-    )
+    result = dict(changed=False)
 
     module = AnsibleModule(
         argument_spec=module_args,
-        supports_check_mode=False
-    )
+        supports_check_mode=False)
 
     # TODO - enforce batch and single source params are mutually exclusive
     # TODO - use BetterArgParser
 
     run_command = module.run_command
 
-    # we are not supporting check mode.
-    # if module.check_mode:
-    #     module.exit_json(**result)
-
     # TODO move src handling (list vs singulars) logic to utils
     if module.params['batch']:
-      dbd_src_list = module.params['batch']
+        dbd_src_list = module.params['batch']
     else:
-      dbd_src_list = [{
-        'src':module.params['src'],
-        'location':module.params['location'],
-        'replace':module.params['replace'],
-        'member_list':module.params['member_list'],
-        'dbd_name':module.params['dbd_name']
-      }]
+        dbd_src_list = [{
+            'src': module.params['src'],
+            'location': module.params['location'],
+            'replace': module.params['replace'],
+            'member_list': module.params['member_list'],
+            'dbd_name': module.params['dbd_name']}]
 
     dest = module.params['dest']
     sys_lib_list = module.params['sys_lib']
@@ -336,13 +316,6 @@ def run_module():
     rc = data_set_exists(dest, run_command)
     if not rc:
         return_text = 'Destination data set does not exist or is not catalogued.'
-        # result['ims_output'].append({
-        #     'return_code': 1,
-        #     'std_error': 'error validating destination: '+dest,
-        #     'return_text': return_text
-        # })
-        # module.fail_json(
-        #     msg='Failed to validate destination data set.', **result)
         result['rc'] = 1
         module.fail_json(msg=return_text, **result)
 
@@ -351,41 +324,34 @@ def run_module():
     for source in dbd_src_list:
         src, return_code, return_text, failed = execute_gen_command(source, dest, sys_lib_list, run_command, module, result)
 
-
         # populate batch result list with srcs returned from execute
         if failed:
-          result['rc'] = return_code
-          batch_result.append({'src':src, 'return_text':return_text})
-          if module.params['batch']:
-            result['batch_result'] = batch_result
-            module.fail_json(msg='FAILURE - DBDGEN execution unsuccessful.', **result)
-          else:
-            msg = batch_result[0]['return_text']
-            module.fail_json(msg=msg, **result)
+            result['rc'] = return_code
+            batch_result.append({'src': src, 'return_text': return_text})
+            if module.params['batch']:
+                result['batch_result'] = batch_result
+                module.fail_json(msg='FAILURE - DBDGEN execution unsuccessful.', **result)
+            else:
+                msg = batch_result[0]['return_text']
+                module.fail_json(msg=msg, **result)
         else:
-          # batch_result.append({'src':src})
-          batch_result.append({'src':src, 'return_text':'success'}) # TODO
+            batch_result.append({'src': src, 'return_text': 'success'})
 
-        # store result per source
-        # result['ims_output'].append({
-        #     'return_code': 0,
-        #     'src': src,
-        #     'return_text': return_text
-        # })
-
-        # update changed
+        # Update changed
         result['changed'] = True
 
-    # if size of batch_results is 1, then single src case, else batch case
+    # If size of batch_results is 1, then single src case, else batch case
     if module.params['batch']:
-      result['batch_result'] = batch_result
-    # module execution successful.
+        result['batch_result'] = batch_result
+    # Module execution successful.
     result['msg'] = 'DBDGEN execution was successful.'
     result['rc'] = 0
-    module.exit_json(**result) # success
+    module.exit_json(**result)  # success
+
 
 def main():
     run_module()
+
 
 if __name__ == '__main__':
     main()
