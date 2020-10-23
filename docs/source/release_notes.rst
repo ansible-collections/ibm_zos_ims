@@ -10,6 +10,8 @@ Version 1.0.1
 ====================
 
 Notes
+-----
+
   * Update recommended
 
     * ``ims_acb_gen``
@@ -20,11 +22,15 @@ Notes
   * Improved test and security coverage
 
 Availability
+------------
+
   * `Automation Hub`_
   * `Galaxy`_
   * `GitHub`_
 
 Reference
+---------
+
   * Supported by IBM z/OS core collection v1.2.1 or later
   * Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
   * Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435 or later
