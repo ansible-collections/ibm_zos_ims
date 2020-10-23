@@ -1,12 +1,15 @@
-# Copyright (c) 2019, 2020 Blake Becker <blake.becker@ibm.com>
-# Copyright (c) IBM Corporation 2020
-# LICENSE: [GNU General Public License version 3](https://opensource.org/licenses/GPL-3.0)
+# Copyright (c) IBM Corporation 2019, 2020
+# Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
+
+from __future__ import (absolute_import, division, print_function)
+
+__metaclass__ = type
 
 import os
-# import paramiko
 import stat
 import uuid
 from collections import OrderedDict
+
 # ? should we just use yaml and accept the unordered dict?
 # * oyaml is a drop-in replacement for pyyaml that preserves dict
 # * ordering, this is useful in our use case since we define environment variables as
@@ -16,6 +19,7 @@ from collections import OrderedDict
 from oyaml import safe_load
 
 # TODO: Add/enhance error handling
+
 
 class ZTestHelper(object):
     """ ZTestHelper provides helper methods to deal with added complexities when testing against a z/OS system. """
@@ -49,7 +53,7 @@ class ZTestHelper(object):
         This is useful in situations where no environment variables are assumed to be set. """
         interpreter_string = ''
         for key, value in self._environment.items():
-            interpreter_string += 'export {0}={1} ;'.format(key, value) 
+            interpreter_string += 'export {0}={1} ;'.format(key, value)
         interpreter_string += self._python_path
         return interpreter_string
 
@@ -59,5 +63,3 @@ class ZTestHelper(object):
             'JOB_CARD': self._extra_args.get("extra_args").get("JOB_CARD"),
         }
         return ims_info
-
-

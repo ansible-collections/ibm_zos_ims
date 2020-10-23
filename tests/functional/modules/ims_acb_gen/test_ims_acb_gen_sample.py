@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division
+from __future__ import (absolute_import, division, print_function)
 
 from pprint import pprint
 from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import ACBInputParameters as ip
@@ -25,8 +25,8 @@ COMP = ip.COMP
 
 
 def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
-                       dbd_lib=None, acb_lib=None, steplib=None, reslib=None,
-                       compression=None, build_psb=None, command_input=None):
+                    dbd_lib=None, acb_lib=None, steplib=None, reslib=None,
+                    compression=None, build_psb=None, command_input=None):
     arguments = {}
     if psb_name:
         arguments["psb_name"] = psb_name
@@ -55,19 +55,17 @@ def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
         pprint(result)
         print("Changed:", result.get('changed'))
         print("Return code:", result.get('rc'))
-        assert result.get('changed') == True
+        assert result.get('changed')
         assert result.get('rc') <= 4
 
 
 def test_ims_acb_gen_sample_build(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB, dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB)
+    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB,
+                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB)
 
 
 def test_ims_acb_gen_sample_delete(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_DELETE, psb_name=PSB_NAME, dbd_name=DBD_NAMES, psb_lib=PSBLIB, dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB)
-
-
-
-
+    validate_acbgen(hosts, command_input=COMMAND_INPUT_DELETE, psb_name=PSB_NAME, dbd_name=DBD_NAMES,
+                    psb_lib=PSBLIB, dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB)
