@@ -80,7 +80,6 @@ compression
 
   | **required**: False
   | **type**: str
-  | **default**: none
 
 
  

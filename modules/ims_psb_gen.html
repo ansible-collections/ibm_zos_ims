@@ -232,6 +232,7 @@
 <dt>member_list</dt><dd><p>A list of member names if the source specified is a data set.</p>
 <p>Optionally, proceeding the source_member, a colon with a target name for the generated PSB member can be specified. If no target name is specified, source_name will be used as the target name.</p>
 <p>If ‘member_list’ is empty and location is set to ‘DATA_SET’ or not specified, then src is expected to be a sequential data set.</p>
+<p>Elements are of the list are str or dict with single key-value</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
 <div class="line"><strong>type</strong>: list</div>
@@ -278,6 +279,7 @@
 <dt>member_list</dt><dd><p>A list of member names if the source specified is a data set.</p>
 <p>Optionally, proceeding the source_member, a colon with a target name for the generated PSB member can be specified. If no target name is specified, source_name will be used as the target name.</p>
 <p>If ‘member_list’ is empty and location is set to ‘DATA_SET’ or not specified, then src is expected to be a sequential data set.</p>
+<p>Elements are of the list are str or dict with single key-value pair</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
 <div class="line"><strong>type</strong>: list</div>
@@ -314,45 +316,46 @@
 </div>
 <div class="section" id="examples">
 <h2><a class="toc-backref" href="#id3">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS PSBGEN module with single data set</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS PSBGEN module with single data set</span>
   <span class="nt">ims_psb_gen</span><span class="p">:</span>
     <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/tmp/src/somefile</span>
     <span class="nt">location</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">USS</span>
     <span class="nt">replace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
     <span class="nt">dest</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SOME.DATA.SET.PSBLIB</span>
     <span class="nt">sys_lib</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SOME.DATA.SET.SDFSMAC</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SYS1.MACLIB</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SOME.DATA.SET.SDFSMAC</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SYS1.MACLIB</span>
 
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Basic example of IMS PSBGEN module</span>
   <span class="nt">ims_psb_gen</span><span class="p">:</span>
     <span class="nt">batch</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span>
-        <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/tmp/psbgen02</span>
-        <span class="nt">location</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">USS</span>
-        <span class="nt">replace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="p p-Indicator">-</span>
-        <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC</span>
-        <span class="nt">location</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DATA_SET</span>
-        <span class="nt">member_list</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">PSBGENL</span> <span class="p p-Indicator">:</span> <span class="nv">TARGET1</span><span class="p p-Indicator">,</span> <span class="nv">PSBGENL</span> <span class="p p-Indicator">:</span> <span class="nv">TARGET2</span><span class="p p-Indicator">]</span>
-      <span class="p p-Indicator">-</span>
-        <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC</span>
-        <span class="nt">member_list</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">PSBGENL</span><span class="p p-Indicator">,</span> <span class="nv">PSBGENL</span><span class="p p-Indicator">]</span>
-        <span class="nt">replace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="p p-Indicator">-</span>
-        <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC</span>
-        <span class="nt">member_list</span><span class="p">:</span>
-          <span class="p p-Indicator">-</span> <span class="s">&#39;COGPSBL&#39;</span><span class="l l-Scalar l-Scalar-Plain">:&#39;TARGET3&#39;</span>
-          <span class="p p-Indicator">-</span> <span class="s">&#39;COGPSBL2&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;TARGET4&#39;</span>
-        <span class="nt">replace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="p p-Indicator">-</span>
-        <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OMVSADM.IMSTESTU.ANSIBLE.PSB.SQ</span>
-        <span class="nt">location</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DATA_SET</span>
-        <span class="nt">psb_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SEQ</span>
+    <span class="p p-Indicator">-</span>
+      <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/tmp/psbgen02</span>
+      <span class="nt">location</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">USS</span>
+      <span class="nt">replace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="p p-Indicator">-</span>
+      <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC</span>
+      <span class="nt">location</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DATA_SET</span>
+      <span class="nt">member_list</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">PSBGENL</span> <span class="p p-Indicator">:</span> <span class="nv">TARGET1</span><span class="p p-Indicator">,</span> <span class="nv">PSBGENL</span> <span class="p p-Indicator">:</span> <span class="nv">TARGET2</span><span class="p p-Indicator">]</span>
+    <span class="p p-Indicator">-</span>
+      <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC</span>
+      <span class="nt">member_list</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">PSBGENL</span><span class="p p-Indicator">,</span> <span class="nv">PSBGENL</span><span class="p p-Indicator">]</span>
+      <span class="nt">replace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="p p-Indicator">-</span>
+      <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OMVSADM.IMSTESTU.ANSIBLE.PSB.SRC</span>
+      <span class="nt">member_list</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&#39;COGPSBL&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;TARGET3&#39;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&#39;COGPSBL2&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;TARGET4&#39;</span>
+      <span class="nt">replace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="p p-Indicator">-</span>
+      <span class="nt">src</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">OMVSADM.IMSTESTU.ANSIBLE.PSB.SQ</span>
+      <span class="nt">location</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DATA_SET</span>
+      <span class="nt">psb_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SEQ</span>
     <span class="nt">dest</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">IMSBANK.IMS1.PSBLIB</span>
     <span class="nt">sys_lib</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">IMSBLD.I15RTSMM.SDFSMAC</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SYS1.MACLIB</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">IMSBLD.I15RTSMM.SDFSMAC</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SYS1.MACLIB</span>
 </pre></div>
 </div>
 </div>
@@ -503,10 +506,8 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
+            <dd><a href="../v1.0.1/modules/ims_psb_gen.html">v1.0.1</a></dd>
             <dd><a href="../v1.1.0-beta.1/modules/ims_psb_gen.html">v1.1.0-beta.1</a></dd>
-            <dd><a href="../v1.0.0-beta1/modules/ims_psb_gen.html">v1.0.0-beta1</a></dd>
-            <dd><a href="../v1.0.0-beta2/modules/ims_psb_gen.html">v1.0.0-beta2</a></dd>
-            <dd><a href="../v1.0.0-beta3/modules/ims_psb_gen.html">v1.0.0-beta3</a></dd>
         </dl>
     </div>
 </div>
