@@ -20,7 +20,7 @@ copyright = '2020, IBM'
 author = 'IBM'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.1'
+release = '1.1.0-beta.1'
 
 ##############################################################################
 # General configuration
@@ -39,7 +39,10 @@ templates_path = ['../templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ['playbooks.rst', 'playbook_config_setup.rst',
+                    'playbook_group_vars.rst', 'playbook_inventory.rst',
+                    'playbook_run.rst', 'requirements.rst',
+                    'requirements_managed.rst']
 
 ##############################################################################
 # Options for HTML output

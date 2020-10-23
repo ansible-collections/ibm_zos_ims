@@ -32,8 +32,8 @@ Managed node
 * The z/OS® shell
 
    * IBM z/OS collections are dependent on specific versions of ZOAU. When
-     configuring the dependencies, refer to the collections requirements
-     and dependencies to ensure proper execution.
+     configuring the dependencies, refer to the requirements
+     and dependencies of the particular collection to ensure proper execution.
 * `z/OS OpenSSH`_
 
 
@@ -57,7 +57,7 @@ Configuration and Dependencies
 ==============================
 
 This section explains how to configure the environment and which dependencies to
-install to run both the functional and unti test cases.
+install to run both the functional and unit test cases.
 
 Install dependencies
 --------------------
@@ -70,7 +70,7 @@ In the root folder of the collection, run the command:
    $ pip3 install -r tests/requirements.txt
 
 
-If the command responds with ``ERROR: Could not install packages due to an EnvironmentError: [Errno 13] Permission denied``
+If the command responds with ``ERROR: Could not install packages due to an EnvironmentError: [Errno 13] Permission denied``,
 run the command with the additional ``-user`` option:
 
 .. code-block:: sh
@@ -154,12 +154,13 @@ Run Functional Tests
 --------------------
 
 To run the functional tests, you will need a Python 3 environment.
-Pass the YAML configuration to  command ``pytest`` with the option ``--zinventory``
+Pass the YAML configuration to the ``pytest`` command  with the option ``--zinventory``
 or ``-z``. By default, ``pytest`` looks for the YAML configuration in the local
-directory as **test-config.yaml**. In this example, we assume that the path to the
-YAML configuration is **/home/myuser/test_config.yml**.
+directory as **test-config.yaml**.
 
-If the environment is using Python 2, or Python 3 is not present in the host PATH:
+In this example, the path to the YAML configuration is **/home/myuser/test_config.yml**.
+
+If the environment is using Python 2 or Python 3 is not present in the host PATH:
 
 .. code-block:: yaml
 
@@ -340,7 +341,7 @@ Unit Testing Resources
 zos_import_mocker
 -----------------
 The `zos_import_mocker`_ pytest fixture is designed to simplify mocking import
-dependencies without causing side-effects.
+dependencies without disrupting any of the existing operations.
 
 .. _zos_import_mocker:
     https://github.com/ansible-collections/ibm_zos_ims/blob/dev/tests/conftest.py#L57

@@ -2,6 +2,7 @@
 .. © Copyright IBM Corporation 2020                                          .
 .. ...........................................................................
 
+========================
 IBM z/OS IMS collection
 ========================
 
@@ -36,59 +37,44 @@ community supported.
 Features
 ========
 
-The IBM z/OS IMS collection includes `action plugins`_, `modules`_,
+The IBM z/OS IMS collection includes `modules`_,
 `sample playbooks`_, and ansible-doc to automate tasks on z/OS.
 
 
-.. _action plugins:
-   https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/action/
 .. _modules:
     https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/modules/
 .. _sample playbooks:
     https://github.com/ansible-collections/ibm_zos_ims/tree/master/playbooks/
 
-
-
-Copyright
-=========
-
-© Copyright IBM Corporation 2020
-
-License
-=======
-
-This collection is licensed under `Apache License, Version 2.0`_.
-
-.. _Apache License, Version 2.0:
-    https://opensource.org/licenses/Apache-2.0
-
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Getting Started
 
    installation
+   requirements-single
+   playbooks-single
 
 .. toctree::
-   :maxdepth: 3
-   :caption: Reference
+   :maxdepth: 1
+   :caption: Ansible Content
 
    modules
-   playbooks
 
 .. toctree::
    :maxdepth: 1
-   :caption: Community guides
-
-   community_guides
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Requirements
-
-   requirements
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Appendices
+   :caption: Release Notes
 
    release_notes
+
+.. .. toctree::
+..    :maxdepth: 1
+..    :caption: FAQs
+..
+..    faqs
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Reference
+
+   community_guides
+   license

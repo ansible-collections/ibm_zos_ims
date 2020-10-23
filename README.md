@@ -33,7 +33,6 @@ Features
 ========
 
 The IBM IMS collection includes
-[action plugins](https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/action/)
 [modules](https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/modules/),
 and ansible-doc to automate tasks on IMS.
 
