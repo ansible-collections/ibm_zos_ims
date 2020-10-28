@@ -30,9 +30,7 @@ Work flow for dataset functional tests with inputs as follows:
 10. Source is empty string
 11. Valid dataset with empty member list  
 12. Valid dataset with list of empty strings
-13. Valid data set with illegal target names in member list
-14. Valid data set with list of lists of valid soures
-15. Location is empty string 
+13. Location is empty string 
 """
 
 def validate_single_src(hosts, dest, sys_lib, src, location='DATA_SET', replace=True, member_list=None, psb_name=None):
@@ -126,16 +124,6 @@ def test_psb_gen_dataset_memberList_empty(ansible_zos_module):
 def test_psb_gen_dataset_memberList_empty_listOfString(ansible_zos_module):
     hosts = ansible_zos_module
     validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE,location='DATA_SET', member_list=['',''], replace=True)
-
-# 13. Valid data set with illegal target names in member list
-def test_dbd_gen_illegal_target_names(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE,location='DATA_SET', member_list=[{'TEST1':'DATA-SET'},'TEST2'], replace=True)
-
-# 14. Valid data set with list of lists of valid soures
-def test_dbd_gen_invalid_member_list_type(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE,location='DATA_SET', member_list=[[{'A':'B'}], 'C', 'D'], replace=True)
 
 def test_psb_gen_location_empty(ansible_zos_module):
     hosts = ansible_zos_module

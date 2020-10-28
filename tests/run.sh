@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ansible-galaxy collection build ../ --force
-ansible-galaxy collection install ./ibm-ibm_zos_ims*.tar.gz -c -f --force-with-deps
+ansible-galaxy collection install ibm.ibm_zos_ims:1.0.0-beta2 -c
 
 plugins_dir=$(pwd)/../plugins
 core_dir=~/.ansible/collections/ansible_collections/ibm/ibm_zos_core/plugins

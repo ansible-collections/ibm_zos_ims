@@ -19,9 +19,7 @@ Work flow for Combination functional tests goes as follows:
 2. 2 inputs - uss, dataset
 3. 2 inputs - uss, seq dataset
 4. 2 inputs - dataset, seq dataset
-5. list of datasets with list of members -- batch and single src
-6. memberlist with target names defined
-7. prereq for acbgen tests
+5. list of datasets with list of members
 """
 
 GEN_SUCCESS_MSG = 'DBDGEN execution was successful.'
@@ -92,19 +90,11 @@ def test_dbd_gen_list_datasets(ansible_zos_module):
         {'src': SOURCE, 'location': 'DATA_SET', 'member_list': ['DEDBJN21', 'DEDBJNV2']},
         {'src': SOURCE, 'member_list': ['DEDBJN21', 'AUTODB'], 'replace': True}
     ]
-    validate_batch(hosts, batch_list, DESTINATION, SYSLIB)
+    validate_batch(hosts, batch_list, DESTINATION, SYSLIB)   
 
 def test_dbd_gen_single_src_member_list(ansible_zos_module):
     hosts = ansible_zos_module
     validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE, location= 'DATA_SET', member_list=['DEDBJN21', 'DEDBJNV2', 'DEDBJN21', 'AUTODB', 'DEDBJN21', 'AUTODB', 'DEDBJN21', 'AUTODB'], replace=True)
-
-def test_dbd_gen_target_name(ansible_zos_module):
-    hosts = ansible_zos_module
-    batch_list = [
-        {'src': SOURCE, 'location': 'DATA_SET', 'member_list': [{'DEDBJNV1':'D1'}, {'DEDBJNV2': 'D2'}], 'replace': True},
-        {'src': SEQ, 'location': 'DATA_SET', 'dbd_name': 'D3', 'replace': True}
-    ]
-    validate_batch(hosts,  batch_list, DESTINATION, SYSLIB)
 
 def test_dbd_gen_dataset_prereq(ansible_zos_module):
     hosts = ansible_zos_module

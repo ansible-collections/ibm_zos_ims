@@ -19,7 +19,6 @@ Work flow for dataset functional tests with inputs as follows:
 4. 1 dataset with list of members 
 5. List of datasets with 1 member each
 6. List of datasets with list of members
-7. List of datasets with list of members with target names defined.
 """
 
 GEN_SUCCESS_MSG = 'DBDGEN execution was successful.'
@@ -76,23 +75,9 @@ def test_dbd_gen_datasetList_member(ansible_zos_module):
     ]
     validate_batch(hosts, batch_list, DESTINATION, SYSLIB)
 
-def test_dbd_gen_dataset_targetName(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE,location='DATA_SET', member_list=[{'DEDBJN21':'dbd1'}, {'AUTODB':'dbd2'}, {'DEDBJNV1':'dbd3'}], replace=True)
-
-def test_dbd_gen_datasetList_targetName(ansible_zos_module):
+def test_dbd_gen_datasetList_memberList(ansible_zos_module):
     hosts = ansible_zos_module
     batch_list = [
-        {'src': SOURCE, 'location': "DATA_SET",
-            'member_list': [
-                {"DEDBJN21":'dbd4'},
-                {"AUTODB":'dbd5'}
-            ]
-        },
-        {'src': SOURCE, 'location': "DATA_SET",
-            'member_list': [
-                {"DEDBJN21":'dbd6'}, {"DEDBJNV1":'dbd7'}
-        ],
-        'replace': True}
-    ]
-    validate_batch(hosts, batch_list, DESTINATION, SYSLIB)
+        {'src': SOURCE, 'location': "DATA_SET", 'member_list': ["DEDBJN21", "AUTODB"]},
+        {'src': SOURCE, 'location': "DATA_SET", 'member_list': ["DEDBJN21", "DEDBJNV1"], 'replace': True}]
+    validate_batch(hosts, batch_list, DESTINATION, SYSLIB) 

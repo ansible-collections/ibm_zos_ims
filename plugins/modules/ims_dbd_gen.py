@@ -53,13 +53,11 @@ options:
   member_list:
     description:
       - A list of member names if the source specified is a data set.
-      - Optionally, proceeding the source_member, a colon with a target name for 
-        the generated DBD member can be specified. If no target name is
-        specified, source_name will be used as the target name.
-      - If 'member_list' is empty and location is set to 'DATA_SET' or
-        not specified, then src is expected to be a sequential data set.
+      - Is required if I(location) is 'DATA_SET'.
+      - If 'member_list' is empty and location is set to false, then src
+        is expected to be a sequential data set.
     type: list
-    elements: str or dict with single key-value pair
+    elements: str
     default: no
     required: false
   dbd_name:
@@ -105,13 +103,11 @@ options:
         member_list:
           description:
             - A list of member names if the source specified is a data set.
-            - Optionally, proceeding the source_member, a colon with a target name for 
-              the generated DBD member can be specified. If no target name is
-              specified, source_name will be used as the target name.
-            - If 'member_list' is empty and location is set to 'DATA_SET' or
-              not specified, then src is expected to be a sequential data set.
+            - Is required if I(location) is 'DATA_SET'.
+            - If 'member_list' is empty and location is set to false, then src
+              is expected to be a sequential data set.
           type: list
-          elements: str or dict with single key-value pair
+          elements: str
           default: no
           required: false
         dbd_name:
@@ -163,10 +159,6 @@ EXAMPLES = r'''
   ims_dbd_gen:
     src: SOME.DATA.SET.DBD.SRC
     'replace': true
-    member_list:
-      - 'DEDBJN21': 'DBD1'
-      - 'DEDBJN21': 'DBD2'
-      - 'DEDBJNV1': 'DBD3'
     dest: SOME.PARTITIONED.DATA.SET.DBDLIB
     sys_lib:
       - SOME.DATA.SET.SDFSMAC
@@ -196,10 +188,10 @@ EXAMPLES = r'''
       -
         src: SOME.DATA.SET.DBD.SRC
         location: DATA_SET
-        member_list: [DSMEMBR1, DSMEMBR2 : target2, DSMEMBR3]
+        member_list: [DSMEMBR1, DSMEMBR2, DSMEMBR3]
       -
         src: SOME.DATA.SET.DBD.SRC
-        member_list: [DSMEMBR4 : target4]
+        member_list: [DSMEMBR4]
         'replace': true
       -
         src: SOME.DATA.SET.DBD.SEQ
@@ -261,14 +253,12 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_gen_utils impo
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
-
         src=dict(type='str', required=False),
         location=dict(type='str', default='DATA_SET', choices=['DATA_SET', 'USS']),
         replace=dict(type='bool', required=False, default=True),
 
         # TODO member_list is required if location is 'DATA_SET'
-        member_list=dict(type='list', required=False),
-        # member_list=dict(type='list', elements='str', required=False),
+        member_list=dict(type='list', elements='str', required=False),
 
         dbd_name=dict(type='str', required=False),
 
@@ -282,8 +272,7 @@ def run_module():
             replace=dict(type='bool', required=False, default=True),
 
             # TODO member_list is required if location is 'DATA_SET'
-            member_list=dict(type='list', required=False),
-            # member_list=dict(type='list', elements='str', required=False),
+            member_list=dict(type='list', elements='str', required=False), 
 
             dbd_name=dict(type='str', required=False),
 
@@ -295,6 +284,7 @@ def run_module():
     )
 
     # TODO - enforce batch and single source params are mutually exclusive
+    # TODO - use BetterArgParser
 
     result = dict(
         changed=False,
@@ -307,9 +297,6 @@ def run_module():
         argument_spec=module_args,
         supports_check_mode=False
     )
-
-    # TODO - enforce batch and single source params are mutually exclusive
-    # TODO - use BetterArgParser
 
     run_command = module.run_command
 

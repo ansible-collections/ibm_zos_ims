@@ -26,8 +26,6 @@ SYSLIB = ip.SYSLIB
 LOCAL_SOURCE = "functional/modules/ims_dbd_gen/uss_file/data/dbdgen02"
 REMOTE_SOURCE = ip.REMOTE_DBDGEN02_SOURCE
 
-# LARGE_SOURCE = '/tmp/PWMGAT.psb'
-
 def test_ims_dbd_gen_sample(ansible_zos_module):
     hosts = ansible_zos_module
     dest = DESTINATION
@@ -43,8 +41,6 @@ def test_ims_dbd_gen_sample(ansible_zos_module):
 
 def test_ims_dbd_gen_sample_batch(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51')
-    # hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/PWMGAT.psb', dest=LARGE_SOURCE, checksum='0b335c7b949129115a7cc282f395bccec6675f7f')
     src_list = [{'src': USS, 'location': "USS", "replace": True},
                 {'src': SOURCE,
                 'location': "DATA_SET",

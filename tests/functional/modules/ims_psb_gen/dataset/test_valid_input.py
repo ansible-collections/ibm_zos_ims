@@ -22,7 +22,6 @@ Work flow for dataset functional tests with inputs as follows:
 4. 1 dataset with list of members
 5. List of datasets with 1 member each
 6. List of datasets with list of members
-7. List of datasets with list of members with target names defined.
 """
 def validate_single_src(hosts, dest, sys_lib, src, location='DATA_SET', replace=True, member_list=None, psb_name=None):
     # print(srcList)
@@ -78,25 +77,4 @@ def test_psg_gen_datasetList_memberList(ansible_zos_module):
     batch_list = [
         {'src': SOURCE, 'location': "DATA_SET", 'member_list': ["PSBGENL", "PSBLOAD"]},
         {'src': SOURCE, 'location': "DATA_SET", 'member_list': ["PSBGENL", "PSBNO"], 'replace': True}]
-    validate_batch(hosts, batch_list, DESTINATION, SYSLIB)
-
-def test_dbd_gen_dataset_targetName(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE,location='DATA_SET', member_list=[{'PSBLOAD':'psb1'}, {'PSBNO':'psb2'}, {'PSBGENL':'psb3'}], replace=True)
-
-def test_dbd_gen_datasetList_targetName(ansible_zos_module):
-    hosts = ansible_zos_module
-    batch_list = [
-        {'src': SOURCE, 'location': "DATA_SET",
-            'member_list': [
-                {"PSBGENL":'psb4'},
-                {"PSBLOAD":'psb5'}
-            ]
-        },
-        {'src': SOURCE, 'location': "DATA_SET",
-            'member_list': [
-                {"PSBLOAD":'psb6'}, {"PSBGENL":'psb7'}
-        ],
-        'replace': True}
-    ]
     validate_batch(hosts, batch_list, DESTINATION, SYSLIB)
