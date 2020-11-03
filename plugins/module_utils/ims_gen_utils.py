@@ -1,56 +1,64 @@
-import re 
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
+import re
 from pprint import pprint
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as ims_em
 
 ZOAUTIL_TEMP_USS = "/tmp/test.jcl"
 ZOAUTIL_TEMP_USS2 = "/tmp/test2.jcl"
 
 
-def submit_uss_jcl(module):
-    (conv_rc, stdout, stderr) = module.run_command('iconv -f ISO8859-1 -t IBM-1047 %s > %s' %(ZOAUTIL_TEMP_USS, ZOAUTIL_TEMP_USS2),use_unsafe_shell=True)
-    if conv_rc == 0:
-        pprint('Submitting JCL in USS')
-        rc, stdout, stderr = module.run_command(['submit', '-j', ZOAUTIL_TEMP_USS2])
-        print(rc)
-        if rc != 0:
-            raise SubmitJCLError('SUBMIT JOB FAILED:  Stderr :' + stderr)
-        if 'Error' in stderr:
-            raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
-        if 'Not accepted by JES' in stderr:
-            raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
-        if stdout !=  '':
-            jobId = stdout.replace("\n", "").strip()
-        else:
-            raise SubmitJCLError('SUBMIT JOB FAILED: ' + 'NO JOB ID IS RETURNED. PLEASE CHECK THE JCL.')
-        pprint('this is the job id')
-        pprint(jobId)
-    else:
-        module.fail_json(msg='The Local file encoding conversion failed. Please check the source file.'+ stderr, **result)
-    return jobId
+# def submit_uss_jcl(module):
+#     (conv_rc, stdout, stderr) = module.run_command('iconv -f ISO8859-1 -t IBM-1047 %s > %s' % (ZOAUTIL_TEMP_USS, ZOAUTIL_TEMP_USS2), use_unsafe_shell=True)
+#     if conv_rc == 0:
+#         pprint('Submitting JCL in USS')
+#         rc, stdout, stderr = module.run_command(['submit', '-j', ZOAUTIL_TEMP_USS2])
+#         print(rc)
+#         if rc != 0:
+#             raise SubmitJCLError('SUBMIT JOB FAILED:  Stderr :' + stderr)
+#         if 'Error' in stderr:
+#             raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
+#         if 'Not accepted by JES' in stderr:
+#             raise SubmitJCLError('SUBMIT JOB FAILED: ' + stderr)
+#         if stdout != '':
+#             jobId = stdout.replace("\n", "").strip()
+#         else:
+#             raise SubmitJCLError('SUBMIT JOB FAILED: ' + 'NO JOB ID IS RETURNED. PLEASE CHECK THE JCL.')
+#         pprint('this is the job id')
+#         pprint(jobId)
+#     else:
+#         module.fail_json(msg='The Local file encoding conversion failed. Please check the source file.' + stderr, **result)
+#     return jobId
+
 
 class Error(Exception):
     pass
+
 
 class SubmitJCLError(Error):
     def __init__(self, jobs):
         self.msg = 'An error occurred during submission of jobs "{0}"'.format(jobs)
 
+
 def data_set_exists(name, run_command):
     """Checks for existence of data set."""
-    rc, _, stderr = run_command('head "//\'{}\'"'.format(name))
+    rc, stdout, stderr = run_command('head "//\'{0}\'"'.format(name))
     if rc != 0 or (stderr and 'EDC5049I' in stderr):
         return False
     return True
 
+
 def data_set_member_exists(name, run_command):
     """Checks for existence of data set member."""
-    rc, _, stderr = run_command('head "//\'{}\'"'.format(name))
+    rc, stdout, stderr = run_command('head "//\'{0}\'"'.format(name))
     if rc != 0 or (stderr and 'EDC5067I' in stderr):
         return False
     return True
 
+
 def file_exists(name, run_command):
     """Checks for existence of USS file on the host machine."""
-    _, stdout, stderr = run_command('file {}'.format(name))
+    rc, stdout, stderr = run_command('file {0}'.format(name))
 
     if stdout and ('FSUM6484' in stdout):
         return False, stdout
@@ -64,17 +72,74 @@ def file_exists(name, run_command):
 #         return False, stderr
 #     return True, ''
 
+
+def validate_member_list(member_list):
+    """This function validates member list.
+    Arguments:
+        member_list{list} -- member list param.
+    Returns:
+        {bool} -- flag marking valid parameters
+        {str} -- return text containing error message
+    """
+    for member in member_list:
+        return_text = ''
+        # process member as a str
+        if isinstance(member, str):
+            if not is_valid_member_str(member):
+                return False, ims_em.INVALID_MEMBER_NAME + str(member)
+
+        # process member as a dict
+        elif isinstance(member, dict):
+            # expect single-entry dict
+            if len(member) != 1:
+                return False, ims_em.INVALID_MEMBER_LIST_TYPE
+
+            src_member, target_name = [(k, v) for k, v in member.items()][0]
+
+            # src_member must be a str and a valid member name
+            if not isinstance(src_member, str):
+                return False, ims_em.INVALID_MEMBER_LIST_TYPE
+            else:
+                if not is_valid_member_str(src_member):
+                    return False, ims_em.INVALID_MEMBER_NAME + str(src_member)
+
+            # target_name must be a str and a valid member name
+            if not isinstance(target_name, str):
+                return False, ims_em.INVALID_MEMBER_LIST_TYPE
+            else:
+                if not is_valid_member_str(target_name):
+                    return False, ims_em.INVALID_MEMBER_NAME + str(target_name)
+        # process member as non-str, non-dict
+        else:
+            return_text = ims_em.INVALID_MEMBER_LIST_TYPE
+
+            return False, return_text
+    return True, ''
+
+
+def is_valid_member_str(member_name):
+    """This function checks if member is a valid name
+        Arguments:
+        member_name {str} -- str to be checked and validated
+        Returns:
+        {bool} -- flag for valid member name
+    """
+
+    # re.fullmatch returns an re.Match object if there is a match or None
+    return re.fullmatch(r"^[A-Z$#@]{1}[A-Z0-9$#@]{0,7}$", str(member_name), re.IGNORECASE) is not None
+
+
 def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
     """This function runs PSBGEN or DBDGEN when specifically using USS file as input source. It runs
-       validation on input parameters and then runs assemble and link commands in sequence.
-       It also verifies if destination data set has correct member name,
-       same as input filename as the result of PSBGEN or DBDGEN processing.
+    validation on input parameters and then runs assemble and link commands in sequence.
+    It also verifies if destination data set has correct member name,
+    same as input filename as the result of PSBGEN or DBDGEN processing.
     Arguments:
         filename {str} -- The name of USS file as input data set which contains PSB or DBD source.
         dest {str} -- The name of destination PSBLIB or DBDLIB data set.
         syslib_list {list str} -- A list of required macro libraries, needed to compile the PSB or DBD source.
-        overwrite {bool} -- If set to true, it will link and over write already existing destination member.
-    
+        overwrite {bool} -- If set to true, it will link and overwrite the existing destination member.
+
     Returns:
         {int} -- Return code - indicating the general status of function execution, if zero, its a success.
         {str} -- Return text.
@@ -90,21 +155,21 @@ def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
 
     if not overwrite:
         # check if destination already has member
-        rc = data_set_member_exists(dest+'('+member+')', run_command)
+        rc = data_set_member_exists(dest + '(' + member + ')', run_command)
         if rc:
             return 3, '', 'Destination data set member already exists: ' + member
 
     ldcommand = 'ld -o '
-    ldcommand = 'ld -o "//\''+dest+'('+member+')'+'\'" ' + tmpFile
+    ldcommand = 'ld -o "//\'' + dest + '(' + member + ')' + '\'" ' + tmpFile
 
     # store sys_libs
     syslibCommand = ''
     for syslib in syslib_list:
-        syslibCommand = syslibCommand + ' -I '+syslib
+        syslibCommand = syslibCommand + ' -I ' + syslib
     out += "Attempting to run assemble command. "
 
     # assemble and create output object
-    ascommand = 'as -mOBJECT'+syslibCommand + ' -o' + tmpFile + ' ' + filename
+    ascommand = 'as -mOBJECT' + syslibCommand + ' -o' + tmpFile + ' ' + filename
     rc, out, stderr = run_command(ascommand)
     if rc != 0:
         return rc, out, stderr
@@ -120,7 +185,7 @@ def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
     run_command('rm ' + tmpFile)
 
     # check with member is present in the destination data set after assemble and compile
-    rc = data_set_member_exists(dest+'('+member+')', run_command)
+    rc = data_set_member_exists(dest + '(' + member + ')', run_command)
     if not rc:
         return 4, '', 'Error when processing, destination data does not have member: ' + member
 
@@ -131,18 +196,18 @@ def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
 
 def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwrite, run_command):
     """This function runs PSBGEN or DBDGEN when specifically using data set as input source. It runs
-       validation on input parameters and then runs assemble and link commands in sequence.
-       It also verifies if destination data set has correct member name;
-       if the source is a regular data set, then member name is same as src_member;
-       else, if the source is a sequential data set, then it is dest_member.
+    validation on input parameters and then runs assemble and link commands in sequence.
+    It also verifies if destination data set has correct member name;
+    if the source is a regular data set, then member name is same as src_member;
+    else, if the source is a sequential data set, then it is dest_member.
     Arguments:
         source {str} -- The name of input data set.
         src_member {str} -- The name of member in input data set which contains PSB or DBD source.
         dest {str} -- The name of destination PSBLIB or DBDLIB data set.
-        dest_member {str} -- The name of member within PSBLIB or DBDLIB data set to store output.
+        dest_member {str} -- The target name of member within PSBLIB or DBDLIB data set to store output. Same as src_member if not explicitly specified.
         syslib_list {List str} -- A list of required macro libraries, needed to compile the PSB or DBD source.
-        overwrite {bool} -- If set to true, it will link and over write already existing destination member.
-    
+        overwrite {bool} -- If set to true, it will link and overwrite the existing destination member.
+
     Returns:
         {int} -- Return code, indicating the general status of function execution, if zero, its a success.
         {str} -- Return text.
@@ -154,33 +219,26 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
 
     if dest_member == '' and src_member == '':
         return 1, '', 'Either source member or destination member should be set.'
-    # if dest member is provided then use that to link the output else
-    # use the same as source member name
-    if dest_member == '':
-        member = src_member
-    else:
-        member = dest_member
-
     if not overwrite:
         # check if destination data set already has member
-        rc = data_set_member_exists(dest+'('+member+')', run_command)
+        rc = data_set_member_exists(dest + '(' + dest_member + ')', run_command)
         if rc:
-            return 3, '', 'Destination data set member already exists: ' + member +'.'
+            return 3, '', 'Destination data set member already exists: ' + dest_member + '.'
 
     # store sys_libs
     syslibCommand = ''
     for sys_lib in syslib_list:
-        syslibCommand = syslibCommand + ' -I '+sys_lib
+        syslibCommand = syslibCommand + ' -I ' + sys_lib
     out += "Attempt to run assemble command. "
 
     # assemble and create output object
     if src_member == '':
         # sequential data set
-        ascommand = 'as -mOBJECT'+syslibCommand + ' -o' + \
-            tmpFile+' "//\''+source+'\'"'
+        ascommand = 'as -mOBJECT' + syslibCommand + ' -o' + \
+            tmpFile + ' "//\'' + source + '\'"'
     else:
-        ascommand = 'as -mOBJECT'+syslibCommand + ' -o' + \
-            tmpFile+' "//\''+source+'('+src_member+')'+'\'"'
+        ascommand = 'as -mOBJECT' + syslibCommand + ' -o' + \
+            tmpFile + ' "//\'' + source + '(' + src_member + ')' + '\'"'
 
     rc, out, stderr = run_command(ascommand)
     if rc != 0:
@@ -188,7 +246,7 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
 
     # input is seqential data set
     ldcommand = 'ld -o '
-    ldcommand = 'ld -o "//\''+dest+'('+member+')'+'\'" ' + tmpFile
+    ldcommand = 'ld -o "//\'' + dest + '(' + dest_member + ')' + '\'" ' + tmpFile
 
     # link the generated output to source
     out += "Attempt to run link command."
@@ -201,13 +259,14 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
     run_command('rm ' + tmpFile)
 
     # check with member is present in the destination data set after assemble and compile
-    rc = data_set_member_exists(dest+'('+member+')', run_command)
+    rc = data_set_member_exists(dest + '(' + dest_member + ')', run_command)
     if not rc:
-        return 4, '', 'Error when processing. Destination data set does not have member: ' + member +'.'
+        return 4, '', 'Error when processing. Destination data set does not have member: ' + dest_member + '.'
 
     # return success
     out += 'run_gen_data_set succeeded for source: ' + source
     return 0, out, ''
+
 
 def execute_gen_command(source, dest, syslib_list, run_command, module, result):
     location_type = {'DATA_SET', 'USS', None}
@@ -238,7 +297,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
         overwrite = source['replace']
 
     if location in location_type:
-        if location == 'DATA_SET' or location == None:
+        if location == 'DATA_SET' or location is None:
             data_set_name_pattern = re.compile(DSN_REGEX)
             check = data_set_name_pattern.search(src)
             if not check:
@@ -256,12 +315,29 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
             else:
                 # Check if destination psblib/dbdlib exists
                 # process data set if member_list exists and not empty
-                if 'member_list' in source and not (not source['member_list']) :
-                    module.log('Generating ' + dest+' for source: ' +src + ' with members: ')
+                if 'member_list' in source and source['member_list']:
+                    module.log('Generating ' + dest + ' for source: ' + src + ' with members: ')
                     # loop through members
                     members_text = ''
-                    for member in source['member_list']:
-                        if member == '':
+                    # validate member_list
+                    valid, return_text = validate_member_list(source['member_list'])
+                    if not valid:
+                        failed = True
+                        return_code = 2
+                        return src, return_code, return_text, failed
+
+                    for item in source['member_list']:
+                        if type(item) == str:
+                            # set target name same as src
+                            src_member = item
+                            target_name = item
+                        # elif type(item) == dict:
+                        # else:
+                        #     throw error
+                        else:
+                            src_member, target_name = [(k, v) for k, v in item.items()][0]
+
+                        if src_member == '':
                             # result['ims_output'].append({
                             #     'return_code': 2,
                             #     'src': src,
@@ -274,9 +350,9 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                             return_code = 2
                             return_text = 'Data source could not be validated. Data set member is empty.'
                             return src, return_code, return_text, failed
-                        #Check if member exists
+                        # Check if member exists
                         rc = data_set_member_exists(
-                            src+'('+member+')', run_command)
+                            src + '(' + src_member + ')', run_command)
                         if not rc:
                             # result['ims_output'].append({
                             #     'return_code': 2,
@@ -288,13 +364,13 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                             #     msg='Failed to validate data source.', **result)
                             failed = True
                             return_code = 2
-                            return_text = 'Data source could not be validated. Data set member does not exist: ' + member
+                            return_text = 'Data source could not be validated. Data set member does not exist: ' + src_member
                             return src, return_code, return_text, failed
 
-                            #TODO Failed to validate DBD source - {0} instead of DBD to handle both
+                            # TODO Failed to validate DBD source - {0} instead of DBD to handle both
 
                         rc, out, stderr = run_gen_data_set(
-                            src, member, dest, '', syslib_list, overwrite, run_command)
+                            src, src_member, dest, target_name, syslib_list, overwrite, run_command)
 
                         if rc != 0:
                             # result['ims_output'].append({
@@ -312,8 +388,8 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                             return src, return_code, return_text, failed
                         module.log(msg=out)
                         # save member name for printing output
-                        members_text = members_text + '(' + member + ') '
-                        return_text = 'Generated ' + dest+' for source: ' + \
+                        members_text = members_text + '(' + src_member + ') '
+                        return_text = 'Generated ' + dest + ' for source: ' + \
                             src + ' with members: ' + members_text
                         module.log(return_text)
                 else:
@@ -339,12 +415,11 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         #     msg='Input parameter member_name is not set.', **result)
                         failed = True
                         return_code = 1
-                        return_text = 'Input parameter ' + member_name_str + ' is not set for given sequential data source: '+src
+                        return_text = 'Input parameter ' + member_name_str + ' is not set for given sequential data source: ' + src
                         return src, return_code, return_text, failed
 
                     # continue processing flat data set
-                    module.log(str('Generating ' + dest+' for source: ' + \
-                        src + ' with member: ' + member_name))
+                    module.log(str('Generating ' + dest + ' for source: ' + src + ' with member: ' + member_name))
 
                     if not data_set_exists(src, run_command):
                         # result['ims_output'].append({
@@ -354,7 +429,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         #     'return_text': return_text
                         # })
                         # module.fail_json(
-                        #     msg='Failed to validate data source.', **result) #TODO Failed to validate DBD source - {0} instead of DBD to handle both 
+                        #     msg='Failed to validate data source.', **result) #TODO Failed to validate DBD source - {0} instead of DBD to handle both
 
                         failed = True
                         return_code = 1
@@ -380,12 +455,11 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         return src, return_code, return_text, failed
 
                     module.log(msg=out)
-                    module.log(str('Generated ' + dest+' for source: ' + \
-                        src + ' with member: ' + member_name +'.'))
+                    module.log(str('Generated ' + dest + ' for source: ' + src + ' with member: ' + member_name + '.'))
 
         elif location == 'USS':
             # process USS file
-            module.log(str('Generating ' + dest+' for source: ' + src))
+            module.log(str('Generating ' + dest + ' for source: ' + src))
             rc, stderr = file_exists(src, run_command)
             if not rc:
                 # result['ims_output'].append({
@@ -399,7 +473,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
 
                 failed = True
                 return_code = 1
-                return_text = 'Failed to validate input file: '+src
+                return_text = 'Failed to validate input file: ' + src
                 result['stderr'] = stderr
                 return src, return_code, return_text, failed
 
@@ -423,7 +497,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                 return src, return_code, return_text, failed
 
             module.log(msg=out)
-            module.log('Generated ' + dest+' for source: ' + src)
+            module.log('Generated ' + dest + ' for source: ' + src)
     else:
         # result['ims_output'].append({
         #     'return_code': 1,
