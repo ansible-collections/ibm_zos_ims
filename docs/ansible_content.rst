@@ -6,18 +6,16 @@
 z/OS IMS
 ========
 
-The **IBM z/OS core collection**, also represented as **ibm\_zos\_core**
+The **IBM z/OS IMS collection**, also represented as **ibm\_zos\_ims**
 in this document, is part of the broader offering **Red Hat® Ansible
-Certified Content for IBM Z**. IBM z/OS core collection supports tasks
-such as creating data sets, submitting jobs, querying jobs,
-retrieving job output, encoding data sets, fetching data sets, operator
-commands, TSO commands, ping and querying operator actions.
+Certified Content for IBM Z**. The IBM z/OS IMS collection supports tasks
+such as generating IMS Database Descriptors (DBD), Program Specification
+Blocks (PSB), Application Control Blocks (ACB), and running IMS type-1
+& type-2 commands.
 
-The **IBM z/OS core collection** serves as a dependency for other collections
-under the **Red Hat® Ansible Certified Content for IBM Z** umbrella and
-works closely with offerings such as `IBM z/OS IMS collection`_ to deliver
-a solution that will enable you to automate tasks on z/OS subsystems such
-as IMS.
+The **IBM z/OS IMS collection** works closely with offerings such as the
+`IBM z/OS core collection`_ to deliver a solution that will enable you to
+automate tasks on z/OS.
 
 .. _IBM z/OS IMS collection:
    https://github.com/ansible-collections/ibm_zos_ims
