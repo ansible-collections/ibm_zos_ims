@@ -64,7 +64,7 @@ def test_empty_uss_file_input_single_src(ansible_zos_module):
     # Here we pass empty  USS file as input source to expect failure
     hosts = ansible_zos_module
     SOURCE = "/tmp/dbdgenEmpty"
-    copy = hosts.all.copy(src=EMPTY_SOURCE, dest=SOURCE)
+    copy = hosts.all.copy(src=EMPTY_SOURCE, dest=SOURCE, mode='0777')
     pprint(copy)
     run_validate_failure.process_single_src(hosts, DESTINATION, SYSLIB, 4, 'Error assembling or linking source', src=SOURCE, replace=True, location='USS')
 
@@ -72,7 +72,7 @@ def test_empty_uss_file_input_single_src(ansible_zos_module):
 def test_empty_uss_file_input_batch(ansible_zos_module):
     hosts = ansible_zos_module
     SOURCE = "/tmp/dbdgenEmpty"
-    copy = hosts.all.copy(src=EMPTY_SOURCE, dest=SOURCE)
+    copy = hosts.all.copy(src=EMPTY_SOURCE, dest=SOURCE, mode='0777')
     pprint(copy)
     batch_list = [{'src': SOURCE, 'replace': True, 'location': "USS"}]
     run_validate_failure.process_batch(hosts, batch_list, DESTINATION, SYSLIB, 4, 'Error assembling or linking source')
