@@ -42,14 +42,17 @@ def test_valid_uss_file_input_single_src(ansible_zos_module):
 
 def test_valid_large_uss_file_input_single_src(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/PWMGAT.psb', dest=LARGE_SOURCE, checksum='0b335c7b949129115a7cc282f395bccec6675f7f', mode='0777')
+    hosts.all.copy(
+        src='./functional/modules/ims_psb_gen/uss_file/data/PWMGAT.psb', dest=LARGE_SOURCE, checksum='0b335c7b949129115a7cc282f395bccec6675f7f', mode='0777')
     run_validate_success.process_single_src(hosts, DESTINATION, SYSLIB, src=LARGE_SOURCE, replace=True, location='USS')
 
 
 def test_valid_uss_file_input_batch(ansible_zos_module):
     hosts = ansible_zos_module
     hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=SOURCE, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
-    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/PWMGAT.psb', dest=LARGE_SOURCE, checksum='0b335c7b949129115a7cc282f395bccec6675f7f', mode='0777')
+    hosts.all.copy(
+        src='./functional/modules/ims_psb_gen/uss_file/data/PWMGAT.psb', dest=LARGE_SOURCE,
+        checksum='0b335c7b949129115a7cc282f395bccec6675f7f', mode='0777')
     batch_list = [
         {'src': SOURCE, 'location': "USS", 'replace': True},
         {'src': LARGE_SOURCE, 'location': "USS", 'replace': True}
