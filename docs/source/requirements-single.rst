@@ -1,4 +1,28 @@
 .. ...........................................................................
+.. Auto generated restructured text                                          .
+.. ...........................................................................
+.. ...........................................................................
+.. © Copyright IBM Corporation 2020                                          .
+.. ...........................................................................
+
+============
+Requirements
+============
+
+The **IBM z/OS IMS collection**, requires both a **control node** and
+**managed node** be configured with a minimum set of requirements. The
+control node is often referred to as the **controller** and the
+managed node as the **host**.
+
+Control node
+============
+The controller is where the Ansible engine that runs the playbook is installed.
+Refer to the RedHat Ansible Certified Content documentation for more on
+the `controllers dependencies`_.
+
+.. _controllers dependencies:
+   https://ibm.github.io/z_ansible_collections_doc/requirements/requirements_controller.html
+.. ...........................................................................
 .. © Copyright IBM Corporation 2020                                          .
 .. ...........................................................................
 
@@ -45,7 +69,7 @@ dependencies before you proceed to install the IBM z/OS IMS collection.
    https://docs.ansible.com/ansible/2.7/user_guide/intro_inventory.html
 
 .. _Python on z/OS:
-   requirements_managed.html#id1
+   requirements-single.html#id1
 
 .. _V2R3:
    https://www.ibm.com/support/knowledgecenter/SSLTBW_2.3.0/com.ibm.zos.v2r3/en/homepage.html
@@ -54,7 +78,7 @@ dependencies before you proceed to install the IBM z/OS IMS collection.
    https://www.ibm.com/support/knowledgecenter/SSLTBW
 
 .. _IBM Z Open Automation Utilities:
-   requirements_managed.html#zoau
+   requirements-single.html#id1
 
 .. _z/OS OpenSSH:
    https://www.ibm.com/support/knowledgecenter/SSLTBW_2.2.0/com.ibm.zos.v2r2.e0za100/ch1openssh.htm
@@ -98,7 +122,7 @@ and required by **IBM z/OS IMS Collection**.
    `recommended environment variables`_ for Rocket Python.
 
 .. _recommended environment variables:
-   playbook_group_vars.html
+   playbooks-single.html#group-vars
 
 ZOAU
 ----

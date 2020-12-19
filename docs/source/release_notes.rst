@@ -6,6 +6,46 @@
 Releases
 ========
 
+Version 1.0.1
+====================
+
+Notes
+-----
+
+  * Update recommended
+
+    * ``ims_acb_gen``
+    * ``ims_dbd_gen``
+    * ``ims_psb_gen``
+    * ``ims_command``
+  * Documentation updates
+  * Improved test and security coverage
+
+Availability
+------------
+
+  * `Automation Hub`_
+  * `Galaxy`_
+  * `GitHub`_
+
+Reference
+---------
+
+  * Supported by IBM z/OS core collection v1.2.1 or later
+  * Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
+  * Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435 or later
+  * Supported by z/OS V2R3
+  * The z/OS® shell
+
+.. _Automation Hub:
+   https://www.ansible.com/products/automation-hub
+
+.. _Galaxy:
+   https://galaxy.ansible.com/ibm/ibm_zos_ims
+
+.. _GitHub:
+   https://github.com/ansible-collections/ibm_zos_ims
+
 Version 1.1.0-beta.1
 ====================
 
@@ -18,7 +58,7 @@ Notes
   * ``ims_catalog_populate``
   * ``ims_catalog_purge``
   * ``ims_dbrc``
-* Documentation 
+* Documentation
 
   * Update documentation in support of `centralized content`_.
 * Updated sample playbook
@@ -104,4 +144,4 @@ Notes
 Availability
   * Galaxy
   * GitHub
-  
+

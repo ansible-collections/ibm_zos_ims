@@ -51,8 +51,8 @@ The IBM z/OS IMS collection includes `modules`_,
    :caption: Getting Started
 
    installation
-   requirements
-   playbooks
+   requirements-single
+   playbooks-single
 
 .. toctree::
    :maxdepth: 1
