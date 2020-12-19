@@ -11,7 +11,7 @@ import pytest
 
 """
 Spacing is important for the input values.
-Want to make sure different spacing scenarios 
+Want to make sure different spacing scenarios
 provide a consistent output.
 """
 test_data_dbrc_extraction_values = [

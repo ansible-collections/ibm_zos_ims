@@ -76,7 +76,7 @@ class dbrc():
             self.commands = [self.commands.strip().replace(" ", " -\n")]
 
     def _assert_dynalloc_recon_requirement(self):
-        """This assertion function validates that either the 'dynamic_allocation_dataset' parameter was specified, or 
+        """This assertion function validates that either the 'dynamic_allocation_dataset' parameter was specified, or
         all of the recon parameters were specified. This is a requirement to run the DBRC utility.
 
         Raises:
@@ -118,13 +118,13 @@ class dbrc():
 
         if self.recon1 and not isinstance(self.recon1, str):
             raise TypeError(em.INCORRECT_RECON_TYPE)
-        
+
         if self.recon2 and not isinstance(self.recon2, str):
             raise TypeError(em.INCORRECT_RECON_TYPE)
-        
+
         if self.recon3 and not isinstance(self.recon3, str):
             raise TypeError(em.INCORRECT_RECON_TYPE)
-    
+
     def _extract_values(self, output_line):
         """Given a line from the output string, this function parses a line that contains
         equals signs (=), and returns a dictionary with key value pairs based on the line.
@@ -134,7 +134,7 @@ class dbrc():
 
         Returns:
             (dict): Mapping of the fields that corresponds to the line from the output
-        
+
         Example:
             output_line: 'FORCER    LOG DSN CHECK=CHECK44    STARTNEW=NO'
             returns: {"LOG DSN CHECK": "CHECK44", "STARTNEW": False}
@@ -145,7 +145,7 @@ class dbrc():
         double_space = "  "
         filter_function = lambda elem: elem and elem != " "
         while i < len(elements) - 1:
-            value_index = i + 1 
+            value_index = i + 1
             key_list = list(filter(filter_function, elements[i].split(double_space)))
             value_list = list(filter(filter_function, elements[i + 1].split(double_space)))
 
@@ -160,8 +160,8 @@ class dbrc():
                     key = unformatted_key.strip()
             if len(elements) != 2 and \
                 (elements[i + 1][0:2] == double_space or \
-                (len(value_list) == 1 and value_index > 0 and value_index < len(elements) - 1)): 
-                
+                (len(value_list) == 1 and value_index > 0 and value_index < len(elements) - 1)):
+
                 fields[key] = None
             else:
                 value = value_list[0].strip()
@@ -169,7 +169,7 @@ class dbrc():
                     value = dbrc.REPLACEMENT_VALUES[value]
                 fields[key] = value
             i += 1
-            
+
         return fields
 
     def _format_command(self, raw_command):
