@@ -2,11 +2,11 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 import re
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import (  # pylint: disable=import-error
-  DDStatement,
-  FileDefinition,
-  DatasetDefinition,
-  StdoutDefinition,
-  StdinDefinition
+    DDStatement,
+    FileDefinition,
+    DatasetDefinition,
+    StdoutDefinition,
+    StdinDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em  # pylint: disable=import-error
