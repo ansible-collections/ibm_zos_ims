@@ -1,12 +1,16 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) IBM Corporation 2020
 # LICENSE: [GNU General Public License version 3](https://opensource.org/licenses/GPL-3.0)
 
+from __future__ import (absolute_import, division, print_function)
+
+__metaclass__ = type
+
 ANSIBLE_METADATA = {
-  'metadata_version': '1.1',
-  'status': ['preview'],
-  'supported_by': 'community'
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
 }
 
 DOCUMENTATION = r'''
@@ -18,7 +22,7 @@ version_added: "2.9"
 description:
   - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances
     into the database data sets of the IMS catalog from ACB library data sets.
-    
+
 author:
   - Jerry Li (@th365thli)
 options:
@@ -174,13 +178,6 @@ options:
           - RRDS
           - ESDS
           - KSDS
-      volumes:
-        description:
-          - A list of volume serials. When providing multiple volumes, processing will begin with
-            the first volume in the provided list. Offline volumes are not considered.
-        type: list
-        required: false
-        elements: str
       storage_class:
         description:
           - The storage class for an SMS-managed data set. Not valid for data sets that are not
@@ -308,13 +305,6 @@ options:
           - RRDS
           - ESDS
           - KSDS
-      volumes:
-        description:
-          - A list of volume serials. When providing multiple volumes, processing will begin with
-            the first volume in the provided list. Offline volumes are not considered.
-        type: list
-        required: false
-        elements: str
       storage_class:
         description:
           - The storage class for an SMS-managed data set. Not valid for data sets that are not
@@ -737,11 +727,6 @@ options:
       - Defines the dump data set. This defaults to = \*
     type: str
     required: false
-  sysprint:
-    description:
-      - Defines the output message data set This defaults to = \*
-    type: str
-    required: false
   control_statements:
     description:
       - The control statement parameters.
@@ -816,7 +801,7 @@ options:
                   - UNCOND
               clean_staging_dataset:
                 description:
-                  - If the staging data set is not allocated to any online IMS system, scratch and recreate the staging data 
+                  - If the staging data set is not allocated to any online IMS system, scratch and recreate the staging data
                     set before adding the resources to the staging data set.
                 type: bool
                 required: false
@@ -840,7 +825,7 @@ options:
             description:
               - Updates the existing IMS directory system data sets directly in exclusive mode. The ACBs are not placed in the
                 staging data set.
-            type: dic
+            type: dict
             required: false
             suboptions:
               replace_acb:
@@ -880,42 +865,42 @@ notes:
   - Specifying only I(reslib) without I(steplib) is not supported.
 '''
 
-EXAMPLES = r'''
+EXAMPLES = '''
 - name: Example of a loading the IMS Catalog running as a BMP
   ims_catalog_populate:
     online_batch: True
     ims_id: IMS1
     mode: LOAD
-    acb_lib: 
+    acb_lib:
       - SOME.IMS.ACBLIB
-    reslib: 
+    reslib:
       - SOME.IMS.SDFSRESL
-    steplib: 
+    steplib:
       - SOME.IMS.SDFSRESL
-    proclib: 
+    proclib:
       - SOME.IMS.PROCLIB
-    dbd_lib: 
+    dbd_lib:
       - SOME.IMS.DBDLIB
-    psb_lib: 
+    psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG
 
 - name: Example of loading the IMS Catalog and the IMS Directory data sets with MANAGEDACBS enabled
-  ims_catalog_populate:  
+  ims_catalog_populate:
     mode: LOAD
-    acb_lib: 
+    acb_lib:
       - SOME.IMS.ACBLIB
-    reslib: 
+    reslib:
       - SOME.IMS.SDFSRESL
-    steplib: 
+    steplib:
       - SOME.IMS.SDFSRESL
-    proclib: 
+    proclib:
       - SOME.IMS.PROCLIB
-    dbd_lib: 
+    dbd_lib:
       - SOME.IMS.DBDLIB
-    psb_lib: 
+    psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
     control_statements:
@@ -923,18 +908,19 @@ EXAMPLES = r'''
         setup: true
 
 - name: Example of updating the IMS Catalog and staging libraries into the IMS directory staging data set
-  mode: UPDATE
-    acb_lib: 
+  ims_catalog_populate:
+    mode: UPDATE
+    acb_lib:
       - SOME.IMS.ACBLIB
-    reslib: 
+    reslib:
       - SOME.IMS.SDFSRESL
-    steplib: 
+    steplib:
       - SOME.IMS.SDFSRESL
-    proclib: 
+    proclib:
       - SOME.IMS.PROCLIB
-    dbd_lib: 
+    dbd_lib:
       - SOME.IMS.DBDLIB
-    psb_lib: 
+    psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
@@ -946,7 +932,7 @@ EXAMPLES = r'''
           clean_staging_dataset: true
 '''
 
-RETURN = r'''
+RETURN = '''
 content:
   description: The standard output returned running the IMS Catalog Populate module.
   type: str
@@ -957,7 +943,7 @@ rc:
   type: str
   returned: sometimes
   sample: '1'
-stderr: 
+stderr:
   description: The standard error output returned from running the IMS Catalog Populate utility.
   type: str
   returned: sometimes
@@ -968,60 +954,59 @@ msg:
   sample: You cannot define directory data sets, the bootstrap data set, or directory staging data sets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE
 '''
 
+
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog.catalog import catalog # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser.catalog_parser import catalog_parser # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog.catalog import catalog
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser.catalog_parser import catalog_parser
+
 
 def run_module():
     module_args = dict(
-      mode=dict(type="str", required=True),
-      online_batch=dict(type="bool", required=False),
-      ims_id=dict(type="str", required=False),
-      dbrc=dict(type="bool", required=False),
-      irlm_id=dict(type="str", required=False),
-      modstat=dict(type="str", required=False),
-      reslib=dict(type="list", required=False),
-      buffer_pool_param_dataset=dict(type="str", required=False),
-      primary_log_dataset=dict(type="dict", required=False),
-      secondary_log_dataset=dict(type="dict", required=False),
-      psb_lib=dict(type="list", required=False),
-      dbd_lib=dict(type="list", required=False),
-      check_timestamp=dict(type="bool", required=False),
-      acb_lib=dict(type="list", required=True),
-      bootstrap_dataset=dict(type="dict", required=False),
-      directory_datasets=dict(type="list", required=False),
-      temp_acb_dataset=dict(type="dict", required=False),
-      directory_staging_dataset=dict(type="dict", required=False),
-      proclib=dict(type="list", required=False),
-      steplib=dict(type="list", required=False),
-      sysabend=dict(type="str", required=False),
-      control_statements=dict(type="dict", required=False)
+        mode=dict(type="str", required=True, choices=['LOAD', 'UPDATE', 'READ']),
+        online_batch=dict(type="bool", required=False),
+        ims_id=dict(type="str", required=False),
+        dbrc=dict(type="bool", required=False),
+        irlm_id=dict(type="str", required=False),
+        modstat=dict(type="str", required=False),
+        reslib=dict(type="list", required=False),
+        buffer_pool_param_dataset=dict(type="str", required=False),
+        primary_log_dataset=dict(type="dict", required=False),
+        secondary_log_dataset=dict(type="dict", required=False),
+        psb_lib=dict(type="list", required=False),
+        dbd_lib=dict(type="list", required=False),
+        check_timestamp=dict(type="bool", required=False),
+        acb_lib=dict(type="list", required=True),
+        bootstrap_dataset=dict(type="dict", required=False),
+        directory_datasets=dict(type="list", required=False),
+        temp_acb_dataset=dict(type="dict", required=False),
+        directory_staging_dataset=dict(type="dict", required=False),
+        proclib=dict(type="list", required=False),
+        steplib=dict(type="list", required=False),
+        sysabend=dict(type="str", required=False),
+        control_statements=dict(type="dict", required=False)
     )
 
     global module
     module = AnsibleModule(
-          argument_spec=module_args,
-          supports_check_mode=True
-      )
-    
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
+
     result = {}
     result["changed"] = False
 
-    parsed_args=catalog_parser(module, module.params, result).validate_populate_input()
+    parsed_args = catalog_parser(module, module.params, result).validate_populate_input()
     response = catalog(module, result, parsed_args).execute_catalog_populate()
 
     if module.params['mode'] != "READ":
-      result["changed"] = True
-    
+        result["changed"] = True
+
     module.exit_json(**response)
-
-
 
 
 def main():
     run_module()
 
+
 if __name__ == '__main__':
     main()
-
-

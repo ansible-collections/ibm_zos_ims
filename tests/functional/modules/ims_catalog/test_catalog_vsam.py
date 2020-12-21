@@ -1,25 +1,28 @@
-import pytest
 
+from __future__ import (absolute_import, division, print_function)
+import pytest
 from pprint import pprint
-from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import CatalogInputParameters as cp # pylint: disable=import-error
-from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import load_catalog, purge_catalog # pylint: disable=import-error
-from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import PSBInputParameters as ps # pylint: disable=import-error
-from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import DBDInputParameters as db # pylint: disable=import-error
-from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import ACBInputParameters as ac # pylint: disable=import-error
+from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import CatalogInputParameters as cp  # pylint: disable=import-error
+from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import load_catalog, purge_catalog  # pylint: disable=import-error
+from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import PSBInputParameters as ps  # pylint: disable=import-error
+from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import DBDInputParameters as db  # pylint: disable=import-error
+from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import ACBInputParameters as ac  # pylint: disable=import-error
+
+__metaclass__ = type
 
 def test_gen_vsam_acb_stage_import(ansible_zos_module):
   hosts = ansible_zos_module
-  
+
   # Load the catalog
-  load_catalog(hosts, 
-              psb_lib=cp.PSBLIB, 
-              dbd_lib=cp.DBDLIB, 
-              acb_lib=cp.ACBLIB, 
-              steplib=cp.STEPLIB, 
-              reslib=cp.RESLIB, 
-              proclib=cp.PROCLIB, 
-              primary_log_dataset=cp.PRIMARYLOG, 
-              buffer_pool_param_dataset=cp.BUFFERPOOL, 
+  load_catalog(hosts,
+              psb_lib=cp.PSBLIB,
+              dbd_lib=cp.DBDLIB,
+              acb_lib=cp.ACBLIB,
+              steplib=cp.STEPLIB,
+              reslib=cp.RESLIB,
+              proclib=cp.PROCLIB,
+              primary_log_dataset=cp.PRIMARYLOG,
+              buffer_pool_param_dataset=cp.BUFFERPOOL,
               mode=cp.LOADMODE,
               validation_msg="DFS4434I",
               control_statements={
@@ -43,21 +46,21 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
       assert result['rc'] == 0
       # Check for success message (if we remove return codes)
       assert result['msg'] == 'PSBGEN execution was successful.'
-  
+
   # Add to ACBLIB
   validate_acbgen(hosts, command_input=ac.COMMAND_INPUT_BUILD, psb_name=cp.PSB_NAME, psb_lib=cp.PSBLIB, dbd_lib=cp.DBDLIB, acb_lib=cp.ACBDEST, steplib=cp.STEPLIB, reslib=cp.RESLIB)
 
 
   # Add to the catalog staging directory
-  load_catalog(hosts, 
-              psb_lib=cp.PSBLIB, 
-              dbd_lib=cp.DBDLIB, 
-              acb_lib=cp.ACBLIB, 
-              steplib=cp.STEPLIB, 
-              reslib=cp.RESLIB, 
-              proclib=cp.PROCLIB, 
-              primary_log_dataset=cp.PRIMARYLOG, 
-              buffer_pool_param_dataset=cp.BUFFERPOOL, 
+  load_catalog(hosts,
+              psb_lib=cp.PSBLIB,
+              dbd_lib=cp.DBDLIB,
+              acb_lib=cp.ACBLIB,
+              steplib=cp.STEPLIB,
+              reslib=cp.RESLIB,
+              proclib=cp.PROCLIB,
+              primary_log_dataset=cp.PRIMARYLOG,
+              buffer_pool_param_dataset=cp.BUFFERPOOL,
               mode=cp.UPDATEMODE,
               validation_msg="DFS4536I",
               control_statements={
@@ -68,15 +71,15 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
                 }
               })
   # Update catalog directory datasets
-  load_catalog(hosts, 
-              psb_lib=cp.PSBLIB, 
-              dbd_lib=cp.DBDLIB, 
-              acb_lib=cp.ACBLIB, 
-              steplib=cp.STEPLIB, 
-              reslib=cp.RESLIB, 
-              proclib=cp.PROCLIB, 
-              primary_log_dataset=cp.PRIMARYLOG, 
-              buffer_pool_param_dataset=cp.BUFFERPOOL, 
+  load_catalog(hosts,
+              psb_lib=cp.PSBLIB,
+              dbd_lib=cp.DBDLIB,
+              acb_lib=cp.ACBLIB,
+              steplib=cp.STEPLIB,
+              reslib=cp.RESLIB,
+              proclib=cp.PROCLIB,
+              primary_log_dataset=cp.PRIMARYLOG,
+              buffer_pool_param_dataset=cp.BUFFERPOOL,
               mode=cp.UPDATEMODE,
               validation_msg="DFS4534I",
               control_statements={
@@ -86,16 +89,16 @@ def test_gen_vsam_acb_stage_import(ansible_zos_module):
                   }
                 }
               })
-  
+
   # Purge catalog and directory
-  purge_catalog(hosts, 
-            psb_lib=cp.PSBLIB, 
-            dbd_lib=cp.DBDLIB, 
-            steplib=cp.STEPLIB, 
-            reslib=cp.RESLIB, 
-            proclib=cp.PROCLIB, 
-            primary_log_dataset=cp.PRIMARYLOG, 
-            buffer_pool_param_dataset=cp.BUFFERPOOL, 
+  purge_catalog(hosts,
+            psb_lib=cp.PSBLIB,
+            dbd_lib=cp.DBDLIB,
+            steplib=cp.STEPLIB,
+            reslib=cp.RESLIB,
+            proclib=cp.PROCLIB,
+            primary_log_dataset=cp.PRIMARYLOG,
+            buffer_pool_param_dataset=cp.BUFFERPOOL,
             mode=cp.PURGEMODE,
             validation_msg="",
             delete=cp.DELETES,

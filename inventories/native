@@ -1,0 +1,12 @@
+zsystem:
+  hosts:
+    native:
+      ansible_host: tivlp02.svl.ibm.com
+      ansible_user: ansuser
+      ansible_python_interpreter: /hsstools/python36/python-2017-04-12-py36/python36/bin/python
+      #ansible_python_interpreter: /var/python27/python27/bin/python
+
+#cluster_master:
+#  hosts:
+#    9.37.222.124:
+#      ansible_user: ibmadmin 
