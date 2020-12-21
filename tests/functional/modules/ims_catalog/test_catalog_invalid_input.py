@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import (absolute_import, division, print_function)
 import pytest
 from pprint import pprint
@@ -8,7 +7,6 @@ from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import Cat
 from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import load_catalog, purge_catalog  # pylint: disable=import-error
 
 __metaclass__ = type
-
 
 """
 Scenario 4: Invalid mode option=load, managed_acbs with stage
@@ -37,8 +35,7 @@ def test_catalog_stage_managed_acbs_in_update(ansible_zos_module):
                              'clean_staging_dataset': True
                          }
                      }
-                 }
-        )
+                 })
 
 
 """
@@ -69,8 +66,8 @@ def test_catalog_update_mode_boostrap_data_set(ansible_zos_module):
                  bootstrap_dataset=bootstrap_data_set,
                  buffer_pool_param_dataset=cp.BUFFERPOOL,
                  mode=cp.UPDATEMODE,
-                 validation_msg="""You cannot define directory datasets, the bootstrap dataset,
-                                 or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE""",
+                 validation_msg="You cannot define directory datasets, the bootstrap dataset, "
+                                "or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE",
                  rc=1,
                  changed=False,
                  control_statements={
@@ -80,8 +77,7 @@ def test_catalog_update_mode_boostrap_data_set(ansible_zos_module):
                              'clean_staging_dataset': True
                          }
                      }
-                 }
-    )
+                 })
 
 
 def test_catalog_update_mode_directory_data_set(ansible_zos_module):
@@ -113,8 +109,8 @@ def test_catalog_update_mode_directory_data_set(ansible_zos_module):
                  directory_datasets=directory_data_sets,
                  buffer_pool_param_dataset=cp.BUFFERPOOL,
                  mode=cp.UPDATEMODE,
-                 validation_msg="""You cannot define directory datasets, the bootstrap dataset,
-                                or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE""",
+                 validation_msg="You cannot define directory datasets, the bootstrap dataset, "
+                                "or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE",
                  rc=1,
                  changed=False,
                  control_statements={
@@ -124,8 +120,7 @@ def test_catalog_update_mode_directory_data_set(ansible_zos_module):
                              'clean_staging_dataset': True
                          }
                      }
-                 }
-    )
+                 })
 
 
 def test_catalog_update_mode_directory_staging_data_set(ansible_zos_module):
@@ -148,16 +143,15 @@ def test_catalog_update_mode_directory_staging_data_set(ansible_zos_module):
                  directory_staging_dataset=directory_staging_data_set,
                  buffer_pool_param_dataset=cp.BUFFERPOOL,
                  mode=cp.UPDATEMODE,
-                 validation_msg="""You cannot define directory datasets, the bootstrap dataset,
-                                or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE""",
+                 validation_msg="You cannot define directory datasets, the bootstrap dataset, "
+                                "or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE",
                  rc=1,
                  changed=False,
                  control_statements={
                      'managed_acbs': {
                          'stage': {
-                              'save_acb': "UNCOND",
-                              'clean_staging_dataset': True
+                             'save_acb': "UNCOND",
+                             'clean_staging_dataset': True
                          }
                      }
-                 }
-    )
+                 })
