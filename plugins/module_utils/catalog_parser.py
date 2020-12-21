@@ -311,8 +311,8 @@ class catalog_parser():
                 if self.parsed_args.get("control_statements").get("managed_acbs") is not None:
                     if self.parsed_args.get("control_statements").get("managed_acbs").get("stage") is not None or \
                        self.parsed_args.get("control_statements").get("managed_acbs").get("update") is not None:
-                        self.result['msg'] = """ You cannot define directory datasets, the bootstrap dataset,
-                                              or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE"""
+                        self.result['msg'] = ("You cannot define directory datasets, the bootstrap dataset, "
+                                              "or directory staging datasets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE")
                         self.result['rc'] = 1
                         self.module.fail_json(**self.result)
 

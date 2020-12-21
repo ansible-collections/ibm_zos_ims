@@ -185,18 +185,18 @@ class catalog():
                 acbDDStatement = DDStatement("IMSACBA", acbDatasetList)
                 dDStatementList.append(acbDDStatement)
         # If check_timestamp is true, then we generate a dd statement for each dataset
-        else:
-            acbCount = 1
-            for i in self.parsed_args.get('acb_lib'):
-                if acbCount >= 10:
-                    acbDDStatement = DDStatement("IMSACB{0}".format(acbCount), DatasetDefinition(i))
-                    dDStatementList.append(acbDDStatement)
-                    acbCount += 1
-                else:
-                    acbDDStatement = DDStatement("IMSACB0{0}".format(acbCount), DatasetDefinition(i))
-                    dDStatementList.append(acbDDStatement)
-                    acbCount += 1
-            acbCount = 1
+            else:
+                acbCount = 1
+                for i in self.parsed_args.get('acb_lib'):
+                    if acbCount >= 10:
+                        acbDDStatement = DDStatement("IMSACB{0}".format(acbCount), DatasetDefinition(i))
+                        dDStatementList.append(acbDDStatement)
+                        acbCount += 1
+                    else:
+                        acbDDStatement = DDStatement("IMSACB0{0}".format(acbCount), DatasetDefinition(i))
+                        dDStatementList.append(acbDDStatement)
+                        acbCount += 1
+                acbCount = 1
 
         if self.parsed_args.get('secondary_log_dataset') is not None:
             iefrder2DDStatement = DDStatement("IEFRDER2",

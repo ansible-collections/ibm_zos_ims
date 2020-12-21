@@ -542,8 +542,8 @@ msg:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog import catalog
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser import catalog_parser
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog.catalog import catalog
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser.catalog_parser import catalog_parser
 
 
 def run_module():

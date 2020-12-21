@@ -22,7 +22,7 @@ def test_catalog_load_simple(ansible_zos_module):
                 primary_log_dataset=cp.PRIMARYLOG,
                 buffer_pool_param_dataset=cp.BUFFERPOOL,
                 mode=cp.LOADMODE,
-                validation_msg="DFS4434I")
+                validation_msg="")  # Don't check for a message since the message is different depending on the configuration
 
     purge_catalog(hosts,
                 psb_lib=cp.PSBLIB,
