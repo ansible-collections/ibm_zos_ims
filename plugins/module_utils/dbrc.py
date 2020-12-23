@@ -164,7 +164,7 @@ class dbrc():
                     key = unformatted_key.strip()
             if len(elements) != 2 and \
                 (elements[i + 1][0:2] == double_space or
-                (len(value_list) == 1 and value_index > 0 and value_index < len(elements) - 1)):
+                    (len(value_list) == 1 and value_index > 0 and value_index < len(elements) - 1)):
 
                 fields[key] = None
             else:
