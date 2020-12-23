@@ -39,6 +39,3 @@ def test_catalog_load_simple(ansible_zos_module):
                   # validation_msg="",
                   sysut1=cp.SYSUT1,
                   delete=cp.DELETES)
-
-
-
