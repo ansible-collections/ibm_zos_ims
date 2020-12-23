@@ -25,7 +25,7 @@ class dbrc():
     }
 
     def __init__(self, commands, steplib, dynamic_allocation_dataset=None, dbd_lib=None,
-        genjcl_output_dataset=None, genjcl_input_dataset=None, recon1=None, recon2=None, recon3=None):
+                genjcl_output_dataset=None, genjcl_input_dataset=None, recon1=None, recon2=None, recon3=None):
         """IMSDBRC constructor used to run DBRC commands using zos_raw.
 
         Args:
