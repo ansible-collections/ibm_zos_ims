@@ -42,7 +42,7 @@ class catalog_parser():
                                              management_class=dict(type="str", required=False),
                                              data_class=dict(type="str", required=False)
                                          )
-                                        ),
+                                         ),
                 psb_lib=dict(arg_type="list", elements="data_set", required=True),
                 dbd_lib=dict(arg_type="list", elements="data_set", required=True),
                 proclib=dict(arg_type="list", elements="data_set", required=True),
@@ -91,7 +91,7 @@ class catalog_parser():
                                                management_class=dict(type="str", required=False),
                                                data_class=dict(type="str", required=False)
                                            )
-                                          ),
+                                           ),
                 acb_lib=dict(arg_type="list", elements="data_set", required=True),
                 bootstrap_dataset=dict(arg_type="dict", required=False,
                                        options=dict(
@@ -113,7 +113,7 @@ class catalog_parser():
                                            data_class=dict(type="str", required=False),
                                            volumes=dict(type="list", required=False, elements="str")
                                        )
-                                      ),
+                                       ),
                 directory_datasets=dict(arg_type="list", elements="dict", required=False,
                                         options=dict(
                                             dataset_name=dict(arg_type="data_set", required=True),
@@ -133,7 +133,7 @@ class catalog_parser():
                                             data_class=dict(type="str", required=False),
                                             volumes=dict(type="list", required=False, elements="str")
                                         )
-                                       ),
+                                        ),
                 temp_acb_dataset=dict(arg_type="dict", required=False,
                                       options=dict(
                                           dataset_name=dict(arg_type="data_set", required=True),
@@ -151,7 +151,7 @@ class catalog_parser():
                                           management_class=dict(type="str", required=False),
                                           data_class=dict(type="str", required=False)
                                       )
-                                     ),
+                                      ),
                 directory_staging_dataset=dict(arg_type="dict", required=False,
                                                options=dict(
                                                    dataset_name=dict(arg_type="data_set", required=True),
@@ -171,7 +171,7 @@ class catalog_parser():
                                                    data_class=dict(type="str", required=False),
                                                    volumes=dict(type="list", required=False, elements="str")
                                                )
-                                              ),
+                                               ),
                 sysabend=dict(arg_type="data_set", required=False),
                 control_statements=dict(arg_type="dict", required=False,
                                         options=dict(
@@ -191,7 +191,7 @@ class catalog_parser():
                                                                                  gsampcb=dict(arg_type="bool", required=False, default=False),
                                                                                  gsamdbd=dict(arg_type="str", required=False)
                                                                              )
-                                                                  ),
+                                                                             ),
                                                                   update=dict(arg_type="dict", required=False,
                                                                               options=dict(
                                                                                   replace_acb=dict(arg_type="str", required=False, choices=['LATEST',
@@ -200,11 +200,11 @@ class catalog_parser():
                                                                                   gsampcb=dict(arg_type="bool", required=False, default=False),
                                                                                   gsamdbd=dict(arg_type="str", required=False)
                                                                               )
-                                                                  )
+                                                                              )
                                                               )
-                                            )
+                                                              )
                                         )
-                )
+                                        )
             )
 
             parser = BetterArgParser(module_defs)
@@ -236,7 +236,7 @@ class catalog_parser():
                                                member_name=dict(arg_type="str", required=True),
                                                version_number=dict(arg_type="int", required=True)
                                            )
-                ),
+                                           ),
                 update_retention_criteria=dict(arg_type="list", elements="dict", required=False,
                                                options=dict(
                                                    resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
@@ -244,14 +244,14 @@ class catalog_parser():
                                                    instances=dict(arg_type="int", required=True),
                                                    days=dict(arg_type="int", required=False)
                                                ),
-                ),
+                                               ),
                 delete=dict(arg_type="list", elements="dict", required=False,
                             options=dict(
                                 resource=dict(arg_type="str", required=True, choices=['DBD', 'PSB']),
                                 member_name=dict(arg_type="str", required=True),
                                 time_stamp=dict(arg_type="str", required=True)
                             )
-                ),
+                            ),
                 managed_acbs=dict(arg_type="bool", required=False),
                 resource_chkp_freq=dict(arg_type="int", required=False),
                 sysut1=dict(arg_type="dict", required=False,
@@ -272,7 +272,7 @@ class catalog_parser():
                                 management_class=dict(type="str", required=False),
                                 data_class=dict(type="str", required=False)
                             )
-                )
+                            )
             )
 
             parser = BetterArgParser(module_defs)
