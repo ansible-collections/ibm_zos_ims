@@ -317,7 +317,7 @@ class dbrc():
             }
 
         except Exception as e:
-            print("ERROR:",e)
+            print("ERROR:", e)
             res = {
                 "dbrc_fields": [],
                 "original_output": [],
