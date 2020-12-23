@@ -225,7 +225,7 @@ class dbrc():
         try:
             for index, line in enumerate(original_output):
                 if re.search(rec_ctrl_pattern, line, re.IGNORECASE) \
-                    and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
+                        and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
                     command_index += 1
                     command = self._original_commands[command_index]
                     output_fields.append({})
