@@ -251,8 +251,8 @@ class dbrc():
             print(repr(e))
             output_fields = {}
             failure_detected = True
-        finally:
-            return output_fields, original_output, failure_detected
+        # finally:
+        return output_fields, original_output, failure_detected
 
     def _add_utility_statement(self, name, data_set, dbrc_utility_fields):
         """Adds the DD Statement to the list of dbrc_utility_fields if the data set name
@@ -326,5 +326,5 @@ class dbrc():
                 "rc": None,
                 "changed": False
             }
-        finally:
-            return res
+        # finally:
+        return res
