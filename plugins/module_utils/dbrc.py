@@ -147,10 +147,15 @@ class dbrc():
         elements = output_line.split("=")
         i = 0
         double_space = "  "
+<<<<<<< HEAD
 
         def filter_function(elem):
             return elem and elem != " "
 
+=======
+        # filter_function = lambda elem: elem and elem != " "
+        def filter_function(elem) = return elem and elem != " "
+>>>>>>> do not assign a lambda expression, use a def
         while i < len(elements) - 1:
             value_index = i + 1
             key_list = list(filter(filter_function, elements[i].split(double_space)))
