@@ -14,7 +14,7 @@ Blocks (PSB), Application Control Blocks (ACB), and running IMS type-1
 & type-2 commands.
 
 The **IBM z/OS IMS collection** works closely with offerings such as the
-`IBM z/OS core collection`_ to deliver a solution that will enable you to
+`IBM z/OS IMS collection`_ to deliver a solution that will enable you to
 automate tasks on z/OS.
 
 .. _IBM z/OS IMS collection:
