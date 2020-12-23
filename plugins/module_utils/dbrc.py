@@ -160,7 +160,7 @@ class dbrc():
                 try:
                     start_index = re.search(r'\d+\s', unformatted_key).end()
                     key = unformatted_key[start_index:].strip()
-                except:
+                except Exception as e:
                     key = unformatted_key.strip()
             if len(elements) != 2 and \
                 (elements[i + 1][0:2] == double_space or
