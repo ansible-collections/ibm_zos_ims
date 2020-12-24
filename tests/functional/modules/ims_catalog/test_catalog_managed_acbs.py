@@ -135,8 +135,8 @@ def test_catalog_define_bootstrap(ansible_zos_module):
 
     for result in response.contacted.values():
         for line in result.get("stdout_lines", []):
-          lineList = line.split()
-          estimated_size_in_bytes=int(lineList[-1])
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
         estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
         assert estimated_size_in_unit == 350
 
@@ -170,7 +170,7 @@ def test_catalog_define_staging(ansible_zos_module):
     for result in response.contacted.values():
         assert result['message'] == ''
         if result['changed'] == False:
-          response = hosts.all.zos_data_set(name=cp.STAGE, state="absent", volume="SCR03")
+            response = hosts.all.zos_data_set(name=cp.STAGE, state="absent", volume="SCR03")
 
     # Load catalog while defining the staging dataset
     load_catalog(hosts,
@@ -199,9 +199,9 @@ def test_catalog_define_staging(ansible_zos_module):
 
     for result in response.contacted.values():
         for line in result.get("stdout_lines", []):
-          pprint("dls stdout: " + line)
-          lineList = line.split()
-          estimated_size_in_bytes=int(lineList[-1])
+            pprint("dls stdout: " + line)
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
         estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
         assert estimated_size_in_unit == 300
 
@@ -235,7 +235,7 @@ def test_catalog_define_directory(ansible_zos_module):
     for result in response.contacted.values():
         assert result['message'] == ''
         if result['changed'] == False:
-          response = hosts.all.zos_data_set(name=cp.DIR_BATCH, state="absent", volume="SCR03")
+            response = hosts.all.zos_data_set(name=cp.DIR_BATCH, state="absent", volume="SCR03")
 
     # Load catalog while defining the directory datasets
     load_catalog(hosts,
@@ -273,16 +273,16 @@ def test_catalog_define_directory(ansible_zos_module):
     response = hosts.all.command("dls -s " + cp.DIR1)
     for result in response.contacted.values():
         for line in result.get("stdout_lines", []):
-          lineList = line.split()
-          estimated_size_in_bytes=int(lineList[-1])
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
         estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
         assert estimated_size_in_unit == 200
 
     response = hosts.all.command("dls -s " + cp.DIR2)
     for result in response.contacted.values():
         for line in result.get("stdout_lines", []):
-          lineList = line.split()
-          estimated_size_in_bytes=int(lineList[-1])
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
         estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
         assert estimated_size_in_unit == 200
 
@@ -323,14 +323,14 @@ def test_creation_of_temp_acb_dataset_with_managed_acbs(ansible_zos_module):
     # Delete TEMP_ACB data set before the test
     response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
     for result in response.contacted.values():
-      assert result['message'] == ''
+        assert result['message'] == ''
 
     temp_acb_data_set = {
-      'dataset_name': cp.TEMP_ACB,
-      'disposition': 'NEW',
-      'normal_disposition': 'CATLG',
-      'primary': 200,
-      'volumes': ['222222']
+        'dataset_name': cp.TEMP_ACB,
+        'disposition': 'NEW',
+        'normal_disposition': 'CATLG',
+        'primary': 200,
+        'volumes': ['222222']
     }
     load_catalog(hosts,
                  psb_lib=cp.PSBLIB,
@@ -344,20 +344,20 @@ def test_creation_of_temp_acb_dataset_with_managed_acbs(ansible_zos_module):
                  buffer_pool_param_dataset=cp.BUFFERPOOL,
                  mode=cp.LOADMODE,
                  validation_msg="DFS4533I",
-                 control_statements = {
-                   'managed_acbs': {
-                       'setup': True
+                 control_statements={
+                    'managed_acbs': {
+                        'setup': True
                    }
                  })
 
     estimated_size_in_bytes = 0
     response = hosts.all.command("dls -s " + cp.TEMP_ACB)
     for result in response.contacted.values():
-      for line in result.get("stdout_lines", []):
-        lineList = line.split()
-        estimated_size_in_bytes = int(lineList[-1])
-      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
-      assert estimated_size_in_unit == 200
+        for line in result.get("stdout_lines", []):
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
+        estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+        assert estimated_size_in_unit == 200
 
     purge_catalog(hosts,
                   psb_lib=cp.PSBLIB,
@@ -375,8 +375,8 @@ def test_creation_of_temp_acb_dataset_with_managed_acbs(ansible_zos_module):
     # Delete TEMP_ACB data set after the test
     response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
     for result in response.contacted.values():
-      assert result['changed'] == True
-      assert result['message'] == ''
+        assert result['changed'] == True
+        assert result['message'] == ''
 
 
 def test_creation_of_temp_acb_dataset_without_managed_acbs(ansible_zos_module):
@@ -385,14 +385,14 @@ def test_creation_of_temp_acb_dataset_without_managed_acbs(ansible_zos_module):
     # Delete TEMP_ACB data set before the test
     response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
     for result in response.contacted.values():
-      assert result['message'] == ''
+        assert result['message'] == ''
 
     temp_acb_data_set = {
-      'dataset_name': cp.TEMP_ACB,
-      'disposition': 'NEW',
-      'normal_disposition': 'CATLG',
-      'primary': 200,
-      'volumes': ['222222']
+        'dataset_name': cp.TEMP_ACB,
+        'disposition': 'NEW',
+        'normal_disposition': 'CATLG',
+        'primary': 200,
+        'volumes': ['222222']
     }
     load_catalog(hosts,
                  psb_lib=cp.PSBLIB,
@@ -411,11 +411,11 @@ def test_creation_of_temp_acb_dataset_without_managed_acbs(ansible_zos_module):
     estimated_size_in_bytes = 0
     response = hosts.all.command("dls -s " + cp.TEMP_ACB)
     for result in response.contacted.values():
-      for line in result.get("stdout_lines", []):
-        lineList = line.split()
-        estimated_size_in_bytes = int(lineList[-1])
-      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
-      assert estimated_size_in_unit == 200
+        for line in result.get("stdout_lines", []):
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
+        estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+        assert estimated_size_in_unit == 200
 
     purge_catalog(hosts,
                   psb_lib=cp.PSBLIB,
@@ -433,8 +433,8 @@ def test_creation_of_temp_acb_dataset_without_managed_acbs(ansible_zos_module):
     # Delete TEMP_ACB data set after the test
     response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
     for result in response.contacted.values():
-      assert result['changed'] == True
-      assert result['message'] == ''
+        assert result['changed'] == True
+        assert result['message'] == ''
 
 
 def bytes_to_unit(number_of_bytes, unit):
@@ -467,5 +467,3 @@ def byte_to_kilobyte(number_of_bytes):
 
 def byte_to_megabyte(number_of_bytes):
     return ceil(number_of_bytes / BYTES_PER_MB)
-
-
