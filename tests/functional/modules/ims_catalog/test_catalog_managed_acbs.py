@@ -21,30 +21,30 @@ def test_catalog_load_managed_acbs(ansible_zos_module):
     hosts = ansible_zos_module
 
     load_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                acb_lib=cp.ACBLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.LOADMODE,
-                validation_msg="DFS4533I",
-                control_statements={'managed_acbs':{"setup":True}})
+                 psb_lib=cp.PSBLIB,
+                 dbd_lib=cp.DBDLIB,
+                 acb_lib=cp.ACBLIB,
+                 steplib=cp.STEPLIB,
+                 reslib=cp.RESLIB,
+                 proclib=cp.PROCLIB,
+                 primary_log_dataset=cp.PRIMARYLOG,
+                 buffer_pool_param_dataset=cp.BUFFERPOOL,
+                 mode=cp.LOADMODE,
+                 validation_msg="DFS4533I",
+                 control_statements={'managed_acbs': {"setup": True}})
 
     purge_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.PURGEMODE,
-                validation_msg="",
-                delete=cp.DELETES,
-                managed_acbs=True)
+                  psb_lib=cp.PSBLIB,
+                  dbd_lib=cp.DBDLIB,
+                  steplib=cp.STEPLIB,
+                  reslib=cp.RESLIB,
+                  proclib=cp.PROCLIB,
+                  primary_log_dataset=cp.PRIMARYLOG,
+                  buffer_pool_param_dataset=cp.BUFFERPOOL,
+                  mode=cp.PURGEMODE,
+                  validation_msg="",
+                  delete=cp.DELETES,
+                  managed_acbs=True)
 
 
 # Scenario 3: Update mode, managed_acbs - stage options(save_acb=UNCOND and clean_staging_dataset=True)
@@ -52,49 +52,50 @@ def test_catalog_load_managed_acbs(ansible_zos_module):
 def test_catalog_update_managed_acbs_stage_and_update(ansible_zos_module):
     hosts = ansible_zos_module
     load_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                acb_lib=cp.ACBLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.UPDATEMODE,
-                validation_msg="DFS4536I",
-                control_statements = {
-                'managed_acbs': {
-                    'stage': {
-                        'save_acb': "UNCOND",
-                        'clean_staging_dataset': True
-                    }
-                }
-                })
+                 psb_lib=cp.PSBLIB,
+                 dbd_lib=cp.DBDLIB,
+                 acb_lib=cp.ACBLIB,
+                 steplib=cp.STEPLIB,
+                 reslib=cp.RESLIB,
+                 proclib=cp.PROCLIB,
+                 primary_log_dataset=cp.PRIMARYLOG,
+                 buffer_pool_param_dataset=cp.BUFFERPOOL,
+                 mode=cp.UPDATEMODE,
+                 validation_msg="DFS4536I",
+                 control_statements={
+                     'managed_acbs': {
+                         'stage': {
+                             'save_acb': "UNCOND",
+                             'clean_staging_dataset': True
+                         }
+                     }
+                 })
+
     load_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                acb_lib=cp.ACBLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.UPDATEMODE,
-                validation_msg="DFS4534I",
-                control_statements={'managed_acbs':{'update':{'replace_acb':"UNCOND"}}})
+                 psb_lib=cp.PSBLIB,
+                 dbd_lib=cp.DBDLIB,
+                 acb_lib=cp.ACBLIB,
+                 steplib=cp.STEPLIB,
+                 reslib=cp.RESLIB,
+                 proclib=cp.PROCLIB,
+                 primary_log_dataset=cp.PRIMARYLOG,
+                 buffer_pool_param_dataset=cp.BUFFERPOOL,
+                 mode=cp.UPDATEMODE,
+                 validation_msg="DFS4534I",
+                 control_statements={'managed_acbs': {'update': {'replace_acb': "UNCOND"}}})
 
     purge_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.PURGEMODE,
-                validation_msg="",
-                delete=cp.DELETES,
-                managed_acbs=True)
+                  psb_lib=cp.PSBLIB,
+                  dbd_lib=cp.DBDLIB,
+                  steplib=cp.STEPLIB,
+                  reslib=cp.RESLIB,
+                  proclib=cp.PROCLIB,
+                  primary_log_dataset=cp.PRIMARYLOG,
+                  buffer_pool_param_dataset=cp.BUFFERPOOL,
+                  mode=cp.PURGEMODE,
+                  validation_msg="",
+                  delete=cp.DELETES,
+                  managed_acbs=True)
 
 
 # Setup the Catalog while defining the bootstrap dataset.
@@ -104,41 +105,41 @@ def test_catalog_define_bootstrap(ansible_zos_module):
     # Delete the bootstrap dataset first
     response = hosts.all.zos_data_set(name=cp.BSDS, state="absent")
     for result in response.contacted.values():
-      assert result['message'] == ''
-      if result['changed'] == False:
-        response = hosts.all.zos_data_set(name=cp.BSDS, state="absent", volume="SCR03")
+        assert result['message'] == ''
+        if result['changed'] is False:
+            response = hosts.all.zos_data_set(name=cp.BSDS, state="absent", volume="SCR03")
 
     # Load catalog while defining the bootstrap dataset
     load_catalog(hosts,
-            psb_lib=cp.PSBLIB,
-            dbd_lib=cp.DBDLIB,
-            acb_lib=cp.ACBLIB,
-            steplib=cp.STEPLIB,
-            reslib=cp.RESLIB,
-            proclib=cp.PROCLIB,
-            primary_log_dataset=cp.PRIMARYLOG,
-            buffer_pool_param_dataset=cp.BUFFERPOOL,
-            mode=cp.LOADMODE,
-            validation_msg="DFS4533I",
-            bootstrap_dataset={
-                'dataset_name': cp.BSDS,
-                'disposition': 'NEW',
-                'normal_disposition': 'CATLG',
-                'primary': 350,
-                'volumes': ['222222']
-            },
-            control_statements={'managed_acbs':{"setup":True}})
+                 psb_lib=cp.PSBLIB,
+                 dbd_lib=cp.DBDLIB,
+                 acb_lib=cp.ACBLIB,
+                 steplib=cp.STEPLIB,
+                 reslib=cp.RESLIB,
+                 proclib=cp.PROCLIB,
+                 primary_log_dataset=cp.PRIMARYLOG,
+                 buffer_pool_param_dataset=cp.BUFFERPOOL,
+                 mode=cp.LOADMODE,
+                 validation_msg="DFS4533I",
+                 bootstrap_dataset={
+                     'dataset_name': cp.BSDS,
+                     'disposition': 'NEW',
+                     'normal_disposition': 'CATLG',
+                     'primary': 350,
+                     'volumes': ['222222']
+                 },
+                 control_statements={'managed_acbs': {"setup": True}})
 
     # Verify the bootstrap dataset was created with the specified parameters
     estimated_size_in_bytes = 0
     response = hosts.all.command("dls -s " + cp.BSDS)
 
     for result in response.contacted.values():
-      for line in result.get("stdout_lines", []):
-        lineList = line.split()
-        estimated_size_in_bytes=int(lineList[-1])
-      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
-      assert estimated_size_in_unit == 350
+        for line in result.get("stdout_lines", []):
+            lineList = line.split()
+            estimated_size_in_bytes=int(lineList[-1])
+        estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+        assert estimated_size_in_unit == 350
 
     # Purge the catalog
     purge_catalog(hosts,
@@ -157,8 +158,8 @@ def test_catalog_define_bootstrap(ansible_zos_module):
     # Finally delete the boostrap dataset again
     response = hosts.all.zos_data_set(name=cp.BSDS, state="absent")
     for result in response.contacted.values():
-      assert result['changed'] == True
-      assert result['message'] == ''
+        assert result['changed'] == True
+        assert result['message'] == ''
 
 
 # Setup the Catalog while defining the staging dataset.
@@ -168,13 +169,13 @@ def test_catalog_define_staging(ansible_zos_module):
     # Delete the staging dataset first
     response = hosts.all.zos_data_set(name=cp.STAGE, state="absent")
     for result in response.contacted.values():
-      assert result['message'] == ''
-      if result['changed'] == False:
-        response = hosts.all.zos_data_set(name=cp.STAGE, state="absent", volume="SCR03")
+        assert result['message'] == ''
+        if result['changed'] == False:
+            response = hosts.all.zos_data_set(name=cp.STAGE, state="absent", volume="SCR03")
 
     # Load catalog while defining the staging dataset
     load_catalog(hosts,
-            psb_lib=cp.PSBLIB,
+                 psb_lib=cp.PSBLIB,
             dbd_lib=cp.DBDLIB,
             acb_lib=cp.ACBLIB,
             steplib=cp.STEPLIB,
