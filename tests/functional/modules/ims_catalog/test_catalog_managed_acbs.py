@@ -137,28 +137,28 @@ def test_catalog_define_bootstrap(ansible_zos_module):
     for result in response.contacted.values():
         for line in result.get("stdout_lines", []):
             lineList = line.split()
-            estimated_size_in_bytes=int(lineList[-1])
+            estimated_size_in_bytes = int(lineList[-1])
         estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
         assert estimated_size_in_unit == 350
 
     # Purge the catalog
     purge_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.PURGEMODE,
-                validation_msg="",
-                delete=cp.DELETES,
-                managed_acbs=True)
+                  psb_lib=cp.PSBLIB,
+                  dbd_lib=cp.DBDLIB,
+                  steplib=cp.STEPLIB,
+                  reslib=cp.RESLIB,
+                  proclib=cp.PROCLIB,
+                  primary_log_dataset=cp.PRIMARYLOG,
+                  buffer_pool_param_dataset=cp.BUFFERPOOL,
+                  mode=cp.PURGEMODE,
+                  validation_msg="",
+                  delete=cp.DELETES,
+                  managed_acbs=True)
 
     # Finally delete the boostrap dataset again
     response = hosts.all.zos_data_set(name=cp.BSDS, state="absent")
     for result in response.contacted.values():
-        assert result['changed'] == True
+        assert result['changed'] is True
         assert result['message'] == ''
 
 
@@ -170,61 +170,61 @@ def test_catalog_define_staging(ansible_zos_module):
     response = hosts.all.zos_data_set(name=cp.STAGE, state="absent")
     for result in response.contacted.values():
         assert result['message'] == ''
-        if result['changed'] == False:
+        if result['changed'] is False:
             response = hosts.all.zos_data_set(name=cp.STAGE, state="absent", volume="SCR03")
 
     # Load catalog while defining the staging dataset
     load_catalog(hosts,
                  psb_lib=cp.PSBLIB,
-            dbd_lib=cp.DBDLIB,
-            acb_lib=cp.ACBLIB,
-            steplib=cp.STEPLIB,
-            reslib=cp.RESLIB,
-            proclib=cp.PROCLIB,
-            primary_log_dataset=cp.PRIMARYLOG,
-            buffer_pool_param_dataset=cp.BUFFERPOOL,
-            mode=cp.LOADMODE,
-            validation_msg="DFS4533I",
-            directory_staging_dataset={
-                'dataset_name': cp.STAGE,
-                'disposition': 'NEW',
-                'normal_disposition': 'CATLG',
-                'primary': 300,
-                'volumes': ['222222']
-            },
-            control_statements={'managed_acbs':{"setup":True}})
+                 dbd_lib=cp.DBDLIB,
+                 acb_lib=cp.ACBLIB,
+                 steplib=cp.STEPLIB,
+                 reslib=cp.RESLIB,
+                 proclib=cp.PROCLIB,
+                 primary_log_dataset=cp.PRIMARYLOG,
+                 buffer_pool_param_dataset=cp.BUFFERPOOL,
+                 mode=cp.LOADMODE,
+                 validation_msg="DFS4533I",
+                 directory_staging_dataset={
+                     'dataset_name': cp.STAGE,
+                     'disposition': 'NEW',
+                     'normal_disposition': 'CATLG',
+                     'primary': 300,
+                     'volumes': ['222222']
+                 },
+                 control_statements={'managed_acbs': {"setup": True}})
 
     # Verify the staging dataset was created with the specified parameters
     estimated_size_in_bytes = 0
     response = hosts.all.command("dls -s " + cp.STAGE)
 
     for result in response.contacted.values():
-      for line in result.get("stdout_lines", []):
-        pprint("dls stdout: " + line)
-        lineList = line.split()
-        estimated_size_in_bytes=int(lineList[-1])
-      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
-      assert estimated_size_in_unit == 300
+        for line in result.get("stdout_lines", []):
+            pprint("dls stdout: " + line)
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
+        estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+        assert estimated_size_in_unit == 300
 
     # Purge the catalog
     purge_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.PURGEMODE,
-                validation_msg="",
-                delete=cp.DELETES,
-                managed_acbs=True)
+                  psb_lib=cp.PSBLIB,
+                  dbd_lib=cp.DBDLIB,
+                  steplib=cp.STEPLIB,
+                  reslib=cp.RESLIB,
+                  proclib=cp.PROCLIB,
+                  primary_log_dataset=cp.PRIMARYLOG,
+                  buffer_pool_param_dataset=cp.BUFFERPOOL,
+                  mode=cp.PURGEMODE,
+                  validation_msg="",
+                  delete=cp.DELETES,
+                  managed_acbs=True)
 
     # Finally delete the staging dataset again
     response = hosts.all.zos_data_set(name=cp.STAGE, state="absent")
     for result in response.contacted.values():
-      assert result['changed'] == True
-      assert result['message'] == ''
+        assert result['changed'] is True
+        assert result['message'] == ''
 
 
 # Setup the Catalog while defining the directory datasets.
@@ -234,78 +234,78 @@ def test_catalog_define_directory(ansible_zos_module):
     # Delete the directory datasets first
     response = hosts.all.zos_data_set(batch=cp.DIR_BATCH)
     for result in response.contacted.values():
-      assert result['message'] == ''
-      if result['changed'] == False:
-        response = hosts.all.zos_data_set(name=cp.DIR_BATCH, state="absent", volume="SCR03")
+        assert result['message'] == ''
+        if result['changed'] is False:
+            response = hosts.all.zos_data_set(name=cp.DIR_BATCH, state="absent", volume="SCR03")
 
     # Load catalog while defining the directory datasets
     load_catalog(hosts,
-            psb_lib=cp.PSBLIB,
-            dbd_lib=cp.DBDLIB,
-            acb_lib=cp.ACBLIB,
-            steplib=cp.STEPLIB,
-            reslib=cp.RESLIB,
-            proclib=cp.PROCLIB,
-            primary_log_dataset=cp.PRIMARYLOG,
-            buffer_pool_param_dataset=cp.BUFFERPOOL,
-            mode=cp.LOADMODE,
-            validation_msg="DFS4533I",
-            directory_datasets=[
-                {
-                    'dataset_name': cp.DIR1,
-                    'disposition': 'NEW',
-                    'normal_disposition': 'CATLG',
-                    'primary': 200,
-                    'volumes': ['222222']
-                },
-                {
-                    'dataset_name': cp.DIR2,
-                    'disposition': 'NEW',
-                    'normal_disposition': 'CATLG',
-                    'primary': 200,
-                    'volumes': ['222222']
-                },
+                 psb_lib=cp.PSBLIB,
+                 dbd_lib=cp.DBDLIB,
+                 acb_lib=cp.ACBLIB,
+                 steplib=cp.STEPLIB,
+                 reslib=cp.RESLIB,
+                 proclib=cp.PROCLIB,
+                 primary_log_dataset=cp.PRIMARYLOG,
+                 buffer_pool_param_dataset=cp.BUFFERPOOL,
+                 mode=cp.LOADMODE,
+                 validation_msg="DFS4533I",
+                 directory_datasets=[
+                     {
+                         'dataset_name': cp.DIR1,
+                         'disposition': 'NEW',
+                         'normal_disposition': 'CATLG',
+                         'primary': 200,
+                         'volumes': ['222222']
+                     },
+                     {
+                         'dataset_name': cp.DIR2,
+                         'disposition': 'NEW',
+                         'normal_disposition': 'CATLG',
+                         'primary': 200,
+                         'volumes': ['222222']
+                     },
 
-            ],
-            control_statements={'managed_acbs':{"setup":True}})
+                 ],
+                 control_statements={'managed_acbs': {"setup": True}})
 
     # Verify the directory datasets were created with the specified parameters
     estimated_size_in_bytes = 0
     response = hosts.all.command("dls -s " + cp.DIR1)
     for result in response.contacted.values():
-      for line in result.get("stdout_lines", []):
-        lineList = line.split()
-        estimated_size_in_bytes=int(lineList[-1])
-      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
-      assert estimated_size_in_unit == 200
+        for line in result.get("stdout_lines", []):
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
+        estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+        assert estimated_size_in_unit == 200
 
     response = hosts.all.command("dls -s " + cp.DIR2)
     for result in response.contacted.values():
-      for line in result.get("stdout_lines", []):
-        lineList = line.split()
-        estimated_size_in_bytes=int(lineList[-1])
-      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
-      assert estimated_size_in_unit == 200
+        for line in result.get("stdout_lines", []):
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
+        estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+        assert estimated_size_in_unit == 200
 
     # Purge the catalog
     purge_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.PURGEMODE,
-                validation_msg="",
-                delete=cp.DELETES,
-                managed_acbs=True)
+                  psb_lib=cp.PSBLIB,
+                  dbd_lib=cp.DBDLIB,
+                  steplib=cp.STEPLIB,
+                  reslib=cp.RESLIB,
+                  proclib=cp.PROCLIB,
+                  primary_log_dataset=cp.PRIMARYLOG,
+                  buffer_pool_param_dataset=cp.BUFFERPOOL,
+                  mode=cp.PURGEMODE,
+                  validation_msg="",
+                  delete=cp.DELETES,
+                  managed_acbs=True)
 
     # Finally delete the directory datasets again
     response = hosts.all.zos_data_set(batch=cp.DIR_BATCH)
     for result in response.contacted.values():
-      assert result['changed'] == True
-      assert result['message'] == ''
+        assert result['changed'] is True
+        assert result['message'] == ''
 
 
 """
@@ -324,60 +324,60 @@ def test_creation_of_temp_acb_dataset_with_managed_acbs(ansible_zos_module):
     # Delete TEMP_ACB data set before the test
     response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
     for result in response.contacted.values():
-      assert result['message'] == ''
+        assert result['message'] == ''
 
     temp_acb_data_set = {
-      'dataset_name': cp.TEMP_ACB,
-      'disposition': 'NEW',
-      'normal_disposition': 'CATLG',
-      'primary': 200,
-      'volumes': ['222222']
+        'dataset_name': cp.TEMP_ACB,
+        'disposition': 'NEW',
+        'normal_disposition': 'CATLG',
+        'primary': 200,
+        'volumes': ['222222']
     }
     load_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                acb_lib=cp.ACBLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                temp_acb_dataset=temp_acb_data_set,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.LOADMODE,
-                validation_msg="DFS4533I",
-                control_statements = {
-                  'managed_acbs': {
-                      'setup': True
-                  }
-                })
+                 psb_lib=cp.PSBLIB,
+                 dbd_lib=cp.DBDLIB,
+                 acb_lib=cp.ACBLIB,
+                 steplib=cp.STEPLIB,
+                 reslib=cp.RESLIB,
+                 proclib=cp.PROCLIB,
+                 primary_log_dataset=cp.PRIMARYLOG,
+                 temp_acb_dataset=temp_acb_data_set,
+                 buffer_pool_param_dataset=cp.BUFFERPOOL,
+                 mode=cp.LOADMODE,
+                 validation_msg="DFS4533I",
+                 control_statements={
+                     'managed_acbs': {
+                         'setup': True
+                     }
+                 })
 
     estimated_size_in_bytes = 0
     response = hosts.all.command("dls -s " + cp.TEMP_ACB)
     for result in response.contacted.values():
-      for line in result.get("stdout_lines", []):
-        lineList = line.split()
-        estimated_size_in_bytes = int(lineList[-1])
-      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
-      assert estimated_size_in_unit == 200
+        for line in result.get("stdout_lines", []):
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
+        estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+        assert estimated_size_in_unit == 200
 
     purge_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.PURGEMODE,
-                validation_msg="",
-                delete=cp.DELETES,
-                managed_acbs=True)
+                  psb_lib=cp.PSBLIB,
+                  dbd_lib=cp.DBDLIB,
+                  steplib=cp.STEPLIB,
+                  reslib=cp.RESLIB,
+                  proclib=cp.PROCLIB,
+                  primary_log_dataset=cp.PRIMARYLOG,
+                  buffer_pool_param_dataset=cp.BUFFERPOOL,
+                  mode=cp.PURGEMODE,
+                  validation_msg="",
+                  delete=cp.DELETES,
+                  managed_acbs=True)
 
     # Delete TEMP_ACB data set after the test
     response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
     for result in response.contacted.values():
-      assert result['changed'] == True
-      assert result['message'] == ''
+        assert result['changed'] is True
+        assert result['message'] == ''
 
 
 def test_creation_of_temp_acb_dataset_without_managed_acbs(ansible_zos_module):
@@ -386,56 +386,56 @@ def test_creation_of_temp_acb_dataset_without_managed_acbs(ansible_zos_module):
     # Delete TEMP_ACB data set before the test
     response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
     for result in response.contacted.values():
-      assert result['message'] == ''
+        assert result['message'] == ''
 
     temp_acb_data_set = {
-      'dataset_name': cp.TEMP_ACB,
-      'disposition': 'NEW',
-      'normal_disposition': 'CATLG',
-      'primary': 200,
-      'volumes': ['222222']
+        'dataset_name': cp.TEMP_ACB,
+        'disposition': 'NEW',
+        'normal_disposition': 'CATLG',
+        'primary': 200,
+        'volumes': ['222222']
     }
     load_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                acb_lib=cp.ACBLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                temp_acb_dataset=temp_acb_data_set,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.LOADMODE,
-                validation_msg="DFS4434I"
-                )
+                 psb_lib=cp.PSBLIB,
+                 dbd_lib=cp.DBDLIB,
+                 acb_lib=cp.ACBLIB,
+                 steplib=cp.STEPLIB,
+                 reslib=cp.RESLIB,
+                 proclib=cp.PROCLIB,
+                 primary_log_dataset=cp.PRIMARYLOG,
+                 temp_acb_dataset=temp_acb_data_set,
+                 buffer_pool_param_dataset=cp.BUFFERPOOL,
+                 mode=cp.LOADMODE,
+                 validation_msg="DFS4434I"
+                 )
 
     estimated_size_in_bytes = 0
     response = hosts.all.command("dls -s " + cp.TEMP_ACB)
     for result in response.contacted.values():
-      for line in result.get("stdout_lines", []):
-        lineList = line.split()
-        estimated_size_in_bytes = int(lineList[-1])
-      estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
-      assert estimated_size_in_unit == 200
+        for line in result.get("stdout_lines", []):
+            lineList = line.split()
+            estimated_size_in_bytes = int(lineList[-1])
+        estimated_size_in_unit = bytes_to_unit(estimated_size_in_bytes, "TRK")
+        assert estimated_size_in_unit == 200
 
     purge_catalog(hosts,
-                psb_lib=cp.PSBLIB,
-                dbd_lib=cp.DBDLIB,
-                steplib=cp.STEPLIB,
-                reslib=cp.RESLIB,
-                proclib=cp.PROCLIB,
-                primary_log_dataset=cp.PRIMARYLOG,
-                buffer_pool_param_dataset=cp.BUFFERPOOL,
-                mode=cp.PURGEMODE,
-                validation_msg="",
-                delete=cp.DELETES,
-                managed_acbs=True)
+                  psb_lib=cp.PSBLIB,
+                  dbd_lib=cp.DBDLIB,
+                  steplib=cp.STEPLIB,
+                  reslib=cp.RESLIB,
+                  proclib=cp.PROCLIB,
+                  primary_log_dataset=cp.PRIMARYLOG,
+                  buffer_pool_param_dataset=cp.BUFFERPOOL,
+                  mode=cp.PURGEMODE,
+                  validation_msg="",
+                  delete=cp.DELETES,
+                  managed_acbs=True)
 
     # Delete TEMP_ACB data set after the test
     response = hosts.all.zos_data_set(name=cp.TEMP_ACB, state="absent")
     for result in response.contacted.values():
-      assert result['changed'] == True
-      assert result['message'] == ''
+        assert result['changed'] is True
+        assert result['message'] == ''
 
 
 def bytes_to_unit(number_of_bytes, unit):
@@ -468,5 +468,3 @@ def byte_to_kilobyte(number_of_bytes):
 
 def byte_to_megabyte(number_of_bytes):
     return ceil(number_of_bytes / BYTES_PER_MB)
-
-
