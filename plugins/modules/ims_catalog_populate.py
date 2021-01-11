@@ -959,7 +959,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog import catalog  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser import catalog_parser  # pylint: disable=import-error
 
-module = None
+# module = None
 
 
 def run_module():

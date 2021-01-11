@@ -4,8 +4,8 @@ import re
 from pprint import pprint
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as ims_em
 
-ZOAUTIL_TEMP_USS = "/tmp/test.jcl"
-ZOAUTIL_TEMP_USS2 = "/tmp/test2.jcl"
+# ZOAUTIL_TEMP_USS = "/tmp/test.jcl"
+# ZOAUTIL_TEMP_USS2 = "/tmp/test2.jcl"
 
 
 # def submit_uss_jcl(module):
