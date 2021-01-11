@@ -22,7 +22,7 @@ import pprint
 __metaclass__ = type
 
 
-class catalog():
+class catalog(object):
 
     def __init__(self, module, result, parsed_args):
         self.module = module

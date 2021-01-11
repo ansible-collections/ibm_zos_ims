@@ -542,8 +542,10 @@ msg:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog.catalog import catalog
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser.catalog_parser import catalog_parser
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog import catalog  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser import catalog_parser  # pylint: disable=import-error
+
+module = None
 
 
 def run_module():
@@ -577,8 +579,8 @@ def run_module():
     result = {}
     result["changed"] = False
 
-    parsed_args = catalog_parser(module, module.params, result).validate_purge_input()
-    response = catalog(module, result, parsed_args).execute_catalog_purge()
+    parsed_args = catalog_parser.catalog_parser(module, module.params, result).validate_purge_input()
+    response = catalog.catalog(module, result, parsed_args).execute_catalog_purge()
 
     if "DFS4518I" in result['content']:
         result["changed"] = True

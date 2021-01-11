@@ -5,7 +5,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser
 __metaclass__ = type
 
 
-class catalog_parser():
+class catalog_parser(object):
     def __init__(self, module, params, result):
         self.params = params
         self.result = result
