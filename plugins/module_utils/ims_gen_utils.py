@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 import re
+import tempfile
 from pprint import pprint
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ErrorMessages as ims_em
 
@@ -147,7 +148,7 @@ def run_gen_file(filename, dest, syslib_list, overwrite, run_command):
     rc = 0
     out = "Invoking run_gen_file method. "
     stderr = ''
-    tmpFile = '/tmp/tempGenObj.o'
+    tmpFile = tempfile.gettempdir() + '/tempGenObj.o'
     # create member name same as filename
     member = filename.split('/')[-1]
     member = member.split(".")[0]
@@ -215,7 +216,7 @@ def run_gen_data_set(source, src_member, dest, dest_member, syslib_list, overwri
     rc = 0
     out = "Invoking run_gen_data_set method. "
     stderr = ''
-    tmpFile = '/tmp/tempGenObj.o'
+    tmpFile = tempfile.gettempdir() + '/tempGenObj.o'
 
     if dest_member == '' and src_member == '':
         return 1, '', 'Either source member or destination member should be set.'
