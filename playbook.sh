@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 ansible-galaxy collection build ./ --force
 ansible-galaxy collection install ibm-*.tar.gz -c --force-with-deps
 
