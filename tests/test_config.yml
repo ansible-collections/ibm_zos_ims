@@ -1,6 +1,6 @@
-host: ec32024a.vmec.svl.ibm.com
+host: ec33002a.vmec.svl.ibm.com
 user: omvsadm
-python_path: /python3/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3
+python_path: /python/3.8.3.ptf1/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3
 environment:
   _BPXK_AUTOCVT: "ON"
   _CEE_RUNOPTS: "'FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'"
@@ -8,12 +8,12 @@ environment:
   _TAG_REDIR_IN: txt
   _TAG_REDIR_OUT: txt
   LANG: C
-  ZOAU_ROOT: "/zoau/v1.1.0-spr7"
-  ZOAU_HOME: "/zoau/v1.1.0-spr7"
-  LIBPATH: "/zoau/v1.1.0-spr7/lib:/python3/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:."
-  ZOAUTIL_DIR: "/zoau/v1.1.0-spr7"
-  PYTHONPATH: "/zoau/v1.1.0-spr7/lib"
-  PATH: "/zoau/v1.1.0-spr7/bin:/python3/usr/lpp/IBM/cyp/v3r8/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
+  ZOAU_ROOT: "/zoau/v1.0.3-ptf2"
+  ZOAU_HOME: "/zoau/v1.0.3-ptf2"
+  LIBPATH: "/zoau/v1.0.3-ptf2/lib:/python/3.8.3.ptf1/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:."
+  ZOAUTIL_DIR: "/zoau/v1.0.3-ptf2"
+  PYTHONPATH: "/zoau/v1.0.3-ptf2/lib"
+  PATH: "/zoau/v1.0.3-ptf2/bin:/python/3.8.3.ptf1/usr/lpp/IBM/cyp/v3r8/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
   STEPLIB: IMSTESTL.IMS1.SDFSRESL #'IMSBLD.I15RTSMM.COMRESL1'
 extra_args:
     JOB_CARD: |-
