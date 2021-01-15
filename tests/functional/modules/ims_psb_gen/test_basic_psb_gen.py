@@ -17,7 +17,7 @@ REMOTE_SOURCE = ip.REMOTE_PSBGEN01_SOURCE
 
 def test_ims_psb_gen_sample_batch(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src=LOCAL_SOURCE, dest=REMOTE_SOURCE)
+    hosts.all.copy(src=LOCAL_SOURCE, dest=REMOTE_SOURCE, mode='0777')
     batch_list = [
         {
             'src': SOURCE,
