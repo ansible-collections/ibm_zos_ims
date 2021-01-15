@@ -12,4 +12,4 @@ export ANSIBLE_ACTION_PLUGINS=${plugins_dir}/action
 export ANSIBLE_CONNECTION_PLUGINS=${plugins_dir}/connection
 export ANSIBLE_CONFIG=${current_dir}/ansible.cfg
 
-python3 -m pytest --host-pattern=all --zinventory="${1:-test_config.yml}" "functional/modules/ims_catalog/test_catalog_managed_acbs.py" -vvv
+python3 -m pytest --host-pattern=all --zinventory="${1:-test_config.yml}" "$2" -vvv
