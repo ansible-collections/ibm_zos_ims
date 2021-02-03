@@ -27,6 +27,4 @@ as IMS.
    :maxdepth: 1
    :caption: Reference
 
-   source/plugins
    source/modules
-   source/filters
