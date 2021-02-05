@@ -25,6 +25,4 @@ automate tasks on z/OS.
    :maxdepth: 1
    :caption: Reference
 
-   source/plugins
    source/modules
-   source/filters
