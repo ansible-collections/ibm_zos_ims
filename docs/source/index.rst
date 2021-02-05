@@ -31,8 +31,9 @@ configuration management, provisioning, and application deployment in one
 easy-to-use platform.
 
 **The IBM z/OS IMS collection**, as part of the broader offering
-**Red Hat® Ansible Certified Content for IBM Z**, is available on Galaxy as
-community supported.
+**Red Hat® Ansible Certified Content for IBM Z**, is available on both Galaxy
+as a community supported offering and on Automation Hub with
+enterprise support.
 
 Features
 ========
