@@ -23,6 +23,6 @@ automate tasks on z/OS.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Reference
+   :caption: Collection Content
 
    source/modules
