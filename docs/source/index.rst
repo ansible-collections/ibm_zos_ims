@@ -10,8 +10,8 @@ The **IBM z/OS IMS collection**, also represented as **ibm\_zos\_ims**
 in this document, is part of the broader offering **Red Hat® Ansible
 Certified Content for IBM Z**. The IBM z/OS IMS collection supports tasks
 such as generating IMS Database Descriptors (DBD), Program Specification
-Blocks (PSB), Application Control Blocks (ACB), and running IMS type-1
-& type-2 commands.
+Blocks (PSB), Application Control Blocks (ACB), running IMS commands
+(type-1, type-2, DBRC), and interacting with the IMS Catalog.
 
 The **IBM z/OS IMS collection** works closely with offerings such as the
 `IBM z/OS core collection`_ to deliver a solution that will enable you to
