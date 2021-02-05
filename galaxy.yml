@@ -55,3 +55,7 @@ build_ignore:
   - ansible.cfg
   - .gitignore
   - gh-pages
+  - '*.tar.gz'
+  - tests
+  - docs
+  - collections
