@@ -1,5 +1,5 @@
 
-:github_url: https://github.com/ansible-collections/ibm_zos_ims/blob/dev/plugins/modules/ims_command.py
+:github_url: https://github.com/ansible-collections/ibm_zos_core/blob/dev/plugins/modules/ims_command.py
 
 .. _ims_command_module:
 
@@ -27,36 +27,26 @@ Parameters
 ----------
 
 
-
-
 batch
   submit multiple IMS commands with a single invocation of the module.
 
-
   | **required**: False
   | **type**: list
-
-
+  | **elements**: dict
 
 
   command
     This is the (well-formatted) command to submit to IMS Batch.
 
-
     | **required**: True
     | **type**: str
-
-
 
 
   plex
     Specify the IMSPLEX in which the IMS Command will be submitted.
 
-
     | **required**: True
     | **type**: str
-
-
 
 
   route
@@ -64,39 +54,29 @@ batch
 
     Leaving this field empty will result in invoking all available routes within the specified PLEX.
 
-
     | **required**: False
     | **type**: list
-
-
 
 
 
 command
   This is the (well-formatted) command to submit to IMS Batch.
 
-
   | **required**: True
   | **type**: str
-
-
 
 
 plex
   Specify the IMSPLEX in which the IMS Command will be submitted.
 
-
   | **required**: True
   | **type**: str
-
-
 
 
 route
   Specify the IMS System in which the IMS Command will be submitted.
 
   Leaving this field empty will result in invoking all available routes within the specified PLEX.
-
 
   | **required**: False
   | **type**: list
@@ -109,7 +89,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+   
    - name: Query all programs for IMS1 in PLEX1
      ims_command:
        command: QUERY PGM SHOW(ALL)
@@ -169,158 +149,90 @@ Notes
 
 
 
+
 Return Values
 -------------
 
 
+failed
+  Indicates the outcome of the module.
 
-         failed
-            | Indicates the outcome of the module.
+  | **returned**: always
+  | **type**: bool
 
-            | **returned**: always
+ims_output
+  The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.
 
-            | **type**: boolean
+  | **returned**: sometimes
+  | **type**: list
+  | **elements**: dict
 
+  ims_member_data
+    Output from Type 1 commands.
 
+    | **returned**: sometimes
+    | **type**: dict
 
+  ims_member_messages
+    Messages from the IMS instance in which the command was routed.
 
+    | **returned**: sometimes
+    | **type**: dict
 
-         ims_output
-            | The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.
+  return_codes
+    Return codes indicating the general result of running the IMS command.
 
-            | **returned**: sometimes
+    | **returned**: always
+    | **type**: dict
 
-            | **type**: list
+    imsrc
+      General IMS return code.
 
+      | **type**: str
 
+    reason
+      Return code indicating specific status of the command.
 
+      | **type**: str
 
-          ims_member_data
-            | Output from Type 1 commands.
+    results
+      Return code indicating the results of the command.
 
-              | **returned**: sometimes
+      | **type**: str
 
-              | **type**: dict
 
+  subgroup_info
+    Returns output from the OM instance in which the command was routed.
 
+    | **returned**: always
+    | **type**: dict
 
+    ctl.rc
+      Return code (i.e. 0000000).
 
+      | **type**: str
 
-          ims_member_messages
-            | Messages from the IMS instance in which the command was routed.
+    ctl.rsn
+      CTL reason code.
 
-              | **returned**: sometimes
+      | **type**: str
 
-              | **type**: dict
 
+  type_2_data
+    Data resulting from the output of the IMS command submitted.
 
+    | **returned**: sometimes
+    | **type**: dict
 
+    CC
+      Completion code for the line of output. Completion code is always returned.
 
+      | **type**: str
 
-          return_codes
-            | Return codes indicating the general result of running the IMS command.
+    CCText
+      Completion code text that describes the meaning of the nonzero completion code.
 
-              | **returned**: always
-
-              | **type**: dict
-
-
-
-
-           imsrc
-            | General IMS return code.
-
-
-                | **type**: str
-
-
-
-
-
-           reason
-            | Return code indicating specific status of the command.
-
-
-                | **type**: str
-
-
-
-
-
-           results
-            | Return code indicating the results of the command.
-
-
-                | **type**: str
-
-
-
-
-
-
-
-          subgroup_info
-            | Returns output from the OM instance in which the command was routed.
-
-              | **returned**: always
-
-              | **type**: dict
-
-
-
-
-           ctl.rc
-            | Return code (i.e. 0000000).
-
-
-                | **type**: str
-
-
-
-
-
-           ctl.rsn
-            | CTL reason code.
-
-
-                | **type**: str
-
-
-
-
-
-
-
-          type_2_data
-            | Data resulting from the output of the IMS command submitted.
-
-              | **returned**: sometimes
-
-              | **type**: dict
-
-
-
-
-           CC
-            | Completion code for the line of output. Completion code is always returned.
-
-
-                | **type**: str
-
-
-
-
-
-           CCText
-            | Completion code text that describes the meaning of the nonzero completion code.
-
-
-                | **type**: str
-
-
-
-
-
+      | **type**: str
 
 
 

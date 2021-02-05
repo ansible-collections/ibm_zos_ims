@@ -1,5 +1,5 @@
 
-:github_url: https://github.com/ansible-collections/ibm_zos_ims/blob/dev/plugins/modules/ims_acb_gen.py
+:github_url: https://github.com/ansible-collections/ibm_zos_core/blob/dev/plugins/modules/ims_acb_gen.py
 
 .. _ims_acb_gen_module:
 
@@ -12,7 +12,7 @@ ims_acb_gen -- Generate IMS ACB
 .. contents::
    :local:
    :depth: 1
-   
+
 
 Synopsis
 --------
@@ -28,35 +28,6 @@ Parameters
 ----------
 
 
- 
-     
-acb_lib
-  The ACB Maintenance utility maintains the prebuilt blocks (ACB) library (IMS.ACBLIB). The ACB library is a consolidated library of program (PSB) and database (DBD) descriptions.
-
-  The IMS acb_lib must be used exclusively. The module can only be executed using an ACB library which is not concurrently allocated to an active IMS system.
-
-
-  | **required**: True
-  | **type**: str
-
-
- 
-     
-build_psb
-  Specifies whether ims_acb_gen rebuilds all PSBs that reference a changed DBD in the *dbdname* parameter.
-
-  TRUE indicates that ims_acb_gen rebuilds all PSBs that reference the changed DBD on the *dbdname* parameter.
-
-  FALSE indicates that ims_acb_gen does not rebuild PSBs that reference the changed DBD if the changed DBD does not change the physical structure of the database.
-
-
-  | **required**: False
-  | **type**: bool
-  | **default**: True
-
-
- 
-     
 command_input
   This field specifies two command options(BUILD/DELETE).
 
@@ -64,48 +35,45 @@ command_input
 
   DELETE - Specifies that blocks are deleted from the ACBLIB data set. The named PSBs and all PSBs that refer to the named DBDs are deleted.
 
-
   | **required**: True
   | **type**: str
   | **choices**: BUILD, DELETE
 
 
- 
-     
 compression
   PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
 
   The default is none.
 
-
   | **required**: False
   | **type**: str
 
 
- 
-     
-dbd_lib
-  The ACB Maintenance utility receives input from the IMS DBDLIB data set.
+psb_name
+  The name of the PS**s**. Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
 
-  The ACB Maintenance utility does not change the DBD(s) in DBDLIB. If changes are made in PSBs or DBDs that require changes in the associated DBD, make these changes before running the module.
-
-
-  | **required**: True
-  | **type**: list
-
-
- 
-     
-dbd_name
-  The name of the DBD(s). Specifies that blocks are built or deleted for this DBD, and for all PSBs that reference this DBD either directly or indirectly through logical relationships.
-
+  This field requires "ALL" or a list of psb names to be specified.
 
   | **required**: False
   | **type**: list
 
 
- 
-     
+dbd_name
+  The name of the DBD(s). Specifies that blocks are built or deleted for this DBD, and for all PSBs that reference this DBD either directly or indirectly through logical relationships.
+
+  | **required**: False
+  | **type**: list
+
+
+acb_lib
+  The ACB Maintenance utility maintains the prebuilt blocks (ACB) library (IMS.ACBLIB). The ACB library is a consolidated library of program (PSB) and database (DBD) descriptions.
+
+  The IMS acb_lib must be used exclusively. The module can only be executed using an ACB library which is not concurrently allocated to an active IMS system.
+
+  | **required**: True
+  | **type**: str
+
+
 psb_lib
   The ACB Maintenance utility receives input from the IMS PSBLIB data set.
 
@@ -113,35 +81,19 @@ psb_lib
 
   Changes in PSBs might also require modifications to the affected application programs. For example, if a DBD has a segment name changed, all PSBs which are sensitive to that segment must have their SENSEG statements changed.
 
+  | **required**: True
+  | **type**: list
+
+
+dbd_lib
+  The ACB Maintenance utility receives input from the IMS DBDLIB data set.
+
+  The ACB Maintenance utility does not change the DBD(s) in DBDLIB. If changes are made in PSBs or DBDs that require changes in the associated DBD, make these changes before running the module.
 
   | **required**: True
   | **type**: list
 
 
- 
-     
-psb_name
-  The name of the PS**s**. Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
-
-  This field requires "ALL" or a list of psb names to be specified.
-
-
-  | **required**: False
-  | **type**: list
-
-
- 
-     
-reslib
-  Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated to it in the reslib field must be authorized through the Authorized Program Facility (APF).
-
-
-  | **required**: False
-  | **type**: list
-
-
- 
-     
 steplib
   Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries that are concatenated to SDFSRESL, you must specify the *reslib* parameter.
 
@@ -149,9 +101,27 @@ steplib
 
   The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
 
+  | **required**: False
+  | **type**: list
+
+
+reslib
+  Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated to it in the reslib field must be authorized through the Authorized Program Facility (APF).
 
   | **required**: False
   | **type**: list
+
+
+build_psb
+  Specifies whether ims_acb_gen rebuilds all PSBs that reference a changed DBD in the *dbdname* parameter.
+
+  TRUE indicates that ims_acb_gen rebuilds all PSBs that reference the changed DBD on the *dbdname* parameter.
+
+  FALSE indicates that ims_acb_gen does not rebuild PSBs that reference the changed DBD if the changed DBD does not change the physical structure of the database.
+
+  | **required**: False
+  | **type**: bool
+  | **default**: True
 
 
 
@@ -239,68 +209,44 @@ Notes
 
 
 
+
 Return Values
 -------------
 
-      
-                              
-         msg
-            | Execution result message from the ims_acb_gen module.
-            
-            | **returned**: always
-            
-            | **type**: str
 
-                  
-            | **sample**: ACBGEN execution is successful.
-      
-            
-      
-         
-                              
-         content
-            | The response from the execution of the ACB Maintenance Utility.
-            
-            | **returned**: always
-            
-            | **type**: list
+msg
+  Execution result message from the ims_acb_gen module.
 
-      
-      
-         
-                              
-         rc
-            | The resulting return code from the ACB Maintenance Utility.
-            
-            | **returned**: always
-            
-            | **type**: str
+  | **returned**: always
+  | **type**: str
+  | **sample**: ACBGEN execution is successful.
 
-                  
-            | **sample**: 0
-      
-            
-      
-         
-                              
-         changed
-            | Indicates if any changes were made during module execution.
-            
-            | **returned**: always
-            
-            | **type**: bool
+content
+  The response from the execution of the ACB Maintenance Utility.
 
-      
-      
-         
-                              
-         debug
-            | additional messages returned from ZOAU.
-            
-            | **returned**: always
-            
-            | **type**: str
+  | **returned**: always
+  | **type**: list
 
-      
-      
-        
+rc
+  The resulting return code from the ACB Maintenance Utility.
+
+  | **returned**: always
+  | **type**: str
+  | **sample**: 0
+
+changed
+  Indicates if any changes were made during module execution.
+
+  True is always returned unless a module or failure has occurred.
+
+  | **returned**: always
+  | **type**: bool
+
+debug
+  additional messages returned from ZOAU.
+
+  For more information, refer to the `ZOAU messages documentation <https://www.ibm.com/support/knowledgecenter/en/SSKFYE_1.0.0/bgy.html>`_
+
+  | **returned**: always
+  | **type**: str
+

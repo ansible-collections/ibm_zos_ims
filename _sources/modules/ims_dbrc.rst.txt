@@ -1,5 +1,5 @@
 
-:github_url: https://github.com/ansible-collections/ibm_zos_ims/blob/dev/plugins/modules/ims_dbrc.py
+:github_url: https://github.com/ansible-collections/ibm_zos_core/blob/dev/plugins/modules/ims_dbrc.py
 
 .. _ims_dbrc_module:
 
@@ -12,7 +12,7 @@ ims_dbrc -- Submit IMS DBRC Commands
 .. contents::
    :local:
    :depth: 1
-   
+
 
 Synopsis
 --------
@@ -27,113 +27,83 @@ Parameters
 ----------
 
 
- 
-     
 command
   This is the well-formatted DBRC command to submit.
-
 
   | **required**: True
   | **type**: list
 
 
- 
-     
 dbd_lib
   The data set that contains the descriptions for the databases that are under the control of DBRC.
-
 
   | **required**: False
   | **type**: str
 
 
- 
-     
 dynamic_allocation_dataset
   The dynamic allocation data set that will be used to complete the DBRC execution.
 
   Required if `recon1`, `recon2`, and `recon3` are not specified.
 
-
   | **required**: False
   | **type**: str
 
 
- 
-     
 genjcl_input_dataset
   The PDS, which contains the skeletal JCL members used by the DBRC utility to generate JCL.
 
   Equivalent to the JCLPDS control statement.
 
-
   | **required**: False
   | **type**: str
 
 
- 
-     
 genjcl_output_dataset
   The data set which is to receive the generated JCL. It is required only for the GENJCL commands.
 
   Equivalent to the JCLOUT control statement.
 
-
   | **required**: False
   | **type**: str
 
 
- 
-     
 max_rc
   The maximum acceptable return code allowed for the module to complete succesfully.
-
 
   | **required**: False
   | **type**: int
 
 
- 
-     
 recon1
   The RECON1 data set that will be used to complete the DBRC execution.
 
   Required if `dynamic_allocation_dataset` is not specified.
 
-
   | **required**: False
   | **type**: str
 
 
- 
-     
 recon2
   The RECON2 data set that will be used to complete the DBRC execution.
 
   Required if `dynamic_allocation_dataset` is not specified.
 
-
   | **required**: False
   | **type**: str
 
 
- 
-     
 recon3
   The RECON3 data set that will be used to complete the DBRC execution.
 
   Required if `dynamic_allocation_dataset` is not specified.
 
-
   | **required**: False
   | **type**: str
 
 
- 
-     
 steplib
   List of STEPLIB datasets that contain the IMS nucleus and the required action modules.
-
 
   | **required**: True
   | **type**: list
@@ -163,7 +133,7 @@ Examples
 
    - name: Sample DBRC Multiple Commands with dynamic_allocation_dataset Specified
      ims_dbrc:
-       command: 
+       command:
          - LIST.RECON STATUS
          - LIST.DB ALL
          - LIST.DBDS DBD(CUSTOMER)
@@ -180,7 +150,7 @@ Examples
 
    - name: Sample DBRC Multiple Commands with RECON specified
      ims_dbrc:
-       command: 
+       command:
          - LIST.RECON STATUS
          - INIT.DB DBD(TESTDB)
          - DELETE.DB DBD(TESTDB)
@@ -213,107 +183,51 @@ Notes
 
 
 
+
 Return Values
 -------------
 
-      
-                              
-         changed
-            | Indicates if this module effectively modified the target state.
-            
-            | **returned**: always
-            
-            | **type**: boolean
 
-      
-      
-         
-                              
-         dbrc_output
-            | The output provided by the specified DBRC Command(s).
-            
-            | **returned**: sometimes
-            
-            | **type**: list[dict]
+dbrc_output
+  The output provided by the specified DBRC Command(s).
 
-      
-                    
-                              
-          command
-            | The original submitted command that corresponds to the output.
-            
-              | **returned**: always
-            
-              | **type**: str
+  | **returned**: sometimes
+  | **type**: list
 
-      
-      
-         
-                              
-          messages
-            | Compiled list of messages returned from the DBRC output.
-            
-              | **returned**: always
-            
-              | **type**: list
+  command
+    The original submitted command that corresponds to the output.
 
-      
-      
-         
-                              
-          output
-            | Parsed DBRC output that maps each field to its corresponding value.
-            
-              | **returned**: always
-            
-              | **type**: dict
+    | **returned**: always
+    | **type**: str
 
-      
-      
-        
-      
-         
-                              
-         failed
-            | Indicates the outcome of the module.
-            
-            | **returned**: always
-            
-            | **type**: boolean
+  messages
+    Compiled list of messages returned from the DBRC output.
 
-      
-      
-         
-                              
-         msg
-            | The output message that the `ims_dbrc` module generates.
-            
-            | **returned**: always
-            
-            | **type**: str
+    | **returned**: always
+    | **type**: list
 
-      
-      
-         
-                              
-         rc
-            | The return code returned by the DBRC module.
-            
-            | **returned**: always
-            
-            | **type**: int
+  output
+    Parsed DBRC output that maps each field to its corresponding value.
 
-      
-      
-         
-                              
-         unformatted_output
-            | Unformatted output response from the all of the submitted DBRC commands.
-            
-            | **returned**: always
-            
-            | **type**: list
+    | **returned**: always
+    | **type**: dict
 
-      
-      
-        
+
+msg
+  The output message that the `ims_dbrc` module generates.
+
+  | **returned**: always
+  | **type**: str
+
+rc
+  The return code returned by the DBRC module.
+
+  | **returned**: always
+  | **type**: int
+
+unformatted_output
+  Unformatted output response from the all of the submitted DBRC commands.
+
+  | **returned**: always
+  | **type**: list
+

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ims_psb_gen – Generate IMS PSB &mdash; IBM z/OS IMS Collection 1.1.0-beta.1 documentation</title>
+  <title>ims_psb_gen – Generate IMS PSB &mdash; IBM z/OS IMS Collection 1.1.0 documentation</title>
   
 
   
@@ -33,7 +33,6 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Releases" href="../release_notes.html" />
@@ -167,17 +166,7 @@
       <li>ims_psb_gen – Generate IMS PSB</li>
     
     
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            
-              <!-- User defined GitHub URL -->
-              <a href="https://github.com/ansible-collections/ibm_zos_ims/blob/dev/plugins/modules/ims_psb_gen.py" class="fa fa-github"> Edit on GitHub</a>
-            
-          
-        
-      </li>
-    
+
   </ul>
 
   
@@ -186,13 +175,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-
-
-
-<div class="section" id="ims-psb-gen-generate-ims-psb">
+  <div class="section" id="ims-psb-gen-generate-ims-psb">
 <span id="ims-psb-gen-module"></span><h1>ims_psb_gen – Generate IMS PSB<a class="headerlink" href="#ims-psb-gen-generate-ims-psb" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -212,37 +195,20 @@
 <div class="section" id="parameters">
 <h2><a class="toc-backref" href="#id2">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
 <dl>
-<dt>batch</dt><dd><p>Batch can be used to perform multiple operations in a single module call.</p>
-<p>Expects a list of the location(s) of the IMS Program Specification Block (PSB) source to be compiled.</p>
-<p>The source can reference a PDS or PDSE member, sequential data set or UNIX System Services file path.</p>
+<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.</p>
+<p>If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
-<div class="line"><strong>type</strong>: list</div>
+<div class="line"><strong>type</strong>: str</div>
 </div>
-<dl>
+</dd>
 <dt>location</dt><dd><p>The PSB source location, Supported options are DATA_SET or USS. The default is DATA_SET.</p>
 <p>The DATA_SET option can be used for a PDS, PDSE, or sequential data set.</p>
 <div class="line-block">
-<div class="line"><strong>required</strong>: false</div>
+<div class="line"><strong>required</strong>: False</div>
 <div class="line"><strong>type</strong>: str</div>
 <div class="line"><strong>default</strong>: DATA_SET</div>
 <div class="line"><strong>choices</strong>: DATA_SET, USS</div>
-</div>
-</dd>
-<dt>member_list</dt><dd><p>A list of member names if the source specified is a data set.</p>
-<p>Optionally, proceeding the source_member, a colon with a target name for the generated PSB member can be specified. If no target name is specified, source_name will be used as the target name.</p>
-<p>If ‘member_list’ is empty and location is set to ‘DATA_SET’ or not specified, then src is expected to be a sequential data set.</p>
-<p>Elements are of the list are str or dict with single key-value</p>
-<div class="line-block">
-<div class="line"><strong>required</strong>: False</div>
-<div class="line"><strong>type</strong>: list</div>
-</div>
-</dd>
-<dt>psb_name</dt><dd><p>Target name of the generated PSB member.</p>
-<p>This parameter is only required and applies if src is a sequential data set.</p>
-<div class="line-block">
-<div class="line"><strong>required</strong>: False</div>
-<div class="line"><strong>type</strong>: str</div>
 </div>
 </dd>
 <dt>replace</dt><dd><p>When ‘replace’ is ‘true’, an existing PSB member matching the name in the input PSB source will be overwitten.</p>
@@ -250,30 +216,6 @@
 <div class="line"><strong>required</strong>: False</div>
 <div class="line"><strong>type</strong>: bool</div>
 <div class="line"><strong>default</strong>: True</div>
-</div>
-</dd>
-<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.</p>
-<p>If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.</p>
-<div class="line-block">
-<div class="line"><strong>required</strong>: True</div>
-<div class="line"><strong>type</strong>: str</div>
-</div>
-</dd>
-</dl>
-</dd>
-<dt>dest</dt><dd><p>The target output PSBLIB partitioned data set in which the PSB members will be generated.</p>
-<div class="line-block">
-<div class="line"><strong>required</strong>: True</div>
-<div class="line"><strong>type</strong>: str</div>
-</div>
-</dd>
-<dt>location</dt><dd><p>The PSB source location, Supported options are DATA_SET or USS. The default is DATA_SET.</p>
-<p>The DATA_SET option can be used for a PDS, PDSE, or sequential data set.</p>
-<div class="line-block">
-<div class="line"><strong>required</strong>: False</div>
-<div class="line"><strong>type</strong>: str</div>
-<div class="line"><strong>default</strong>: DATA_SET</div>
-<div class="line"><strong>choices</strong>: DATA_SET, USS</div>
 </div>
 </dd>
 <dt>member_list</dt><dd><p>A list of member names if the source specified is a data set.</p>
@@ -292,6 +234,31 @@
 <div class="line"><strong>type</strong>: str</div>
 </div>
 </dd>
+<dt>batch</dt><dd><p>Batch can be used to perform multiple operations in a single module call.</p>
+<p>Expects a list of the location(s) of the IMS Program Specification Block (PSB) source to be compiled.</p>
+<p>The source can reference a PDS or PDSE member, sequential data set or UNIX System Services file path.</p>
+<div class="line-block">
+<div class="line"><strong>required</strong>: False</div>
+<div class="line"><strong>type</strong>: list</div>
+<div class="line"><strong>elements</strong>: dict</div>
+</div>
+<dl>
+<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.</p>
+<p>If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.</p>
+<div class="line-block">
+<div class="line"><strong>required</strong>: True</div>
+<div class="line"><strong>type</strong>: str</div>
+</div>
+</dd>
+<dt>location</dt><dd><p>The PSB source location, Supported options are DATA_SET or USS. The default is DATA_SET.</p>
+<p>The DATA_SET option can be used for a PDS, PDSE, or sequential data set.</p>
+<div class="line-block">
+<div class="line"><strong>required</strong>: False</div>
+<div class="line"><strong>type</strong>: str</div>
+<div class="line"><strong>default</strong>: DATA_SET</div>
+<div class="line"><strong>choices</strong>: DATA_SET, USS</div>
+</div>
+</dd>
 <dt>replace</dt><dd><p>When ‘replace’ is ‘true’, an existing PSB member matching the name in the input PSB source will be overwitten.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
@@ -299,17 +266,34 @@
 <div class="line"><strong>default</strong>: True</div>
 </div>
 </dd>
-<dt>src</dt><dd><p>The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.</p>
-<p>If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.</p>
+<dt>member_list</dt><dd><p>A list of member names if the source specified is a data set.</p>
+<p>Optionally, proceeding the source_member, a colon with a target name for the generated PSB member can be specified. If no target name is specified, source_name will be used as the target name.</p>
+<p>If ‘member_list’ is empty and location is set to ‘DATA_SET’ or not specified, then src is expected to be a sequential data set.</p>
+<p>Elements are of the list are str or dict with single key-value</p>
+<div class="line-block">
+<div class="line"><strong>required</strong>: False</div>
+<div class="line"><strong>type</strong>: list</div>
+</div>
+</dd>
+<dt>psb_name</dt><dd><p>Target name of the generated PSB member.</p>
+<p>This parameter is only required and applies if src is a sequential data set.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
 <div class="line"><strong>type</strong>: str</div>
 </div>
 </dd>
+</dl>
+</dd>
 <dt>sys_lib</dt><dd><p>A list of required macro libraries that are needed to compile the PSB source. These libraries will be used as the sys_lib at compile time.</p>
 <div class="line-block">
 <div class="line"><strong>required</strong>: True</div>
 <div class="line"><strong>type</strong>: list</div>
+</div>
+</dd>
+<dt>dest</dt><dd><p>The target output PSBLIB partitioned data set in which the PSB members will be generated.</p>
+<div class="line-block">
+<div class="line"><strong>required</strong>: True</div>
+<div class="line"><strong>type</strong>: str</div>
 </div>
 </dd>
 </dl>
@@ -368,97 +352,57 @@
 </div>
 <div class="section" id="return-values">
 <h2><a class="toc-backref" href="#id5">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><dl>
-<dt>batch_result</dt><dd><blockquote>
-<div><div class="line-block">
-<div class="line">List of output for each PSBGEN run on each element in the list of input source if input is batch.</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>type</strong>: list</div>
-</div>
-</div></blockquote>
 <dl>
-<dt>return_text</dt><dd><div class="line-block">
-<div class="line">Status message.</div>
+<dt>batch_result</dt><dd><p>List of output for each PSBGEN run on each element in the list of input source if input is batch.</p>
+<div class="line-block">
+<div class="line"><strong>returned</strong>: on batch call</div>
+<div class="line"><strong>type</strong>: list</div>
+<div class="line"><strong>elements</strong>: dict</div>
 </div>
-<blockquote>
-<div><div class="line-block">
+<dl>
+<dt>return_text</dt><dd><p>Status message.</p>
+<div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>sample</strong>: Invalid input source list being passed without content.</div>
 </div>
-</div></blockquote>
 </dd>
-<dt>src</dt><dd><div class="line-block">
-<div class="line">input psb src name processed.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><strong>returned</strong>: always</div>
-</div>
+<dt>src</dt><dd><p>input psb src name processed.</p>
 <div class="line-block">
+<div class="line"><strong>returned</strong>: always</div>
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 </dl>
 </dd>
-<dt>msg</dt><dd><div class="line-block">
-<div class="line">The message of the PSBGEN execution result.</div>
-</div>
+<dt>msg</dt><dd><p>The message of the PSBGEN execution result.</p>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>sample</strong>: PSBGEN execution was successful.</div>
 </div>
 </dd>
-<dt>rc</dt><dd><div class="line-block">
-<div class="line">Module return code (0 for success)</div>
-</div>
+<dt>rc</dt><dd><p>Module return code (0 for success)</p>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: int</div>
 </div>
 </dd>
-<dt>stderr</dt><dd><div class="line-block">
-<div class="line">Module standard error.</div>
-</div>
+<dt>stderr</dt><dd><p>Module standard error.</p>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: failure</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>sample</strong>: Output data set for DDNAME has invalid record format.</div>
 </div>
 </dd>
-<dt>stdout</dt><dd><div class="line-block">
-<div class="line">Module standard output.</div>
-</div>
+<dt>stdout</dt><dd><p>Module standard output.</p>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: success</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>sample</strong>: PSBGEN execution was successful.</div>
 </div>
 </dd>
 </dl>
-</div></blockquote>
 </div>
 </div>
 
@@ -497,20 +441,6 @@
 
   </div>
   
-<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-        <span class="fa fa-book"> Other Versions</span>
-        v: v1.1.0-beta.1
-        <span class="fa fa-caret-down"></span>
-    </span>
-    <div class="rst-other-versions">
-        <dl>
-            <dt>Tags</dt>
-            <dd><a href="../v1.0.1/modules/ims_psb_gen.html">v1.0.1</a></dd>
-            <dd><a href="../v1.1.0-beta.1/modules/ims_psb_gen.html">v1.1.0-beta.1</a></dd>
-        </dl>
-    </div>
-</div>
 
 
   <script type="text/javascript">

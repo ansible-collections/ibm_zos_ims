@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ims_command – Submit IMS Commands &mdash; IBM z/OS IMS Collection 1.1.0-beta.1 documentation</title>
+  <title>ims_command – Submit IMS Commands &mdash; IBM z/OS IMS Collection 1.1.0 documentation</title>
   
 
   
@@ -33,7 +33,6 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="ims_dbd_gen – Generate IMS DBD" href="ims_dbd_gen.html" />
@@ -167,17 +166,7 @@
       <li>ims_command – Submit IMS Commands</li>
     
     
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            
-              <!-- User defined GitHub URL -->
-              <a href="https://github.com/ansible-collections/ibm_zos_ims/blob/dev/plugins/modules/ims_command.py" class="fa fa-github"> Edit on GitHub</a>
-            
-          
-        
-      </li>
-    
+
   </ul>
 
   
@@ -186,13 +175,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-
-
-
-<div class="section" id="ims-command-submit-ims-commands">
+  <div class="section" id="ims-command-submit-ims-commands">
 <span id="ims-command-module"></span><h1>ims_command – Submit IMS Commands<a class="headerlink" href="#ims-command-submit-ims-commands" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -217,6 +200,7 @@
 <div class="line-block">
 <div class="line"><strong>required</strong>: False</div>
 <div class="line"><strong>type</strong>: list</div>
+<div class="line"><strong>elements</strong>: dict</div>
 </div>
 <dl>
 <dt>command</dt><dd><p>This is the (well-formatted) command to submit to IMS Batch.</p>
@@ -319,169 +303,94 @@
 </div>
 <div class="section" id="return-values">
 <h2><a class="toc-backref" href="#id5">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><dl>
-<dt>failed</dt><dd><div class="line-block">
-<div class="line">Indicates the outcome of the module.</div>
-</div>
+<dl>
+<dt>failed</dt><dd><p>Indicates the outcome of the module.</p>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
-<div class="line"><strong>type</strong>: boolean</div>
+<div class="line"><strong>type</strong>: bool</div>
 </div>
 </dd>
-<dt>ims_output</dt><dd><blockquote>
-<div><div class="line-block">
-<div class="line">The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.</div>
-</div>
+<dt>ims_output</dt><dd><p>The output provided by the specified IMS Command. All the IMS return, reason, and completion codes from running the commands along with associated text.</p>
 <div class="line-block">
 <div class="line"><strong>returned</strong>: sometimes</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: list</div>
+<div class="line"><strong>elements</strong>: dict</div>
 </div>
-</div></blockquote>
 <dl>
-<dt>ims_member_data</dt><dd><div class="line-block">
-<div class="line">Output from Type 1 commands.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><strong>returned</strong>: sometimes</div>
-</div>
+<dt>ims_member_data</dt><dd><p>Output from Type 1 commands.</p>
 <div class="line-block">
+<div class="line"><strong>returned</strong>: sometimes</div>
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
 </dd>
-<dt>ims_member_messages</dt><dd><div class="line-block">
-<div class="line">Messages from the IMS instance in which the command was routed.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><strong>returned</strong>: sometimes</div>
-</div>
+<dt>ims_member_messages</dt><dd><p>Messages from the IMS instance in which the command was routed.</p>
 <div class="line-block">
+<div class="line"><strong>returned</strong>: sometimes</div>
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
 </dd>
-<dt>return_codes</dt><dd><blockquote>
-<div><div class="line-block">
-<div class="line">Return codes indicating the general result of running the IMS command.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>return_codes</dt><dd><p>Return codes indicating the general result of running the IMS command.</p>
+<div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
-</div></blockquote>
 <dl>
-<dt>imsrc</dt><dd><div class="line-block">
-<div class="line">General IMS return code.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>imsrc</dt><dd><p>General IMS return code.</p>
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
-<dt>reason</dt><dd><div class="line-block">
-<div class="line">Return code indicating specific status of the command.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>reason</dt><dd><p>Return code indicating specific status of the command.</p>
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
-<dt>results</dt><dd><div class="line-block">
-<div class="line">Return code indicating the results of the command.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>results</dt><dd><p>Return code indicating the results of the command.</p>
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 </dl>
 </dd>
-<dt>subgroup_info</dt><dd><blockquote>
-<div><div class="line-block">
-<div class="line">Returns output from the OM instance in which the command was routed.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>subgroup_info</dt><dd><p>Returns output from the OM instance in which the command was routed.</p>
+<div class="line-block">
 <div class="line"><strong>returned</strong>: always</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
-</div></blockquote>
 <dl>
-<dt>ctl.rc</dt><dd><div class="line-block">
-<div class="line">Return code (i.e. 0000000).</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>ctl.rc</dt><dd><p>Return code (i.e. 0000000).</p>
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
-<dt>ctl.rsn</dt><dd><div class="line-block">
-<div class="line">CTL reason code.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>ctl.rsn</dt><dd><p>CTL reason code.</p>
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 </dl>
 </dd>
-<dt>type_2_data</dt><dd><blockquote>
-<div><div class="line-block">
-<div class="line">Data resulting from the output of the IMS command submitted.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>type_2_data</dt><dd><p>Data resulting from the output of the IMS command submitted.</p>
+<div class="line-block">
 <div class="line"><strong>returned</strong>: sometimes</div>
-</div>
-<div class="line-block">
 <div class="line"><strong>type</strong>: dict</div>
 </div>
-</div></blockquote>
-</div></blockquote>
 <dl>
-<dt>CC</dt><dd><div class="line-block">
-<div class="line">Completion code for the line of output. Completion code is always returned.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>CC</dt><dd><p>Completion code for the line of output. Completion code is always returned.</p>
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
-<dt>CCText</dt><dd><div class="line-block">
-<div class="line">Completion code text that describes the meaning of the nonzero completion code.</div>
-</div>
-<blockquote>
-<div><div class="line-block">
+<dt>CCText</dt><dd><p>Completion code text that describes the meaning of the nonzero completion code.</p>
+<div class="line-block">
 <div class="line"><strong>type</strong>: str</div>
 </div>
-</div></blockquote>
 </dd>
 </dl>
 </dd>
 </dl>
 </dd>
 </dl>
-</div></blockquote>
 </div>
 </div>
 
@@ -520,20 +429,6 @@
 
   </div>
   
-<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-        <span class="fa fa-book"> Other Versions</span>
-        v: v1.1.0-beta.1
-        <span class="fa fa-caret-down"></span>
-    </span>
-    <div class="rst-other-versions">
-        <dl>
-            <dt>Tags</dt>
-            <dd><a href="../v1.0.1/modules/ims_command.html">v1.0.1</a></dd>
-            <dd><a href="../v1.1.0-beta.1/modules/ims_command.html">v1.1.0-beta.1</a></dd>
-        </dl>
-    </div>
-</div>
 
 
   <script type="text/javascript">

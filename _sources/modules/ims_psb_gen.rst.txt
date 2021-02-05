@@ -1,5 +1,5 @@
 
-:github_url: https://github.com/ansible-collections/ibm_zos_ims/blob/dev/plugins/modules/ims_psb_gen.py
+:github_url: https://github.com/ansible-collections/ibm_zos_core/blob/dev/plugins/modules/ims_psb_gen.py
 
 .. _ims_psb_gen_module:
 
@@ -26,96 +26,13 @@ Parameters
 ----------
 
 
+src
+  The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
 
-
-batch
-  Batch can be used to perform multiple operations in a single module call.
-
-  Expects a list of the location(s) of the IMS Program Specification Block (PSB) source to be compiled.
-
-  The source can reference a PDS or PDSE member, sequential data set or UNIX System Services file path.
-
+  If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
 
   | **required**: False
-  | **type**: list
-
-
-
-
-  location
-    The PSB source location, Supported options are DATA_SET or USS. The default is DATA_SET.
-
-    The DATA_SET option can be used for a PDS, PDSE, or sequential data set.
-
-
-    | **required**: false
-    | **type**: str
-    | **default**: DATA_SET
-    | **choices**: DATA_SET, USS
-
-
-
-
-  member_list
-    A list of member names if the source specified is a data set.
-
-    Optionally, proceeding the source_member, a colon with a target name for the generated PSB member can be specified. If no target name is specified, source_name will be used as the target name.
-
-    If 'member_list' is empty and location is set to 'DATA_SET' or not specified, then src is expected to be a sequential data set.
-
-    Elements are of the list are str or dict with single key-value
-
-
-    | **required**: False
-    | **type**: list
-
-
-
-
-  psb_name
-    Target name of the generated PSB member.
-
-    This parameter is only required and applies if src is a sequential data set.
-
-
-    | **required**: False
-    | **type**: str
-
-
-
-
-  replace
-    When 'replace' is 'true', an existing PSB member matching the name in the input PSB source will be overwitten.
-
-
-    | **required**: False
-    | **type**: bool
-    | **default**: True
-
-
-
-
-  src
-    The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
-
-    If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
-
-
-    | **required**: True
-    | **type**: str
-
-
-
-
-
-dest
-  The target output PSBLIB partitioned data set in which the PSB members will be generated.
-
-
-  | **required**: True
   | **type**: str
-
-
 
 
 location
@@ -123,13 +40,18 @@ location
 
   The DATA_SET option can be used for a PDS, PDSE, or sequential data set.
 
-
   | **required**: False
   | **type**: str
   | **default**: DATA_SET
   | **choices**: DATA_SET, USS
 
 
+replace
+  When 'replace' is 'true', an existing PSB member matching the name in the input PSB source will be overwitten.
+
+  | **required**: False
+  | **type**: bool
+  | **default**: True
 
 
 member_list
@@ -141,11 +63,8 @@ member_list
 
   Elements are of the list are str or dict with single key-value pair
 
-
   | **required**: False
   | **type**: list
-
-
 
 
 psb_name
@@ -153,42 +72,85 @@ psb_name
 
   This parameter is only required and applies if src is a sequential data set.
 
-
   | **required**: False
   | **type**: str
 
 
+batch
+  Batch can be used to perform multiple operations in a single module call.
 
+  Expects a list of the location(s) of the IMS Program Specification Block (PSB) source to be compiled.
 
-replace
-  When 'replace' is 'true', an existing PSB member matching the name in the input PSB source will be overwitten.
-
-
-  | **required**: False
-  | **type**: bool
-  | **default**: True
-
-
-
-
-src
-  The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
-
-  If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
-
+  The source can reference a PDS or PDSE member, sequential data set or UNIX System Services file path.
 
   | **required**: False
-  | **type**: str
+  | **type**: list
+  | **elements**: dict
 
+
+  src
+    The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
+
+    If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
+
+    | **required**: True
+    | **type**: str
+
+
+  location
+    The PSB source location, Supported options are DATA_SET or USS. The default is DATA_SET.
+
+    The DATA_SET option can be used for a PDS, PDSE, or sequential data set.
+
+    | **required**: False
+    | **type**: str
+    | **default**: DATA_SET
+    | **choices**: DATA_SET, USS
+
+
+  replace
+    When 'replace' is 'true', an existing PSB member matching the name in the input PSB source will be overwitten.
+
+    | **required**: False
+    | **type**: bool
+    | **default**: True
+
+
+  member_list
+    A list of member names if the source specified is a data set.
+
+    Optionally, proceeding the source_member, a colon with a target name for the generated PSB member can be specified. If no target name is specified, source_name will be used as the target name.
+
+    If 'member_list' is empty and location is set to 'DATA_SET' or not specified, then src is expected to be a sequential data set.
+
+    Elements are of the list are str or dict with single key-value
+
+    | **required**: False
+    | **type**: list
+
+
+  psb_name
+    Target name of the generated PSB member.
+
+    This parameter is only required and applies if src is a sequential data set.
+
+    | **required**: False
+    | **type**: str
 
 
 
 sys_lib
   A list of required macro libraries that are needed to compile the PSB source. These libraries will be used as the sys_lib at compile time.
 
-
   | **required**: True
   | **type**: list
+
+
+dest
+  The target output PSBLIB partitioned data set in which the PSB members will be generated.
+
+  | **required**: True
+  | **type**: str
 
 
 
@@ -198,7 +160,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+   
    ---
    - name: Basic example of IMS PSBGEN module with single data set
      ims_psb_gen:
@@ -254,96 +216,56 @@ Notes
 
 
 
+
 Return Values
 -------------
 
 
+batch_result
+  List of output for each PSBGEN run on each element in the list of input source if input is batch.
 
-         batch_result
-            | List of output for each PSBGEN run on each element in the list of input source if input is batch.
+  | **returned**: on batch call
+  | **type**: list
+  | **elements**: dict
 
+  return_text
+    Status message.
 
-            | **type**: list
+    | **returned**: always
+    | **type**: str
+    | **sample**: Invalid input source list being passed without content.
 
+  src
+    input psb src name processed.
 
-
-
-          return_text
-            | Status message.
-
-              | **returned**: always
-
-              | **type**: str
-
-
-              | **sample**: Invalid input source list being passed without content.
-
-
+    | **returned**: always
+    | **type**: str
 
 
+msg
+  The message of the PSBGEN execution result.
 
-          src
-            | input psb src name processed.
+  | **returned**: always
+  | **type**: str
+  | **sample**: PSBGEN execution was successful.
 
-              | **returned**: always
+rc
+  Module return code (0 for success)
 
-              | **type**: str
+  | **returned**: always
+  | **type**: int
 
+stderr
+  Module standard error.
 
+  | **returned**: failure
+  | **type**: str
+  | **sample**: Output data set for DDNAME has invalid record format.
 
+stdout
+  Module standard output.
 
-
-
-
-         msg
-            | The message of the PSBGEN execution result.
-
-            | **returned**: always
-
-            | **type**: str
-
-
-            | **sample**: PSBGEN execution was successful.
-
-
-
-
-
-         rc
-            | Module return code (0 for success)
-
-            | **returned**: always
-
-            | **type**: int
-
-
-
-
-
-         stderr
-            | Module standard error.
-
-            | **returned**: failure
-
-            | **type**: str
-
-
-            | **sample**: Output data set for DDNAME has invalid record format.
-
-
-
-
-
-         stdout
-            | Module standard output.
-
-            | **returned**: success
-
-            | **type**: str
-
-
-            | **sample**: PSBGEN execution was successful.
-
-
-
+  | **returned**: success
+  | **type**: str
+  | **sample**: PSBGEN execution was successful.
 
