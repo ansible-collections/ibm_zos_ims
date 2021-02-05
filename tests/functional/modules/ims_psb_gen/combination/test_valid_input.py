@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import (absolute_import, division, print_function)
 from pprint import pprint
 import pytest
@@ -55,7 +56,9 @@ def validate_batch(hosts, batch_list, dest, sys_lib):
 
 def test_psb_gen_dataset_prereq(ansible_zos_module):
     hosts = ansible_zos_module
-    response = hosts.all.ims_psb_gen(dest=DESTINATION, sys_lib=SYSLIB, src=SOURCE, location="DATA_SET", replace=True, member_list=["PSBGENL"])
+    response = hosts.all.ims_psb_gen(
+        dest=DESTINATION, sys_lib=SYSLIB, src=SOURCE, location="DATA_SET",
+        replace=True, member_list=["PSBGENL"])
     for result in response.contacted.values():
         pprint(result)
         print("Changed:", result['changed'])
@@ -67,6 +70,7 @@ def test_psb_gen_dataset_prereq(ansible_zos_module):
 
 def test_psb_gen_basic_combination(ansible_zos_module):
     hosts = ansible_zos_module
+    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
     batch_list = [
         {'src': USS, 'location': 'USS', 'replace': True},
         {'src': SOURCE, 'location': 'DATA_SET', 'member_list': ['PSBGENL', 'PSBLOAD']},
@@ -78,6 +82,7 @@ def test_psb_gen_basic_combination(ansible_zos_module):
 
 def test_psb_gen_uss_dataset(ansible_zos_module):
     hosts = ansible_zos_module
+    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
     batch_list = [
         {'src': USS, 'location': 'USS', 'replace': True},
         {'src': SOURCE, 'location': 'DATA_SET', 'member_list': ['PSBGENL', 'PSBNOOG']},
@@ -87,6 +92,7 @@ def test_psb_gen_uss_dataset(ansible_zos_module):
 
 def test_psb_gen_uss_seqDataset(ansible_zos_module):
     hosts = ansible_zos_module
+    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
     batch_list = [
         {'src': USS, 'location': 'USS', 'replace': True},
         {'src': SEQ, 'location': 'DATA_SET', 'psb_name': 'SEQ1'}
@@ -106,12 +112,11 @@ def test_psb_gen_dataset_seqDataset(ansible_zos_module):
 def test_pdb_gen_list_datasets(ansible_zos_module):
     hosts = ansible_zos_module
     batch_list = [
-        {'src': SOURCE, 'location': 'DATA_SET', 'member_list':
-            [
-                'PSBGENL', 'PSBNOOG', 'PSBGENL', 'PSBLOAD',
-                'PSBGENL', 'PSBLOAD', 'PSBGENL', 'PSBLOAD'
-            ],
-            'replace': True},
+        {
+            'src': SOURCE, 'location': 'DATA_SET',
+            'member_list': ['PSBGENL', 'PSBNOOG', 'PSBGENL', 'PSBLOAD', 'PSBGENL', 'PSBLOAD', 'PSBGENL', 'PSBLOAD'],
+            'replace': True
+        },
         {'src': SOURCE, 'location': 'DATA_SET', 'member_list': ['PSBGENL', 'PSBNOOG']},
         {'src': SOURCE, 'member_list': ['PSBGENL', 'PSBLOAD'], 'replace': True}
     ]
@@ -120,13 +125,9 @@ def test_pdb_gen_list_datasets(ansible_zos_module):
 
 def test_psb_gen_single_src_member_list(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE,
-                        location='DATA_SET',
-                        member_list=[
-                            'PSBGENL', 'PSBNOOG', 'PSBGENL', 'PSBLOAD',
-                            'PSBGENL', 'PSBLOAD', 'PSBGENL', 'PSBLOAD'
-                        ],
-                        replace=True)
+    validate_single_src(
+        hosts, DESTINATION, SYSLIB, src=SOURCE, location='DATA_SET',
+        member_list=['PSBGENL', 'PSBNOOG', 'PSBGENL', 'PSBLOAD', 'PSBGENL', 'PSBLOAD', 'PSBGENL', 'PSBLOAD'], replace=True)
 
 
 def test_psb_gen_target_name(ansible_zos_module):

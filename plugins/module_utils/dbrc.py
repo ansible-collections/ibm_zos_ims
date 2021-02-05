@@ -1,13 +1,16 @@
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 import re
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import ( # pylint: disable=import-error
-  DDStatement,
-  FileDefinition,
-  DatasetDefinition,
-  StdoutDefinition,
-  StdinDefinition
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import (  # pylint: disable=import-error
+    DDStatement,
+    FileDefinition,
+    DatasetDefinition,
+    StdoutDefinition,
+    StdinDefinition
 )
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em  # pylint: disable=import-error
+
 
 class dbrc():
     DBRC_UTILITY = "dspurx00"
@@ -21,7 +24,8 @@ class dbrc():
         "OFF": False
     }
 
-    def __init__(self, commands, steplib, dynamic_allocation_dataset=None, dbd_lib=None, genjcl_output_dataset=None, genjcl_input_dataset=None, recon1=None, recon2=None, recon3=None):
+    def __init__(self, commands, steplib, dynamic_allocation_dataset=None, dbd_lib=None,
+                 genjcl_output_dataset=None, genjcl_input_dataset=None, recon1=None, recon2=None, recon3=None):
         """IMSDBRC constructor used to run DBRC commands using zos_raw.
 
         Args:
@@ -76,7 +80,7 @@ class dbrc():
             self.commands = [self.commands.strip().replace(" ", " -\n")]
 
     def _assert_dynalloc_recon_requirement(self):
-        """This assertion function validates that either the 'dynamic_allocation_dataset' parameter was specified, or 
+        """This assertion function validates that either the 'dynamic_allocation_dataset' parameter was specified, or
         all of the recon parameters were specified. This is a requirement to run the DBRC utility.
 
         Raises:
@@ -118,13 +122,13 @@ class dbrc():
 
         if self.recon1 and not isinstance(self.recon1, str):
             raise TypeError(em.INCORRECT_RECON_TYPE)
-        
+
         if self.recon2 and not isinstance(self.recon2, str):
             raise TypeError(em.INCORRECT_RECON_TYPE)
-        
+
         if self.recon3 and not isinstance(self.recon3, str):
             raise TypeError(em.INCORRECT_RECON_TYPE)
-    
+
     def _extract_values(self, output_line):
         """Given a line from the output string, this function parses a line that contains
         equals signs (=), and returns a dictionary with key value pairs based on the line.
@@ -134,7 +138,7 @@ class dbrc():
 
         Returns:
             (dict): Mapping of the fields that corresponds to the line from the output
-        
+
         Example:
             output_line: 'FORCER    LOG DSN CHECK=CHECK44    STARTNEW=NO'
             returns: {"LOG DSN CHECK": "CHECK44", "STARTNEW": False}
@@ -143,9 +147,12 @@ class dbrc():
         elements = output_line.split("=")
         i = 0
         double_space = "  "
-        filter_function = lambda elem: elem and elem != " "
+
+        def filter_function(elem):
+            return elem and elem != " "
+
         while i < len(elements) - 1:
-            value_index = i + 1 
+            value_index = i + 1
             key_list = list(filter(filter_function, elements[i].split(double_space)))
             value_list = list(filter(filter_function, elements[i + 1].split(double_space)))
 
@@ -156,12 +163,12 @@ class dbrc():
                 try:
                     start_index = re.search(r'\d+\s', unformatted_key).end()
                     key = unformatted_key[start_index:].strip()
-                except:
+                except Exception as e:
                     key = unformatted_key.strip()
             if len(elements) != 2 and \
-                (elements[i + 1][0:2] == double_space or \
-                (len(value_list) == 1 and value_index > 0 and value_index < len(elements) - 1)): 
-                
+                (elements[i + 1][0:2] == double_space or
+                    (len(value_list) == 1 and value_index > 0 and value_index < len(elements) - 1)):
+
                 fields[key] = None
             else:
                 value = value_list[0].strip()
@@ -169,7 +176,7 @@ class dbrc():
                     value = dbrc.REPLACEMENT_VALUES[value]
                 fields[key] = value
             i += 1
-            
+
         return fields
 
     def _format_command(self, raw_command):
@@ -221,7 +228,7 @@ class dbrc():
         try:
             for index, line in enumerate(original_output):
                 if re.search(rec_ctrl_pattern, line, re.IGNORECASE) \
-                    and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
+                        and not re.search(dsp_pattern, original_output[index + 1], re.IGNORECASE):
                     command_index += 1
                     command = self._original_commands[command_index]
                     output_fields.append({})
@@ -247,8 +254,8 @@ class dbrc():
             print(repr(e))
             output_fields = {}
             failure_detected = True
-        finally:
-            return output_fields, original_output, failure_detected
+        # finally:
+        return output_fields, original_output, failure_detected
 
     def _add_utility_statement(self, name, data_set, dbrc_utility_fields):
         """Adds the DD Statement to the list of dbrc_utility_fields if the data set name
@@ -313,7 +320,7 @@ class dbrc():
             }
 
         except Exception as e:
-            print("ERROR:",e)
+            print("ERROR:", e)
             res = {
                 "dbrc_fields": [],
                 "original_output": [],
@@ -322,5 +329,5 @@ class dbrc():
                 "rc": None,
                 "changed": False
             }
-        finally:
-            return res
+        # finally:
+        return res

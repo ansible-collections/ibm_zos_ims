@@ -35,7 +35,7 @@ def test_batch_invalid_route(ansible_zos_module):
         assert result['changed'] is False
 
 
-def test_batch_malformed_plex_multiple(ansible_zos_module):
+def test_batch_malformed_route_multiple(ansible_zos_module):
     hosts = ansible_zos_module
     batch_list = [
         {"command": "QUERY PGM", "plex": PLEX, "route": "thisroutedoesntexist"},
@@ -48,7 +48,7 @@ def test_batch_malformed_plex_multiple(ansible_zos_module):
         assert result['changed'] is False
 
 
-def test_batch_correct_and_malformed_plex(ansible_zos_module):
+def test_batch_correct_and_malformed_routes(ansible_zos_module):
     hosts = ansible_zos_module
     batch_list = [
         {"command": "QUERY PGM", "plex": PLEX, "route": "IMS1"},
