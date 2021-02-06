@@ -40,6 +40,13 @@ PSB_SOURCE = psb.SOURCE
 GEN_SUCCESS_MSG_DBD = 'DBDGEN execution was successful.'
 GEN_SUCCESS_MSG_PSB = 'PSBGEN execution was successful'
 
+
+# vars for prereqs -- disabled since it's unncessary for the current tests
+# DBD_SRC = dbd.SOURCE
+# PSB_SRC = psb.SOURCE
+# SYSLIB = dbd.SYSLIB
+
+
 """
 Work flow for Combination functional tests goes as follows:
 1. PSB name doesn't exists as string, BUILD PSB=PSB_NAME
@@ -92,6 +99,38 @@ Work flow for Combination functional tests goes as follows:
 #         # Check for success message (if we remove return codes)
 #         assert result['msg'] == GEN_SUCCESS_MSG_PSB
 
+# dbdgen and psbgen prereqs -- disabled since it's unncessary for the current tests
+# def test_dbd_gen_dataset_prereq(ansible_zos_module):
+#     hosts = ansible_zos_module
+#     # validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE, location='DATA_SET', member_list=['DEDBJN21'], replace=True)
+#     response = hosts.all.ims_dbd_gen(
+#         dest=DBDLIB[0],
+#         sys_lib=SYSLIB, src=DBD_SRC, location="DATA_SET",
+#         replace=True,
+#         member_list=[
+#             "DH41SK01", "DBFSAMD1", "DH41SK01", "DBFSAMD2", "DBFSAMD3", "HOSPVARD", "DSVNTZ30", "DX41SK01",
+#             "DX41SK03", "DX41SK05", "DX41SK06", "DX41SK07", "DX41SK08", "DX41SK09", "DX41SK02", "DX41SK04", "WAREDB",
+#             "ORDDB", "DISTDB", "ARTDB", "CUSTDB", "NORDDB", "ORDRDB", "ORDLDB", "ITEMDB", "ITEMDBP", "STCKDB"])
+#     for result in response.contacted.values():
+#         print(result)
+#         print("Changed:", result['changed'])
+#         assert result['changed']
+#         assert result['rc'] == 0
+#         # Check for success message (if we remove return codes)
+#         # assert result['msg'] == GEN_SUCCESS_MSG
+
+# def test_psb_gen_dataset_prereq(ansible_zos_module):
+#     hosts = ansible_zos_module
+#     response = hosts.all.ims_psb_gen(
+#         dest=PSBLIB[0], sys_lib=SYSLIB, src=PSB_SRC, location="DATA_SET",
+#         replace=True, member_list=["PSBGENL"])
+#     for result in response.contacted.values():
+#         pprint(result)
+#         print("Changed:", result['changed'])
+#         assert result['changed']
+#         assert result['rc'] == 0
+#         # Check for success message (if we remove return codes)
+#         # assert result['msg'] == GEN_SUCCESS_MSG
 
 def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
                     dbd_lib=None, acb_lib=None, steplib=None, reslib=None,

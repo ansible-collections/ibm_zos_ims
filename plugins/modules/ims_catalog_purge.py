@@ -1,13 +1,12 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) IBM Corporation 2020
 # LICENSE: [GNU General Public License version 3](https://opensource.org/licenses/GPL-3.0)
 
-ANSIBLE_METADATA = {
-  'metadata_version': '1.1',
-  'status': ['preview'],
-  'supported_by': 'community'
-}
+from __future__ import (absolute_import, division, print_function)
+
+__metaclass__ = type
+
 
 DOCUMENTATION = r'''
 ---
@@ -427,15 +426,15 @@ notes:
 EXAMPLES = r'''
 - name: Purge the IMS Catalog of DBDs beginning with 'DB'
   ims_catalog_purge:
-    reslib: 
+    reslib:
       - SOME.IMS.SDFSRESL
-    steplib: 
+    steplib:
       - SOME.IMS.SDFSRESL
-    proclib: 
-      - SOME.IMS.PROCLIB 
-    dbd_lib: 
+    proclib:
+      - SOME.IMS.PROCLIB
+    dbd_lib:
       - SOME.IMS.DBDLIB
-    psb_lib: 
+    psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
@@ -448,15 +447,15 @@ EXAMPLES = r'''
 
 - name: Purge the IMS Catalog and the IMS Directory of DBDs beginning with 'DB'
   ims_catalog_purge:
-    reslib: 
+    reslib:
       - SOME.IMS.SDFSRESL
-    steplib: 
+    steplib:
       - SOME.IMS.SDFSRESL
-    proclib: 
-      - SOME.IMS.PROCLIB 
-    dbd_lib: 
+    proclib:
+      - SOME.IMS.PROCLIB
+    dbd_lib:
       - SOME.IMS.DBDLIB
-    psb_lib: 
+    psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
@@ -470,15 +469,15 @@ EXAMPLES = r'''
 
 - name: Analyze the IMS Catalog and generate delete statements for resources eligible for deletion
   ims_catalog_purge:
-    reslib: 
+    reslib:
       - SOME.IMS.SDFSRESL
-    steplib: 
+    steplib:
       - SOME.IMS.SDFSRESL
-    proclib: 
-      - SOME.IMS.PROCLIB 
-    dbd_lib: 
+    proclib:
+      - SOME.IMS.PROCLIB
+    dbd_lib:
       - SOME.IMS.DBDLIB
-    psb_lib: 
+    psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
@@ -489,15 +488,15 @@ EXAMPLES = r'''
   ims_catalog_purge:
     online_batch: True
     ims_id: IMS1
-    reslib: 
+    reslib:
       - SOME.IMS.SDFSRESL
-    steplib: 
+    steplib:
       - SOME.IMS.SDFSRESL
-    proclib: 
-      - SOME.IMS.PROCLIB 
-    dbd_lib: 
+    proclib:
+      - SOME.IMS.PROCLIB
+    dbd_lib:
       - SOME.IMS.DBDLIB
-    psb_lib: 
+    psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
     primary_log_dataset:
@@ -537,57 +536,56 @@ msg:
   sample: You must specify a buffer pool parameter data set when running as DLI.
 '''
 
-
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog.catalog import catalog # pylint: disable=import-error
-from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser.catalog_parser import catalog_parser # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog import catalog  # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser import catalog_parser  # pylint: disable=import-error
+
+module = None
 
 
 def run_module():
     module_args = dict(
-      online_batch=dict(type="bool", required=False),
-      ims_id=dict(type="str", required=False),
-      dbrc=dict(type="bool", required=False),
-      irlm_id=dict(type="str", required=False),
-      reslib=dict(type="list", required=False),
-      buffer_pool_param_dataset=dict(type="str", required=False),
-      primary_log_dataset=dict(type="dict", required=False),
-      psb_lib=dict(type="list", required=False),
-      dbd_lib=dict(type="list", required=False),
-      proclib=dict(type="list", required=False),
-      steplib=dict(type="list", required=False),
-      mode=dict(type="str", required=True),
-      delete_dbd_by_version=dict(type="dict", required=False),
-      sysut1=dict(type="dict", required=False),
-      update_retention_criteria=dict(type="list", required=False),
-      delete=dict(type="list", required=False),
-      managed_acbs=dict(type="bool", required=False),
-      resource_chkp_freq=dict(type="int", required=False)
+        online_batch=dict(type="bool", required=False),
+        ims_id=dict(type="str", required=False),
+        dbrc=dict(type="bool", required=False),
+        irlm_id=dict(type="str", required=False),
+        reslib=dict(type="list", required=False),
+        buffer_pool_param_dataset=dict(type="str", required=False),
+        primary_log_dataset=dict(type="dict", required=False),
+        psb_lib=dict(type="list", required=False),
+        dbd_lib=dict(type="list", required=False),
+        proclib=dict(type="list", required=False),
+        steplib=dict(type="list", required=False),
+        mode=dict(type="str", required=True, choices=['PURGE', 'BOTH', 'ANALYSIS']),
+        delete_dbd_by_version=dict(type="list", required=False),
+        sysut1=dict(type="dict", required=False),
+        update_retention_criteria=dict(type="list", required=False),
+        delete=dict(type="list", required=False),
+        managed_acbs=dict(type="bool", required=False),
+        resource_chkp_freq=dict(type="int", required=False)
     )
 
     global module
     module = AnsibleModule(
-          argument_spec=module_args,
-          supports_check_mode=True
-      )
-    
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
+
     result = {}
     result["changed"] = False
 
-    parsed_args=catalog_parser(module, module.params, result).validate_purge_input()
-    response = catalog(module, result, parsed_args).execute_catalog_purge()
-    
+    parsed_args = catalog_parser.catalog_parser(module, module.params, result).validate_purge_input()
+    response = catalog.catalog(module, result, parsed_args).execute_catalog_purge()
+
     if "DFS4518I" in result['content']:
-      result["changed"] = True
-  
+        result["changed"] = True
+
     module.exit_json(**response)
-
-
 
 
 def main():
     run_module()
 
+
 if __name__ == '__main__':
     main()
-

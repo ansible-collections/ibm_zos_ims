@@ -6,6 +6,48 @@
 Releases
 ========
 
+Version 1.1.0
+====================
+
+Notes
+-----
+
+  * Update recommended
+  * Module changes
+
+    * ``ims_catalog_populate`` - improved pep8 and Ansible Sanity compliance
+    * ``ims_catalog_purge`` - improved pep8 and Ansible Sanity compliance
+    * ``ims_dbrc`` - improved pep8 and Ansible Sanity compliance
+    * ``ims_dbd_gen`` - added usage of Python tempdir libraries instead of fixed string
+    * ``ims_psb_gen`` - added usage of Python tempdir libraries instead of fixed string
+  * Documentation updates
+  * Improved test and security coverage
+
+Availability
+------------
+
+  * `Automation Hub`_
+  * `Galaxy`_
+  * `GitHub`_
+
+Reference
+---------
+
+  * Supported by IBM z/OS core collection v1.2.1
+  * Supported by IBM Z Open Enterprise SDK for Python for z/OS: 3.8.2 or later
+  * Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435
+  * Supported by z/OS V2R3
+  * The z/OS® shell
+
+.. _Automation Hub:
+   https://www.ansible.com/products/automation-hub
+
+.. _Galaxy:
+   https://galaxy.ansible.com/ibm/ibm_zos_ims
+
+.. _GitHub:
+   https://github.com/ansible-collections/ibm_zos_ims
+
 Version 1.0.1
 ====================
 

@@ -22,6 +22,7 @@ class ErrorMessages():
     SUBMISSION_ERROR_MSG = "Error submitting IMS Command."
     SUCCESS_MSG = "Success"
 
+
 class DBRCErrorMessages():
     INCORRECT_CMD_TYPE = "'commands' must be a string or list of strings."
     INCORRECT_STEPLIB_TYPE = "'steplib' must be a string or list of strings."
@@ -37,6 +38,7 @@ class DBRCErrorMessages():
     EMPTY_OUTPUT_MSG = "DBRC command(s) could not be processed. Please check input parameters."
     MISSING_COMMAND = "missing required arguments: command"
     MISSING_STEPLIB = "missing required arguments: steplib"
+
 
 class ACBGENErrorMessages():
     INCORRECT_COMMAND_INPUT_TYPE = "'command_input' must be a string."

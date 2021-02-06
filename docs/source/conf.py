@@ -20,7 +20,7 @@ copyright = '2020, IBM'
 author = 'IBM'
 
 # The full version, including alpha/beta/rc tags
-release = '1.1.0-beta.1'
+release = '1.1.0'
 
 ##############################################################################
 # General configuration
@@ -142,7 +142,7 @@ scv_greatest_tag = True
 # White list which Git tags documentation will be generated and linked into the
 # version selection box. This is currently a manual selection, until more
 # versions are released, there are no regular expressions used.
-scv_whitelist_tags = ('v1.0.1', 'v1.1.0-beta.1')
+scv_whitelist_tags = ('v1.0.1', 'v1.1.0')
 
 # Sort versions by one or more values. Valid values are semver, alpha, and time.
 # Semantic is referred to as 'semver', this would ensure our latest VRM is
@@ -158,11 +158,11 @@ scv_show_banner = True
 # This can override the scv_banner_greatest_tag option, but given the greatest
 # tag is currently desired behavior, this site will rely on
 # 'scv_banner_greatest_tag = True' and not use 'scv_banner_main_ref'
-#scv_banner_main_ref = 'v1.1.0-beta.1'
+# scv_banner_main_ref = 'v1.1.0-beta.1'
 
 # Override banner-main-ref to be the tag with the highest version number. If no
 # tags have docs then this option is ignored and --banner-main-ref is used.
 # The greatest tag is desirable behavior for this site.
 scv_banner_greatest_tag = True
-#scv_banner_recent_tag = True
+# scv_banner_recent_tag = True
 scv_invert = True
