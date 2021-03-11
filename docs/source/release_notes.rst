@@ -34,7 +34,7 @@ Reference
 ---------
 
   * Supported by IBM z/OS core collection v1.2.1
-  * Supported by IBM Z Open Enterprise SDK for Python for z/OS: 3.8.2 or later
+  * Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
   * Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435
   * Supported by z/OS V2R3
   * The z/OS® shell
