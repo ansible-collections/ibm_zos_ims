@@ -238,7 +238,7 @@ def run_module():
     if environ_step_lib:
         combined_step_lib = module.params['steplib'] + environ_step_lib
     try:
-        response = dbrc.dbrc(
+        response = dbrc(
             commands=module.params['command'],
             steplib=combined_step_lib,
             dbd_lib=module.params['dbd_lib'],

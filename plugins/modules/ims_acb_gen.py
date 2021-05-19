@@ -286,7 +286,7 @@ def run_module():
             )
 
     try:
-        acbgen_obj = acbgen.acbgen(
+        acbgen_obj = acbgen(
             command_input,
             compression,
             psb_name,
