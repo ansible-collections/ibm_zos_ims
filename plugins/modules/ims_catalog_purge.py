@@ -574,8 +574,8 @@ def run_module():
     result = {}
     result["changed"] = False
 
-    parsed_args = catalog_parser.catalog_parser(module, module.params, result).validate_purge_input()
-    response = catalog.catalog(module, result, parsed_args).execute_catalog_purge()
+    parsed_args = catalog_parser(module, module.params, result).validate_purge_input()
+    response = catalog(module, result, parsed_args).execute_catalog_purge()
 
     if "DFS4518I" in result['content']:
         result["changed"] = True
