@@ -11,7 +11,7 @@ DOCUMENTATION = r'''
 ---
 module: ims_acb_gen
 short_description: Generate IMS ACB
-version_added: "2.9"
+version_added: "1.0.0"
 description:
   - The ims_acb_gen module generates an IMS application control block (ACB) necessary for an IMS application program to be scheduled and run.
   - The ims_dbd_gen and ims_psb_gen modules can be used to generate the associated IMS database descriptors (DBDs) and program specification
@@ -29,6 +29,8 @@ options:
     required: true
     type: str
     choices:
+      - build
+      - delete
       - BUILD
       - DELETE
   compression:
@@ -37,18 +39,27 @@ options:
       - The default is none.
     type: str
     required: false
+    choices:
+      - precomp
+      - postcomp
+      - precomp,postcomp
+      - PRECOMP
+      - POSTCOMP
+      - PRECOMP,POSTCOMP
   psb_name:
     description:
       - The name of the PSB(s). Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
       - This field requires "ALL" or a list of psb names to be specified.
     required: false
     type: list
+    elements: str
   dbd_name:
     description:
       - The name of the DBD(s). Specifies that blocks are built or deleted for this DBD, and for all PSBs that reference this DBD
         either directly or indirectly through logical relationships.
     required: false
     type: list
+    elements: str
   acb_lib:
     description:
       - The ACB Maintenance utility maintains the prebuilt blocks (ACB) library (IMS.ACBLIB). The ACB library is a consolidated
@@ -66,6 +77,7 @@ options:
         name changed, all PSBs which are sensitive to that segment must have their SENSEG statements changed.
     required: true
     type: list
+    elements: str
   dbd_lib:
     description:
       - The ACB Maintenance utility receives input from the IMS DBDLIB data set.
@@ -73,6 +85,7 @@ options:
         in the associated DBD, make these changes before running the module.
     required: true
     type: list
+    elements: str
   steplib:
     description:
       - Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by
@@ -81,12 +94,14 @@ options:
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     required: false
     type: list
+    elements: str
   reslib:
     description:
       - Points to an authorized library that contains the IMS SVC modules. For IMS batch, SDFSRESL and any data set that is concatenated
         to it in the reslib field must be authorized through the Authorized Program Facility (APF).
     required: false
     type: list
+    elements: str
   build_psb:
     description:
       - Specifies whether ims_acb_gen rebuilds all PSBs that reference a changed DBD in the I(dbdname) parameter.
@@ -222,10 +237,10 @@ def run_module():
         psb_name=dict(type="list", elements="str", required=False),
         dbd_name=dict(type="list", elements="str", required=False),
         acb_lib=dict(type="str", required=True),
-        psb_lib=dict(type="list", required=True),
-        dbd_lib=dict(type="list", required=True),
-        reslib=dict(type="list", required=False),
-        steplib=dict(type="list", required=False),
+        psb_lib=dict(type="list", elements="str", required=True),
+        dbd_lib=dict(type="list", elements="str", required=True),
+        reslib=dict(type="list", elements="str", required=False),
+        steplib=dict(type="list", elements="str", required=False),
         build_psb=dict(type="bool", required=False, default=True),
     )
 

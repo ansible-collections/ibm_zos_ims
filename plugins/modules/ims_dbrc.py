@@ -13,7 +13,7 @@ DOCUMENTATION = r'''
 module: ims_dbrc
 
 short_description: Submit IMS DBRC Commands
-version_added: "2.9"
+version_added: "1.1.0"
 
 description:
   - Use Database Recovery Control (DBRC) to record and manage information that is
@@ -29,6 +29,7 @@ options:
       - This is the well-formatted DBRC command to submit.
     type: list
     required: true
+    elements: str
   dbd_lib:
     description:
       - The data set that contains the descriptions for the databases that are under the control of DBRC.
@@ -80,6 +81,7 @@ options:
       - List of STEPLIB datasets that contain the IMS nucleus and the required action modules.
     type: list
     required: true
+    elements: str
 notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
@@ -206,7 +208,7 @@ def get_step_lib_from_environment_var():
 def run_module():
     global module, result
     module_args = dict(
-        command=dict(type='list', required=True),
+        command=dict(type='list', elements="str", required=True),
         dbd_lib=dict(type='str', required=False),
         dynamic_allocation_dataset=dict(type='str', required=False),
         genjcl_input_dataset=dict(type='str', required=False),
@@ -215,7 +217,7 @@ def run_module():
         recon1=dict(type='str', required=False),
         recon2=dict(type='str', required=False),
         recon3=dict(type='str', required=False),
-        steplib=dict(type='list', required=True)
+        steplib=dict(type='list', elements="str", required=True)
     )
 
     result = dict(
@@ -267,7 +269,7 @@ def run_module():
                 result['msg'] = em.EMPTY_OUTPUT_MSG
 
             if response['error']:
-                print("An error occurred:", response['error'])
+                module.log("An error occurred:", response['error'])
 
             result['changed'] = False
             module.fail_json(**result)

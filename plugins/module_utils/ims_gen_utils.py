@@ -95,7 +95,7 @@ def validate_member_list(member_list):
             if len(member) != 1:
                 return False, ims_em.INVALID_MEMBER_LIST_TYPE
 
-            src_member, target_name = [(k, v) for k, v in member.items()][0]
+            src_member, target_name = list(member.items())[0]
 
             # src_member must be a str and a valid member name
             if not isinstance(src_member, str):
@@ -336,7 +336,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         # else:
                         #     throw error
                         else:
-                            src_member, target_name = [(k, v) for k, v in item.items()][0]
+                            src_member, target_name = list(item.items())[0]
 
                         if src_member == '':
                             # result['ims_output'].append({

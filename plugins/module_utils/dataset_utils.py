@@ -58,11 +58,11 @@ def _write_data_set(name, contents):
         DatasetWriteError: When write to the data set fails.
     """
     # rc = Datasets.write(name, contents)
-    temp = tempfile.NamedTemporaryFile(delete=False)
-    with open(temp.name, "w") as f:
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
         f.write(contents)
+        temp_name = f.name
     rc, stdout, stderr = module.run_command(
-        "cp -O u {0} \"//'{1}'\"".format(temp.name, name)
+        "cp -O u {0} \"//'{1}'\"".format(temp_name, name)
     )
     if rc != 0:
         raise DatasetWriteError(name, rc, stderr)

@@ -13,7 +13,7 @@ DOCUMENTATION = r'''
 
 module: ims_catalog_purge
 short_description: Purge records from the IMS Catalog
-version_added: "2.9"
+version_added: "1.1.0"
 description:
   - The IMS Catalog Purge  utility DFS3PU10 removes the segments that represent a DBD or PSB instance,
     all instances of a DBD version, or an entire DBD or PSB record from the IMS catalog. You can also analyze
@@ -61,6 +61,7 @@ options:
       - Points to an authorized library that contains the IMS SVC modules.
     type: list
     required: false
+    elements: str
   buffer_pool_param_dataset:
     description:
       - Defines the buffer pool parameters data set. This option is required if you are running the utility as a DLI.
@@ -207,6 +208,7 @@ options:
         defines various attributes of the IMS catalog that are required by the utility.
     type: list
     required: true
+    elements: str
   steplib:
     description:
       - Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules.
@@ -214,6 +216,7 @@ options:
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     type: list
     required: False
+    elements: str
   delete_dbd_by_version:
     description:
       - Delete DBD instances based on the specified name and version. If ANALYSIS mode is specified, it will
@@ -313,7 +316,7 @@ options:
       - The data set where delete statements are written to. Written either by the purge utility when specifying ANALYSIS or BOTH mode,
         or by the user when specifying PURGE mode.
     type: dict
-    required: true
+    required: false
     suboptions:
       dataset_name:
         description:
@@ -545,22 +548,22 @@ module = None
 
 def run_module():
     module_args = dict(
-        online_batch=dict(type="bool", required=False),
+        online_batch=dict(type="bool", required=False, default=False),
         ims_id=dict(type="str", required=False),
         dbrc=dict(type="bool", required=False),
         irlm_id=dict(type="str", required=False),
-        reslib=dict(type="list", required=False),
+        reslib=dict(type="list", elements="str", required=False),
         buffer_pool_param_dataset=dict(type="str", required=False),
-        primary_log_dataset=dict(type="dict", required=False),
-        psb_lib=dict(type="list", required=False),
-        dbd_lib=dict(type="list", required=False),
-        proclib=dict(type="list", required=False),
-        steplib=dict(type="list", required=False),
+        primary_log_dataset=dict(type="dict", required=True),
+        psb_lib=dict(type="list", elements="str", required=True),
+        dbd_lib=dict(type="list", elements="str", required=True),
+        proclib=dict(type="list", elements="str", required=True),
+        steplib=dict(type="list", elements="str", required=False),
         mode=dict(type="str", required=True, choices=['PURGE', 'BOTH', 'ANALYSIS']),
-        delete_dbd_by_version=dict(type="list", required=False),
+        delete_dbd_by_version=dict(type="list", elements="dict", required=False),
         sysut1=dict(type="dict", required=False),
-        update_retention_criteria=dict(type="list", required=False),
-        delete=dict(type="list", required=False),
+        update_retention_criteria=dict(type="list", elements="dict", required=False),
+        delete=dict(type="list", elements="dict", required=False),
         managed_acbs=dict(type="bool", required=False),
         resource_chkp_freq=dict(type="int", required=False)
     )
