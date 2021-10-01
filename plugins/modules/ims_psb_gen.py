@@ -12,7 +12,7 @@ DOCUMENTATION = r'''
 ---
 module: ims_psb_gen
 short_description: Generate IMS PSB
-version_added: "2.9"
+version_added: "1.0.0"
 description:
     - The Program Specification Block (PSB) Generation utility places the created PSB in the PSB library so that it can be used by IMS application programs.
 author:
@@ -74,7 +74,7 @@ options:
                     - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
                     - If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
                 type: str
-                required: true
+                required: false
             location:
                 description:
                     - The PSB source location, Supported options are DATA_SET or USS. The default is DATA_SET.
@@ -114,6 +114,7 @@ options:
                 be used as the sys_lib at compile time.
         type: list
         required: true
+        elements: str
     dest:
         description:
             - The target output PSBLIB partitioned data set in which the PSB members will be generated.
@@ -249,7 +250,7 @@ def run_module():
             )
         ),
 
-        sys_lib=dict(type='list', required=True),
+        sys_lib=dict(type='list', elements='str', required=True),
         dest=dict(type='str', required=True)
     )
 

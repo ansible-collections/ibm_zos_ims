@@ -12,7 +12,7 @@ DOCUMENTATION = r'''
 ---
 module: ims_dbd_gen
 short_description: Generate IMS DBD
-version_added: "2.9"
+version_added: "1.0.0"
 description:
   - This ims_dbd_gen module generates IMS database descriptor (DBD) resource(s) to define a database so that it can be used by IMS application programs.
   - A database descriptor (DBD) is a DL/I control block describing the database, segments, fields, indexes and relationships.
@@ -76,13 +76,13 @@ options:
             - The src field can reference a PDS, PDSE member, sequential data set, or UNIX System Services file path.
             - If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.
           type: str
-          required: true
+          required: false
         location:
           description:
             - The DBD source location. Supported options are DATA_SET or USS. The default is DATA_SET.
             - The DATA_SET option can be used for a PDS, PDSE, or sequential data set.
           type: str
-          required: true
+          required: false
           default: DATA_SET
           choices:
             - DATA_SET
@@ -118,6 +118,7 @@ options:
         be used as the sys_lib at compile time.
     type: list
     required: true
+    elements: str
   dest:
     description:
       - The target output DBDLIB partitioned data set where the DBD members will be generated to.
@@ -277,7 +278,7 @@ def run_module():
                 member_list=dict(type='list', required=False),
                 dbd_name=dict(type='str', required=False))),
 
-        sys_lib=dict(type='list', required=True),
+        sys_lib=dict(type='list', elements='str', required=True),
         dest=dict(type='str', required=True))
 
     # TODO - enforce batch and single source params are mutually exclusive

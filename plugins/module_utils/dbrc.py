@@ -251,7 +251,7 @@ class dbrc():
                 elif re.search(success_pattern, line, re.IGNORECASE):
                     self._changed = True
         except Exception as e:
-            print(repr(e))
+            # print(repr(e))
             output_fields = {}
             failure_detected = True
         # finally:
@@ -320,7 +320,7 @@ class dbrc():
             }
 
         except Exception as e:
-            print("ERROR:", e)
+            # print("ERROR:", e)
             res = {
                 "dbrc_fields": [],
                 "original_output": [],

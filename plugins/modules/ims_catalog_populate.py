@@ -13,7 +13,7 @@ DOCUMENTATION = r'''
 
 module: ims_catalog_populate
 short_description: Add records to the  IMS Catalog
-version_added: "2.9"
+version_added: "1.1.0"
 description:
   - The IMS Catalog Populate utility DFS3PU00 loads, inserts, or updates DBD and PSB instances
     into the database data sets of the IMS catalog from ACB library data sets.
@@ -62,6 +62,7 @@ options:
       - Points to an authorized library that contains the IMS SVC modules.
     type: list
     required: false
+    elements: str
   buffer_pool_param_dataset:
     description:
       - Defines the buffer pool parameters data set. This option is required if you are running the utility as a DLI.
@@ -710,6 +711,7 @@ options:
         defines various attributes of the IMS catalog that are required by the utility.
     type: list
     required: true
+    elements: str
   steplib:
     description:
       - Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules.
@@ -717,6 +719,7 @@ options:
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     type: list
     required: False
+    elements: str
   sysabend:
     description:
       - Defines the dump data set. This defaults to = \*
@@ -960,25 +963,25 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.catalog_parser imp
 def run_module():
     module_args = dict(
         mode=dict(type="str", required=True, choices=['LOAD', 'UPDATE', 'READ']),
-        online_batch=dict(type="bool", required=False),
+        online_batch=dict(type="bool", required=False, default=False),
         ims_id=dict(type="str", required=False),
         dbrc=dict(type="bool", required=False),
         irlm_id=dict(type="str", required=False),
         modstat=dict(type="str", required=False),
-        reslib=dict(type="list", required=False),
+        reslib=dict(type="list", elements="str", required=False),
         buffer_pool_param_dataset=dict(type="str", required=False),
         primary_log_dataset=dict(type="dict", required=False),
         secondary_log_dataset=dict(type="dict", required=False),
-        psb_lib=dict(type="list", required=False),
-        dbd_lib=dict(type="list", required=False),
-        check_timestamp=dict(type="bool", required=False),
-        acb_lib=dict(type="list", required=True),
+        psb_lib=dict(type="list", elements="str", required=True),
+        dbd_lib=dict(type="list", elements="str", required=True),
+        check_timestamp=dict(type="bool", required=False, default=False),
+        acb_lib=dict(type="list", elements="str", required=True),
         bootstrap_dataset=dict(type="dict", required=False),
-        directory_datasets=dict(type="list", required=False),
+        directory_datasets=dict(type="list", elements="dict", required=False),
         temp_acb_dataset=dict(type="dict", required=False),
         directory_staging_dataset=dict(type="dict", required=False),
-        proclib=dict(type="list", required=False),
-        steplib=dict(type="list", required=False),
+        proclib=dict(type="list", elements="str", required=True),
+        steplib=dict(type="list", elements="str", required=False),
         sysabend=dict(type="str", required=False),
         control_statements=dict(type="dict", required=False)
     )
@@ -992,8 +995,8 @@ def run_module():
     result = {}
     result["changed"] = False
 
-    parsed_args = catalog_parser.catalog_parser(module, module.params, result).validate_populate_input()
-    response = catalog.catalog(module, result, parsed_args).execute_catalog_populate()
+    parsed_args = catalog_parser(module, module.params, result).validate_populate_input()
+    response = catalog(module, result, parsed_args).execute_catalog_populate()
 
     if module.params['mode'] != "READ":
         result["changed"] = True
