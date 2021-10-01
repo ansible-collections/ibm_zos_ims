@@ -104,7 +104,7 @@ If wideload.cmderr.0 /= '' Then
     Say '    "ims_member_messages": ['
     Do ix = 1 To wideload.cmderr.0
       Say '     {'
-      Say '        "Mbr name' ix '": ' '"'wideload.cmderr.ix.name'",'
+      Say '        "Mbr_name' ix '": ' '"'wideload.cmderr.ix.name'",'
       Say '        "type": "'wideload.cmderr.ix.typ'",'
       Say '        "styp": "'wideload.cmderr.ix.styp'",'
       Say '        "cmderr rc": "'wideload.cmderr.ix.rc'",'
@@ -216,8 +216,8 @@ If wideload.msgdata.name.0 /= '' Then
         Do
           If wideload.msgdata.msg.y.0 /= '' Then
             Do
-              Say '     "Mbr name' y'":' '"'wideload.msgdata.name.y'",'
-              Say '     "msg data":  ['
+              Say '     "Mbr_name' y'":' '"'wideload.msgdata.name.y'",'
+              Say '     "msg_data":  ['
               Do x = 1 To wideload.msgdata.msg.y.0
                 wideload.msgdata.msg.y.x = TRANSLATE(wideload.msgdata.msg.y.x, "'", '"') /* replace double quote with single */
                 data = wideload.msgdata.msg.y.x
@@ -230,7 +230,7 @@ If wideload.msgdata.name.0 /= '' Then
             End
           Else
             Do
-              Say '     "Mbr name' y'":' '"'wideload.msgdata.name.y'"'
+              Say '     "Mbr_name' y'":' '"'wideload.msgdata.name.y'"'
             End
         End
         Say '   }'
