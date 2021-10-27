@@ -182,7 +182,7 @@ class catalog(object):
                 for i in self.parsed_args.get('acb_lib'):
                     acbDataset = DatasetDefinition(i)
                     acbDatasetList.append(acbDataset)
-                acbDDStatement = DDStatement("IMSACBA", acbDatasetList)
+                acbDDStatement = DDStatement("IMSACB01", acbDatasetList)
                 dDStatementList.append(acbDDStatement)
         # If check_timestamp is true, then we generate a dd statement for each dataset
             else:
