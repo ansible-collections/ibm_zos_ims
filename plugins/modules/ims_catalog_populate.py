@@ -340,7 +340,7 @@ options:
         it will ignore the ACB with the duplicate name.
     type: bool
     required: false
-    default: false
+    default: true
   acb_lib:
     description:
       - Defines an ACB library data set that contains the ACB members that are used to populate the IMS catalog.
@@ -974,7 +974,7 @@ def run_module():
         secondary_log_dataset=dict(type="dict", required=False),
         psb_lib=dict(type="list", elements="str", required=True),
         dbd_lib=dict(type="list", elements="str", required=True),
-        check_timestamp=dict(type="bool", required=False, default=False),
+        check_timestamp=dict(type="bool", required=False, default=True),
         acb_lib=dict(type="list", elements="str", required=True),
         bootstrap_dataset=dict(type="dict", required=False),
         directory_datasets=dict(type="list", elements="dict", required=False),
