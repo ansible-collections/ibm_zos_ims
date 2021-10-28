@@ -130,8 +130,8 @@ class acbgen(object):
                 dbd_name_str = " " + self._split_lines_dbd()
                 commandList.append(dbd_name_str)
 
-        for a in commandList:
-            print(" commandList:  ", a)
+        # for a in commandList:
+        #     print(" commandList:  ", a)
         command_stdin_definitions = DDStatement(
             "SYSIN", StdinDefinition("\n".join(commandList)))
         acbgen_utility_fields.append(command_stdin_definitions)
@@ -299,7 +299,7 @@ class acbgen(object):
         self.result = {}
         response = None
         param_string = "UPB,"
-        print(" compression: ", self.compression)
+        # print(" compression: ", self.compression)
         if self.compression and self.compression.upper().startswith("PRECOMP"):
             response = self.compress()
             self.result = self.combine_results(response)

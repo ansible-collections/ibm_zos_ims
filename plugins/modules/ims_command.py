@@ -14,7 +14,7 @@ DOCUMENTATION = r'''
 module: ims_command
 
 short_description: Submit IMS Commands
-version_added: "2.9"
+version_added: "1.0.0"
 
 description:
   - Submit Type 1 and Type 2 IMS Commands. User specifies a well formatted
@@ -49,22 +49,24 @@ options:
           - Leaving this field empty will result in invoking all available routes within the specified PLEX.
         type: list
         required: false
+        elements: str
   command:
     description:
       - This is the (well-formatted) command to submit to IMS Batch.
     type: str
-    required: true
+    required: false
   plex:
     description:
       - Specify the IMSPLEX in which the IMS Command will be submitted.
     type: str
-    required: true
+    required: false
   route:
     description:
       - Specify the IMS System in which the IMS Command will be submitted.
       - Leaving this field empty will result in invoking all available routes within the specified PLEX.
     type: list
     required: false
+    elements: str
 notes:
   - This module requires Structured Call Interface (SCI) and Operations Manager (OM) to be active in the target IMSplex.
 '''
@@ -337,17 +339,15 @@ def _copy_temp_file(content):
         {str} -- Name of the directory in which the file is located.
         {str} -- Name of the file itself.
     """
-    delete_on_close = False
     try:
-        tmp_file = NamedTemporaryFile(delete=delete_on_close)
-        with open(tmp_file.name, 'w') as f:
+        with NamedTemporaryFile(mode='w', delete=False) as f:
             f.write(content)
-        f.close()
-        chmod(tmp_file.name, 0o744)
-        dir_name = path.dirname(tmp_file.name)
-        script_name = path.basename(tmp_file.name)
+            tmp_file_name = f.name
+        chmod(tmp_file_name, 0o744)
+        dir_name = path.dirname(tmp_file_name)
+        script_name = path.basename(tmp_file_name)
     except Exception:
-        remove(tmp_file)
+        remove(f)
         raise
     return dir_name, script_name
 
@@ -431,7 +431,7 @@ def run_module():
     module_args = dict(
         command=dict(type='str', required=False),
         plex=dict(type='str', required=False),
-        route=dict(type='list', required=False),
+        route=dict(type='list', elements="str", required=False),
 
         batch=dict(
             type='list',
@@ -440,7 +440,7 @@ def run_module():
             options=dict(
                 command=dict(type='str', required=True),
                 plex=dict(type='str', required=True),
-                route=dict(type='list', required=False)
+                route=dict(type='list', elements="str", required=False)
             )
         )
     )
