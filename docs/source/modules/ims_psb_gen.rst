@@ -93,7 +93,7 @@ batch
 
     If a PDS is specified, all members within the PDS will be treated as individual PSB source members to be processed.
 
-    | **required**: True
+    | **required**: False
     | **type**: str
 
 
@@ -144,6 +144,7 @@ sys_lib
 
   | **required**: True
   | **type**: list
+  | **elements**: str
 
 
 dest

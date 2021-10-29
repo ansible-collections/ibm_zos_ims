@@ -69,6 +69,7 @@ reslib
 
   | **required**: False
   | **type**: list
+  | **elements**: str
 
 
 buffer_pool_param_dataset
@@ -225,6 +226,7 @@ proclib
 
   | **required**: True
   | **type**: list
+  | **elements**: str
 
 
 steplib
@@ -236,6 +238,7 @@ steplib
 
   | **required**: False
   | **type**: list
+  | **elements**: str
 
 
 delete_dbd_by_version
@@ -349,7 +352,7 @@ resource_chkp_freq
 sysut1
   The data set where delete statements are written to. Written either by the purge utility when specifying ANALYSIS or BOTH mode, or by the user when specifying PURGE mode.
 
-  | **required**: True
+  | **required**: False
   | **type**: dict
 
 

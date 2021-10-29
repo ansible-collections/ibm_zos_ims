@@ -97,7 +97,7 @@ batch
 
     If a PDS is specified, all members within the PDS will be treated as individual DBD source members to be processed.
 
-    | **required**: True
+    | **required**: False
     | **type**: str
 
 
@@ -106,7 +106,7 @@ batch
 
     The DATA_SET option can be used for a PDS, PDSE, or sequential data set.
 
-    | **required**: True
+    | **required**: False
     | **type**: str
     | **default**: DATA_SET
     | **choices**: DATA_SET, USS
@@ -148,6 +148,7 @@ sys_lib
 
   | **required**: True
   | **type**: list
+  | **elements**: str
 
 
 dest
