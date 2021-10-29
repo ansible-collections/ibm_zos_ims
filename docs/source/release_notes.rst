@@ -13,7 +13,11 @@ Notes
 -----
 
 * Update recommended
-* Adds support for Ansible 4 (ansible-core 2.11)
+* Bug fixes and enhancements
+  * Adds support for Ansible 4 (ansible-core 2.11)
+  * Fixed bug in `ims_catalog_populate` where `check_timestamp: false` would cause module call to return an IMS error.
+  * Improved JSON keys for `ims_command_utils` to replace whitespaces with underscores to help make the output more parsable.
+  * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.0 or later.
 
 Availability
 ------------
