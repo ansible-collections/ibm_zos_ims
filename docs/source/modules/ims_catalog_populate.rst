@@ -76,6 +76,7 @@ reslib
 
   | **required**: False
   | **type**: list
+  | **elements**: str
 
 
 buffer_pool_param_dataset
@@ -362,6 +363,7 @@ check_timestamp
 
   | **required**: False
   | **type**: bool
+  | **default**: True
 
 
 acb_lib
@@ -779,6 +781,7 @@ proclib
 
   | **required**: True
   | **type**: list
+  | **elements**: str
 
 
 steplib
@@ -790,6 +793,7 @@ steplib
 
   | **required**: False
   | **type**: list
+  | **elements**: str
 
 
 sysabend

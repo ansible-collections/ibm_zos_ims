@@ -56,20 +56,21 @@ batch
 
     | **required**: False
     | **type**: list
+    | **elements**: str
 
 
 
 command
   This is the (well-formatted) command to submit to IMS Batch.
 
-  | **required**: True
+  | **required**: False
   | **type**: str
 
 
 plex
   Specify the IMSPLEX in which the IMS Command will be submitted.
 
-  | **required**: True
+  | **required**: False
   | **type**: str
 
 
@@ -80,6 +81,7 @@ route
 
   | **required**: False
   | **type**: list
+  | **elements**: str
 
 
 

@@ -37,7 +37,7 @@ command_input
 
   | **required**: True
   | **type**: str
-  | **choices**: BUILD, DELETE
+  | **choices**: build, delete, BUILD, DELETE
 
 
 compression
@@ -47,6 +47,7 @@ compression
 
   | **required**: False
   | **type**: str
+  | **choices**: precomp, postcomp, precomp,postcomp, PRECOMP, POSTCOMP, PRECOMP,POSTCOMP
 
 
 psb_name
@@ -56,6 +57,7 @@ psb_name
 
   | **required**: False
   | **type**: list
+  | **elements**: str
 
 
 dbd_name
@@ -63,6 +65,7 @@ dbd_name
 
   | **required**: False
   | **type**: list
+  | **elements**: str
 
 
 acb_lib
@@ -83,6 +86,7 @@ psb_lib
 
   | **required**: True
   | **type**: list
+  | **elements**: str
 
 
 dbd_lib
@@ -92,6 +96,7 @@ dbd_lib
 
   | **required**: True
   | **type**: list
+  | **elements**: str
 
 
 steplib
@@ -103,6 +108,7 @@ steplib
 
   | **required**: False
   | **type**: list
+  | **elements**: str
 
 
 reslib
@@ -110,6 +116,7 @@ reslib
 
   | **required**: False
   | **type**: list
+  | **elements**: str
 
 
 build_psb

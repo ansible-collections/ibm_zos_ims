@@ -32,6 +32,7 @@ command
 
   | **required**: True
   | **type**: list
+  | **elements**: str
 
 
 dbd_lib
@@ -107,6 +108,7 @@ steplib
 
   | **required**: True
   | **type**: list
+  | **elements**: str
 
 
 
