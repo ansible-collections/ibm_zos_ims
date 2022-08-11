@@ -854,7 +854,6 @@ options:
                   - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.
                 type: str
                 required: false
-                default: false
 notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
