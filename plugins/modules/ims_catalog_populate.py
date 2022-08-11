@@ -818,7 +818,6 @@ options:
                   - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.
                 type: str
                 required: false
-                default: false
           update:
             description:
               - Updates the existing IMS directory system data sets directly in exclusive mode. The ACBs are not placed in the
