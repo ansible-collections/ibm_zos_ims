@@ -260,7 +260,7 @@ def run_module():
         replace=dict(type='bool', required=False, default=True),
 
         # TODO member_list is required if location is 'DATA_SET'
-        member_list=dict(type='list', required=False),
+        member_list=dict(type='list', required=False, elements='str'),
         # member_list=dict(type='list', elements='str', required=False),
 
         dbd_name=dict(type='str', required=False),
