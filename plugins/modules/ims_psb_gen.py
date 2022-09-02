@@ -54,6 +54,7 @@ options:
                 pair
         type: list
         required: false
+        elements: str
     psb_name:
         description:
             - Target name of the generated PSB member.
