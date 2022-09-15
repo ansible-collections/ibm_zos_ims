@@ -56,6 +56,13 @@ build_ignore:
   - .gitignore
   - gh-pages
   - '*.tar.gz'
-  - tests
+  - tests/__pycache__
+  - tests/.pytest_cache
+  - tests/functional
+  - tests/helpers
+  - tests/unit
+  - tests/*.py
+  - tests/*.ini
+  - tests/requirements.txt
   - docs
   - collections
