@@ -4,8 +4,9 @@
 pytest==5.3.0
 pytest_mock==1.12.1
 mock==3.0.5
-ansible==2.9.27
 pytest-ansible==2.2.2
 oyaml==0.9
 shellescape==3.8.1
-
+ansible-lint==6.3.0
+pylint>=2.5
+voluptuous==0.12.1
