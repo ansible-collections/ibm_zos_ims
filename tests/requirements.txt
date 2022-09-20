@@ -8,5 +8,4 @@ pytest-ansible==2.2.2
 oyaml==0.9
 shellescape==3.8.1
 ansible-lint==6.3.0
-pylint>=2.5
 voluptuous==0.12.1
