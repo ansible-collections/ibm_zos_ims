@@ -18,10 +18,10 @@ environment:
   _BPXK_JOBLOG: STDERR
   STEPLIB: IMSBLD.I15RTSMM.COMRESL1
 extra_args:
-    JOB_CARD: |-
-      //ANSIBLE JOB 'testing',
-      //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
-      //  MSGCLASS=H,NOTIFY=&SYSUID
+  JOB_CARD: |-
+    //ANSIBLE JOB 'testing',
+    //  CLASS=H,MSGLEVEL=(1,1),REGION=0M,
+    //  MSGCLASS=H,NOTIFY=&SYSUID
 
 # host: ec01105a.vmec.svl.ibm.com
 # user: omvsadm
