@@ -1,16 +1,21 @@
 host: ec33003a.vmec.svl.ibm.com
 user: omvsadm
 python_path: /python3/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3
+
+PYZ: "/python3/usr/lpp/IBM/cyp/v3r8/pyz"
+ZOAU: "/zoau/v1.1.0-spr5"
+
 environment:
-  ZOAU_HOME: "/zoau/v1.1.0-spr5"
-  PYTHONPATH: "/zoau/v1.1.0-spr5/lib"
-  LIBPATH: "/zoau/v1.1.0-spr5/lib:/python3/usr/lpp/IBM/cyp/v3r8/pyz/lib:/lib:/usr/lib:."
-  PATH: "/zoau/v1.1.0-spr5/bin:/python3/usr/lpp/IBM/cyp/v3r8/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
+  ZOAU_HOME: "{{ ZOAU }}"
+  PYTHONPATH: "{{ ZOAU }}/lib"
+  LIBPATH: "{{ ZOAU }}/lib:{{ PYZ }}/lib:/lib:/usr/lib:."
+  PATH: "{{ ZOAU }}/bin:{{ PYZ }}/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
   _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
   _TAG_REDIR_ERR: "txt"
   _TAG_REDIR_IN: "txt"
   _TAG_REDIR_OUT: "txt"
   LANG: "C"
+  _BPXK_JOBLOG: STDERR
   STEPLIB: IMSBLD.I15RTSMM.COMRESL1
 extra_args:
     JOB_CARD: |-
