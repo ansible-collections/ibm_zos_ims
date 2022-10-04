@@ -28,10 +28,10 @@ def test_query_imsplex_positive(ansible_zos_module, cmd):
     response = hosts.all.ims_command(command=cmd, plex=PLEX)
     for result in response.contacted.values():
         # pprint(result);
-        assert(int(result['ims_output'][0]['command_return']['ctl.rc']) == 0)
+        assert (int(result['ims_output'][0]['command_return']['ctl.rc']) == 0)
         for i in range(0, len(result['ims_output'][0]['type_2_response'])):
             a = result['ims_output'][0]['type_2_response'][i]['CC']
-            assert(int(a) == 0)
+            assert (int(a) == 0)
 
 
 test_data_negative = [
