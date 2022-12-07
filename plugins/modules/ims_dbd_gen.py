@@ -56,6 +56,7 @@ options:
         pair
     type: list
     required: false
+    elements: str
   dbd_name:
       description:
         - Target name of the generated DBD member.
@@ -106,6 +107,7 @@ options:
               pair
           type: list
           required: false
+          elements: str
         dbd_name:
           description:
             - Target name of the generated DBD member.
