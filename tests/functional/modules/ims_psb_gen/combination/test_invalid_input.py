@@ -74,8 +74,8 @@ def test_psb_gen_invalid_uss_valid_dataset_valid_seqDataset(ansible_zos_module):
     hosts = ansible_zos_module
     batch_list = [
         {'src': INVALID_USS, 'location': 'USS', 'replace': True},
-        {'src': SOURCE, 'location': 'DATA_SET', 'member_list': ['PSBGENL', 'PSBLOAD']},
-        {'src': SOURCE, 'member_list': ['PSBGENL', 'PSBNO'], 'replace': True},
+        {'src': SOURCE, 'location': 'DATA_SET', 'member_list': [{'PSBGENL'}, {'PSBLOAD'}]},
+        {'src': SOURCE, 'member_list': [{'PSBGENL'}, {'PSBNO'}], 'replace': True},
         {'src': SEQ, 'location': 'DATA_SET', 'psb_name': 'SEQ1'}
     ]
     validate_batch(hosts, batch_list, DESTINATION, SYSLIB)
