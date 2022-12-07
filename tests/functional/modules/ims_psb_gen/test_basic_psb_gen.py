@@ -21,7 +21,7 @@ def test_ims_psb_gen_sample_batch(ansible_zos_module):
     batch_list = [
         {
             'src': SOURCE,
-            'member_list': [{"PSBGENL"}, {"PSBGENL"}],
+            'member_list': ["PSBGENL", "PSBGENL"],
             'location': "DATA_SET",
             'replace': True
         }
@@ -39,7 +39,7 @@ def test_ims_psb_gen_sample_batch(ansible_zos_module):
 def test_ims_psb_gen_sample_single_src(ansible_zos_module):
     hosts = ansible_zos_module
 
-    results = hosts.all.ims_psb_gen(src=SOURCE, member_list=[{"PSBGENL"}, {"PSBGENL"}], location="DATA_SET", replace=True, dest=DESTINATION, sys_lib=SYSLIB)
+    results = hosts.all.ims_psb_gen(src=SOURCE, member_list=["PSBGENL", "PSBGENL"], location="DATA_SET", replace=True, dest=DESTINATION, sys_lib=SYSLIB)
 
     for result in results.contacted.values():
         pprint(result)
