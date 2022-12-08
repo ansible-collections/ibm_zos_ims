@@ -46,7 +46,7 @@ def test_ims_dbd_gen_sample_batch(ansible_zos_module):
         'src': source,
         'location': 'DATA_SET',
         'replace': True,
-        'member_list': 'DEDBJN21'}]
+        'member_list': ['DEDBJN21']}]
     results = hosts.all.ims_dbd_gen(batch=batch_list, dest=dest, sys_lib=sys_lib)
 
     for result in results.contacted.values():
