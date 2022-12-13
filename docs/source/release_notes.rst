@@ -6,6 +6,45 @@
 Releases
 ========
 
+
+Version 1.2.0-beta.2
+====================
+
+Notes
+-----
+
+* Update recommended
+* Bug fixes and enhancements
+
+  * Adds support for Ansible 4 (ansible-core 2.11)
+  * Fixed member_list sanity bug in ``dbdgen`` and ``psbgen`` modules where the type was update to ``raw`` from ``list`` since the eelements types can either be str or key:value pair.
+  * DBDGEN sample2 testcase file was deleted since it was duplicate and also contained invalid testcase. 
+  * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.0 or later.
+
+Availability
+------------
+
+* `Galaxy`_
+* `GitHub`_
+
+Reference
+---------
+
+* Supported by IBM z/OS core collection v1.4.0 or later
+* Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
+* Supported by IBM Z Open Automation Utilities 1.1.0 PTF or later
+* Supported by z/OS V2R3
+* The z/OS® shell
+
+.. _centralized content:
+   https://ibm.github.io/z_ansible_collections_doc/index.html
+
+.. _GitHub:
+   https://github.com/ansible-collections/ibm_zos_ims
+
+.. _Galaxy:
+   https://galaxy.ansible.com/ibm/ibm_zos_ims
+
 Version 1.2.0-beta.1
 ====================
 
