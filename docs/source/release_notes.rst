@@ -16,8 +16,7 @@ Notes
 * Update recommended
 * Bug fixes and enhancements
 
-  * Adds support for Ansible 4 (ansible-core 2.11)
-  * Fixed member_list sanity bug in ``dbdgen`` and ``psbgen`` modules where the type was update to ``raw`` from ``list`` since the eelements types can either be str or key:value pair.
+  * Fixed member_list sanity bug in ``dbdgen`` and ``psbgen`` modules where the type was updated to ``raw`` from ``list`` since the elements types can either be str or key:value pair.
   * DBDGEN sample2 testcase file was deleted since it was duplicate and also contained invalid testcase. 
   * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.0 or later.
 
