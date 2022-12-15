@@ -56,7 +56,6 @@ options:
         pair
     type: raw
     required: false
-    elements: dict
   dbd_name:
       description:
         - Target name of the generated DBD member.
@@ -107,7 +106,6 @@ options:
               pair
           type: raw
           required: false
-          elements: dict
         dbd_name:
           description:
             - Target name of the generated DBD member.
