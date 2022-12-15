@@ -18,7 +18,7 @@ Notes
 
   * Fixed sanity test error for ``dbdgen`` and ``psbgen`` modules after the member_list argument type was updated to ``raw`` from ``list`` since the element type can either be str or key:value pair.
   * DBDGEN sample2 testcase file was deleted since it was a duplicate and contained an invalid testcase.
-  * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.0 or later.
+  * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.1.
 
 Availability
 ------------
@@ -31,7 +31,7 @@ Reference
 
 * Supported by IBM z/OS core collection v1.4.0 or later
 * Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
-* Supported by IBM Z Open Automation Utilities 1.1.0 PTF or later
+* Supported by IBM Z Open Automation Utilities 1.1.1 PTF
 * Supported by z/OS V2R3
 * The z/OS® shell
 
