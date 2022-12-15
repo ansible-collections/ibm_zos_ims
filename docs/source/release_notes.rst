@@ -16,8 +16,8 @@ Notes
 * Update recommended
 * Bug fixes and enhancements
 
-  * Fixed member_list sanity bug in ``dbdgen`` and ``psbgen`` modules where the type was updated to ``raw`` from ``list`` since the elements types can either be str or key:value pair.
-  * DBDGEN sample2 testcase file was deleted since it was duplicate and also contained invalid testcase. 
+  * Fixed sanity test error for ``dbdgen`` and ``psbgen`` modules after the member_list argument type was updated to ``raw`` from ``list`` since the element type can either be str or key:value pair.
+  * DBDGEN sample2 testcase file was deleted since it was a duplicate and contained an invalid testcase.
   * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.0 or later.
 
 Availability
