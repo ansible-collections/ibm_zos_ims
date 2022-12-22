@@ -13,14 +13,11 @@ readme: README.md
 
 # Contributors
 authors:
+  - Ajay Jashnani <ajay.jashnani@ibm.com>
   - An Lam <an.lam@ibm.com>
   - Bryant Panyarachun <bpanyar@us.ibm.com>
   - Dipti Gandhi <ddgandhi@us.ibm.com>
-  - Jerry Li <lij@us.ibm.com>
   - Ketan Kelkar <ketan.kelkar@ibm.com>
-  - Omar Elbarmawi <omar@ibm.com>
-  - Radha Varadachari <radha.varadachari@ibm.com>
-  - Seema Phalke <seema.s.phalke@ibm.com>
 
 # Description
 description: The IBM z/OS IMS collection includes modules and sample playbooks to automate tasks for IBM IMS.
@@ -60,9 +57,13 @@ build_ignore:
   - tests/.pytest_cache
   - tests/functional
   - tests/helpers
-  - tests/unit
+  - tests/units
   - tests/*.py
   - tests/*.ini
   - tests/requirements.txt
+  - tests/*.yml
+  - tests/*.sh
+  - tests/*.cfg
   - docs
   - collections
+  - playbook.sh
