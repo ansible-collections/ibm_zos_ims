@@ -16,7 +16,7 @@ from collections import OrderedDict
 # * a list of key:value pairs. This resolves issues reading environment variables
 # * that depend other environment variables defined earlier in the environment variable list.
 # when using python versions >= 3.7, dict ordering is preserved by default so pyyaml can be used
-from oyaml import safe_load
+from yaml import safe_load
 
 # TODO: Add/enhance error handling
 
