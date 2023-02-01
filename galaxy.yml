@@ -62,8 +62,6 @@ build_ignore:
   - tests/*.ini
   - tests/requirements.txt
   - tests/*.yml
-  - tests/*.sh
   - tests/*.cfg
   - docs
   - collections
-  - playbook.sh
