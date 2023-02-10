@@ -95,7 +95,7 @@
         ims_psb_gen:
           src: IMSTESTL.ANSIBLE.PSB.SRC
           location: DATA_SET
-          member_list: [PSBGENL : PSBGENL, PSBGENL : PSBGENL]
+          member_list: [PSBGENL: PSBGENL, PSBGENL: PSBGENL]
           replace: true
           dest: IMSTESTL.ANS.PSBLIB
           sys_lib:
