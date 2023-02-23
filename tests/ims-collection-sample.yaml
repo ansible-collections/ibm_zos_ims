@@ -59,7 +59,7 @@
       - ibm.ibm_zos_core
     gather_facts: no
   
-    environment: "{{ environment }}"
+    environment: "{{ environment_vars }}"
   
     tasks:
       - name: DBDGEN
