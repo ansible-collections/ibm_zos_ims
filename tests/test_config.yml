@@ -1,9 +1,9 @@
 host: ec33003a.vmec.svl.ibm.com
 user: omvsadm
-python_path: "/python3/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3"
+python_path: /python3/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3.8
 
 PYZ: "/python3/usr/lpp/IBM/cyp/v3r8/pyz"
-ZOAU: "/zoau/v1.1.0-spr5"
+ZOAU: "/zoau/v1.1.1-ptf1"
 
 environment:
   ZOAU_HOME: "{{ ZOAU }}"
