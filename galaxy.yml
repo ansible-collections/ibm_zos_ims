@@ -25,7 +25,6 @@ description: The IBM z/OS IMS collection includes modules and sample playbooks t
 
 # This collection is licensed under Apache License, Version 2.0
 license:
-  - "GPL-3.0-only"
   - "Apache-2.0"
 
 # Tags
