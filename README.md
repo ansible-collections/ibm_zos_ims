@@ -36,6 +36,13 @@ The IBM IMS collection includes
 [modules](https://github.com/ansible-collections/ibm_zos_ims/tree/master/plugins/modules/),
 and ansible-doc to automate tasks on IMS.
 
+
+Ansible version compatibility
+==============================
+
+This collection has been tested against the following Ansible versions: >=2.9,<=2.14.1.
+
+
 Copyright
 =========
 
