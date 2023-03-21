@@ -28,7 +28,7 @@ license:
   - "Apache-2.0"
 
 # Tags
-tags: [ibm, z, zos, z_os, core, zos_core, data_set, jcl, uss, mvs, ims, zos_ims]
+tags: [ibm, z, zos, z_os, core, zos_core, data_set, jcl, uss, mvs, ims, zos_ims, application, database]
 
 # Collections that this collection requires to be installed for it to be usable.
 dependencies:
