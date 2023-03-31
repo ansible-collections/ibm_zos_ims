@@ -1,0 +1,95 @@
+ancestor: null
+releases:
+  1.0.0-beta.1:
+    fragments:
+    - v1.0.0_beta1_summary.yml
+    modules:
+    - description: Submit IMS Commands
+      name: ims_command
+      namespace: ''
+    - description: Generate IMS DBD
+      name: ims_dbd_gen
+      namespace: ''
+    - description: Generate IMS PSB
+      name: ims_psb_gen
+      namespace: ''
+  1.0.0-beta.2:
+    fragments:
+    - v1.0.0_beta2_summary.yml
+    modules:
+    - description: Generate IMS ACB
+      name: ims_acb_gen
+      namespace: ''
+  1.0.0-beta.3:
+    changes:
+      major_changes:
+      - Enhancement for ims_acb_gen, ims_dbd_gen and ims_psb_gen modules
+      - Updated sample playbook
+    fragments:
+    - v1.0.0_beta3_summary.yml
+    release_date: '2020-07-19'
+  1.0.1:
+    changes:
+      major_changes:
+      - Improved test and security coverage
+    fragments:
+    - v1.0.1_summary.yml
+  1.1.0:
+    changes:
+      major_changes:
+      - Improved test and security coverage
+      - Removed dependency on Requests library for Python on the control node.
+      - ims_catalog_populate - improved pep8 and Ansible Sanity compliance
+      - ims_catalog_purge - improved pep8 and Ansible Sanity compliance
+      - ims_dbd_gen - added usage of Python tempdir libraries instead of fixed string
+      - ims_dbrc - improved pep8 and Ansible Sanity compliance
+      - ims_psb_gen - added usage of Python tempdir libraries instead of fixed string
+    fragments:
+    - v1.1.0_summary.yml
+  1.1.0-beta.1:
+    fragments:
+    - 1.1.0.yaml
+    modules:
+    - description: Add records to the  IMS Catalog
+      name: ims_catalog_populate
+      namespace: ''
+    - description: Purge records from the IMS Catalog
+      name: ims_catalog_purge
+      namespace: ''
+    - description: Submit IMS DBRC Commands
+      name: ims_dbrc
+      namespace: ''
+    release_date: '2020-08-14'
+  1.2.0:
+    changes:
+      release_summary: "Release Date: '2023-03-31'\nThis changelog describes all changes
+        made to the modules and plugins included\nin this collection.\nFor additional
+        details such as required dependencies and availability review\nthe collections
+        `release notes <https://github.com/ansible-collections/ibm_zos_ims/blob/dev/docs/source/release_notes.rst>`__
+        \n"
+    fragments:
+    - v1.2.0_summary.yml
+    - v1.2.0_summary.yml
+    release_date: '2023-03-31'
+  1.2.0-beta.1:
+    changes:
+      major_changes:
+      - Adds support for Ansible 4 (ansible-core 2.11)
+      - Fixed bug in ims_catalog_populate module where check_timestamp was false would
+        cause module calls to return an IMS error
+      - Improved JSON keys for ims_command_utils to replace whitespaces with underscores
+        to help make the output more parsable
+    fragments:
+    - v1.2.0-beta1_summary.yml
+    release_date: '2021-10-28'
+  1.2.0-beta.2:
+    changes:
+      major_changes:
+      - DBDGEN sample2 testcase file was deleted since it was a duplicate and contained
+        an invalid testcase
+      - Fixed sanity test error for ims_dbdgen and ims_psbgen modules after the member_list
+        argument type was updated to 'raw' from 'list' since the element type can
+        either be str or key:value pair
+    fragments:
+    - v1.2.0-beta2_summary.yml
+    release_date: '2022-12-22'
