@@ -52,7 +52,7 @@ options:
                 not specified, then src is expected to be a sequential data set.
             - Elements are of the list are str or dict with single key-value
                 pair
-        type: list
+        type: raw
         required: false
     psb_name:
         description:
@@ -100,7 +100,7 @@ options:
                         not specified, then src is expected to be a sequential data set.
                     - Elements are of the list are str or dict with single
                         key-value
-                type: list
+                type: raw
                 required: false
             psb_name:
                 description:
@@ -229,7 +229,7 @@ def run_module():
         replace=dict(type='bool', required=False, default=True),
 
         # TODO member_list is required if location is 'DATA_SET'
-        member_list=dict(type='list', required=False),
+        member_list=dict(type='raw', required=False),
 
         psb_name=dict(type='str', required=False),
 
@@ -243,7 +243,7 @@ def run_module():
                 replace=dict(type='bool', required=False, default=True),
 
                 # TODO member_list is required if location is 'DATA_SET'
-                member_list=dict(type='list', required=False),
+                member_list=dict(type='raw', required=False),
 
                 psb_name=dict(type='str', required=False),
 

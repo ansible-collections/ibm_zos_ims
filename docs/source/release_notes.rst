@@ -6,6 +6,78 @@
 Releases
 ========
 
+Version 1.2.0
+====================
+
+Notes
+-----
+
+* Update recommended
+* Bug fixes and enhancements
+
+  * No changes from version 1.2.0-beta.2 release. Collection promoted to certified content with version 1.2.0.
+
+Availability
+------------
+
+* `Galaxy`_
+* `GitHub`_
+
+Reference
+---------
+
+* Supported by IBM z/OS core collection v1.4.0 or later
+* Supported by IBM Z Open Enterprise Python for z/OS 3.9 - 3.11
+* Supported by IBM Z Open Automation Utilities 1.1.1 - 1.2.2
+* Supported by z/OS V2R3
+* The z/OS® shell
+
+.. _centralized content:
+   https://ibm.github.io/z_ansible_collections_doc/index.html
+
+.. _GitHub:
+   https://github.com/ansible-collections/ibm_zos_ims
+
+.. _Galaxy:
+   https://galaxy.ansible.com/ibm/ibm_zos_ims
+
+Version 1.2.0-beta.2
+====================
+
+Notes
+-----
+
+* Update recommended
+* Bug fixes and enhancements
+
+  * Fixed sanity test error for ``dbdgen`` and ``psbgen`` modules after the member_list argument type was updated to ``raw`` from ``list`` since the element type can either be str or key:value pair.
+  * DBDGEN sample2 testcase file was deleted since it was a duplicate and contained an invalid testcase.
+  * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.1.
+
+Availability
+------------
+
+* `Galaxy`_
+* `GitHub`_
+
+Reference
+---------
+
+* Supported by IBM z/OS core collection v1.4.0 or later
+* Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
+* Supported by IBM Z Open Automation Utilities 1.1.1 PTF
+* Supported by z/OS V2R3
+* The z/OS® shell
+
+.. _centralized content:
+   https://ibm.github.io/z_ansible_collections_doc/index.html
+
+.. _GitHub:
+   https://github.com/ansible-collections/ibm_zos_ims
+
+.. _Galaxy:
+   https://galaxy.ansible.com/ibm/ibm_zos_ims
+
 Version 1.2.0-beta.1
 ====================
 
@@ -13,7 +85,12 @@ Notes
 -----
 
 * Update recommended
-* Adds support for Ansible 4 (ansible-core 2.11)
+* Bug fixes and enhancements
+
+  * Adds support for Ansible 4 (ansible-core 2.11)
+  * Fixed bug in ``ims_catalog_populate`` where ``check_timestamp: false`` would cause module calls to return an IMS error.
+  * Improved JSON keys for ``ims_command_utils`` to replace whitespaces with underscores to help make the output more parsable.
+  * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.0 or later.
 
 Availability
 ------------

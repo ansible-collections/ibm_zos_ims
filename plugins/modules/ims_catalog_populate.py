@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) IBM Corporation 2020
-# LICENSE: [GNU General Public License version 3](https://opensource.org/licenses/GPL-3.0)
+# Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
 from __future__ import (absolute_import, division, print_function)
 
@@ -818,7 +818,6 @@ options:
                   - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.
                 type: str
                 required: false
-                default: false
           update:
             description:
               - Updates the existing IMS directory system data sets directly in exclusive mode. The ACBs are not placed in the
@@ -855,7 +854,6 @@ options:
                   - LATEST, UNCOND, DELETE, SHARE, and GSAMPCB are not supported if you specify the gsamdbd variable.
                 type: str
                 required: false
-                default: false
 notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
