@@ -27,6 +27,6 @@ sections:
   - Bugfixes
 - - known_issues
   - Known Issues
-title: ibm.ibm_ims
+title: ibm.ibm_zos_ims
 trivial_section_name: trivial
 use_fqcn: true
