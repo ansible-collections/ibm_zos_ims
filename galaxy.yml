@@ -69,3 +69,6 @@ build_ignore:
   - docs
   - collections
   - changelogs
+  - Jenkinsfile
+  - '*@tmp'
+  - ibm_zos_ims
