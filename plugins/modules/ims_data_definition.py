@@ -18,9 +18,6 @@ description:
   - The IMS Data Definition utility (DFS3ID00) utility writes the metadata for your application programs (PSBs) and databases
     definitions to the IMS Catalog records and the runtime blocks to the staging directory dataset.
 
-# Prerequisites
- # - IMS managed ACBs must be enabled
-
 author:
   - Dipti Gandhi (@ddgandhi)
 options:
@@ -62,11 +59,6 @@ options:
     type: list
     required: False
     elements: str
-  # sysabend:
-  #   description:
-  #     - Defines the dump data set. This defaults to = \*
-  #   type: str
-  #   required: false
   sql_input:
     description:
       - Defines the SQL DDL statements to be run.
@@ -79,7 +71,6 @@ options:
     type: list
     required: true
     elements: str
-
   control_statements:
     description:
       - The control statement parameters.
@@ -267,7 +258,6 @@ def run_module():
 
      # Retrieve properties set by the user
     module_defs = dict(
-        
         online=dict(arg_type="bool", required=False, default=True),
         ims_id=dict(arg_type="str", required=False),
         irlm_id=dict(arg_type="str", required=False),
@@ -295,7 +285,7 @@ def run_module():
     proclib = parsed_args.get("proclib")
     sql_input = parsed_args.get("sql_input")
     control_statements = parsed_args.get("control_statements")
-    
+
     if not steplib:
         try:
             steplib = []
@@ -322,7 +312,6 @@ def run_module():
           control_statements
         )
         response = zddl_obj.execute()
-
 
         if response.get('rc') and int(response.get('rc')) > 4:
                 result['changed'] = False
