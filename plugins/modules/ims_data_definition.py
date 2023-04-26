@@ -236,7 +236,6 @@ def run_module():
         proclib=dict(type="list", elements="str", required=True),
         steplib=dict(type="list", elements="str", required=False),
         sql_input=dict(type="list", elements="str", required=True),
-        # sysabend=dict(type="str", required=False),
         control_statements=dict(type="dict", required=False)
     )
 
@@ -268,14 +267,9 @@ def run_module():
         control_statements=dict(arg_type="dict", required=False)
     )
 
-    # parsed_args = zddl(module, module.params, result).validate_populate_input()
-    # response = zddl(module, result, parsed_args).execute_catalog_populate()
-
     # Parse the properties
     parser = BetterArgParser(module_defs)
     parsed_args = parser.parse_args(module.params)
-    # if module.params['mode'] != "READ":
-    #     result["changed"] = True
 
     online = parsed_args.get("online")
     ims_id = parsed_args.get("ims_id")

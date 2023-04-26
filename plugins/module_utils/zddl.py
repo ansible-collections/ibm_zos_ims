@@ -175,19 +175,10 @@ class zddl(object):
         """
         self.result = {}
         response = None
-        # param_string = "UPB,"
-        # print(" compression: ", self.compression)
-        # if self.compression and self.compression.upper().startswith("PRECOMP"):
-        #     response = self.compress()
-        #     self.result = self.combine_results(response)
-        #     if self.result.get("rc") > 4:
-        #         return self.result
+    
         zddl_utility_fields = self._build_zddl_statements()
         response = MVSCmd.execute(
-            # acbgen.data_definition_UTILITY, zddl_utility_fields, param_string, verbose=True)
             ZDDL_UTILITY, zddl_utility_fields, verbose=True)
         self.result = self.combine_results(response)
-        # if self.compression and self.compression.upper().endswith("POSTCOMP"):
-        #     response = self.compress()
-        #     self.result = self.combine_results(response)
+      
         return self.result
