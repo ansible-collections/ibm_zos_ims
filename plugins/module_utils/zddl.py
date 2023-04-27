@@ -17,7 +17,7 @@ class zddl(object):
     ZDDL_UTILITY = "DFS3ID00"
    
 
-    def __init__(self, sql_input, online, ims_id, irlm_id, reslib, steplib, proclib, control_statements):
+    def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, control_statements):
         """IMSzDDL constructor for generating IMS zDDL using zos_mvs_raw
         Args:
            sql_input (list): command input to specify.
@@ -46,20 +46,20 @@ class zddl(object):
          Raises:
               TypeError: Raised if parameter is the wrong data type.
         """
-        # if self.online and not isinstance(self.online, bool):
-        #     raise TypeError(em.INCORRECT_ONLINE_TYPE)
+        if self.online and not isinstance(self.online, bool):
+            raise TypeError(em.INCORRECT_ONLINE_TYPE)
         if self.ims_id and not isinstance(self.ims_id, str):
             raise TypeError(em.INCORRECT_IMS_ID_TYPE)
-        # if self.irlm_id and not isinstance(self.irlm_id, str):
-        #     raise TypeError(em.INCORRECT_IRLM_ID_TYPE)
+        if self.irlm_id and not isinstance(self.irlm_id, str):
+            raise TypeError(em.INCORRECT_IRLM_ID_TYPE)
         if self.reslib and not all(isinstance(item, str) for item in self.reslib):
             raise TypeError(em.INCORRECT_RESLIB_TYPE)
         if self.steplib and not all(isinstance(item, str) for item in self.steplib):
             raise TypeError(em.INCORRECT_STEPLIB_TYPE)
         if self.proclib and not all(isinstance(item, str) for item in self.proclib):
             raise TypeError(em.INCORRECT_PROCLIB_TYPE)    
-        # if self.sql_input and not all(isinstance(item, str) for item in self.sql_input):
-        #     raise TypeError(em.INCORRECT_SQL_INPUT_TYPE) 
+        if self.sql_input and not all(isinstance(item, str) for item in self.sql_input):
+            raise TypeError(em.INCORRECT_SQL_INPUT_TYPE) 
 
         if self.control_statements and not all(isinstance(item, str) for item in self.control_statements):
             raise TypeError(em.INCORRECT_CONTROL_STATEMENTS_TYPE)
@@ -114,8 +114,9 @@ class zddl(object):
 
             for command in self.sql_input:
                 sql_input_list.append(command)
-            for a in sql_input_list:
-                print("sql_input_list: ", a)
+
+            # for a in sql_input_list:
+            #     print("sql_input_list: ", a)
 
         command_imssql_definition = DDStatement(
             "IMSSQL", StdinDefinition("\n".join(sql_input_list))

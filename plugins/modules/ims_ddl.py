@@ -11,7 +11,7 @@ __metaclass__ = type
 DOCUMENTATION = r'''
 ---
 
-module: ims_data_definition
+module: ims_ddl
 short_description: Submits Data Definition Language (DDL) SQL statements.
 version_added: "1.1.0"
 description:
@@ -97,6 +97,7 @@ options:
         required: false
       create_program_view:
         description:
+          - Directly maps to DYNAMICPROGRAMVIEW=(CREATEYES | CREATENO) of IMS Data Definition utility utility.
           - Specifies that the DFS3ID00 utility will automatically Import all the input CREATE PROGRAMVIEWs.
           - If CREATEYES is specified, then PDIR will be created with the DOPT flag ON.
           - If CREATENO is specified, then PDIR will not be created.
@@ -201,7 +202,7 @@ content:
   description: The standard output returned running the Data Definition module.
   type: str
   returned: sometimes
-  sample: DFS4434I INSTANCE 2020200562326 OF DBD AUTODB   WAS ADDED TO A NEWLY CREATED RECORD IN THE IMS CATALOG.
+  sample: 
 rc:
   description: The return code from the Data Definition utility.
   type: str
