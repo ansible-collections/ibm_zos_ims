@@ -71,39 +71,39 @@ options:
     type: list
     required: true
     elements: str
-  control_statements:
+  # control_statements:
+  #   description:
+  #     - The control statement parameters.
+  #   type: dict
+  #   required: false
+  #   suboptions:
+  verbose:
     description:
-      - The control statement parameters.
-    type: dict
+      - Specifies that the DFS3ID00 utility will print full text of the DDL statements in the job log.
+      - If VERBOSE control option is not specified, then utility will only print full text of failing DDL statement.
+    type: bool
     required: false
-    suboptions:
-      verbose:
-        description:
-          - Specifies that the DFS3ID00 utility will print full text of the DDL statements in the job log.
-          - If VERBOSE control option is not specified, then utility will only print full text of failing DDL statement.
-        type: bool
-        required: false
-      auto_commit:
-        description:
-          - Specifies that the DFS3ID00 utility will perform auto Commit if no COMMIT DDL statement is provided by the user.
-          - If user does not specify AUTOCOMMIT control option or COMMIT DDL statement, then utility will perform auto ROLLBACK DDL.
-        type: bool
-        required: false
-      simulate:
-        description:
-          - Specifies that the DFS3ID00 utility will perform simulation of DDL statements which includes parser validations,
-            commit level validations, block builder validations, and DROP DDL cross-reference validations.
-        type: bool
-        required: false
-      create_program_view:
-        description:
-          - Directly maps to DYNAMICPROGRAMVIEW=(CREATEYES | CREATENO) of IMS Data Definition utility utility.
-          - Specifies that the DFS3ID00 utility will automatically Import all the input CREATE PROGRAMVIEWs.
-          - If CREATEYES is specified, then PDIR will be created with the DOPT flag ON.
-          - If CREATENO is specified, then PDIR will not be created.
-        type: bool
-        required: false
-        default: false
+  auto_commit:
+    description:
+      - Specifies that the DFS3ID00 utility will perform auto Commit if no COMMIT DDL statement is provided by the user.
+      - If user does not specify AUTOCOMMIT control option or COMMIT DDL statement, then utility will perform auto ROLLBACK DDL.
+    type: bool
+    required: false
+  simulate:
+    description:
+      - Specifies that the DFS3ID00 utility will perform simulation of DDL statements which includes parser validations,
+        commit level validations, block builder validations, and DROP DDL cross-reference validations.
+    type: bool
+    required: false
+  create_program_view:
+    description:
+      - Directly maps to DYNAMICPROGRAMVIEW=(CREATEYES | CREATENO) of IMS Data Definition utility utility.
+      - Specifies that the DFS3ID00 utility will automatically Import all the input CREATE PROGRAMVIEWs.
+      - If CREATEYES is specified, then PDIR will be created with the DOPT flag ON.
+      - If CREATENO is specified, then PDIR will not be created.
+    type: bool
+    required: false
+    default: false
 
 notes:
   - The I(steplib) parameter can also be specified in the target inventory's environment_vars.
@@ -202,7 +202,7 @@ content:
   description: The standard output returned running the Data Definition module.
   type: str
   returned: sometimes
-  sample: 
+  sample: entire block 
 rc:
   description: The return code from the Data Definition utility.
   type: str
@@ -237,7 +237,11 @@ def run_module():
         proclib=dict(type="list", elements="str", required=True),
         steplib=dict(type="list", elements="str", required=False),
         sql_input=dict(type="list", elements="str", required=True),
-        control_statements=dict(type="dict", required=False)
+        # control_statements=dict(type="dict", required=False)
+        verbose=dict(type="bool", required=False),
+        auto_commit=dict(type="bool", required=False),
+        simulate=dict(type="bool", required=False),
+        create_program_view=dict(type="bool", required=False, default=False),
     )
 
     result = dict(
@@ -265,7 +269,11 @@ def run_module():
         steplib=dict(arg_type="list", elements="str", required=False),
         proclib=dict(arg_type="list", elements="str", required=True),
         sql_input=dict(arg_type="list", elements="str", required=True),
-        control_statements=dict(arg_type="dict", required=False)
+        # control_statements=dict(arg_type="dict", required=False)
+        verbose=dict(arg_type="bool", required=False),
+        auto_commit=dict(arg_type="bool", required=False),
+        simulate=dict(arg_type="bool", required=False),
+        create_program_view=dict(arg_type="bool", required=False,default=False)
     )
 
     # Parse the properties
@@ -279,7 +287,11 @@ def run_module():
     steplib = parsed_args.get("steplib")
     proclib = parsed_args.get("proclib")
     sql_input = parsed_args.get("sql_input")
-    control_statements = parsed_args.get("control_statements")
+    # control_statements = parsed_args.get("control_statements")
+    verbose = parsed_args.get("verbose")
+    auto_commit = parsed_args.get("auto_commit")
+    simulate = parsed_args.get("simulate")
+    create_program_view = parsed_args.get("create_program_view")
 
     if not steplib:
         try:
@@ -304,9 +316,15 @@ def run_module():
           steplib,
           proclib,
           sql_input,
-          control_statements
+          # control_statements
+          verbose,
+          auto_commit,
+          simulate,
+          create_program_view
         )
         response = zddl_obj.execute()
+        # print("response")
+        # print(response)
 
         if response.get('rc') and int(response.get('rc')) > 4:
                 result['changed'] = False

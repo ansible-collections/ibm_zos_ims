@@ -17,7 +17,8 @@ class zddl(object):
     ZDDL_UTILITY = "DFS3ID00"
    
 
-    def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, control_statements):
+    # def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, control_statements):
+    def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, create_program_view):
         """IMSzDDL constructor for generating IMS zDDL using zos_mvs_raw
         Args:
            sql_input (list): command input to specify.
@@ -27,7 +28,11 @@ class zddl(object):
            reslib (list): List of reslib datasets.
            proclib (list): List of proclib datasets.
            steplib (list): Points to the list of IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules.
-           control_statements (dict): The control statement parameters.
+        #    control_statements (dict): The control statement parameters.
+           verbose (bool): Specifies if the utility will print full text of the DDL statements in the job log.
+           auto_commit (bool): Specifies if the utility will perform auto Commit.
+           simulate (bool): Specifies if the utility will perform simulation of DDL statements.
+           create_program_view (bool): Specifies if the utility will automatically Import all the input CREATE PROGRAMVIEWs.
         """
         self.online = online
         self.ims_id = ims_id
@@ -36,7 +41,11 @@ class zddl(object):
         self.proclib = proclib
         self.steplib = steplib
         self.sql_input = sql_input
-        self.control_statements = control_statements
+        # self.control_statements = control_statements
+        self.verbose = verbose
+        self.auto_commit = auto_commit
+        self.simulate = simulate
+        self.create_program_view = create_program_view
        
         self._assert_valid_input_types()
         self.result = {}
@@ -57,12 +66,20 @@ class zddl(object):
         if self.steplib and not all(isinstance(item, str) for item in self.steplib):
             raise TypeError(em.INCORRECT_STEPLIB_TYPE)
         if self.proclib and not all(isinstance(item, str) for item in self.proclib):
-            raise TypeError(em.INCORRECT_PROCLIB_TYPE)    
+            raise TypeError(em.INCORRECT_PROCLIB_TYPE)
         if self.sql_input and not all(isinstance(item, str) for item in self.sql_input):
-            raise TypeError(em.INCORRECT_SQL_INPUT_TYPE) 
+            raise TypeError(em.INCORRECT_SQL_INPUT_TYPE)
 
-        if self.control_statements and not all(isinstance(item, str) for item in self.control_statements):
-            raise TypeError(em.INCORRECT_CONTROL_STATEMENTS_TYPE)
+        # if self.control_statements and not all(isinstance(item, str) for item in self.control_statements):
+        #     raise TypeError(em.INCORRECT_CONTROL_STATEMENTS_TYPE)
+        if self.verbose and not isinstance(self.verbose, bool):
+            raise TypeError(em.INCORRECT_VERBOSE_TYPE)
+        if self.verbose and not isinstance(self.auto_commit, bool):
+            raise TypeError(em.INCORRECT_AUTO_COMMIT_TYPE)
+        if self.verbose and not isinstance(self.simulate, bool):
+            raise TypeError(em.INCORRECT_SIMULATE_TYPE)
+        if self.verbose and not isinstance(self.create_program_view, bool):
+            raise TypeError(em.INCORRECT_CREATE_PROGRAM_VIEW)
 
     def _build_zddl_statements(self):
         """Builds the list of DDStatements that will be provided to the zos_mvs_raw to execute DFS3ID00
@@ -73,9 +90,9 @@ class zddl(object):
         """
         zddl_utility_fields = []
         # ims_dataset_list = []
-        sysprint = DDStatement("SYSPRINT", StdoutDefinition())
+        # sysprint = DDStatement("SYSPRINT", StdoutDefinition())
 
-        zddl_utility_fields.append(sysprint)
+        # zddl_utility_fields.append(sysprint)
 
         if self.steplib:
             steplib_data_set_definitions = [
@@ -115,15 +132,16 @@ class zddl(object):
             for command in self.sql_input:
                 sql_input_list.append(command)
 
-            # for a in sql_input_list:
-            #     print("sql_input_list: ", a)
-
-        command_imssql_definition = DDStatement(
-            "IMSSQL", StdinDefinition("\n".join(sql_input_list))
+            for a in sql_input_list:
+                print("sql_input_list: ", a)
+        if self.sql_input:
+            command_imssql_definition = DDStatement(
+                "IMSSQL", DatasetDefinition("\n".join(sql_input_list))
         )
 
         zddl_utility_fields.append(command_imssql_definition)
-
+        print("zddl_utility_fields")
+        print(zddl_utility_fields)
         return zddl_utility_fields
 
     # def _split_lines_command(self):
@@ -179,7 +197,8 @@ class zddl(object):
     
         zddl_utility_fields = self._build_zddl_statements()
         response = MVSCmd.execute(
-            ZDDL_UTILITY, zddl_utility_fields, verbose=True)
+            zddl.ZDDL_UTILITY, zddl_utility_fields, verbose=True)
         self.result = self.combine_results(response)
-      
+        # print("self.result: ")
+        # print(self.result)
         return self.result

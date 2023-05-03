@@ -75,7 +75,11 @@ class ZDDLErrorMessages():
     # INCORRECT_CONTROL_STATEMENTS_TYPE
     SUCCESS_MSG = "ZDDL execution is successful."
     FAILURE_MSG = "Failure. See output for details."
-    INCORRECT_CONTROL_STATEMENTS_TYPE = "Control statements incorrect."
+    # INCORRECT_CONTROL_STATEMENTS_TYPE = "Control statements incorrect."
+    INCORRECT_VERBOSE_TYPE = "'verbose' must be a boolean."
+    INCORRECT_AUTO_COMMIT_TYPE = "'auto_commit' must be a boolean."
+    INCORRECT_SIMULATE_TYPE = "'simulate' must be a boolean."
+    INCORRECT_CREATE_PROGRAM_VIEW = "'create_program_view' must be a boolean."
     # EMPTY_OUTPUT_MSG = "ZDDL could not be processed. Please check input parameters."
     INCORRECT_TYPE = "Incorrect type provided. A string or list of strings is expected"
     INCORRECT_ITEM_LIST = "Items provided in list do not match the string type expected."
