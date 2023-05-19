@@ -2,273 +2,151 @@
 from __future__ import (absolute_import, division, print_function)
 from pprint import pprint
 import pytest
-from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import ACBInputParameters as ip
-from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import DBDInputParameters as dbd
-from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import PSBInputParameters as psb
+from ibm_zos_ims.tests.functional.module_utils.ims_test_data_definition_utils import ZDDLInputParameters as ip
 
 __metaclass__ = type
 
-COMMAND_INPUT_BUILD = ip.COMMAND_INPUT_BUILD
-COMMAND_INPUT_DELETE = ip.COMMAND_INPUT_DELETE
-PSBLIB = ip.PSBLIB
-DBDLIB = ip.DBDLIB
-ACBLIB = ip.ACBLIB
-STEPLIB = ip.STEPLIB
-RESLIB = ip.RESLIB
-PSB_NAME_ALL = ip.PSB_NAME_ALL
-PSB_NAME = ip.PSB_NAME
-PSB_NAMES = ip.PSB_NAMES
-DBD_NAME = ip.DBD_NAME
-DBD_NAMES = ip.DBD_NAMES
-DBD_NAMES_LIST = ip.DBD_NAMES_LIST
-COMP_PRE = ip.COMP_PRE
-COMP_POST = ip.COMP_POST
-COMP = ip.COMP
 
-# vars for prereqs
-DBD_SRC = dbd.SOURCE
-PSB_SRC = psb.SOURCE
-SYSLIB = dbd.SYSLIB
+# ------------- VARIABLES
+ONLINE = ip.ONLINE      # Not Required
+OFFLINE = ip.OFFLINE    # Not Required
+IMS_ID = ip.IMS_ID          # Not Required  | Required if ONLINE
+IRLM_ID = ip.IRLM_ID    # Not Required  | Cannot be specified if ONLINE
+RESLIB = ip.RESLIB      # Not Required
+PROCLIB = ip.PROCLIB 
+STEPLIB = ip.STEPLIB    # Not Required
+SQL_INPUT = ip.SQL_INPUT 
+SQL_INPUTS = ip.SQL_INPUTS
+SQL_FULL_INPUTS = ip.SQL_FULL_INPUTS
+
+# Control statements
+VERBOSE = ip.VERBOSE
+AUTO_COMMIT = ip.AUTO_COMMIT
+SIMULATE = ip.SIMULATE
+CREATE_PROGRAM_VIEW = ip.CREATE_PROGRAM_VIEW
+# -------------
 
 
 """
 Work flow for Combination functional tests goes as follows:
-1. BUILD PSB=ALL as string
-2. DELETE PSB=PSB_NAME as list
-3. BUILD PSB=PSB_NAME
-4. DELETE DBD=DBD_NAME
-5. BUILD DBD=DBD_NAME,BLDPSB=NO
-6. BUILD DBD=DBD_NAME,BLDPSB=YES
-7. BUILD PSB=PSB_NAME
-8. DELETE PSB=PSB_NAME, DELETE DBD=DBD_NAMES
-9. BUILD PSB=PSB_NAME
-10.BUILD PSB=PSB_NAME, BUILD DBD=DBD_NAMES,BLDPSB=NO
-11.BUILD PSB=PSB_NAME, BUILD DBD=DBD_NAMES,BLDPSB=YES
-12.BUILD PSB=PSB_NAME, BUILD DBD=DBD_NAME,BLDPSB=YES, COMP='PRECOMP'
-13.BUILD PSB=PSB_NAME, BUILD DBD=DBDNAME,BLDPSB=YES, COMP='POSTCOMP'
-14.BUILD PSB=PSB_NAME, BUILD DBD=DBDNAME,BLDPSB=YES, COMP='PRECOMP,POSTCOMP'
-15.Multi line PSB and DBD - BUILD with BLDPSB=YES
-16.Multi line PSB list over 6 PSB's in the list
-17.Multi line DBD list over 6 DBD's in the list
-18.STEPLIB=STEPLIB, RESLIB=None
-19.RESLIB=None, STEPLIB=None(STEPLIB should be retrieved from environment_vars)
-20.STEPLIB=None(STEPLIB should be retrieved from environment_vars), RESLIB=RESLIB
+1. Send only proclib and sql_input ONLINE IMS ID
+2. IMS ID with ONLINE with all variables
+3. IRLM Specified    --------   Not supporting DLI now, comment by now
+4. Multi line Sql Input
+5. Multi line Sql Input over 6 instructions
+6. Offline simulation
+7. Verbose with auto-commit
+8. No control statements
+9. Simulation, auto-commit and verbose
 """
 
-
-def validate_acbgen(hosts, psb_name=None, dbd_name=None, psb_lib=None,
-                    dbd_lib=None, acb_lib=None, steplib=None, reslib=None,
-                    compression=None, build_psb=None, command_input=None):
+def validate_data_definition(hosts, online:bool=None, ims_id:str=None,
+                            irlm_id:str=None, reslib:list=None, proclib:list=None,
+                            steplib:list=None, sql_input:list=None, verbose:bool=None,
+                            auto_commit:bool=None, simulate:bool=None, create_program_view:bool=None
+                            ):
     arguments = {}
-    if psb_name:
-        arguments["psb_name"] = psb_name
-    if dbd_name:
-        arguments["dbd_name"] = dbd_name
-    if psb_lib:
-        arguments["psb_lib"] = psb_lib
-    if dbd_lib:
-        arguments["dbd_lib"] = dbd_lib
-    if acb_lib:
-        arguments["acb_lib"] = acb_lib
-    if steplib:
-        arguments["steplib"] = steplib
+    if online:
+        arguments["online"] = online
+    if ims_id:
+        arguments["ims_id"] = ims_id
+    if irlm_id:
+        arguments["irlm_id"] = irlm_id
     if reslib:
         arguments["reslib"] = reslib
-    if compression:
-        arguments["compression"] = compression
-    if build_psb:
-        arguments["build_psb"] = build_psb
-    if command_input:
-        arguments["command_input"] = command_input
-
-    response = hosts.all.ims_acb_gen(**arguments)
+    if proclib:
+        arguments["proclib"] = proclib
+    if steplib:
+        arguments["steplib"] = steplib
+    if sql_input:
+        arguments["sql_input"] = sql_input
+    if verbose:
+        arguments["verbose"] = verbose
+    if auto_commit:
+        arguments["auto_commit"] = auto_commit
+    if simulate:
+        arguments["simulate"] = simulate
+    if create_program_view:
+        arguments["create_program_view"] = create_program_view
+    response = hosts.all.ims_ddl(**arguments)
     print("Result:", response)
     for result in response.contacted.values():
         pprint(result)
-        print("Changed:", result.get('changed'))
+        print("Message:", result.get('msg'))
         print("Return code:", result.get('rc'))
-        assert result.get('changed')
+        assert result.get('msg')
         assert result.get('rc') <= 4
 
-
-def test_dbd_gen_dataset_prereq(ansible_zos_module):
+# 1. Send only proclib and sql_input
+def test_ims_data_definition_valid_only_proclib_sql_input(ansible_zos_module):
     hosts = ansible_zos_module
-    # validate_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE, location='DATA_SET', member_list=['DEDBJN21'], replace=True)
-    response = hosts.all.ims_dbd_gen(
-        dest=DBDLIB[0],
-        sys_lib=SYSLIB, src=DBD_SRC, location="DATA_SET",
-        replace=True,
-        member_list=[
-            "DH41SK01", "DBFSAMD1", "DH41SK01", "DBFSAMD2", "DBFSAMD3", "HOSPVARD", "DSVNTZ30", "DX41SK01",
-            "DX41SK03", "DX41SK05", "DX41SK06", "DX41SK07", "DX41SK08", "DX41SK09", "DX41SK02", "DX41SK04", "WAREDB",
-            "ORDDB", "DISTDB", "ARTDB", "CUSTDB", "NORDDB", "ORDRDB", "ORDLDB", "ITEMDB", "ITEMDBP", "STCKDB"])
-    for result in response.contacted.values():
-        print(result)
-        print("Changed:", result['changed'])
-        assert result['changed']
-        assert result['rc'] == 0
-        # Check for success message (if we remove return codes)
-        # assert result['msg'] == GEN_SUCCESS_MSG
+    validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
+                            irlm_id=None, reslib=None, proclib=PROCLIB,
+                            steplib=None, sql_input=SQL_INPUT, verbose=None,
+                            auto_commit=None, simulate=None, create_program_view=None)
 
 
-def test_psb_gen_dataset_prereq(ansible_zos_module):
+# 2. IMS ID with ONLINE
+def test_ims_data_definition_valid_ims_id_online(ansible_zos_module):
     hosts = ansible_zos_module
-    response = hosts.all.ims_psb_gen(
-        dest=PSBLIB[0], sys_lib=SYSLIB, src=PSB_SRC, location="DATA_SET",
-        replace=True, member_list=["PSBGENL"])
-    for result in response.contacted.values():
-        pprint(result)
-        print("Changed:", result['changed'])
-        assert result['changed']
-        assert result['rc'] == 0
-        # Check for success message (if we remove return codes)
-        # assert result['msg'] == GEN_SUCCESS_MSG
-
-
-# 1. BUILD PSB=ALL as string
-def test_acb_gen_build_psbName_all(ansible_zos_module):
+    validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
+                            irlm_id=None, reslib=None, proclib=PROCLIB,
+                            steplib=None, sql_input=SQL_INPUT, verbose=None,
+                            auto_commit=None, simulate=None, create_program_view=None)
+    
+# 3. IRLM Specified
+def test_ims_data_definition_valid_irlm(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME_ALL, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, build_psb=True)
-
-
-# 2. DELETE PSB=PSB_NAME as list
-def test_acb_gen_delete_psbName(ansible_zos_module):
+    validate_data_definition(hosts, online=None, ims_id=None,
+                            irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
+                            steplib=None, sql_input=SQL_INPUT, verbose=None,
+                            auto_commit=None, simulate=None, create_program_view=None)
+    
+# 4. Multi line Sql Inputs
+def test_ims_data_definition_valid_multi_sql(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_DELETE, psb_name=PSB_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB)
+    validate_data_definition(hosts, online=None, ims_id=None,
+                            irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
+                            steplib=None, sql_input=SQL_INPUTS, verbose=None,
+                            auto_commit=None, simulate=None, create_program_view=None)
+    
 
-
-# 3. BUILD PSB=PSB_NAME
-def test_acb_gen_build_psbName(ansible_zos_module):
+# 5. Multi line Sql Input over 6 instructions
+def test_ims_data_definition_valid_over_six_sql(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, build_psb=True)
+    validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
+                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            steplib=STEPLIB, sql_input=SQL_FULL_INPUTS, verbose=VERBOSE,
+                            auto_commit=None, simulate=None, create_program_view=None)
 
-
-# 4. DELETE DBD=(DBFSAMD3)
-def test_acb_gen_delete_dbdName(ansible_zos_module):
+# 6. Offline simulation
+def test_ims_data_definition_valid_offline_simulation(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_DELETE, dbd_name=DBD_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB)
+    validate_data_definition(hosts, online=OFFLINE, ims_id=None,
+                            irlm_id=None, reslib=None, proclib=PROCLIB,
+                            steplib=None, sql_input=SQL_INPUT, verbose=None,
+                            auto_commit=None, simulate=SIMULATE, create_program_view=None)
 
-
-# 5. BUILD DBD=(HOSPVARD),BLDPSB=NO
-def test_acb_gen_build_dbdName_bldPsb_no(ansible_zos_module):
+# 7. Online verbose with auto-commit
+def test_ims_data_definition_valid_online_verbose_auto_commit(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, dbd_name="HOSPVARD", psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, build_psb=False)
+    validate_data_definition(hosts, online=ONLINE, ims_id=None,
+                            irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
+                            steplib=None, sql_input=SQL_INPUTS, verbose=VERBOSE,
+                            auto_commit=AUTO_COMMIT, simulate=None, create_program_view=None)
 
-
-# 6. BUILD DBD=(HOSPVARD),BLDPSB=YES
-def test_acb_gen_build_dbdName_bldPsb_yes(ansible_zos_module):
+# 8. All control statements at once
+def test_ims_data_definition_valid_all_control_statements(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, dbd_name="HOSPVARD", psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, build_psb=True)
+    validate_data_definition(hosts, online=None, ims_id=None,
+                            irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
+                            steplib=None, sql_input=SQL_INPUTS, verbose=VERBOSE,
+                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
-
-# 7. BUILD PSB=PSB_NAME
-def test_acb_gen_build_psbName2(ansible_zos_module):
+# 9. Create Program view with simulation and auto-commit
+def test_ims_data_definition_valid_control_statements_no_verbose(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, build_psb=True)
-
-
-# 8. DELETE PSB=PSB_NAME, DELETE DBD=DBD_NAMES
-# DELETE PSB=(PSBGENL)\n'
-# DELETE DBD=("DH41SK01", "HOSPVARD")\n'
-# rc: '0'``
-#   ret_code:
-#     code: 0
-#     msg: CC 0000
-#     msg_code: '0000'
-#     msg_txt: '' ->
-# check in acblib if this member got deleted
-def test_acb_gen_delete_psbName_dbdName(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_DELETE, psb_name=PSB_NAME, dbd_name=DBD_NAMES,
-                    psb_lib=PSBLIB, dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB)
-
-
-# 9. BUILD PSB=PSB_NAME
-def test_acb_gen_build_psbName3(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, build_psb=True)
-
-
-# 10.BUILD PSB=PSB_NAME, BUILD DBD=DBD_NAMES,BLDPSB=NO
-def test_acb_gen_build_psbName_dbdNames_bldPsb_no(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, dbd_name=DBD_NAMES,
-                    psb_lib=PSBLIB, dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, build_psb=False)
-
-
-# 11.BUILD PSB=PSB_NAME, BUILD DBD=DBD_NAMES,BLDPSB=YES
-def test_acb_gen_build_psbName_dbdNames_bldPsb_yes(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, dbd_name=DBD_NAMES,
-                    psb_lib=PSBLIB, dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, build_psb=True)
-
-
-# 12.BUILD PSB=PSB_NAME, BUILD DBD=DBD_NAME,BLDPSB=YES, COMP='PRECOMP'
-def test_acb_gen_build_psbName_dbdName_bldPsb_yes_comp_precomp(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, compression=COMP_PRE, build_psb=True)
-
-
-# 13.BUILD PSB=PSB_NAME, BUILD DBD=DBDNAME,BLDPSB=YES, COMP='POSTCOMP'
-def test_acb_gen_build_psbName_dbdName_bldPsb_yes_comp_postcomp(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, compression=COMP_POST, build_psb=True)
-
-
-# 14.BUILD PSB=PSB_NAME, BUILD DBD=DBDNAME,BLDPSB=YES, COMP='PRECOMP,POSTCOMP'
-def test_acb_gen_build_psbName_dbdName_bldPsb_yes_comp_precomp_postcomp(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, compression=COMP, build_psb=True)
-
-
-# 15.Multi line PSB and DBD - BUILD with BLDPSB=NO
-def test_acb_gen_build_psbNames_dbdNames_list(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, dbd_name=DBD_NAMES_LIST,
-                    psb_lib=PSBLIB, dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, build_psb=False)
-
-
-# 16.Multi line PSB list over 6 PSB's in the list
-def test_acb_gen_delete_psbNames_list_comp_postcomp(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_DELETE, psb_name=PSB_NAMES, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB, compression=COMP_POST)
-
-
-# 17.Multi line DBD list over 6 DBD's in the list
-def test_acb_gen_delete_dbdNames_list(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_DELETE, dbd_name=DBD_NAMES, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, reslib=RESLIB)
-
-
-# 18.STEPLIB=STEPLIB, RESLIB=None
-def test_acb_gen_build_psbName_no_reslib(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, steplib=STEPLIB, build_psb=False)
-
-
-# 19.RESLIB=STEPLIB=None(STEPLIB should be retrieved from environment_vars)
-def test_acb_gen_delete_dbdName_no_reslib_env_steplib(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_DELETE, dbd_name=DBD_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB)
-
-
-# 20.STEPLIB=None(STEPLIB should be retrieved from environment_vars), RESLIB=RESLIB
-def test_acb_gen_build_dbdName_only_reslib(ansible_zos_module):
-    hosts = ansible_zos_module
-    validate_acbgen(hosts, command_input=COMMAND_INPUT_BUILD, psb_name=PSB_NAME, psb_lib=PSBLIB,
-                    dbd_lib=DBDLIB, acb_lib=ACBLIB, reslib=RESLIB, build_psb=False)
+    validate_data_definition(hosts, online=None, ims_id=None,
+                            irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
+                            steplib=None, sql_input=SQL_INPUTS, verbose=VERBOSE,
+                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=None)
