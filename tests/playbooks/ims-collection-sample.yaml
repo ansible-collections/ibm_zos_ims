@@ -58,46 +58,32 @@
       - ibm.ibm_zos_ims
       - ibm.ibm_zos_core
     gather_facts: no
-  
-    environment: "{{ environment_vars }}"
+    vars_files:
+      - "host_vars/zos_host.yml"
+    environment: '{{environment_vars}}'
   
     tasks:
       - name: DBDGEN
         ims_dbd_gen:
-          src: IMSTESTL.ANSIBLE.DBD.SRC
+          src: IMSTESTL.IMS1.SDFSRESL
           location: DATA_SET
           member_list:
             [
-              DH41SK01,
-              DBFSAMD1,
-              DH41SK01,
-              DBFSAMD2,
-              DBFSAMD3,
-              HOSPVARD,
-              DSVNTZ30,
-              DX41SK01,
-              DX41SK03,
-              DX41SK05,
-              DX41SK06,
-              DX41SK07,
-              DX41SK08,
-              DX41SK09,
-              DX41SK02,
-              DX41SK04,
+              DFSCPL00
             ]
           "replace": true
-          dest: IMSTESTL.ANS.DBDLIB
+          dest: IMSTESTL.IMS1.DBDLIB
           sys_lib:
             - IMSBLD.I15RTSMM.SDFSMAC
             - SYS1.MACLIB
   
       - name: PSBGEN
         ims_psb_gen:
-          src: IMSTESTL.ANSIBLE.PSB.SRC
+          src: IMSTESTU.ANSI.PSB.SRC
           location: DATA_SET
           member_list: [PSBGENL: PSBGENL, PSBGENL: PSBGENL]
           replace: true
-          dest: IMSTESTL.ANS.PSBLIB
+          dest: IMSTESTL.IMS1.PSBLIB
           sys_lib:
             - IMSBLD.I15RTSMM.SDFSMAC
             - SYS1.MACLIB
@@ -108,10 +94,10 @@
           psb_name:
             - PSBGENL
           psb_lib:
-            - IMSTESTL.ANS.PSBLIB
+            - IMSTESTL.IMS1.PSBLIB
           dbd_lib:
-            - IMSTESTL.ANS.DBDLIB
-          acb_lib: IMSTESTL.ANS.ACBLIB
+            - IMSTESTL.IMS1.DBDLIB
+          acb_lib: IMSTESTL.IMS1.ACBLIB
           reslib:
             - IMSTESTL.IMS1.SDFSRESL
           steplib:
