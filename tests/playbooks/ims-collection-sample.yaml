@@ -65,25 +65,40 @@
     tasks:
       - name: DBDGEN
         ims_dbd_gen:
-          src: IMSTESTL.IMS1.SDFSRESL
+          src: IMSTESTL.ANSIBLE.DBD.SRC
           location: DATA_SET
           member_list:
             [
-              DFSCPL00
+              DH41SK01,
+              DBFSAMD1,
+              DH41SK01,
+              DBFSAMD2,
+              DBFSAMD3,
+              HOSPVARD,
+              DSVNTZ30,
+              DX41SK01,
+              DX41SK03,
+              DX41SK05,
+              DX41SK06,
+              DX41SK07,
+              DX41SK08,
+              DX41SK09,
+              DX41SK02,
+              DX41SK04,
             ]
           "replace": true
-          dest: IMSTESTL.IMS1.DBDLIB
+          dest: IMSTESTL.ANS.DBDLIB
           sys_lib:
             - IMSBLD.I15RTSMM.SDFSMAC
             - SYS1.MACLIB
   
       - name: PSBGEN
         ims_psb_gen:
-          src: IMSTESTU.ANSI.PSB.SRC
+          src: IMSTESTL.ANSIBLE.PSB.SRC
           location: DATA_SET
           member_list: [PSBGENL: PSBGENL, PSBGENL: PSBGENL]
           replace: true
-          dest: IMSTESTL.IMS1.PSBLIB
+          dest: IMSTESTL.ANS.PSBLIB
           sys_lib:
             - IMSBLD.I15RTSMM.SDFSMAC
             - SYS1.MACLIB
@@ -94,10 +109,10 @@
           psb_name:
             - PSBGENL
           psb_lib:
-            - IMSTESTL.IMS1.PSBLIB
+            - IMSTESTL.ANS.PSBLIB
           dbd_lib:
-            - IMSTESTL.IMS1.DBDLIB
-          acb_lib: IMSTESTL.IMS1.ACBLIB
+            - IMSTESTL.ANS.DBDLIB
+          acb_lib: IMSTESTL.ANS.ACBLIB
           reslib:
             - IMSTESTL.IMS1.SDFSRESL
           steplib:
@@ -246,5 +261,3 @@
           recon1: IMSTESTL.IMS1.RECON1
           recon2: IMSTESTL.IMS1.RECON2
           recon3: IMSTESTL.IMS1.RECON3
-
-  # ./playbook.sh playbooks/inventory playbooks/ims-collection-sample.yaml
