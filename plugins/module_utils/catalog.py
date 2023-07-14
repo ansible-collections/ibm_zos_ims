@@ -162,12 +162,18 @@ class catalog(object):
                 self.result['rc'] = 1
                 self.module.fail_json(**self.result)
         else:
-            if self.parsed_args.get("buffer_pool_param_dataset") is None:
-                self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."
-                self.result['rc'] = 1
-                self.module.fail_json(**self.result)
-            else:
-                self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,{0},{1},{2},,,,,,,,,,,'DFSDF=CAT'".format(dbrc, irlm_flag, irlm_id)
+            if self.parsed_args.get("buffer_pool_param_dataset") is not None and self.parsed_args.get("dfsdf_member") is not None:
+                dfsdfxxx = self.parsed_args.get("dfsdf_member")
+                self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,{0},{1},{2},,,,,,,,,,,'DFSDF={3}'".format(dbrc, irlm_flag, irlm_id, dfsdfxxx)
+            else: 
+                if self.parsed_args.get("buffer_pool_param_dataset") is None:
+                    self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."
+                    self.result['rc'] = 1
+                    self.module.fail_json(**self.result)
+                if self.parsed_args.get("dfsdf_member") is None: 
+                    self.result['msg'] = "You must specify the suffix for the DFSDFxxx member when running as DLI."
+                    self.result['rc'] = 1
+                    self.module.fail_json(**self.result) 
 
         self.dDStatements = self.dDStatements + dDStatementList
 
@@ -315,13 +321,19 @@ class catalog(object):
                 self.result['msg'] = "You must specify an ims_id when running in a BMP region (online_batch=true)"
                 self.result['rc'] = 1
                 self.module.fail_json(**self.result)
-        else:
-            if self.parsed_args.get("buffer_pool_param_dataset") is None:
-                self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."
-                self.result['rc'] = 1
-                self.module.fail_json(**self.result)
-            else:
-                self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,{1},{2},{3},,,,,,,,,,,'DFSDF=CAT'".format(mode, dbrc, irlm_flag, irlm_id)
+        else: 
+            if self.parsed_args.get("buffer_pool_param_dataset") is not None and self.parsed_args.get("dfsdf_member") is not None:
+                dfsdfxxx = self.parsed_args.get("dfsdf_member")
+                self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,{1},{2},{3},,,,,,,,,,,'DFSDF={4}'".format(mode, dbrc, irlm_flag, irlm_id, dfsdfxxx)
+            else: 
+                if self.parsed_args.get("buffer_pool_param_dataset") is None:
+                    self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."
+                    self.result['rc'] = 1
+                    self.module.fail_json(**self.result)
+                if self.parsed_args.get("dfsdf_member") is None: 
+                    self.result['msg'] = "You must specify the suffix for the DFSDFxxx member when running as DLI."
+                    self.result['rc'] = 1
+                    self.module.fail_json(**self.result)         
 
         self.dDStatements = self.dDStatements + dDStatementList
 

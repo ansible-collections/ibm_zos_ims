@@ -968,6 +968,7 @@ def run_module():
         modstat=dict(type="str", required=False),
         reslib=dict(type="list", elements="str", required=False),
         buffer_pool_param_dataset=dict(type="str", required=False),
+        dfsdf_member=dict(type="str", required=False),
         primary_log_dataset=dict(type="dict", required=False),
         secondary_log_dataset=dict(type="dict", required=False),
         psb_lib=dict(type="list", elements="str", required=True),

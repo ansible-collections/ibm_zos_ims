@@ -20,6 +20,7 @@ class catalog_parser(object):
                 irlm_id=dict(arg_type="str", required=False),
                 reslib=dict(arg_type="list", elements="data_set", required=False),
                 buffer_pool_param_dataset=dict(arg_type="data_set", required=False),
+                dfsdf_member=dict(arg_type="str", required=False),
                 primary_log_dataset=dict(arg_type="dict", required=False,
                                          options=dict(
                                              dataset_name=dict(arg_type="data_set", required=True),
