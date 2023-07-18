@@ -54,6 +54,10 @@ class catalog_parser(object):
             parser = BetterArgParser(module_defs)
             self.parsed_args = parser.parse_args(self.params)
 
+            if self.parsed_args.get("dfsdf_member") is not None: 
+                self._validate_length("dfsdf_member", 3)
+                self._validate_alphanumeric("dfsdf_member")
+
         except ValueError as error:
             self.result['msg'] = error.args
             self.result['rc'] = 1
@@ -297,6 +301,18 @@ class catalog_parser(object):
             self.module.fail_json(**self.result)
 
         return self.parsed_args
+
+    def _validate_length(self, input, length): 
+        if len(self.parsed_args.get(input)) != length: 
+            self.result['msg'] = str(self.parsed_args.get(input)) + " is not equal to length " + str(length)
+            self.result['rc'] = 1
+            self.module.fail_json(**self.result)
+            
+    def _validate_alphanumeric(self, input):
+        if not (self.parsed_args.get(input)).isalnum(): 
+            self.result['msg'] = str(input) + " input cannot contain special characters, it must be alphanumeric"
+            self.result['rc'] = 1
+            self.module.fail_json(**self.result)
 
     def _validate_directory_staging_dataset(self):
         if len(self.parsed_args.get("directory_datasets")) > 20:
