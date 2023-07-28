@@ -147,6 +147,7 @@
             IMSTESTL.IMS1.PSBLIB
           ]
           buffer_pool_param_dataset: "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
+          dfsdf_member: "ST3"
           primary_log_dataset:
             dataset_name: IMSTESTL.IMS1.LOG1
             disposition: NEW
@@ -181,6 +182,7 @@
             IMSTESTL.IMS1.PSBLIB
           ]
           buffer_pool_param_dataset: "IMSTESTL.IMS1.PROCLIB(DFSVSMHP)"
+          dfsdf_member: "ST3"
           primary_log_dataset:
             dataset_name: IMSTESTL.IMS1.LOG1
             disposition: NEW
