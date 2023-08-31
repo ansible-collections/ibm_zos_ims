@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, division, print_function)
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser   # pylint: disable=import-error
+from zoautil_py import datasets
 
 __metaclass__ = type
 
@@ -57,6 +58,7 @@ class catalog_parser(object):
             if self.parsed_args.get("dfsdf_member") is not None: 
                 self._validate_length("dfsdf_member", 3)
                 self._validate_alphanumeric("dfsdf_member")
+                self._validate_member_exist("dfsdf_member", self.parsed_args.get("proclib"))
 
         except ValueError as error:
             self.result['msg'] = error.args
@@ -311,6 +313,15 @@ class catalog_parser(object):
     def _validate_alphanumeric(self, input):
         if not (self.parsed_args.get(input)).isalnum(): 
             self.result['msg'] = str(input) + " input cannot contain special characters, it must be alphanumeric"
+            self.result['rc'] = 1
+            self.module.fail_json(**self.result)
+    
+    def _validate_member_exist(self, input, proc): 
+        member = self.parsed_args.get(input)
+        member = "DFSDF" + member
+        rc = datasets.find_member(member, proc[0])
+        if rc == None: 
+            self.result['msg'] = str(input) + " " + str(member) + " input does not exist"
             self.result['rc'] = 1
             self.module.fail_json(**self.result)
 
