@@ -17,18 +17,16 @@ class zddl(object):
     ZDDL_UTILITY = "DFS3ID00"
    
 
-    # def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, control_statements):
     def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, create_program_view):
         """IMSzDDL constructor for generating IMS zDDL using zos_mvs_raw
         Args:
-           sql_input (list): command input to specify.
+           sql_input (str): command input to specify.
            online (bool): indicates if its BMP or DL/I.
            ims_id (str): the id of the IMS system on which job is to be run.
            irlm_id (str): The irlm id if irlm is enabled.
            reslib (list): List of reslib datasets.
            proclib (list): List of proclib datasets.
            steplib (list): Points to the list of IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules.
-        #    control_statements (dict): The control statement parameters.
            verbose (bool): Specifies if the utility will print full text of the DDL statements in the job log.
            auto_commit (bool): Specifies if the utility will perform auto Commit.
            simulate (bool): Specifies if the utility will perform simulation of DDL statements.
@@ -38,10 +36,9 @@ class zddl(object):
         self.ims_id = ims_id
         self.irlm_id = irlm_id
         self.reslib = reslib
-        self.proclib = proclib
         self.steplib = steplib
+        self.proclib = proclib
         self.sql_input = sql_input
-        # self.control_statements = control_statements
         self.verbose = verbose
         self.auto_commit = auto_commit
         self.simulate = simulate
@@ -67,11 +64,8 @@ class zddl(object):
             raise TypeError(em.INCORRECT_STEPLIB_TYPE)
         if self.proclib and not all(isinstance(item, str) for item in self.proclib):
             raise TypeError(em.INCORRECT_PROCLIB_TYPE)
-        if self.sql_input and not all(isinstance(item, str) for item in self.sql_input):
+        if self.sql_input and not isinstance(self.sql_input, str):
             raise TypeError(em.INCORRECT_SQL_INPUT_TYPE)
-
-        # if self.control_statements and not all(isinstance(item, str) for item in self.control_statements):
-        #     raise TypeError(em.INCORRECT_CONTROL_STATEMENTS_TYPE)
         if self.verbose and not isinstance(self.verbose, bool):
             raise TypeError(em.INCORRECT_VERBOSE_TYPE)
         if self.verbose and not isinstance(self.auto_commit, bool):
@@ -89,10 +83,6 @@ class zddl(object):
           (list[DDStatement]): List of DDStatements
         """
         zddl_utility_fields = []
-        # ims_dataset_list = []
-        # sysprint = DDStatement("SYSPRINT", StdoutDefinition())
-
-        # zddl_utility_fields.append(sysprint)
 
         if self.steplib:
             steplib_data_set_definitions = [
@@ -117,54 +107,13 @@ class zddl(object):
             proclib = DDStatement("PROCLIB", proclib_data_set_definitions)
             zddl_utility_fields.append(proclib)
 
-
-        print("Hello")
-        print("online: ")
-        print(type(self.online))
-        print("irlm_id: ")
-        print(type(self.irlm_id))
-        print("sql_input: ")
-        print(type(self.sql_input))
-
-        sql_input_list = []
-        if self.sql_input is not None:
-
-            for command in self.sql_input:
-                sql_input_list.append(command)
-
-            for a in sql_input_list:
-                print("sql_input_list: ", a)
         if self.sql_input:
-            command_imssql_definition = DDStatement(
-                "IMSSQL", DatasetDefinition("\n".join(sql_input_list))
-        )
-
-        zddl_utility_fields.append(command_imssql_definition)
-        print("zddl_utility_fields")
-        print(zddl_utility_fields)
+            sql_input_data_set_definitions = DDStatement(
+                "IMSSQL", DatasetDefinition(self.sql_input, disposition="old")) 
+            zddl_utility_fields.append(sql_input_data_set_definitions)
+        sysprint = DDStatement("SYSPRINT", StdoutDefinition())
+        zddl_utility_fields.append(sysprint)
         return zddl_utility_fields
-
-    # def _split_lines_command(self):
-    #     """Splitting the command on new line in case if it exceeds 72 characters.
-
-    #     Returns: A string or array of Sql commands.
-    #     """
-    #     return_str = ""
-    #     return_arr = []
-    #     psbnames = self.psb_name
-    #     if len(psbnames) < 6:
-    #         return_str = self._build_psb_name_string(
-    #             self.command_input, psbnames)
-    #         return return_str
-    #     else:
-    #         for i in range(0, len(psbnames), 5):
-    #             new_psb_names_five = psbnames[i: i + 5]
-    #             psb_line = self._build_psb_name_string(
-    #                 self.command_input, new_psb_names_five)
-    #             return_arr.append(psb_line)
-    #         return "\n ".join(return_arr)
-    #     return return_arr
-
 
     def combine_results(self, result):
         """Add results of execution to existing
@@ -180,6 +129,8 @@ class zddl(object):
             self.result = {}
         self.result['rc'] = max(self.result.get("rc", -1), result.rc)
         self.result["output"] = self.result.get("output", "") + result.stdout
+        # self.result['unformatted'] = result.stdout
+        self.result['formatted'] = result.stdout.split("\n")
         self.result["error"] = self.result.get("error", "") + result.stderr
         return self.result
 
@@ -194,11 +145,10 @@ class zddl(object):
         """
         self.result = {}
         response = None
-    
+        param_string = "BMP,DFS3ID00,DFSCP001,,,,,,,,,,,IMS1"
         zddl_utility_fields = self._build_zddl_statements()
-        response = MVSCmd.execute(
-            zddl.ZDDL_UTILITY, zddl_utility_fields, verbose=True)
+        ## mvs_auth to be true
+        response = MVSCmd.execute_authorized(
+            zddl.ZDDL_UTILITY, zddl_utility_fields, param_string, verbose=True)
         self.result = self.combine_results(response)
-        # print("self.result: ")
-        # print(self.result)
         return self.result

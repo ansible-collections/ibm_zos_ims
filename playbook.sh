@@ -2,7 +2,7 @@
 #rm -rf ibm-ibm_zos_ims-*.tar.gz; ansible-galaxy collection build; ansible-galaxy collection install -f ibm-ibm_zos_ims-*
 
 # # Installs directory from galaxy
-# ansible-galaxy collection install -fc ibm.ibm_zos_core:1.4.0
+# ansible-galaxy collection install -fc ibm.ibm_zos_core:1.5.0
 
 # Builds IMS Collection locally
 ansible-galaxy collection build ./ --force

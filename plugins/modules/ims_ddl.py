@@ -57,7 +57,7 @@ options:
       - The steplib parameter can also be specified in the target inventory's environment_vars.
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     type: list
-    required: False
+    required: false
     elements: str
   sql_input:
     description:
@@ -68,15 +68,8 @@ options:
         - Cannot mix FB and VB data sets.
         - Cannot have concatenated FB data sets with different LRECLs.
         - Cannot have VB data sets concatenated with inline.
-    type: list
+    type: str
     required: true
-    elements: str
-  # control_statements:
-  #   description:
-  #     - The control statement parameters.
-  #   type: dict
-  #   required: false
-  #   suboptions:
   verbose:
     description:
       - Specifies that the DFS3ID00 utility will print full text of the DDL statements in the job log.
@@ -123,9 +116,7 @@ EXAMPLES = '''
       - SOME.IMS.SDFSRESL
     proclib:
       - SOME.IMS.PROCLIB
-    sql_input:
-      - DROP PROGRAMVIEW DYNPSB;
-      - COMMIT DDL;
+    sql_input: SOME.IMS.SQL
 
 - name: Example of DDL statements are in a dataset
   ims_data_definition:
@@ -137,9 +128,8 @@ EXAMPLES = '''
       - SOME.IMS.SDFSRESL
     proclib:
       - SOME.IMS.PROCLIB
-    sql_input:
-      - USER1.DDL(DEDBJN21)
-      - USER.DDL(DEDBJN41)
+    sql_input: SOME.IMS.SQL
+     
 
 - name: Example of DDL statements in which VERBOSE and AUTOCOMMIT control options are specified
   ims_data_definition:
@@ -151,9 +141,7 @@ EXAMPLES = '''
       - SOME.IMS.SDFSRESL
     proclib:
       - SOME.IMS.PROCLIB
-    sql_input:
-    	- USER1.DDL(TESTDB01)
-      - USER.DDL(TESTPSB1)
+    sql_input: SOME.IMS.SQL
     verbose: true
     auto_commit: true
 
@@ -167,9 +155,7 @@ EXAMPLES = '''
       - SOME.IMS.SDFSRESL
     proclib:
       - SOME.IMS.PROCLIB
-    sql_input:
-      - USER1.DDL(TESTDB02)
-      - USER.DDL(TESTPSB2)
+    sql_input: SOME.IMS.SQL
     simulate: true
 
 - name: Example of Data sets concatenated with inline on IMSSQL DD
@@ -182,16 +168,7 @@ EXAMPLES = '''
       - SOME.IMS.SDFSRESL
     proclib:
       - SOME.IMS.PROCLIB
-    sql_input:
-      - CREATE DATABASE DEMODB1;
-      - CREATE TABLE T1(C1 INT PRIMARY KEY);
-      - USER.DDL(TESTDB02)
-      - USER.DDL(TESTDB03)
-      - DROP PROGRAMVIEW DEMOPSB1 IF EXISTS;
-      - CREATE PROGRAMVIEW DEMOPSB1
-      - (CREATE SCHEMA S1 USING DEMODB1 AS S1
-      - (CREATE SENSEGVIEW T1)
-      - ) LANGASSEM;
+    sql_input: SOME.IMS.SQL
     auto_commit: true
 
 
@@ -224,6 +201,7 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_m
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.zddl import zddl  # pylint: disable=import-error
 
+
 module = None
 
 def run_module():
@@ -236,8 +214,7 @@ def run_module():
         reslib=dict(type="list", elements="str", required=False),
         proclib=dict(type="list", elements="str", required=True),
         steplib=dict(type="list", elements="str", required=False),
-        sql_input=dict(type="list", elements="str", required=True),
-        # control_statements=dict(type="dict", required=False)
+        sql_input=dict(type="str", required=True),
         verbose=dict(type="bool", required=False),
         auto_commit=dict(type="bool", required=False),
         simulate=dict(type="bool", required=False),
@@ -268,8 +245,7 @@ def run_module():
         reslib=dict(arg_type="list", elements="str", required=False),
         steplib=dict(arg_type="list", elements="str", required=False),
         proclib=dict(arg_type="list", elements="str", required=True),
-        sql_input=dict(arg_type="list", elements="str", required=True),
-        # control_statements=dict(arg_type="dict", required=False)
+        sql_input=dict(arg_type="str", required=True),
         verbose=dict(arg_type="bool", required=False),
         auto_commit=dict(arg_type="bool", required=False),
         simulate=dict(arg_type="bool", required=False),
@@ -287,7 +263,6 @@ def run_module():
     steplib = parsed_args.get("steplib")
     proclib = parsed_args.get("proclib")
     sql_input = parsed_args.get("sql_input")
-    # control_statements = parsed_args.get("control_statements")
     verbose = parsed_args.get("verbose")
     auto_commit = parsed_args.get("auto_commit")
     simulate = parsed_args.get("simulate")
@@ -316,15 +291,12 @@ def run_module():
           steplib,
           proclib,
           sql_input,
-          # control_statements
           verbose,
           auto_commit,
           simulate,
           create_program_view
         )
         response = zddl_obj.execute()
-        # print("response")
-        # print(response)
 
         if response.get('rc') and int(response.get('rc')) > 4:
                 result['changed'] = False
