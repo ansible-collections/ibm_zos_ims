@@ -163,8 +163,8 @@ class catalog(object):
                 self.module.fail_json(**self.result)
         else:
             if self.parsed_args.get("buffer_pool_param_dataset") is not None and self.parsed_args.get("dfsdf_member") is not None:
-                dfsdfxxx = self.parsed_args.get("dfsdf_member")
-                self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,{0},{1},{2},,,,,,,,,,,'DFSDF={3}'".format(dbrc, irlm_flag, irlm_id, dfsdfxxx)
+                dfsdf_member = self.parsed_args.get("dfsdf_member")
+                self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,{0},{1},{2},,,,,,,,,,,'DFSDF={3}'".format(dbrc, irlm_flag, irlm_id, dfsdf_member)
             else: 
                 if self.parsed_args.get("buffer_pool_param_dataset") is None:
                     self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."
@@ -323,8 +323,8 @@ class catalog(object):
                 self.module.fail_json(**self.result)
         else: 
             if self.parsed_args.get("buffer_pool_param_dataset") is not None and self.parsed_args.get("dfsdf_member") is not None:
-                dfsdfxxx = self.parsed_args.get("dfsdf_member")
-                self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,{1},{2},{3},,,,,,,,,,,'DFSDF={4}'".format(mode, dbrc, irlm_flag, irlm_id, dfsdfxxx)
+                dfsdf_member = self.parsed_args.get("dfsdf_member")
+                self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,{1},{2},{3},,,,,,,,,,,'DFSDF={4}'".format(mode, dbrc, irlm_flag, irlm_id, dfsdf_member)
             else: 
                 if self.parsed_args.get("buffer_pool_param_dataset") is None:
                     self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."

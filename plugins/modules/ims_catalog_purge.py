@@ -69,7 +69,7 @@ options:
     required: false
   dfsdf_member: 
     description:
-      - The suffix of the DFSDFxxx member where the CATALOG section is defined
+      - The DFSDFxxx member in the IMS.PROCLIB data set where the CATALOG section is defined. For example, desdf_member: "CAT" specifies the DFSDFCAT member of the PROCLIB data set.
     type: str
     required: false
   primary_log_dataset:
