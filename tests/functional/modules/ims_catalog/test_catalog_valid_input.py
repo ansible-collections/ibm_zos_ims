@@ -10,7 +10,7 @@ from ibm_zos_ims.tests.functional.module_utils.ims_test_catalog_utils import loa
 __metaclass__ = type
 
 
-# 1 - In populate test case, we check that the length of the dfsdf member can't be more than 3 characters
+# 1 - In populate test case, we use the valid default case for the module
 def test_populate_valid_default(ansible_zos_module):
     hosts = ansible_zos_module
     load_catalog(hosts,
@@ -29,7 +29,7 @@ def test_populate_valid_default(ansible_zos_module):
                  rc=0
                  ) 
     
-# 2 - In purge test case, we check that the length of the dfsdf member can't be more than 3 characters
+# 2 - In purge test case, we use the valid default case for the module
 def test_purge_valid_default(ansible_zos_module):
     hosts = ansible_zos_module
     purge_catalog(hosts,
