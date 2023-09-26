@@ -128,9 +128,9 @@ class zddl(object):
         if self.result is None:
             self.result = {}
         self.result['rc'] = max(self.result.get("rc", -1), result.rc)
-        self.result["output"] = self.result.get("output", "") + result.stdout
+        # self.result["output"] = self.result.get("output", "") + result.stdout
         # self.result['unformatted'] = result.stdout
-        self.result['formatted'] = result.stdout.split("\n")
+        self.result['content'] = result.stdout.split("\n")
         self.result["error"] = self.result.get("error", "") + result.stderr
         return self.result
 
@@ -149,6 +149,6 @@ class zddl(object):
         zddl_utility_fields = self._build_zddl_statements()
         ## mvs_auth to be true
         response = MVSCmd.execute_authorized(
-            zddl.ZDDL_UTILITY, zddl_utility_fields, param_string, verbose=True)
+            zddl.ZDDL_UTILITY, zddl_utility_fields, param_string, verbose=False)
         self.result = self.combine_results(response)
         return self.result

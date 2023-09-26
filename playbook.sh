@@ -10,7 +10,7 @@ ansible-galaxy collection build ./ --force
 ansible-galaxy collection install ibm-*.tar.gz -c --force-with-deps
 
 # Installs directory from galaxy
-ansible-galaxy collection install -fc ibm.ibm_zos_core:1.4.0
+ansible-galaxy collection install -fc ibm.ibm_zos_core:1.5.0
 
 # Installs loacl tar ball
 #ansible-galaxy collection install -f ibm-ibm_zos_core-*
