@@ -68,11 +68,11 @@ class zddl(object):
             raise TypeError(em.INCORRECT_SQL_INPUT_TYPE)
         if self.verbose and not isinstance(self.verbose, bool):
             raise TypeError(em.INCORRECT_VERBOSE_TYPE)
-        if self.verbose and not isinstance(self.auto_commit, bool):
+        if self.auto_commit and not isinstance(self.auto_commit, bool):
             raise TypeError(em.INCORRECT_AUTO_COMMIT_TYPE)
-        if self.verbose and not isinstance(self.simulate, bool):
+        if self.simulate and not isinstance(self.simulate, bool):
             raise TypeError(em.INCORRECT_SIMULATE_TYPE)
-        if self.verbose and not isinstance(self.create_program_view, bool):
+        if self.create_program_view and not isinstance(self.create_program_view, bool):
             raise TypeError(em.INCORRECT_CREATE_PROGRAM_VIEW)
 
     def _build_zddl_statements(self):
