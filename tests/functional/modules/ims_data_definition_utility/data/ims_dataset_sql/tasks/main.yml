@@ -1,0 +1,200 @@
+---
+# tasks file for ims_dataset_sql_services
+- name: IMS SQL Dataset Operations
+  collections:
+    - ibm.ibm_zos_core
+    - ibm.ibm_zos_ims
+
+  block: 
+    - when: sql_datasets == "allocate"
+      block:
+
+        - ansible.builtin.set_fact:
+            eager_role_path: '{{role_path}}'
+            sql_single: '{{ role_path }}/templates/sql_single.txt'
+            sql_mid: '{{ role_path }}/templates/sql_mid.txt'
+            sql_full: '{{ role_path }}/templates/sql_full.txt'
+            sql_empty: '{{ role_path }}/templates/sql_empty.txt'
+            sql_firstfull: '{{ role_path }}/templates/CatalogDbSample.ddl'
+            sql_secondfull: '{{ role_path }}/templates/W1D150P_WITH_COMMIT.ddl'
+            sql_delete: '{{ role_path }}/templates/sql_delete.txt'
+            sql_sports: '{{ role_path }}/templates/sql_sports.txt'
+            sql_invalid: '{{ role_path }}/templates/sql_invalid.txt'
+            sql_mixed_valid: '{{ role_path }}/templates/sql_mixed_valid.txt'
+            sql_no_commit: '{{ role_path }}/templates/sql_no_commit.txt'
+            sql_invalid_control_state: '{{ role_path }}/templates/sql_invalid_control_state.txt'
+
+
+        - name: Delete IMS SQL Libs
+          zos_data_set:
+            batch:
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLSIN'
+                state: absent
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLMID'
+                state: absent
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLFUL'
+                state: absent
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLMPT'
+                state: absent
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLFRS1'
+                state: absent
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLFRS2'
+                state: absent
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLDLT'
+                state: absent
+
+        - name: Allocate SQL Input sequential datasets
+          zos_data_set:
+            batch:   
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLFRS1'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLFRS2'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true  
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLSIN'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLMID'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true  
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLFUL'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true  
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLMPT'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true  
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLDLT'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLSPRT'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true  
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLINVLD'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true  
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLMXVL'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true  
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLNCM'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true 
+              - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLNCS'
+                volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+                record_format: VB
+                record_length: 6140
+                block_size: 6144
+                space_primary: 1
+                space_secondary: 1
+                space_type: CYL
+                type: SEQ
+                state: present
+                replace: true   
+
+        - name: Copy files content to datasets
+          zos_copy:
+            src: "{{ item.src }}"
+            dest: "{{ item.dest }}"
+            force: True
+            volume: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+          loop:
+            - { src: '{{ sql_single }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLSIN' }
+            - { src: '{{ sql_mid }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLMID' }
+            - { src: '{{ sql_full }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLFUL' }
+            - { src: '{{ sql_empty }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLMPT' }
+            - { src: '{{ sql_firstfull }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLFRS1' }
+            - { src: '{{ sql_secondfull }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLFRS2' }
+            - { src: '{{ sql_delete }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLDLT' }
+            - { src: '{{ sql_sports }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLSPRT' }
+            - { src: '{{ sql_invalid }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLINVLD' }
+            - { src: '{{ sql_mixed_valid }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLMXVL' }
+            - { src: '{{ sql_no_commit }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLNCM' }
+            - { src: '{{ sql_invalid_control_state }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLNCS' }

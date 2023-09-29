@@ -1,0 +1,86 @@
+DROP DATABASE SPORTS#1 IF EXISTS;
+CREATE DATABASE SPORTS#1;
+CREATE TABLE SPORTSLEAGUE(      
+    TITLE CHAR(20) PRIMARY KEY, 
+    COUNTRY CHAR(20)            
+    ) INTERNALNAME SPORTSLG;    
+
+CREATE TABLE SEASON(                                  
+    SEASONID CHAR(50) INTERNALNAME SID PRIMARY KEY,   
+    FOREIGN KEY REFERENCES SPORTSLEAGUE);     
+        
+CREATE TABLE TEAM(                 
+    NAME CHAR(20),                 
+    COUNTRY CHAR(20),              
+    PRIMARY KEY(NAME),             
+    FOREIGN KEY REFERENCES SEASON);
+
+CREATE TABLE PLAYER(                                           
+    PLAYERID CHAR(20) INTERNALNAME PID PRIMARY KEY,            
+    NAME CHAR(50),                                             
+    FOREIGN KEY REFERENCES TEAM);                              
+                                                               
+CREATE TABLE CONTRACT(                                         
+    CONTRACTID CHAR(20) INTERNALNAME CID PRIMARY KEY,          
+    DETAILS CHAR(100),                                         
+    FOREIGN KEY REFERENCES PLAYER);                            
+                                                               
+CREATE TABLE AWARD(                                            
+    AWARDID CHAR(20) INTERNALNAME AID PRIMARY KEY,             
+    PRICEAMOUNT INT,                                           
+    FOREIGN KEY REFERENCES PLAYER);                            
+                                                               
+CREATE TABLE INJURY(                                           
+    INJURYID CHAR(20) INTERNALNAME IID PRIMARY KEY,            
+    DETAILS CHAR(100),                                         
+    FOREIGN KEY REFERENCES PLAYER);                            
+
+CREATE TABLE TREATMENT(                                      
+    ID CHAR(20) INTERNALNAME TID PRIMARY KEY,                
+    COST INT,                                                
+    FOREIGN KEY REFERENCES INJURY                            
+    ) INTERNALNAME TREATMNT;                                 
+                                                             
+CREATE TABLE DOCTOR(                                         
+    DOCTORID CHAR(20) INTERNALNAME DID PRIMARY KEY,          
+    ADDRESS CHAR(100),                                       
+    FOREIGN KEY REFERENCES TREATMENT);                       
+                                                             
+CREATE TABLE MATCH(                                          
+    MATCHID CHAR(50) INTERNALNAME MID PRIMARY KEY,           
+    FOREIGN KEY REFERENCES SEASON);                          
+                                                             
+CREATE TABLE SQUAD(                                          
+    SQUADID CHAR(20) INTERNALNAME SID PRIMARY KEY,           
+    DEATILS CHAR(100),                                       
+    FOREIGN KEY REFERENCES MATCH);                           
+
+CREATE TABLE OFFICIAL(                                  
+    OFFICIALID CHAR(20) INTERNALNAME OID PRIMARY KEY,   
+    NAME CHAR(50),                                      
+    FOREIGN KEY REFERENCES MATCH);                      
+                                                        
+CREATE TABLE SCORECARD(                                 
+    SCOREID CHAR(20) INTERNALNAME SID PRIMARY KEY,      
+    DETAILS CHAR(100),                                  
+    FOREIGN KEY REFERENCES MATCH                        
+    ) INTERNALNAME SCARD;                               
+
+DROP PROGRAMVIEW PSB#1 IF EXISTS;
+CREATE PROGRAMVIEW PSB#1(             
+    CREATE SCHEMA S1 USING SPORTS#1(  
+        CREATE SENSEGVIEW SPORTSLG,   
+        CREATE SENSEGVIEW SEASON,     
+        CREATE SENSEGVIEW TEAM,       
+        CREATE SENSEGVIEW PLAYER,     
+        CREATE SENSEGVIEW CONTRACT,   
+        CREATE SENSEGVIEW AWARD,      
+        CREATE SENSEGVIEW INJURY,     
+        CREATE SENSEGVIEW TREATMNT,   
+        CREATE SENSEGVIEW DOCTOR,     
+        CREATE SENSEGVIEW MATCH,      
+        CREATE SENSEGVIEW SQUAD,      
+        CREATE SENSEGVIEW OFFICIAL,   
+        CREATE SENSEGVIEW SCARD));    
+
+COMMIT DDL;
