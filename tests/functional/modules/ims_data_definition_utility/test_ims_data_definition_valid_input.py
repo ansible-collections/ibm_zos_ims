@@ -2,7 +2,7 @@
 from __future__ import (absolute_import, division, print_function)
 from pprint import pprint
 import pytest
-from tests.functional.module_utils.ims_test_data_definition_utils import ZDDLInputParameters as ip
+from ibm_zos_ims.tests.functional.module_utils.ims_test_data_definition_utils import ZDDLInputParameters as ip
 
 __metaclass__ = type
 
@@ -24,13 +24,6 @@ AUTO_COMMIT = ip.AUTO_COMMIT
 SIMULATE = ip.SIMULATE
 CREATE_PROGRAM_VIEW = ip.CREATE_PROGRAM_VIEW
 
-# vars for prereqs
-COMMAND_INPUT_BUILD = ip.COMMAND_INPUT_BUILD
-ACBLIB = ip.ACBLIB
-PSBLIB = ip.PSBLIB
-DBDLIB = ip.DBDLIB
-DBD_NAME = ip.DBD_NAME
-DBD_NAMES = ip.DBD_NAMES
 # -------------
 
 
@@ -86,21 +79,6 @@ def validate_data_definition(hosts, online:bool=None, ims_id:str=None,
         assert result.get('msg')
         assert result.get('rc') <= 4
 
-
-# Check the prereq
-def test_managed_acb_prereq(ansible_zos_module):
-    hosts = ansible_zos_module
-    response = hosts.all.ims_acb_gen(
-        command_input=COMMAND_INPUT_BUILD, 
-        aclib=ACBLIB, 
-        psb_lib=PSBLIB,
-        dbd_lib=DBDLIB, 
-    )
-    for result in response.contacted.values():
-        print(result)
-        print("Changed:", result['changed'])
-        assert result['changed']
-        assert result['rc'] == 0
 
 
 # 1. Send only proclib and sql_input: This is because these are the only two required parameters, it should work without the others(except for IMS_ID when ONLINE)

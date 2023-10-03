@@ -2,9 +2,9 @@
 from __future__ import (absolute_import, division, print_function)
 from pprint import pprint
 import pytest
-from tests.functional.module_utils.ims_test_data_definition_utils import ZDDLInputParameters as ip
-from tests.functional.module_utils.ims_test_gen_utils import DBDInputParameters as dbd
-from tests.functional.module_utils.ims_test_gen_utils import PSBInputParameters as psb
+from ibm_zos_ims.tests.functional.module_utils.ims_test_data_definition_utils import ZDDLInputParameters as ip
+from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import DBDInputParameters as dbd
+from ibm_zos_ims.tests.functional.module_utils.ims_test_gen_utils import PSBInputParameters as psb
 
 __metaclass__ = type
 
