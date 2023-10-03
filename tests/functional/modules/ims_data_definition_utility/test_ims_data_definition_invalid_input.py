@@ -40,7 +40,17 @@ IRLM_ID = ip.IRLM_ID            # Cannot be specified if ONLINE
 RESLIB = ip.RESLIB           
 PROCLIB = ip.PROCLIB 
 STEPLIB = ip.STEPLIB
-SQL_INPUT = ip.SQL_INPUT 
+
+# ------------- SQL Variables
+SQL_FUll1 = "IMSTESTL.SEQ.SQLFRS1" 
+SQL_SIMPLE = "IMSTESTL.SEQ.SQLSIN" 
+SQL_SPORT = "IMSTESTL.SEQ.SQLSPRT"  
+SQL_DELETE = "IMSTESTL.SEQ.SQLDLT"  
+SQL_EMPTY = "IMSTESTL.SEQ.SQLMPT"
+SQL_INVALID = "IMSTESTL.SEQ.SQLINVLD"
+SQL_MIXED = "IMSTESTL.SEQ.SQLMXVL"
+SQL_NO_COMMIT = "IMSTESTL.SEQ.SQLNCM" 
+SQL_NO_DB_PRGVIEW = "IMSTESTL.SEQ.SQLNCs" 
 
 # Control statements
 VERBOSE = ip.VERBOSE
@@ -58,7 +68,6 @@ INVALID_SQL_INPUT = ip.INVALID_SQL_INPUT
 EMPTY_SQL_INPUT = ip.EMPTY_SQL_INPUT
 MIXED_SQL_INPUT = ip.MIXED_SQL_INPUT
 # -------------
-
 
 def validate_data_definition(hosts, online:bool=None, ims_id:str=None,
                             irlm_id:str=None, reslib:list=None, proclib:list=None,
@@ -101,7 +110,7 @@ def test_ims_data_definition_invalid_ims_id(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=ONLINE, ims_id=INVALID_IMS_ID,
                             irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
-                            steplib=STEPLIB, sql_input=SQL_INPUT, verbose=VERBOSE,
+                            steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 # 2. Invalid IRLM ID: When OFFLINE, verify that the IRLM_ID won't be accepted if the value is inconrrect
@@ -109,7 +118,7 @@ def test_ims_data_definition_invalid_irlm_id(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=OFFLINE, ims_id=None,
                             irlm_id=INVALID_IRLM_ID, reslib=RESLIB, proclib=PROCLIB,
-                            steplib=STEPLIB, sql_input=SQL_INPUT, verbose=VERBOSE,
+                            steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 # 3. Invalid RESLIB: Validate that an existent/valid reslib is needed when specified
@@ -117,7 +126,7 @@ def test_ims_data_definition_invalid_reslib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=INVALID_RESLIB, proclib=PROCLIB,
-                            steplib=STEPLIB, sql_input=SQL_INPUT, verbose=VERBOSE,
+                            steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 
@@ -126,7 +135,7 @@ def test_ims_data_definition_invalid_proclib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=RESLIB, proclib=INVALID_PROCLIB,
-                            steplib=STEPLIB, sql_input=SQL_INPUT, verbose=VERBOSE,
+                            steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 
@@ -135,7 +144,7 @@ def test_ims_data_definition_invalid_steplib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
-                            steplib=INVALID_STEPLIB, sql_input=SQL_INPUT, verbose=VERBOSE,
+                            steplib=INVALID_STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 # 6. Invalid SQL Input: SQL_input needs to use sql commands as arguments, this test case check the user only provides this kind of arguments
@@ -143,7 +152,7 @@ def test_ims_data_definition_invalid_sql(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
-                            steplib=STEPLIB, sql_input=INVALID_SQL_INPUT, verbose=VERBOSE,
+                            steplib=STEPLIB, sql_input=SQL_INVALID, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 # 7. Empty SQL Input: SQL_input is required, so here we make sure that the given value cannot be an empty list
@@ -151,7 +160,7 @@ def test_ims_data_definition_empty_sql(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
-                            steplib=STEPLIB, sql_input=None, verbose=VERBOSE,
+                            steplib=STEPLIB, sql_input=SQL_EMPTY, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 # 8. Valid and invalid SQL Input: This make sure that the reading of one valid sql command doesn't cause that the whole list be valid
@@ -159,7 +168,7 @@ def test_ims_data_definition_valid_invalid_sql(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
-                            steplib=STEPLIB, sql_input=MIXED_SQL_INPUT, verbose=VERBOSE,
+                            steplib=STEPLIB, sql_input=SQL_MIXED, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 
@@ -224,20 +233,33 @@ def test_ims_data_definition_valid_invalid_sql(ansible_zos_module):
 #                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 # 16. No Proclib: Proclib is required, so here we check that it cannot be None when running ddl
-def test_ims_data_definition_invalid_ims_id(ansible_zos_module):
+def test_ims_data_definition_invalid_no_given_proclib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=RESLIB, proclib=None,
-                            steplib=STEPLIB, sql_input=SQL_INPUT, verbose=VERBOSE,
+                            steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
 # 17. No Sql_Input: SQL_input is required, so here we check that it cannot be None when running ddl
-def test_ims_data_definition_invalid_ims_id(ansible_zos_module):
+def test_ims_data_definition_invalid_no_given_sql(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=None, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
+# 18. No commit: SQL dataset need the commit ddl command, so here we check that if is not in the dataset, it fails
+def test_ims_data_definition_no_commit(ansible_zos_module): # THIS IS VALID
+    hosts = ansible_zos_module
+    validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
+                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            steplib=STEPLIB, sql_input=SQL_NO_COMMIT, verbose=VERBOSE,
+                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
 
-
+# 19. Program view with no database: This test case try to create a program view on an unexistent database 
+def test_ims_data_definition_invalid_prgview_no_database(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_data_definition(hosts, online=ONLINE, ims_id=IMS_ID,
+                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            steplib=STEPLIB, sql_input=SQL_NO_DB_PRGVIEW, verbose=VERBOSE,
+                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
