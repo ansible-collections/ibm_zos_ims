@@ -8,7 +8,7 @@ __metaclass__ = type
 import pytest
 from ibm_zos_ims.tests.helpers.ztest import ZTestHelper
 import sys
-from mock import MagicMock
+from unittest import mock
 import importlib
 
 
