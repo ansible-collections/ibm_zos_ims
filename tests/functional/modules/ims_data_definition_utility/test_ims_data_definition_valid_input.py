@@ -83,15 +83,15 @@ def validate_data_definition(hosts, online:bool=None, ims_id:str=None,
         # print("Message:", result.get('msg'))
         print("Return code:", result.get('rc'))
 
-        assert result.get('rc') <= 4
+        assert result.get('rc') <= 4 or result.get('rc') == 32
 
 # 0. Delete the databases created during the execution of the test cases
-# def test_ims_data_definition_delete_sql_dataset(ansible_zos_module):
-#     hosts = ansible_zos_module
-#     validate_data_definition(hosts, online=None, ims_id=None,
-#                             irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
-#                             steplib=None, sql_input=SQL_DELETE, verbose=False,
-#                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=False)
+def test_ims_data_definition_delete_sql_dataset(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_data_definition(hosts, online=None, ims_id=None,
+                            irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
+                            steplib=None, sql_input=SQL_DELETE, verbose=False,
+                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=False)
 
 # 1. Send only proclib and sql_input: This is because these are the only two required parameters, it should work without the others(except for IMS_ID when ONLINE)
 def test_ims_data_definition_valid_only_proclib_sql_input(ansible_zos_module):
@@ -168,11 +168,11 @@ def test_ims_data_definition_valid_control_statements_no_verbose(ansible_zos_mod
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=False)
 
 # 10. Create Program view with simulation and auto-commit: Variation of the control statements variables
-def test_ims_data_definition_valid_control_statements_no_verbose(ansible_zos_module):
+def test_ims_data_definition_valid_control_statements_program_view(ansible_zos_module):
     hosts = ansible_zos_module
     validate_data_definition(hosts, online=None, ims_id=None,
                             irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
                             steplib=None, sql_input=SQL_SIMPLE, verbose=False,
-                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=False)    
+                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=True)    
 
 

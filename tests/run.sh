@@ -18,3 +18,5 @@ export ANSIBLE_CONFIG=${current_dir}/ansible.cfg
 python3 -m pytest --host-pattern=all --zinventory="${1:-test_config.yml}" "$2" -vvv
 
 # python3 -m pytest --zinventory="${1:-test_config.yml}" "$2" -vvv
+
+# ./run.sh test_config.yml functional/modules/ims_data_definition_utility/test_ims_data_definition_valid_input.py
