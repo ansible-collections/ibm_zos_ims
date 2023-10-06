@@ -19,4 +19,4 @@ python3 -m pytest --host-pattern=all --zinventory="${1:-test_config.yml}" "$2" -
 
 # python3 -m pytest --zinventory="${1:-test_config.yml}" "$2" -vvv
 
-# ./run.sh test_config.yml functional/modules/ims_data_definition_utility/test_ims_data_definition_valid_input.py
+# ./run.sh test_config.yml functional/modules/ims_zddl/test_ims_zddl_valid_input.py
