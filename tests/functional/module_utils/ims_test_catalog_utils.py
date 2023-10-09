@@ -6,7 +6,7 @@ __metaclass__ = type
 
 
 def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, proclib, primary_log_dataset,
-                 buffer_pool_param_dataset, acb_lib, modstat=None, online_batch=None, dbrc=None, ims_id=None, irlm_id=None,
+                 buffer_pool_param_dataset, dfsdf_member, acb_lib, modstat=None, online_batch=None, dbrc=None, ims_id=None, irlm_id=None,
                  control_statements=None, bootstrap_dataset=None,
                  directory_datasets=None, temp_acb_dataset=None, directory_staging_dataset=None,
                  secondary_log_dataset=None, sysabend=None, check_timestamp=None, rc=0, changed=True):
@@ -26,6 +26,7 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
         sysabend=sysabend,
         check_timestamp=check_timestamp,
         buffer_pool_param_dataset=buffer_pool_param_dataset,
+        dfsdf_member=dfsdf_member,
         mode=mode,
         control_statements=control_statements,
         bootstrap_dataset=bootstrap_dataset,
@@ -37,7 +38,7 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
     )
     for result in response.contacted.values():
         pprint(result)
-        assert result['rc'] == rc
+        assert result['rc'] == rc # continue the execution while the rc equals to 0
         if rc == 0:
             assert validation_msg in result['content']
         else:
@@ -45,7 +46,7 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
 
 
 def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, steplib, reslib, proclib,
-                  buffer_pool_param_dataset, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, sysut1=None, update_retention_criteria=None,
+                  buffer_pool_param_dataset, dfsdf_member, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, sysut1=None, update_retention_criteria=None,
                   delete=None, managed_acbs=None, delete_dbd_by_version=None, resource_chkp_freq=None, mode='PURGE', rc=0, changed=True):
 
     response = hosts.all.ims_catalog_purge(
@@ -62,6 +63,7 @@ def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, 
         update_retention_criteria=update_retention_criteria,
         delete_dbd_by_version=delete_dbd_by_version,
         buffer_pool_param_dataset=buffer_pool_param_dataset,
+        dfsdf_member=dfsdf_member,
         mode=mode,
         primary_log_dataset=primary_log_dataset,
         delete=delete,
@@ -92,6 +94,7 @@ class CatalogInputParameters():
     PROCLIB = HLQ1 + HLQ2 + "PROCLIB"
     RESLIB = [HLQ1 + HLQ2 + "SDFSRESL"]
     BUFFERPOOL = HLQ1 + HLQ2 + "PROCLIB(DFSVSMHP)"
+    DFSDF_DEFAULT = "CAT"
     MODSTAT = HLQ1 + HLQ2 + "MODSTAT"
     PSB_NAME = ["PGSAM1"]
     LOADMODE = "LOAD"
