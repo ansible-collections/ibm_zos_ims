@@ -24,23 +24,22 @@ options:
   online:
     description:
       - Indicates if this utility is to be run in a BMP region.
+      - If online is true, its BMP enabled.
+      - online is false is DLI that is not supported currently.
     type: bool
     required: false
     default: true
   ims_id:
     description:
       - The identifier of the IMS system on which the job is to be run.
-      - Required if online is true
+      - Required if online is true.
     type: str
     required: false
-  irlm_id:
-    description:
-      - The IRLM ID if IRLM is enabled. Cannot be specified when online is true.
-    type: str
-    required: false
+    default: true
   reslib:
     description:
-      - Points to an authorized library that contains the IMS SVC modules.
+      - Points to an authorized library that contains the 
+        IMS SVC modules(https://www.ibm.com/docs/en/ims/15.3.0?topic=zos-ims-svc-modules).(Get the generic link from ID team)
     type: list
     required: false
     elements: str
@@ -62,12 +61,10 @@ options:
   sql_input:
     description:
       - Defines the SQL DDL statements to be run.
-      - Can specify the DDL statements inline or in a data set.
-      - Any data sets concatenated with inline must be FB LRECL 80.
+      - Can specify the DDL statements in a dataset or dataset member.
       - The following concatenations are not supported:
         - Cannot mix FB and VB data sets.
         - Cannot have concatenated FB data sets with different LRECLs.
-        - Cannot have VB data sets concatenated with inline.
     type: str
     required: true
   verbose:
@@ -88,10 +85,10 @@ options:
         commit level validations, block builder validations, and DROP DDL cross-reference validations.
     type: bool
     required: false
-  create_program_view:
+  dynamic_program_view:
     description:
       - Directly maps to DYNAMICPROGRAMVIEW=(CREATEYES | CREATENO) of IMS Data Definition utility utility.
-      - Specifies that the DFS3ID00 utility will automatically Import all the input CREATE PROGRAMVIEWs.
+      - Specifies that the DFS3ID00 utility will automatically import all the input CREATE PROGRAMVIEWs.
       - If CREATEYES is specified, then PDIR will be created with the DOPT flag ON.
       - If CREATENO is specified, then PDIR will not be created.
     type: bool
@@ -103,21 +100,12 @@ notes:
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
   - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB data set.
   - Specifying only I(reslib) without I(steplib) is not supported.
+  - Currently ddl error messages are returned within the content block of the module response.
+  - Currently this module only supports running the DDL utility in a BMP region (online: true).
+
 '''
 
 EXAMPLES = '''
-- name: Example of DDL statements are specified inline
-  ims_data_definition:
-    online: True
-    ims_id: IMS1
-    reslib:
-      - SOME.IMS.SDFSRESL
-    steplib:
-      - SOME.IMS.SDFSRESL
-    proclib:
-      - SOME.IMS.PROCLIB
-    sql_input: SOME.IMS.SQL
-
 - name: Example of DDL statements are in a dataset
   ims_data_definition:
     online: True
@@ -158,7 +146,7 @@ EXAMPLES = '''
     sql_input: SOME.IMS.SQL
     simulate: true
 
-- name: Example of Data sets concatenated with inline on IMSSQL DD
+- name: Example of DDL statements in which DYNAMIC_PROGRAM_VIEW control option is specified
   ims_data_definition:
     online: True
     ims_id: IMS1
@@ -169,8 +157,7 @@ EXAMPLES = '''
     proclib:
       - SOME.IMS.PROCLIB
     sql_input: SOME.IMS.SQL
-    auto_commit: true
-
+    dynamic_program_view: true
 
 '''
 
@@ -179,21 +166,27 @@ content:
   description: The standard output returned running the Data Definition module.
   type: str
   returned: sometimes
-  sample: entire block 
+  sample: entire block
 rc:
   description: The return code from the Data Definition utility.
   type: str
   returned: sometimes
   sample: '1'
+changed:
+  description:
+    - Indicates if any changes were made during module execution.
+    - True is always returned unless a module or failure has occurred.
+  returned: always
+  type: bool
 stderr:
   description: The standard error output returned from running the Data Definition utility.
   type: str
   returned: sometimes
 msg:
-  description: Messages returned from the Data Definition module.
+  description: Messages returned from the Data Definition Ansible module.
   type: str
   returned: sometimes
-  sample: You cannot define directory data sets, the bootstrap data set, or directory staging data sets with MANAGEDACBS=STAGE or MANAGEDACBS=UPDATE
+  sample: ZDDL execution is successful
 '''
 
 from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound  # pylint: disable=import-error

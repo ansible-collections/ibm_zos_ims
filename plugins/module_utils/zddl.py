@@ -132,23 +132,26 @@ class zddl(object):
         # self.result['unformatted'] = result.stdout
         self.result['content'] = result.stdout.split("\n")
         self.result["error"] = self.result.get("error", "") + result.stderr
+     
         return self.result
 
 
     def execute(self):
-        """Executes the DATA DEFINITION utility DFSRRC00 using the zos_mvs_raw module based on the user input.
+        """Executes the DATA DEFINITION utility DFS3ID00 using the mvscommand module based on the user input.
 
         Returns:
-          (dict): (1) rc:      Return Code returned by zos_mvs_raw module.
-                  (2) error:   The stderr returned by the zos_raw module.
-                  (3) output:  The original output provided by zos_raw.
+          (dict): (1) rc:      Return Code returned by mvscommand module.
+                  (2) error:   The stderr returned by the mvscommand module.
+                  (3) output:  The original output provided by mvscommand.
         """
         self.result = {}
         response = None
-        param_string = "BMP,DFS3ID00,DFSCP001,,,,,,,,,,,IMS1"
-        zddl_utility_fields = self._build_zddl_statements()
-        ## mvs_auth to be true
-        response = MVSCmd.execute_authorized(
-            zddl.ZDDL_UTILITY, zddl_utility_fields, param_string, verbose=False)
-        self.result = self.combine_results(response)
+        
+        if self.ims_id:
+            param_string = "BMP,DFS3ID00,DFSCP001,,,,,,,,,,," + self.ims_id
+            zddl_utility_fields = self._build_zddl_statements()
+            ## mvs_auth to be true
+            response = MVSCmd.execute_authorized(
+                zddl.ZDDL_UTILITY, zddl_utility_fields, param_string, verbose=False)
+            self.result = self.combine_results(response)
         return self.result
