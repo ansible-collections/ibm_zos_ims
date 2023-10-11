@@ -1,5 +1,3 @@
-# ansible-playbook -i inventories/zvm ims_data_definition_create_datasets.yml 
-# # ansible-playbook ims_data_definition_create_datasets.yml 
 ---
 - hosts: zvm
   collections:
@@ -9,7 +7,7 @@
   vars:
     PYZ: /allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz
     ZOAU: /zoau/v1.2.3
-    ansible_host: ec01105a.vmec.svl.ibm.com 
+    ansible_host: 
     ansible_user: omvsadm
     ansible_pipelining: yes
     ansible_python_interpreter: "{{ PYZ }}/bin/python3.9"
@@ -77,6 +75,17 @@
             space_secondary: 1
             space_type: CYL
             type: SEQ
+            state: present
+            replace: true
+          - name: '{{ DFS_AUTH_LIB_HLQ1 }}.PDS.SQLINP'
+            volumes: "{{ DFS_DS_VOLUME1 if not DFS_SMS_ENVIRONMENT else omit }}"
+            record_format: VB
+            record_length: 6140
+            block_size: 6144
+            space_primary: 1
+            space_secondary: 1
+            space_type: CYL
+            type: PDS
             state: present
             replace: true
           - name: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLSIN'
@@ -196,3 +205,4 @@
         - { src: '{{ sql_mixed_valid }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLMXVL' }
         - { src: '{{ sql_no_commit }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLNCM' }
         - { src: '{{ sql_invalid_control_state }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.SEQ.SQLNCS' }
+        - { src: '{{ sql_single }}', dest: '{{ DFS_AUTH_LIB_HLQ1 }}.PDS.SQLINP(INPMBR)' }

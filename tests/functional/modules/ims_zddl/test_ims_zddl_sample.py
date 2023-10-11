@@ -19,12 +19,12 @@ SQL_INPUT = "IMSTESTL.SEQ.SQLSIN"
 VERBOSE = ip.VERBOSE
 AUTO_COMMIT = ip.AUTO_COMMIT
 SIMULATE = ip.SIMULATE
-CREATE_PROGRAM_VIEW = ip.CREATE_PROGRAM_VIEW
+dynamic_programview = ip.dynamic_programview
 
 def validate_zddl(hosts, online:bool=None, ims_id:str=None,
                             irlm_id:str=None, reslib:list=None, proclib:list=None,
                             steplib:list=None, sql_input:list=None, verbose:bool=None,
-                            auto_commit:bool=None, simulate:bool=None, create_program_view:bool=None
+                            auto_commit:bool=None, simulate:bool=None, dynamic_programview:bool=None
                             ):
     arguments = {}
     if online:
@@ -47,8 +47,8 @@ def validate_zddl(hosts, online:bool=None, ims_id:str=None,
         arguments["auto_commit"] = auto_commit
     if simulate:
         arguments["simulate"] = simulate
-    if create_program_view:
-        arguments["create_program_view"] = create_program_view
+    if dynamic_programview:
+        arguments["dynamic_programview"] = dynamic_programview
     response = hosts.all.ims_ddl(**arguments)
     print("Result:", response)
     for result in response.contacted.values():
@@ -63,4 +63,4 @@ def test_ims_zddl(ansible_zos_module):
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=IRLM_ID, reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_INPUT, verbose=VERBOSE,
-                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, create_program_view=CREATE_PROGRAM_VIEW)
+                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
