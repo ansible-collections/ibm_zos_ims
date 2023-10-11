@@ -61,7 +61,7 @@ options:
     description:
       - Defines the SQL DDL statements to be run.
       - Can specify the DDL statements in a dataset or dataset member.
-      - The following concatenations are not supported:
+      - The following concatenations are not supported
         - Cannot mix FB and VB data sets.
         - Cannot have concatenated FB data sets with different LRECLs.
     type: str
