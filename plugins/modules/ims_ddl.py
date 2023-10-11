@@ -38,8 +38,7 @@ options:
     default: true
   reslib:
     description:
-      - Points to an authorized library that contains the 
-        IMS SVC modules(https://www.ibm.com/docs/en/ims/15.3.0?topic=zos-ims-svc-modules).(Get the generic link from ID team)
+      - Points to an authorized library that contains the IMS SVC modules.
     type: list
     required: false
     elements: str
@@ -101,7 +100,7 @@ notes:
   - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB data set.
   - Specifying only I(reslib) without I(steplib) is not supported.
   - Currently ddl error messages are returned within the content block of the module response.
-  - Currently this module only supports running the DDL utility in a BMP region (online: true).
+  - Currently this module only supports running the DDL utility in a BMP region (online is true).
 
 '''
 
@@ -117,8 +116,6 @@ EXAMPLES = '''
     proclib:
       - SOME.IMS.PROCLIB
     sql_input: SOME.IMS.SQL
-     
-
 - name: Example of DDL statements in which VERBOSE and AUTOCOMMIT control options are specified
   ims_data_definition:
     online: True
@@ -186,7 +183,7 @@ msg:
   description: Messages returned from the Data Definition Ansible module.
   type: str
   returned: sometimes
-  sample: Unsupported parameters for (ims_ddl) module: create_program_view. Supported parameters include: auto_commit, dynamic_programview, ims_id, irlm_id, online, proclib, reslib, simulate, sql_input, steplib, verbose.
+  sample: Unsupported parameters for (ims_ddl) module - create_program_view. Supported parameters include - auto_commit, dynamic_programview, ims_id, irlm_id, online, proclib, reslib, simulate, sql_input, steplib, verbose.
 '''
 
 from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound  # pylint: disable=import-error
