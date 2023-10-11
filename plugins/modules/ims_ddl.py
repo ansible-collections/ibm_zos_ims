@@ -85,7 +85,7 @@ options:
         commit level validations, block builder validations, and DROP DDL cross-reference validations.
     type: bool
     required: false
-  dynamic_program_view:
+  dynamic_programview:
     description:
       - Directly maps to DYNAMICPROGRAMVIEW=(CREATEYES | CREATENO) of IMS Data Definition utility utility.
       - Specifies that the DFS3ID00 utility will automatically import all the input CREATE PROGRAMVIEWs.
@@ -146,7 +146,7 @@ EXAMPLES = '''
     sql_input: SOME.IMS.SQL
     simulate: true
 
-- name: Example of DDL statements in which DYNAMIC_PROGRAM_VIEW control option is specified
+- name: Example of DDL statements in which DYNAMIC_PROGRAMVIEW control option is specified
   ims_data_definition:
     online: True
     ims_id: IMS1
@@ -157,7 +157,7 @@ EXAMPLES = '''
     proclib:
       - SOME.IMS.PROCLIB
     sql_input: SOME.IMS.SQL
-    dynamic_program_view: true
+    dynamic_programview: true
 
 '''
 
@@ -186,7 +186,7 @@ msg:
   description: Messages returned from the Data Definition Ansible module.
   type: str
   returned: sometimes
-  sample: ZDDL execution is successful
+  sample: Unsupported parameters for (ims_ddl) module: create_program_view. Supported parameters include: auto_commit, dynamic_programview, ims_id, irlm_id, online, proclib, reslib, simulate, sql_input, steplib, verbose.
 '''
 
 from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound  # pylint: disable=import-error
@@ -211,7 +211,7 @@ def run_module():
         verbose=dict(type="bool", required=False),
         auto_commit=dict(type="bool", required=False),
         simulate=dict(type="bool", required=False),
-        create_program_view=dict(type="bool", required=False, default=False),
+        dynamic_programview=dict(type="bool", required=False, default=False),
     )
 
     result = dict(
@@ -242,7 +242,7 @@ def run_module():
         verbose=dict(arg_type="bool", required=False),
         auto_commit=dict(arg_type="bool", required=False),
         simulate=dict(arg_type="bool", required=False),
-        create_program_view=dict(arg_type="bool", required=False,default=False)
+        dynamic_programview=dict(arg_type="bool", required=False,default=False)
     )
 
     # Parse the properties
@@ -259,7 +259,7 @@ def run_module():
     verbose = parsed_args.get("verbose")
     auto_commit = parsed_args.get("auto_commit")
     simulate = parsed_args.get("simulate")
-    create_program_view = parsed_args.get("create_program_view")
+    dynamic_programview = parsed_args.get("dynamic_programview")
 
     if not steplib:
         try:
@@ -287,7 +287,7 @@ def run_module():
           verbose,
           auto_commit,
           simulate,
-          create_program_view
+          dynamic_programview
         )
         response = zddl_obj.execute()
 

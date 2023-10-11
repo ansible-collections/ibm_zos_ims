@@ -17,7 +17,7 @@ class zddl(object):
     ZDDL_UTILITY = "DFS3ID00"
    
 
-    def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, create_program_view):
+    def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, dynamic_programview):
         """IMSzDDL constructor for generating IMS zDDL using zos_mvs_raw
         Args:
            sql_input (str): command input to specify.
@@ -30,7 +30,7 @@ class zddl(object):
            verbose (bool): Specifies if the utility will print full text of the DDL statements in the job log.
            auto_commit (bool): Specifies if the utility will perform auto Commit.
            simulate (bool): Specifies if the utility will perform simulation of DDL statements.
-           create_program_view (bool): Specifies if the utility will automatically Import all the input CREATE PROGRAMVIEWs.
+           dynamic_programview (bool): Specifies if the utility will automatically Import all the input CREATE PROGRAMVIEWs.
         """
         self.online = online
         self.ims_id = ims_id
@@ -42,7 +42,7 @@ class zddl(object):
         self.verbose = verbose
         self.auto_commit = auto_commit
         self.simulate = simulate
-        self.create_program_view = create_program_view
+        self.dynamic_programview = dynamic_programview
        
         self._assert_valid_input_types()
         self.result = {}
@@ -72,8 +72,8 @@ class zddl(object):
             raise TypeError(em.INCORRECT_AUTO_COMMIT_TYPE)
         if self.simulate and not isinstance(self.simulate, bool):
             raise TypeError(em.INCORRECT_SIMULATE_TYPE)
-        if self.create_program_view and not isinstance(self.create_program_view, bool):
-            raise TypeError(em.INCORRECT_CREATE_PROGRAM_VIEW)
+        if self.dynamic_programview and not isinstance(self.dynamic_programview, bool):
+            raise TypeError(em.INCORRECT_DYNAMIC_PROGRAMVIEW)
 
     def _build_zddl_statements(self):
         """Builds the list of DDStatements that will be provided to the zos_mvs_raw to execute DFS3ID00
