@@ -106,12 +106,12 @@ def validate_zddl(hosts, online:bool=None, ims_id:str=None,
             assert result.get('rc') != 0
 
 # 1. Invalid IMS ID: Validate that an invalid value for IMS_ID won't be accepted
-# def test_ims_zddl_invalid_ims_id(ansible_zos_module):
-#     hosts = ansible_zos_module
-#     validate_zddl(hosts, online=ONLINE, ims_id=INVALID_IMS_ID,
-#                             irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
-#                             steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
-#                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
+def test_ims_zddl_invalid_ims_id(ansible_zos_module):
+    hosts = ansible_zos_module
+    validate_zddl(hosts, online=ONLINE, ims_id=INVALID_IMS_ID,
+                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
+                            auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
 
 

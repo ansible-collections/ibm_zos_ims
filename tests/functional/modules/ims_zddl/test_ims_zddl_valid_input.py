@@ -16,7 +16,7 @@ PROCLIB = ip.PROCLIB
 STEPLIB = ip.STEPLIB    
 
 # ------------- SQL Variables
-SQL_FUll1 = "IMSTESTL.SEQ.SQLFRS1" 
+SQL_CASELNG = "IMSTESTL.SEQ.SQLCSLNG" 
 SQL_SIMPLE = "IMSTESTL.SEQ.SQLSIN" 
 SQL_SPORT = "IMSTESTL.SEQ.SQLSPRT"  
 SQL_DELETE = "IMSTESTL.SEQ.SQLDLT"  
@@ -24,7 +24,7 @@ SQL_EMPTY = "IMSTESTL.SEQ.SQLMPT"
 SQL_INVALID = "IMSTESTL.SEQ.SQLINVLD"
 SQL_MIXED = "IMSTESTL.SEQ.SQLMXVL"
 SQL_NO_COMMIT = "IMSTESTL.SEQ.SQLNCM"
-SQL_DTSMMBR = "IMSTESTL.PDS.SQLINP(SQLMBR)"
+SQL_DTSMMBR = "IMSTESTL.PDS.SQLINP(INPMBR)"
 
 # Control statements
 VERBOSE = ip.VERBOSE
@@ -90,7 +90,7 @@ def validate_zddl(hosts, online:bool=None, ims_id:str=None,
 # 1. Delete the databases created during the execution of the test cases
 def test_ims_zddl_delete_sql_dataset(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_zddl(hosts, online=None, ims_id=None,
+    validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
                             steplib=None, sql_input=SQL_DELETE, verbose=False,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=False)
@@ -98,7 +98,7 @@ def test_ims_zddl_delete_sql_dataset(ansible_zos_module):
 # 2. Send only proclib and sql_input: This is because these are the only two required parameters, it should work without the others(except for IMS_ID when ONLINE)
 def test_ims_zddl_valid_only_proclib_sql_input(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_zddl(hosts, online=None, ims_id=IMS_ID,
+    validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=None, proclib=PROCLIB,
                             steplib=None, sql_input=SQL_SIMPLE, verbose=None,
                             auto_commit=None, simulate=None, dynamic_programview=None)
@@ -114,7 +114,7 @@ def test_ims_zddl_valid_ims_id_online(ansible_zos_module):
 # 4. Multi line Sql Inputs: Test the sports sql commands(Recieved from core DDL team)
 def test_ims_zddl_valid_multi_sql(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_zddl(hosts, online=None, ims_id=IMS_ID,
+    validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=None, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_SPORT, verbose=None,
                             auto_commit=None, simulate=None, dynamic_programview=None)
@@ -124,7 +124,7 @@ def test_ims_zddl_valid_over_six_sql(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=None, reslib=None, proclib=PROCLIB,
-                            steplib=STEPLIB, sql_input=SQL_FUll1, verbose=VERBOSE,
+                            steplib=STEPLIB, sql_input=SQL_CASELNG, verbose=VERBOSE,
                             auto_commit=None, simulate=None, dynamic_programview=None)
 
 # 6. Online verbose with auto-commit: Control statements variation for online and verbose
@@ -138,7 +138,7 @@ def test_ims_zddl_valid_online_verbose_auto_commit(ansible_zos_module):
 # 7. All control statements at once: Test that you can put all the four statemnts as True at once
 def test_ims_zddl_valid_all_control_statements(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_zddl(hosts, online=None, ims_id=None,
+    validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
                             steplib=None, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
@@ -146,7 +146,7 @@ def test_ims_zddl_valid_all_control_statements(ansible_zos_module):
 # 8. Simulation and auto-commit: Variation of the control statements variables
 def test_ims_zddl_valid_control_statements_no_verbose(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_zddl(hosts, online=None, ims_id=None,
+    validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
                             steplib=None, sql_input=SQL_SIMPLE, verbose=False,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=False)
@@ -154,7 +154,7 @@ def test_ims_zddl_valid_control_statements_no_verbose(ansible_zos_module):
 # 9. Dynamic Program view with simulation and auto-commit: Variation of the control statements variables
 def test_ims_zddl_valid_control_statements_program_view(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_zddl(hosts, online=None, ims_id=None,
+    validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
                             steplib=None, sql_input=SQL_SIMPLE, verbose=False,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=True)    
@@ -162,17 +162,17 @@ def test_ims_zddl_valid_control_statements_program_view(ansible_zos_module):
 # 10. Input as a dataset member: 
 def test_ims_zddl_valid_dataset_member(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_zddl(hosts, online=None, ims_id=None,
+    validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
                             steplib=None, sql_input=SQL_DTSMMBR, verbose=False,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=True)   
 
 # 11. Only dynamic program view
-def test_ims_zddl_valid_dataset_member(ansible_zos_module):
+def test_ims_zddl_valid_only_dynamic_programview(ansible_zos_module):
     hosts = ansible_zos_module
-    validate_zddl(hosts, online=None, ims_id=None,
+    validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
                             irlm_id=IRLM_ID, reslib=None, proclib=PROCLIB,
-                            steplib=None, sql_input=SQL_DTSMMBR, verbose=False,
+                            steplib=None, sql_input=SQL_SIMPLE, verbose=False,
                             auto_commit=False, simulate=False, dynamic_programview=True) 
 
 # 12. IRLM Specified: Checks that when OFFLINE, works when IRLM_ID is provided (DLI test case)
