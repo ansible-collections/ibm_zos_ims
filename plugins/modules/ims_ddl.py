@@ -35,7 +35,6 @@ options:
       - Required if online is true.
     type: str
     required: false
-    default: true
   reslib:
     description:
       - Points to an authorized library that contains the IMS SVC modules.
