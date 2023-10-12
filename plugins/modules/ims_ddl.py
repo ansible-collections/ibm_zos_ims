@@ -221,7 +221,7 @@ def run_module():
     result = {}
     result["changed"] = False
 
-     # Retrieve properties set by the user
+    # Retrieve properties set by the user
     module_defs = dict(
         online=dict(arg_type="bool", required=False, default=True),
         ims_id=dict(arg_type="str", required=False),
