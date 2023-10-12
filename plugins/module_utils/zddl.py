@@ -107,7 +107,7 @@ class zddl(object):
 
         if self.sql_input:
             sql_input_data_set_definitions = DDStatement(
-                "IMSSQL", DatasetDefinition(self.sql_input, disposition="old")) 
+                "IMSSQL", DatasetDefinition(self.sql_input, disposition="old"))
             zddl_utility_fields.append(sql_input_data_set_definitions)
         sysprint = DDStatement("SYSPRINT", StdoutDefinition())
         zddl_utility_fields.append(sysprint)
@@ -132,7 +132,6 @@ class zddl(object):
         self.result["error"] = self.result.get("error", "") + result.stderr
 
         return self.result
-
 
     def execute(self):
         """Executes the DATA DEFINITION utility DFS3ID00 using the mvscommand module based on the user input.

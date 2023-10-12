@@ -211,9 +211,7 @@ def run_module():
         dynamic_programview=dict(type="bool", required=False, default=False),
     )
 
-    result = dict(
-          changed=True, msg='', content='', rc='', debug=''
-      )
+    result = dict(changed=True, msg='', content='', rc='', debug='')
 
     module = AnsibleModule(
         argument_spec=module_args,
@@ -235,7 +233,7 @@ def run_module():
         verbose=dict(arg_type="bool", required=False),
         auto_commit=dict(arg_type="bool", required=False),
         simulate=dict(arg_type="bool", required=False),
-        dynamic_programview=dict(arg_type="bool", required=False,default=False)
+        dynamic_programview=dict(arg_type="bool", required=False, default=False)
     )
 
     # Parse the properties
@@ -269,27 +267,15 @@ def run_module():
             )
 
     try:
-        zddl_obj = zddl(
-          online,
-          ims_id,
-          # irlm_id,
-          reslib,
-          steplib,
-          proclib,
-          sql_input,
-          verbose,
-          auto_commit,
-          simulate,
-          dynamic_programview
-        )
+        zddl_obj = zddl(online, ims_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, dynamic_programview)
         response = zddl_obj.execute()
 
         if response.get('rc') and int(response.get('rc')) > 4:
-                result['changed'] = False
-                result['content'] = response.get('output', "")
-                result['msg'] = em.FAILURE_MSG
-                result['debug'] = response.get('error', "")
-                result['rc'] = response.get('rc')
+            result['changed'] = False
+            result['content'] = response.get('output', "")
+            result['msg'] = em.FAILURE_MSG
+            result['debug'] = response.get('error', "")
+            result['rc'] = response.get('rc')
         else:
             result['changed'] = True
             result['content'] = response.get('output', "")
