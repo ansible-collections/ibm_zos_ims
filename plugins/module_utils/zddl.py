@@ -17,13 +17,12 @@ class zddl(object):
     ZDDL_UTILITY = "DFS3ID00"
    
 
-    def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, dynamic_programview):
+    def __init__(self, online, ims_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, dynamic_programview):
         """IMSzDDL constructor for generating IMS zDDL using zos_mvs_raw
         Args:
            sql_input (str): command input to specify.
            online (bool): indicates if its BMP or DL/I.
            ims_id (str): the id of the IMS system on which job is to be run.
-           irlm_id (str): The irlm id if irlm is enabled.
            reslib (list): List of reslib datasets.
            proclib (list): List of proclib datasets.
            steplib (list): Points to the list of IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules.
@@ -34,7 +33,7 @@ class zddl(object):
         """
         self.online = online
         self.ims_id = ims_id
-        self.irlm_id = irlm_id
+        # self.irlm_id = irlm_id
         self.reslib = reslib
         self.steplib = steplib
         self.proclib = proclib
@@ -56,8 +55,8 @@ class zddl(object):
             raise TypeError(em.INCORRECT_ONLINE_TYPE)
         if self.ims_id and not isinstance(self.ims_id, str):
             raise TypeError(em.INCORRECT_IMS_ID_TYPE)
-        if self.irlm_id and not isinstance(self.irlm_id, str):
-            raise TypeError(em.INCORRECT_IRLM_ID_TYPE)
+        # if self.irlm_id and not isinstance(self.irlm_id, str):
+        #     raise TypeError(em.INCORRECT_IRLM_ID_TYPE)
         if self.reslib and not all(isinstance(item, str) for item in self.reslib):
             raise TypeError(em.INCORRECT_RESLIB_TYPE)
         if self.steplib and not all(isinstance(item, str) for item in self.steplib):

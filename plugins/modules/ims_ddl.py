@@ -183,7 +183,6 @@ msg:
   description: Messages returned from the Data Definition Ansible module.
   type: str
   returned: sometimes
-  sample: Unsupported parameters for (ims_ddl) module - create_program_view. Supported parameters include - auto_commit, dynamic_programview, ims_id, irlm_id, online, proclib, reslib, simulate, sql_input, steplib, verbose.
 '''
 
 from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound  # pylint: disable=import-error
@@ -200,7 +199,7 @@ def run_module():
     module_args = dict(
         online=dict(type="bool", required=False, default=True),
         ims_id=dict(type="str", required=False),
-        irlm_id=dict(type="str", required=False),
+        # irlm_id=dict(type="str", required=False),
         reslib=dict(type="list", elements="str", required=False),
         proclib=dict(type="list", elements="str", required=True),
         steplib=dict(type="list", elements="str", required=False),
@@ -231,7 +230,7 @@ def run_module():
     module_defs = dict(
         online=dict(arg_type="bool", required=False, default=True),
         ims_id=dict(arg_type="str", required=False),
-        irlm_id=dict(arg_type="str", required=False),
+        # irlm_id=dict(arg_type="str", required=False),
         reslib=dict(arg_type="list", elements="str", required=False),
         steplib=dict(arg_type="list", elements="str", required=False),
         proclib=dict(arg_type="list", elements="str", required=True),
@@ -248,7 +247,7 @@ def run_module():
 
     online = parsed_args.get("online")
     ims_id = parsed_args.get("ims_id")
-    irlm_id = parsed_args.get("irlm_id")
+    # irlm_id = parsed_args.get("irlm_id")
     reslib = parsed_args.get("reslib")
     steplib = parsed_args.get("steplib")
     proclib = parsed_args.get("proclib")
@@ -276,7 +275,7 @@ def run_module():
         zddl_obj = zddl(
           online,
           ims_id,
-          irlm_id,
+          # irlm_id,
           reslib,
           steplib,
           proclib,
