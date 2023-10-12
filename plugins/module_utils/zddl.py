@@ -15,7 +15,6 @@ __metaclass__ = type
 
 class zddl(object):
     ZDDL_UTILITY = "DFS3ID00"
-   
 
     def __init__(self, online, ims_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, dynamic_programview):
         """IMSzDDL constructor for generating IMS zDDL using zos_mvs_raw
@@ -42,7 +41,7 @@ class zddl(object):
         self.auto_commit = auto_commit
         self.simulate = simulate
         self.dynamic_programview = dynamic_programview
-       
+
         self._assert_valid_input_types()
         self.result = {}
 
@@ -131,7 +130,7 @@ class zddl(object):
         # self.result['unformatted'] = result.stdout
         self.result['content'] = result.stdout.split("\n")
         self.result["error"] = self.result.get("error", "") + result.stderr
-     
+
         return self.result
 
 
@@ -145,11 +144,10 @@ class zddl(object):
         """
         self.result = {}
         response = None
-        
         if self.ims_id:
             param_string = "BMP,DFS3ID00,DFSCP001,,,,,,,,,,," + self.ims_id
             zddl_utility_fields = self._build_zddl_statements()
-            ## mvs_auth to be true
+            # mvs_auth to be true
             response = MVSCmd.execute_authorized(
                 zddl.ZDDL_UTILITY, zddl_utility_fields, param_string, verbose=False)
             self.result = self.combine_results(response)

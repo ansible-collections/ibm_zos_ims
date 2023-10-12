@@ -193,6 +193,7 @@ from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.zddl import zddl  
 
 module = None
 
+
 def run_module():
     global module
 
@@ -211,13 +212,9 @@ def run_module():
     )
 
     result = dict(
-          changed=True,
-          msg='',
-          content='',
-          rc='',
-          debug=''
+          changed=True, msg='', content='', rc='', debug=''
       )
-    
+
     module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True

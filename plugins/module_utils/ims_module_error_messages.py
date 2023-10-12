@@ -79,4 +79,3 @@ class ZDDLErrorMessages():
     INCORRECT_DYNAMIC_PROGRAMVIEW = "'dynamic_programview' must be a boolean."
     INCORRECT_TYPE = "Incorrect type provided. A string or list of strings is expected"
     INCORRECT_ITEM_LIST = "Items provided in list do not match the string type expected."
-        
