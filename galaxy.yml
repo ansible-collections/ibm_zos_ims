@@ -65,7 +65,6 @@ build_ignore:
   - tests/requirements.txt
   - tests/*.yml
   - tests/*.cfg
-  - playbooks
   - docs
   - collections
   - changelogs
