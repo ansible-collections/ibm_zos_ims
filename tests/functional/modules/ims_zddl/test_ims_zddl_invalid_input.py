@@ -70,7 +70,7 @@ MIXED_SQL_INPUT = ip.MIXED_SQL_INPUT
 # -------------
 
 def validate_zddl(hosts, online:bool=None, ims_id:str=None,
-                            irlm_id:str=None, reslib:list=None, proclib:list=None,
+                            reslib:list=None, proclib:list=None,
                             steplib:list=None, sql_input:list=None, verbose:bool=None,
                             auto_commit:bool=None, simulate:bool=None, dynamic_programview:bool=None
                             ):
@@ -79,8 +79,8 @@ def validate_zddl(hosts, online:bool=None, ims_id:str=None,
         arguments["online"] = online
     if ims_id:
         arguments["ims_id"] = ims_id
-    if irlm_id:
-        arguments["irlm_id"] = irlm_id
+    # if irlm_id:
+    #     arguments["irlm_id"] = irlm_id
     if reslib:
         arguments["reslib"] = reslib
     if proclib:
@@ -109,7 +109,7 @@ def validate_zddl(hosts, online:bool=None, ims_id:str=None,
 def test_ims_zddl_invalid_ims_id(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=INVALID_IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -119,7 +119,7 @@ def test_ims_zddl_invalid_ims_id(ansible_zos_module):
 def test_ims_zddl_invalid_reslib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=INVALID_RESLIB, proclib=PROCLIB,
+                            reslib=INVALID_RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -128,7 +128,7 @@ def test_ims_zddl_invalid_reslib(ansible_zos_module):
 def test_ims_zddl_invalid_proclib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=INVALID_PROCLIB,
+                            reslib=RESLIB, proclib=INVALID_PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -137,7 +137,7 @@ def test_ims_zddl_invalid_proclib(ansible_zos_module):
 def test_ims_zddl_invalid_steplib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            reslib=RESLIB, proclib=PROCLIB,
                             steplib=INVALID_STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -145,7 +145,7 @@ def test_ims_zddl_invalid_steplib(ansible_zos_module):
 def test_ims_zddl_invalid_sql(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_INVALID, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -153,7 +153,7 @@ def test_ims_zddl_invalid_sql(ansible_zos_module):
 def test_ims_zddl_empty_sql(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_EMPTY, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -161,7 +161,7 @@ def test_ims_zddl_empty_sql(ansible_zos_module):
 def test_ims_zddl_valid_invalid_sql(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_MIXED, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -169,7 +169,7 @@ def test_ims_zddl_valid_invalid_sql(ansible_zos_module):
 def test_ims_zddl_invalid_no_given_proclib(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=None,
+                            reslib=RESLIB, proclib=None,
                             steplib=STEPLIB, sql_input=SQL_SIMPLE, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -177,7 +177,7 @@ def test_ims_zddl_invalid_no_given_proclib(ansible_zos_module):
 def test_ims_zddl_invalid_no_given_sql(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=None, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -185,7 +185,7 @@ def test_ims_zddl_invalid_no_given_sql(ansible_zos_module):
 def test_ims_zddl_no_commit(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_NO_COMMIT, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
 
@@ -193,7 +193,7 @@ def test_ims_zddl_no_commit(ansible_zos_module):
 def test_ims_zddl_invalid_prgview_no_database(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=None, reslib=RESLIB, proclib=PROCLIB,
+                            reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_NO_DB_PRGVIEW, verbose=False,
                             auto_commit=False, simulate=False, dynamic_programview=dynamic_programview)
 

@@ -22,7 +22,7 @@ SIMULATE = ip.SIMULATE
 dynamic_programview = ip.dynamic_programview
 
 def validate_zddl(hosts, online:bool=None, ims_id:str=None,
-                            irlm_id:str=None, reslib:list=None, proclib:list=None,
+                            reslib:list=None, proclib:list=None,
                             steplib:list=None, sql_input:list=None, verbose:bool=None,
                             auto_commit:bool=None, simulate:bool=None, dynamic_programview:bool=None
                             ):
@@ -31,8 +31,8 @@ def validate_zddl(hosts, online:bool=None, ims_id:str=None,
         arguments["online"] = online
     if ims_id:
         arguments["ims_id"] = ims_id
-    if irlm_id:
-        arguments["irlm_id"] = irlm_id
+    # if irlm_id:
+    #     arguments["irlm_id"] = irlm_id
     if reslib:
         arguments["reslib"] = reslib
     if proclib:
@@ -61,6 +61,6 @@ def validate_zddl(hosts, online:bool=None, ims_id:str=None,
 def test_ims_zddl(ansible_zos_module):
     hosts = ansible_zos_module
     validate_zddl(hosts, online=ONLINE, ims_id=IMS_ID,
-                            irlm_id=IRLM_ID, reslib=RESLIB, proclib=PROCLIB,
+                            reslib=RESLIB, proclib=PROCLIB,
                             steplib=STEPLIB, sql_input=SQL_INPUT, verbose=VERBOSE,
                             auto_commit=AUTO_COMMIT, simulate=SIMULATE, dynamic_programview=dynamic_programview)
