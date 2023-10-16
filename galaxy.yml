@@ -55,7 +55,7 @@ build_ignore:
   - '*.tar.gz'
   - tests/__pycache__
   - tests/*.yaml
-  - tests/*.sh 
+  - tests/*.sh
   - tests/.pytest_cache
   - tests/functional
   - tests/helpers
@@ -65,6 +65,7 @@ build_ignore:
   - tests/requirements.txt
   - tests/*.yml
   - tests/*.cfg
+  - playbooks
   - docs
   - collections
   - changelogs
