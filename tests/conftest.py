@@ -22,10 +22,11 @@ def pytest_addoption(parser):
 @pytest.fixture(scope="session")
 def z_python_interpreter(request):
     """ Generate temporary shell wrapper for python interpreter. """
-    path = request.config.getoption("--zinventory")
-    helper = ZTestHelper.from_yaml_file(path)
     pprint("CONFTEST VARIABLES:    ")
+    path = request.config.getoption("--zinventory")
     pprint(path)
+    helper = ZTestHelper.from_yaml_file(path)
+
     pprint(helper)
     pprint(ZTestHelper)
     interpreter_str = helper.build_interpreter_string()
