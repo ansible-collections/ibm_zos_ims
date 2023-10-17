@@ -1,6 +1,6 @@
-host: ec01105a.vmec.svl.ibm.com
-user: omvsadm
-python_path: /allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz/bin/python3
+host: "ec01105a.vmec.svl.ibm.com"
+user: "omvsadm"
+python_path: "/allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz/bin/python3"
 environment:
   _BPXK_AUTOCVT: "ON"
   _CEE_RUNOPTS: "'FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'"
