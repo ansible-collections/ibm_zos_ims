@@ -1,0 +1,74 @@
+# IBM collection namespace
+namespace: ibm
+
+# Red Hat Ansible Certified Content for IBM Z
+# IBM z/OS IMS collection
+name: ibm_zos_ims
+
+# The collection version
+version: 1.3.0-beta.1
+
+# Collection README file
+readme: README.md
+
+# Contributors
+authors:
+  - Ajay Jashnani <ajay.jashnani@ibm.com>
+  - An Lam <an.lam@ibm.com>
+  - Bryant Panyarachun <bpanyar@us.ibm.com>
+  - Dipti Gandhi <ddgandhi@us.ibm.com>
+  - Ketan Kelkar <ketan.kelkar@ibm.com>
+
+# Description
+description: The IBM z/OS IMS collection includes modules and sample playbooks to automate tasks for IBM IMS.
+
+
+# This collection is licensed under Apache License, Version 2.0
+license:
+  - "Apache-2.0"
+
+# Tags
+tags: [ibm, z, zos, z_os, core, zos_core, data_set, jcl, uss, mvs, ims, zos_ims, application, database]
+
+# Collections that this collection requires to be installed for it to be usable.
+dependencies:
+    "ibm.ibm_zos_core": ">=1.5.0"
+
+# The URL of the originating SCM repository
+repository: https://github.com/ansible-collections/ibm_zos_ims
+
+# The URL to any online docs
+documentation: https://ibm.github.io/z_ansible_collections_doc/index.html
+
+# The URL to the homepage of the collection/project
+homepage: https://www.ibm.com/support/z-content-solutions/ansible/
+
+# The URL to the collection issue tracker
+issues: https://github.com/ansible-collections/ibm_zos_ims/issues
+
+# Ignore files and directories matching the following patterns
+build_ignore:
+  - yamllint.yaml
+  - ansible.cfg
+  - .gitignore
+  - gh-pages
+  - '*.tar.gz'
+  - tests/__pycache__
+  - tests/*.yaml
+  - tests/*.sh
+  - tests/.pytest_cache
+  - tests/functional
+  - tests/helpers
+  - tests/units
+  - tests/*.py
+  - tests/*.ini
+  - tests/requirements.txt
+  - tests/*.yml
+  - tests/*.cfg
+  - playbooks
+  - docs
+  - collections
+  - changelogs
+  - Jenkinsfile
+  - '*@tmp'
+  - ibm_zos_ims
