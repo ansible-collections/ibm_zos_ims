@@ -1,5 +1,5 @@
 from __future__ import (absolute_import, division, print_function)
-from ansible.module_utils.basic import AnsibleModule
+# from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import (  # pylint: disable=import-error
     DDStatement,
     FileDefinition,
@@ -9,7 +9,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
     DummyDefinition,
     VIODefinition
 )
-from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
+# from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
 import tempfile
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import (  # pylint: disable=import-error
@@ -165,15 +165,15 @@ class catalog(object):
             if self.parsed_args.get("buffer_pool_param_dataset") is not None and self.parsed_args.get("dfsdf_member") is not None:
                 dfsdf_member = self.parsed_args.get("dfsdf_member")
                 self.paramString = "DLI,DFS3PU10,DFSCP001,,,,,,,,,,,{0},{1},{2},,,,,,,,,,,'DFSDF={3}'".format(dbrc, irlm_flag, irlm_id, dfsdf_member)
-            else: 
+            else:
                 if self.parsed_args.get("buffer_pool_param_dataset") is None:
                     self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."
                     self.result['rc'] = 1
                     self.module.fail_json(**self.result)
-                if self.parsed_args.get("dfsdf_member") is None: 
+                if self.parsed_args.get("dfsdf_member") is None:
                     self.result['msg'] = "You must specify the suffix for the DFSDFxxx member when running as DLI."
                     self.result['rc'] = 1
-                    self.module.fail_json(**self.result) 
+                    self.module.fail_json(**self.result)
 
         self.dDStatements = self.dDStatements + dDStatementList
 
@@ -321,19 +321,19 @@ class catalog(object):
                 self.result['msg'] = "You must specify an ims_id when running in a BMP region (online_batch=true)"
                 self.result['rc'] = 1
                 self.module.fail_json(**self.result)
-        else: 
+        else:
             if self.parsed_args.get("buffer_pool_param_dataset") is not None and self.parsed_args.get("dfsdf_member") is not None:
                 dfsdf_member = self.parsed_args.get("dfsdf_member")
                 self.paramString = "DLI,DFS3PU00,{0},,,,,,,,,,,{1},{2},{3},,,,,,,,,,,'DFSDF={4}'".format(mode, dbrc, irlm_flag, irlm_id, dfsdf_member)
-            else: 
+            else:
                 if self.parsed_args.get("buffer_pool_param_dataset") is None:
                     self.result['msg'] = "You must specify a buffer pool parameter dataset when running as DLI."
                     self.result['rc'] = 1
                     self.module.fail_json(**self.result)
-                if self.parsed_args.get("dfsdf_member") is None: 
+                if self.parsed_args.get("dfsdf_member") is None:
                     self.result['msg'] = "You must specify the suffix for the DFSDFxxx member when running as DLI."
                     self.result['rc'] = 1
-                    self.module.fail_json(**self.result)         
+                    self.module.fail_json(**self.result)
 
         self.dDStatements = self.dDStatements + dDStatementList
 
