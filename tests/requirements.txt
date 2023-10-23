@@ -3,47 +3,13 @@
 
 # oyaml==0.9
 
-# pyyaml==5.4
-# pytest==7.4.2
-# shellescape==3.8.1
-# pytest_mock==1.12.1
-# mock==3.0.5
-# ansible-core==2.15.4
-# pytest-ansible==4.1.0
-# voluptuous==0.12.1
-# pylint>=3.0.0
-# pycodestyle==2.7.0
-
-ansible==8.4.0
-ansible-core==2.15.4
-astroid==3.0.0
-attrs==23.1.0
-cffi==1.16.0
-coverage==7.3.2
-cryptography==41.0.4
-dill==0.3.7
-iniconfig==2.0.0
-isort==5.12.0
-Jinja2==3.1.2
-MarkupSafe==2.1.3
-mccabe==0.7.0
-mock==3.0.5
-more-itertools==10.1.0
-packaging==23.2
-platformdirs==3.11.0
-pluggy==0.13.1
-py==1.11.0
-pycodestyle==2.7.0
-pycparser==2.21
-pylint==3.0.0
+pyyaml==5.4
 pytest==7.4.2
-pytest-ansible==4.1.0
-pytest-ansible-units==0.1.dev50
-pytest-mock==1.12.1
-PyYAML==5.3.1
-resolvelib==0.8.1
 shellescape==3.8.1
-six==1.16.0
-tomlkit==0.12.1
+pytest_mock==1.12.1
+mock==3.0.5
+ansible-core==2.15.4
+pytest-ansible==4.1.0
 voluptuous==0.12.1
-wcwidth==0.2.8
+pylint>=3.0.0
+pycodestyle==2.7.0
