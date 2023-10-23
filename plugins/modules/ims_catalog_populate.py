@@ -68,6 +68,11 @@ options:
       - Defines the buffer pool parameters data set. This option is required if you are running the utility as a DLI.
     type: str
     required: false
+  dfsdf_member:
+    description:
+      - The DFSDFxxx member in the IMS.PROCLIB data set where the CATALOG section is defined. For example, desdf_member: "CAT" specifies the DFSDFCAT member of the PROCLIB data set.
+    type: str
+    required: false
   primary_log_dataset:
     description:
       - Defines the primary IMS log data set. This is required if dbrc is set to true or if
@@ -880,6 +885,7 @@ EXAMPLES = '''
     psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
+    dfsdf_member: "CAT"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG
 
@@ -899,6 +905,7 @@ EXAMPLES = '''
     psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
+    dfsdf_member: "CAT"
     control_statements:
       managed_acbs:
         setup: true
@@ -919,6 +926,7 @@ EXAMPLES = '''
     psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
+    dfsdf_member: "CAT"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG
     control_statements:
@@ -968,6 +976,7 @@ def run_module():
         modstat=dict(type="str", required=False),
         reslib=dict(type="list", elements="str", required=False),
         buffer_pool_param_dataset=dict(type="str", required=False),
+        dfsdf_member=dict(type="str", required=False),
         primary_log_dataset=dict(type="dict", required=False),
         secondary_log_dataset=dict(type="dict", required=False),
         psb_lib=dict(type="list", elements="str", required=True),
