@@ -56,6 +56,10 @@ Parameters
     Defines the buffer pool parameters data set. This option is required if you are running the utility as a DLI.
 
 
+  dfsdf_member (False, str, None)
+    The DFSDFxxx member in the IMS.PROCLIB data set where the CATALOG section is defined. For example, dfsdf\_member is "CAT" specifies the DFSDFCAT member of the PROCLIB data set.
+
+
   primary_log_dataset (False, dict, None)
     Defines the primary IMS log data set. This is required if dbrc is set to true or if mode 'UPDATE' is selected.
 
@@ -595,6 +599,7 @@ Examples
         psb_lib:
           - SOME.IMS.PSBLIB
         buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
+        dfsdf_member: "CAT"
         primary_log_dataset:
           dataset_name: SOME.IMS.LOG
 
@@ -614,6 +619,7 @@ Examples
         psb_lib:
           - SOME.IMS.PSBLIB
         buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
+        dfsdf_member: "CAT"
         control_statements:
           managed_acbs:
             setup: true
@@ -634,6 +640,7 @@ Examples
         psb_lib:
           - SOME.IMS.PSBLIB
         buffer_pool_param_dataset: "SOME.IMS.PROCLIB(DFSVSMHP)"
+        dfsdf_member: "CAT"
         primary_log_dataset:
           dataset_name: SOME.IMS.LOG
         control_statements:

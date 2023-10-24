@@ -30,7 +30,7 @@ Parameters
     online is false is DLI that is not supported currently.
 
 
-  ims_id (False, str, True)
+  ims_id (False, str, None)
     The identifier of the IMS system on which the job is to be run.
 
     Required if online is true.
@@ -120,8 +120,6 @@ Examples
         proclib:
           - SOME.IMS.PROCLIB
         sql_input: SOME.IMS.SQL
-         
-
     - name: Example of DDL statements in which VERBOSE and AUTOCOMMIT control options are specified
       ims_data_definition:
         online: True
