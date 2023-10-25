@@ -320,7 +320,7 @@ class catalog_parser(object):
         member = self.parsed_args.get(input)
         member = "DFSDF" + member
         rc = datasets.find_member(member, proc[0])
-        if rc == None:
+        if rc is None:
             self.result['msg'] = str(input) + " " + str(member) + " input does not exist"
             self.result['rc'] = 1
             self.module.fail_json(**self.result)
