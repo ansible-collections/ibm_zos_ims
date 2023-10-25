@@ -3,6 +3,7 @@
 
 # oyaml==0.9
 
+ansible==8.5.0
 pyyaml==5.4
 pytest==7.4.2
 shellescape==3.8.1
