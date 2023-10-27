@@ -2,8 +2,7 @@ from __future__ import (absolute_import, division, print_function)
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import (  # pylint: disable=import-error
     DDStatement,
     DatasetDefinition,
-    StdoutDefinition,
-    StdinDefinition,
+    StdoutDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
 import re

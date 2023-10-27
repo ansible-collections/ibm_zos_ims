@@ -218,9 +218,7 @@ stdout:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_gen_utils \
-    import data_set_exists, data_set_member_exists, file_exists, run_gen_file, \
-    run_gen_data_set, execute_gen_command  # pylint: disable=import-error
-
+    import data_set_exists, execute_gen_command  # pylint: disable=import-error
 
 def run_module():
     module_args = dict(
