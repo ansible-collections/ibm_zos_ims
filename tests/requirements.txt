@@ -9,7 +9,7 @@ pytest==7.4.2
 shellescape==3.8.1
 pytest_mock==1.12.1
 mock==3.0.5
-ansible-core==2.15.5
+# ansible-core==2.15.5
 # pytest-ansible==4.0.0
 voluptuous==0.12.1
 pylint>=3.0.0
