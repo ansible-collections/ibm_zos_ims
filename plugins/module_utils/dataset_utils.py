@@ -10,7 +10,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler im
 import tempfile
 # import pprint
 try:
-    from zoautil_py import Datasets #, types  # pylint: disable=import-error
+    from zoautil_py import Datasets    #, types  # pylint: disable=import-error
 except Exception:
     Datasets = MissingZOAUImport()
     types = MissingZOAUImport()
