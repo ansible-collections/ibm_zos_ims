@@ -9,11 +9,11 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
 )
 # from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
-import tempfile
+# import tempfile
 # from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import (  # pylint: disable=import-error
 #     MissingZOAUImport,
 # )
-from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
+#from ansible.module_utils.basic import env_fallback, AnsibleFallbackNotFound
 # import tempfile
 # import pprint
 
