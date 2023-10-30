@@ -1,6 +1,6 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
-#from ansible.module_utils.basic import AnsibleModule
+# from ansible.module_utils.basic import AnsibleModule
 # from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser  # pylint: disable=import-error
 # from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
 import tempfile
@@ -10,7 +10,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler im
 import tempfile
 # import pprint
 try:
-    from zoautil_py import Datasets    #, types  # pylint: disable=import-error
+    from zoautil_py import Datasets
 except Exception:
     Datasets = MissingZOAUImport()
     types = MissingZOAUImport()

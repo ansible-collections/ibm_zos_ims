@@ -13,7 +13,7 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw impor
 # from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import (  # pylint: disable=import-error
 #     MissingZOAUImport,
 # )
-#from ansible.module_utils.basic import env_fallback, AnsibleFallbackNotFound
+from ansible.module_utils.basic import env_fallback, AnsibleFallbackNotFound
 # import tempfile
 # import pprint
 
