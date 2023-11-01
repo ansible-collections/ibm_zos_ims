@@ -31,9 +31,12 @@ def test_ims_dbd_gen_sample_hellotest(ansible_zos_module):
     hosts = ansible_zos_module
     dest = DESTINATION
     sys_lib = SYSLIB
-    hosts.all.copy(
+    
+    copy_result = hosts.all.copy(
         src='./functional/modules/ims_dbd_gen/uss_file/data/dbdgen02', dest=REMOTE_SOURCE,
         checksum='5dd4785e9f4a7d4c4bc36e15ce3b58223113a680', mode='0777')
+    pprint(copy_result)
+
     results = hosts.all.ims_dbd_gen(src=SOURCE, location="DATA_SET", member_list=["DEDBJN21", "DEDBJN21"], dest=dest, sys_lib=sys_lib)
     for result in results.contacted.values():
         pprint(result)
