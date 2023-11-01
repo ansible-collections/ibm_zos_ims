@@ -26,6 +26,7 @@ Following datasets should be provisioned for the list of tests below
 DESTINATION = ip.DESTINATION
 SYSLIB = ip.SYSLIB
 SOURCE = ip.REMOTE_DBDGEN02_SOURCE
+LOCAL_SOURCE_DIR = 'tests/functional/modules/ims_dbd_gen'
 
 LARGE_SOURCE = '/tmp/WMGAT.dbd'
 
@@ -33,26 +34,20 @@ LARGE_SOURCE = '/tmp/WMGAT.dbd'
 def test_valid_uss_file_input_single_src(ansible_zos_module):
     # Here we pass valid USS file as input source to expect successful generation of dbdlib
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_dbd_gen/uss_file/data/dbdgen02', dest=SOURCE, checksum='5dd4785e9f4a7d4c4bc36e15ce3b58223113a680', mode='0777')
+    hosts.all.copy(src=LOCAL_SOURCE_DIR + '/uss_file/data/dbdgen02', dest=SOURCE, checksum='5dd4785e9f4a7d4c4bc36e15ce3b58223113a680', mode='0777')
     run_validate_success.process_single_src(hosts, DESTINATION, SYSLIB, src=SOURCE, replace=True, location='USS')
 
 
 def test_valid_large_uss_file_input_single_src(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(
-        src='./functional/modules/ims_dbd_gen/uss_file/data/WMGAT.dbd', dest=LARGE_SOURCE,
-        checksum='76087228113a2bd209d2e48628fc576ab7d131e4', mode='0777')
+    hosts.all.copy(src=LOCAL_SOURCE_DIR + '/uss_file/data/WMGAT.dbd', dest=LARGE_SOURCE, checksum='76087228113a2bd209d2e48628fc576ab7d131e4', mode='0777')
     run_validate_success.process_single_src(hosts, DESTINATION, SYSLIB, src=LARGE_SOURCE, replace=True, location='USS')
 
 
 def test_valid_uss_file_input_batch(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(
-        src='./functional/modules/ims_dbd_gen/uss_file/data/dbdgen02', dest=SOURCE,
-        checksum='5dd4785e9f4a7d4c4bc36e15ce3b58223113a680', mode='0777')
-    hosts.all.copy(
-        src='./functional/modules/ims_dbd_gen/uss_file/data/WMGAT.dbd', dest=LARGE_SOURCE,
-        checksum='76087228113a2bd209d2e48628fc576ab7d131e4', mode='0777')
+    hosts.all.copy(src=LOCAL_SOURCE_DIR + '/uss_file/data/dbdgen02', dest=SOURCE, checksum='5dd4785e9f4a7d4c4bc36e15ce3b58223113a680', mode='0777')
+    hosts.all.copy(src=LOCAL_SOURCE_DIR + '/uss_file/data/WMGAT.dbd', dest=LARGE_SOURCE, checksum='76087228113a2bd209d2e48628fc576ab7d131e4', mode='0777')
     batch_list = [
         {'src': SOURCE, 'location': "USS", 'replace': True},
         {'src': LARGE_SOURCE, 'location': "USS", 'replace': True}
