@@ -27,7 +27,7 @@ LOCAL_SOURCE = "functional/modules/ims_dbd_gen/uss_file/data/dbdgen02"
 REMOTE_SOURCE = ip.REMOTE_DBDGEN02_SOURCE
 
 
-def test_ims_dbd_gen_sample_hellotest(ansible_zos_module):
+def test_ims_dbd_gen_sample_normal(ansible_zos_module):
     hosts = ansible_zos_module
     dest = DESTINATION
     sys_lib = SYSLIB
