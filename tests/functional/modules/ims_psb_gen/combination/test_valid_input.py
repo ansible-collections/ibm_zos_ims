@@ -27,6 +27,7 @@ Work flow for Combination functional tests goes as follows:
 
 GEN_SUCCESS_MSG = 'PSBGEN execution was successful.'
 BATCH_SUCCESS_RETURN_TEXT = 'success'
+LOCAL_SOURCE_DIR = 'tests/functional/modules/ims_psb_gen'
 
 
 def validate_single_src(hosts, dest, sys_lib, src, location='DATA_SET', replace=True, member_list=None, psb_name=None):
@@ -70,7 +71,7 @@ def test_psb_gen_dataset_prereq(ansible_zos_module):
 
 def test_psb_gen_basic_combination(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
+    hosts.all.copy(src=LOCAL_SOURCE_DIR + '/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
     batch_list = [
         {'src': USS, 'location': 'USS', 'replace': True},
         {'src': SOURCE, 'location': 'DATA_SET', 'member_list': ['PSBGENL', 'PSBLOAD']},
@@ -82,7 +83,7 @@ def test_psb_gen_basic_combination(ansible_zos_module):
 
 def test_psb_gen_uss_dataset(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
+    hosts.all.copy(src=LOCAL_SOURCE_DIR + '/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
     batch_list = [
         {'src': USS, 'location': 'USS', 'replace': True},
         {'src': SOURCE, 'location': 'DATA_SET', 'member_list': ['PSBGENL', 'PSBNOOG']},
@@ -92,7 +93,7 @@ def test_psb_gen_uss_dataset(ansible_zos_module):
 
 def test_psb_gen_uss_seqDataset(ansible_zos_module):
     hosts = ansible_zos_module
-    hosts.all.copy(src='./functional/modules/ims_psb_gen/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
+    hosts.all.copy(src=LOCAL_SOURCE_DIR + '/uss_file/data/psbgen01', dest=USS, checksum='58715368daf0bcfddb5947900423702aad30fc51', mode='0777')
     batch_list = [
         {'src': USS, 'location': 'USS', 'replace': True},
         {'src': SEQ, 'location': 'DATA_SET', 'psb_name': 'SEQ1'}
