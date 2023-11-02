@@ -35,7 +35,6 @@ def test_ims_dbd_gen_sample_normal(ansible_zos_module):
     
     copy_result = hosts.all.copy(
         src=LOCAL_SOURCE, dest=REMOTE_SOURCE,
-        src=LOCAL_SOURCE, dest=REMOTE_SOURCE,
         checksum='5dd4785e9f4a7d4c4bc36e15ce3b58223113a680', mode='0777')
     for copy_result in copy_result.contacted.values():
         pprint(copy_result)
