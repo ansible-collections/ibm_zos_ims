@@ -27,7 +27,7 @@ application deployment in one easy-to-use platform.
 community supported.
 
 For **guides** and **reference**, please visit [the documentation
-site](https://ansible-collections.github.io/ibm_zos_ims/).
+site](https://ibm.github.io/z_ansible_collections_doc/index.html).
 
 Features
 ========
