@@ -10,7 +10,10 @@ __metaclass__ = type
 
 # Simple scenario that loads the catalog without managed acb datasets and purges it
 
-
+def test_catalog_create_datasets(ansible_zos_module):
+   hosts = ansible_zos_module
+   response = hosts.all.zos_data_set(name="IMSTESTL.IMS1.DFSCD000.DI1001", state="present", volume="222222", primary="200")
+                                     
 def test_catalog_load_simple(ansible_zos_module):
     hosts = ansible_zos_module
     load_catalog(hosts,
