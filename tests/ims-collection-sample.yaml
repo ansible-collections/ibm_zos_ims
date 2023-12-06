@@ -118,7 +118,7 @@
 
       - name: IMS Command
         ims_command:
-          command: QUERY MEMBER TYPE(IMS) SHOW(ATTRIB)
+          command: DISPLAY DB AUTODB
           plex: PLEX1
           route: IMS1
 
