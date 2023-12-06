@@ -24,7 +24,6 @@ DESTINATION = ip.DESTINATION
 SEQ = ip.SEQ_SOURCE
 SYSLIB = ip.SYSLIB
 LOCAL_SOURCE = "tests/functional/modules/ims_dbd_gen/uss_file/data/dbdgen02"
-LOCAL_SOURCE = "tests/functional/modules/ims_dbd_gen/uss_file/data/dbdgen02"
 REMOTE_SOURCE = ip.REMOTE_DBDGEN02_SOURCE
 
 
