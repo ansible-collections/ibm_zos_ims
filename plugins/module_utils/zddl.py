@@ -5,7 +5,6 @@ from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement impo
     StdoutDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
-# import re
 
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ZDDLErrorMessages as em  # pylint: disable=import-error
 
