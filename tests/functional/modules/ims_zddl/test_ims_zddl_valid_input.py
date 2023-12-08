@@ -30,7 +30,7 @@ SQL_DTSMMBR = "IMSTESTL.PDS.SQLINP(INPMBR)"
 VERBOSE = ip.VERBOSE
 AUTO_COMMIT = ip.AUTO_COMMIT
 SIMULATE = ip.SIMULATE
-DYNAMIC_PROGRAMVIEW = ip.DYNAMIC_PROGRAMVIEW
+dynamic_programview = ip.dynamic_programview
 
 """
 Work flow for Combination functional tests goes as follows:

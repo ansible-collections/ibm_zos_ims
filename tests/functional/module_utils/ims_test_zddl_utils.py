@@ -34,7 +34,7 @@ class ZDDLInputParameters():
     VERBOSE = False
     AUTO_COMMIT = False
     SIMULATE = False
-    DYNAMIC_PROGRAMVIEW = False # All the Control statements are false as default, even though create_programview is the only one specified as default
+    dynamic_programview = False # All the Control statements are false as default, even though create_programview is the only one specified as default
     # INVALID VALUES
     INVALID_IMS_ID = "INVALID"
     INVALID_IRLM_ID = "INVALID"
