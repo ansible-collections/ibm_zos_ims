@@ -19,7 +19,7 @@ SQL_INPUT = "IMSTESTL.SEQ.SQLSIN"
 VERBOSE = ip.VERBOSE
 AUTO_COMMIT = ip.AUTO_COMMIT
 SIMULATE = ip.SIMULATE
-DYNAMIC_PROGRAMVIEW = ip.DYNAMIC_PROGRAMVIEW
+dynamic_programview = ip.dynamic_programview
 
 def validate_zddl(hosts, online:bool=None, ims_id:str=None,
                             reslib:list=None, proclib:list=None,
