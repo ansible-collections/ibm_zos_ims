@@ -10,6 +10,13 @@ __metaclass__ = type
 
 # Simple scenario that loads the catalog without managed acb datasets and purges it
 
+def test_catalog_create_datasets_01(ansible_zos_module):
+   hosts = ansible_zos_module
+   response = hosts.all.zos_data_set(name="IMSTESTL.IMS1.DFSCD000.DI1001", state="present", volume="222222", primary="200")
+
+def test_catalog_create_datasets_02(ansible_zos_module):
+   hosts = ansible_zos_module
+   response = hosts.all.zos_data_set(name="IMSTESTL.IMS1.DFSCD000.DI1002", state="present", volume="222222", primary="200")
 
 def test_catalog_load_simple(ansible_zos_module):
     hosts = ansible_zos_module
@@ -20,6 +27,7 @@ def test_catalog_load_simple(ansible_zos_module):
                  steplib=cp.STEPLIB,
                  reslib=cp.RESLIB,
                  proclib=cp.PROCLIB,
+                 dfsdf_member="CAT",
                  modstat=cp.MODSTAT,
                  primary_log_dataset=cp.PRIMARYLOG,
                  buffer_pool_param_dataset=cp.BUFFERPOOL,
@@ -32,6 +40,7 @@ def test_catalog_load_simple(ansible_zos_module):
                   steplib=cp.STEPLIB,
                   reslib=cp.RESLIB,
                   proclib=cp.PROCLIB,
+                  dfsdf_member="CAT",
                   primary_log_dataset=cp.PRIMARYLOG,
                   buffer_pool_param_dataset=cp.BUFFERPOOL,
                   mode=cp.PURGEMODE,

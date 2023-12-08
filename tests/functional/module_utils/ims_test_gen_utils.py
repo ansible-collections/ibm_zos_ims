@@ -11,7 +11,7 @@ class DBDInputParameters():
     SYSLIB = ["IMSBLD.I15RTSMM.SDFSMAC", "SYS1.MACLIB"]
     REMOTE_DBDGEN02_SOURCE = "/tmp/dbdgen02"
     REMOTE_DBDGEN04_SOURCE = "/tmp/dbdgen04"
-    LOCAL_EMPTY_SOURCE = "functional/modules/ims_dbd_gen/uss_file/data/dbdgenEmptyInput"
+    LOCAL_EMPTY_SOURCE = "tests/functional/modules/ims_dbd_gen/uss_file/data/dbdgenEmptyInput"
     DESTINATION_RF = "IMSTESTL.ANS.RECFOR"
     INVALID_SOURCE = "IMSTESTL.ANS.INVALID"
     INVALID_USS_SOURCE = "/tmp/invalid"
@@ -35,7 +35,7 @@ class PSBInputParameters():
     SEQ_SOURCE = "IMSTESTL.ANS.PSB.SEQ"
     REMOTE_PSBGEN01_SOURCE = "/tmp/psbgen01"
     REMOTE_PSBGEN04_SOURCE = "/tmp/psbgen04"
-    LOCAL_EMPTY_SOURCE = "functional/modules/ims_psb_gen/uss_file/data/psbgenEmptyInput"
+    LOCAL_EMPTY_SOURCE = "tests/functional/modules/ims_psb_gen/uss_file/data/psbgenEmptyInput"
 
 
 class ACBInputParameters():

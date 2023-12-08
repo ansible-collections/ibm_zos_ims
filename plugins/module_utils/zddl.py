@@ -2,11 +2,9 @@ from __future__ import (absolute_import, division, print_function)
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import (  # pylint: disable=import-error
     DDStatement,
     DatasetDefinition,
-    StdoutDefinition,
-    StdinDefinition,
+    StdoutDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
-import re
 
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import ZDDLErrorMessages as em  # pylint: disable=import-error
 
@@ -15,26 +13,24 @@ __metaclass__ = type
 
 class zddl(object):
     ZDDL_UTILITY = "DFS3ID00"
-   
 
-    def __init__(self, online, ims_id, irlm_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, create_program_view):
+    def __init__(self, online, ims_id, reslib, steplib, proclib, sql_input, verbose, auto_commit, simulate, dynamic_programview):
         """IMSzDDL constructor for generating IMS zDDL using zos_mvs_raw
         Args:
            sql_input (str): command input to specify.
            online (bool): indicates if its BMP or DL/I.
            ims_id (str): the id of the IMS system on which job is to be run.
-           irlm_id (str): The irlm id if irlm is enabled.
            reslib (list): List of reslib datasets.
            proclib (list): List of proclib datasets.
            steplib (list): Points to the list of IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules.
            verbose (bool): Specifies if the utility will print full text of the DDL statements in the job log.
            auto_commit (bool): Specifies if the utility will perform auto Commit.
            simulate (bool): Specifies if the utility will perform simulation of DDL statements.
-           create_program_view (bool): Specifies if the utility will automatically Import all the input CREATE PROGRAMVIEWs.
+           dynamic_programview (bool): Specifies if the utility will automatically Import all the input CREATE PROGRAMVIEWs.
         """
         self.online = online
         self.ims_id = ims_id
-        self.irlm_id = irlm_id
+        # self.irlm_id = irlm_id
         self.reslib = reslib
         self.steplib = steplib
         self.proclib = proclib
@@ -42,8 +38,8 @@ class zddl(object):
         self.verbose = verbose
         self.auto_commit = auto_commit
         self.simulate = simulate
-        self.create_program_view = create_program_view
-       
+        self.dynamic_programview = dynamic_programview
+
         self._assert_valid_input_types()
         self.result = {}
 
@@ -56,8 +52,8 @@ class zddl(object):
             raise TypeError(em.INCORRECT_ONLINE_TYPE)
         if self.ims_id and not isinstance(self.ims_id, str):
             raise TypeError(em.INCORRECT_IMS_ID_TYPE)
-        if self.irlm_id and not isinstance(self.irlm_id, str):
-            raise TypeError(em.INCORRECT_IRLM_ID_TYPE)
+        # if self.irlm_id and not isinstance(self.irlm_id, str):
+        #     raise TypeError(em.INCORRECT_IRLM_ID_TYPE)
         if self.reslib and not all(isinstance(item, str) for item in self.reslib):
             raise TypeError(em.INCORRECT_RESLIB_TYPE)
         if self.steplib and not all(isinstance(item, str) for item in self.steplib):
@@ -68,12 +64,12 @@ class zddl(object):
             raise TypeError(em.INCORRECT_SQL_INPUT_TYPE)
         if self.verbose and not isinstance(self.verbose, bool):
             raise TypeError(em.INCORRECT_VERBOSE_TYPE)
-        if self.verbose and not isinstance(self.auto_commit, bool):
+        if self.auto_commit and not isinstance(self.auto_commit, bool):
             raise TypeError(em.INCORRECT_AUTO_COMMIT_TYPE)
-        if self.verbose and not isinstance(self.simulate, bool):
+        if self.simulate and not isinstance(self.simulate, bool):
             raise TypeError(em.INCORRECT_SIMULATE_TYPE)
-        if self.verbose and not isinstance(self.create_program_view, bool):
-            raise TypeError(em.INCORRECT_CREATE_PROGRAM_VIEW)
+        if self.dynamic_programview and not isinstance(self.dynamic_programview, bool):
+            raise TypeError(em.INCORRECT_DYNAMIC_PROGRAMVIEW)
 
     def _build_zddl_statements(self):
         """Builds the list of DDStatements that will be provided to the zos_mvs_raw to execute DFS3ID00
@@ -109,7 +105,7 @@ class zddl(object):
 
         if self.sql_input:
             sql_input_data_set_definitions = DDStatement(
-                "IMSSQL", DatasetDefinition(self.sql_input, disposition="old")) 
+                "IMSSQL", DatasetDefinition(self.sql_input, disposition="old"))
             zddl_utility_fields.append(sql_input_data_set_definitions)
         sysprint = DDStatement("SYSPRINT", StdoutDefinition())
         zddl_utility_fields.append(sysprint)
@@ -132,23 +128,24 @@ class zddl(object):
         # self.result['unformatted'] = result.stdout
         self.result['content'] = result.stdout.split("\n")
         self.result["error"] = self.result.get("error", "") + result.stderr
+
         return self.result
 
-
     def execute(self):
-        """Executes the DATA DEFINITION utility DFSRRC00 using the zos_mvs_raw module based on the user input.
+        """Executes the DATA DEFINITION utility DFS3ID00 using the mvscommand module based on the user input.
 
         Returns:
-          (dict): (1) rc:      Return Code returned by zos_mvs_raw module.
-                  (2) error:   The stderr returned by the zos_raw module.
-                  (3) output:  The original output provided by zos_raw.
+          (dict): (1) rc:      Return Code returned by mvscommand module.
+                  (2) error:   The stderr returned by the mvscommand module.
+                  (3) output:  The original output provided by mvscommand.
         """
         self.result = {}
         response = None
-        param_string = "BMP,DFS3ID00,DFSCP001,,,,,,,,,,,IMS1"
-        zddl_utility_fields = self._build_zddl_statements()
-        ## mvs_auth to be true
-        response = MVSCmd.execute_authorized(
-            zddl.ZDDL_UTILITY, zddl_utility_fields, param_string, verbose=False)
-        self.result = self.combine_results(response)
+        if self.ims_id:
+            param_string = "BMP,DFS3ID00,DFSCP001,,,,,,,,,,," + self.ims_id
+            zddl_utility_fields = self._build_zddl_statements()
+            # mvs_auth to be true
+            response = MVSCmd.execute_authorized(
+                zddl.ZDDL_UTILITY, zddl_utility_fields, param_string, verbose=False)
+            self.result = self.combine_results(response)
         return self.result

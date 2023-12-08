@@ -6,10 +6,10 @@ __metaclass__ = type
 
 
 def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib, proclib, primary_log_dataset,
-                 buffer_pool_param_dataset, dfsdf_member, acb_lib, modstat=None, online_batch=None, dbrc=None, ims_id=None, irlm_id=None,
+                 buffer_pool_param_dataset, dfsdf_member, acb_lib, check_timestamp=True, online_batch=False, modstat=None,  dbrc=None, ims_id=None, irlm_id=None,
                  control_statements=None, bootstrap_dataset=None,
                  directory_datasets=None, temp_acb_dataset=None, directory_staging_dataset=None,
-                 secondary_log_dataset=None, sysabend=None, check_timestamp=None, rc=0, changed=True):
+                 secondary_log_dataset=None, sysabend=None, rc=0, changed=True):
 
     response = hosts.all.ims_catalog_populate(
         online_batch=online_batch,
@@ -46,7 +46,7 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
 
 
 def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, steplib, reslib, proclib,
-                  buffer_pool_param_dataset, dfsdf_member, online_batch=None, dbrc=None, ims_id=None, irlm_id=None, sysut1=None, update_retention_criteria=None,
+                  buffer_pool_param_dataset, dfsdf_member, online_batch=False, dbrc=None, ims_id=None, irlm_id=None, sysut1=None, update_retention_criteria=None,
                   delete=None, managed_acbs=None, delete_dbd_by_version=None, resource_chkp_freq=None, mode='PURGE', rc=0, changed=True):
 
     response = hosts.all.ims_catalog_purge(
