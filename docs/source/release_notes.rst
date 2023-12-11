@@ -18,18 +18,18 @@ Notes
   * ``ims_ddl``
 * Bug fixes and enhancements
 
-  * Added new member ``dfsdf_member`` in the ims_catalog_populate and ims_catalog_purge modules.
+  * Added new member ``dfsdf_member`` in the ``ims_catalog_populate`` and ``ims_catalog_purge`` modules.
     The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
   
 * Documentation updates
 
-  * Minor updates to ``compression`` parameter in the ims_acbgen module where PRECOMP,POSTCOMP, in any combination, cause the required in-place compression
+  * Minor updates to ``compression`` parameter in the ``ims_acbgen`` module where PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
     The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used.
-* Improved test and sanity coverage
+* Improved test and ansible-sanity coverage.
 * Subset of the test cases were updated to support for Ansible 2.15.
-* Additional support for test cases in ims_catalog_populate and ims_catalog_purge modules to support dfsdf_member parameter
+* Additional support for test cases in ``ims_catalog_populate`` and ``ims_catalog_purge`` modules to support ``dfsdf_member`` parameter.
 
-* This update also has updated support for Ansible 2.15.4 and ZOAU 1.2.3
+* This update also has updated prerequisites for Ansible 2.14 or newer and ZOAU 1.2.2 or newer but prior to version 1.3.
 
 Availability
 ------------
@@ -42,7 +42,7 @@ Reference
 
 * Supported by IBM z/OS core collection v1.5.0 or later
 * Supported by IBM Z Open Enterprise Python for z/OS: 3.9 or later
-* Supported by IBM Z Open Automation Utilities 1.2.3
+* Supported by IBM Z Open Automation Utilities 1.2.2 or later (but prior to 1.3)
 * Supported by z/OS V2R4
 * The z/OS® shell
 
