@@ -1,8 +1,13 @@
+
+:github_url: https://github.com/ansible-collections/ibm_zos_core/blob/dev/plugins/modules/ims_catalog_purge.py
+
 .. _ims_catalog_purge_module:
 
 
 ims_catalog_purge -- Purge records from the IMS Catalog
 =======================================================
+
+
 
 .. contents::
    :local:
@@ -11,9 +16,7 @@ ims_catalog_purge -- Purge records from the IMS Catalog
 
 Synopsis
 --------
-
-The IMS Catalog Purge  utility DFS3PU10 removes the segments that represent a DBD or PSB instance, all instances of a DBD version, or an entire DBD or PSB record from the IMS catalog. You can also analyze the catalog and generate delete statements for ACBs eligible for deletion, as well as update the ACB retention criteria.
-
+- The IMS Catalog Purge  utility DFS3PU10 removes the segments that represent a DBD or PSB instance, all instances of a DBD version, or an entire DBD or PSB record from the IMS catalog. You can also analyze the catalog and generate delete statements for ACBs eligible for deletion, as well as update the ACB retention criteria.
 
 
 
@@ -22,262 +25,446 @@ The IMS Catalog Purge  utility DFS3PU10 removes the segments that represent a DB
 Parameters
 ----------
 
-  mode (True, str, None)
-    Determines which mode the utility runs in. ANALYSIS mode generates delete statements based on the retention criteria and places them in the SYSUT1 data set. PURGE mode executes delete statements in the SYSUT1 data set. BOTH mode performs ANALYSIS and PURGE mode consecutively.
 
+mode
+  Determines which mode the utility runs in. ANALYSIS mode generates delete statements based on the retention criteria and places them in the SYSUT1 data set. PURGE mode executes delete statements in the SYSUT1 data set. BOTH mode performs ANALYSIS and PURGE mode consecutively.
 
-  online_batch (False, bool, False)
-    Indicates if this utility is to be run in a BMP region.
+  | **required**: True
+  | **type**: str
+  | **choices**: PURGE, BOTH, ANALYSIS
 
 
-  ims_id (False, str, None)
-    The identifier of the IMS system on which the job is to be run.
+online_batch
+  Indicates if this utility is to be run in a BMP region.
 
-    Required if online\_batch is true.
+  | **required**: False
+  | **type**: bool
 
 
-  dbrc (False, bool, None)
-    Indicates if the IMS Database Recovery Control facility is enabled.
+ims_id
+  The identifier of the IMS system on which the job is to be run.
 
+  Required if online_batch is true.
 
-  irlm_id (False, str, None)
-    The IRLM ID if IRLM is enabled. Cannot be specified when online\_batch is true.
+  | **required**: False
+  | **type**: str
 
 
-  reslib (False, list, None)
-    Points to an authorized library that contains the IMS SVC modules.
+dbrc
+  Indicates if the IMS Database Recovery Control facility is enabled.
 
+  | **required**: False
+  | **type**: bool
 
-  buffer_pool_param_dataset (False, str, None)
-    Defines the buffer pool parameters data set. This option is required if you are running the utility as a DLI.
 
+irlm_id
+  The IRLM ID if IRLM is enabled. Cannot be specified when online_batch is true.
 
-  dfsdf_member (False, str, None)
-    The DFSDFxxx member in the IMS.PROCLIB data set where the CATALOG section is defined. For example, dfsdf\_member is "CAT" specifies the DFSDFCAT member of the PROCLIB data set.
+  | **required**: False
+  | **type**: str
 
 
-  primary_log_dataset (True, dict, None)
-    Defines the primary IMS log data set. This option is required if you are running the utility as a DLI.
+reslib
+  Points to an authorized library that contains the IMS SVC modules.
 
+  | **required**: False
+  | **type**: list
+  | **elements**: str
 
-    dataset_name (True, str, None)
-      Describes the name of the data set.
 
+buffer_pool_param_dataset
+  Defines the buffer pool parameters data set. This option is required if you are running the utility as a DLI.
 
-    disposition (False, str, None)
-      The status of the data set.
+  | **required**: False
+  | **type**: str
 
 
-    record_format (False, str, None)
-      The record format.
+dfsdf_member
+  The DFSDFxxx member in the IMS.PROCLIB data set where the CATALOG section is defined. For example, dfsdf_member is "CAT" specifies the DFSDFCAT member of the PROCLIB data set.
 
+  | **required**: False
+  | **type**: str
 
-    record_length (False, int, None)
-      The logical record length in bytes.
 
+primary_log_dataset
+  Defines the primary IMS log data set. This option is required if you are running the utility as a DLI.
 
-    block_size (False, int, None)
-      The block size.
+  | **required**: True
+  | **type**: dict
 
 
-    primary (False, int, None)
-      The amount of primary space to allocate for the data set.
+  dataset_name
+    Describes the name of the data set.
 
+    | **required**: True
+    | **type**: str
 
-    primary_unit (False, str, None)
-      The unit of size to use when specifying primary space.
 
+  disposition
+    The status of the data set.
 
-    secondary (False, int, None)
-      The amount of secondary space to allocate for the data set.
+    | **required**: False
+    | **type**: str
+    | **choices**: NEW, OLD, SHR, EXCL
 
 
-    secondary_unit (False, str, None)
-      The unit of size to use when specifying secondary space.
+  record_format
+    The record format.
 
+    | **required**: False
+    | **type**: str
+    | **choices**: FB, VB, FBA, VBA, U
 
-    normal_disposition (False, str, None)
-      Data set action after normal termination.
 
+  record_length
+    The logical record length in bytes.
 
-    abnormal_disposition (False, str, None)
-      Data set action after abnormal termination.
+    | **required**: False
+    | **type**: int
 
 
-    type (False, str, None)
-      The type of data set.
+  block_size
+    The block size.
 
+    | **required**: False
+    | **type**: int
 
-    volumes (False, list, None)
-      A list of volume serials. When providing multiple volumes, processing will begin with the first volume in the provided list. Offline volumes are not considered.
 
+  primary
+    The amount of primary space to allocate for the data set.
 
-    storage_class (False, str, None)
-      The storage class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
+    | **required**: False
+    | **type**: int
 
 
-    management_class (False, str, None)
-      The management class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
+  primary_unit
+    The unit of size to use when specifying primary space.
 
+    | **required**: False
+    | **type**: str
 
-    data_class (False, str, None)
-      The data class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
 
+  secondary
+    The amount of secondary space to allocate for the data set.
 
+    | **required**: False
+    | **type**: int
 
-  psb_lib (True, list, None)
-    Defines the IMS.PSBLIB data set.
 
+  secondary_unit
+    The unit of size to use when specifying secondary space.
 
-  dbd_lib (True, list, None)
-    Defines the IMS.DBDLIB data sets.
+    | **required**: False
+    | **type**: str
 
 
-  proclib (True, list, None)
-    Defines the IMS.PROCLIB data set that contains the DFSDFxxx member. The DFSDFxxx member defines various attributes of the IMS catalog that are required by the utility.
+  normal_disposition
+    Data set action after normal termination.
 
+    | **required**: False
+    | **type**: str
+    | **choices**: DELETE, KEEP, CATLG, UNCATLG
 
-  steplib (False, list, None)
-    Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules.
 
-    The steplib parameter can also be specified in the target inventory's environment\_vars.
+  abnormal_disposition
+    Data set action after abnormal termination.
 
-    The steplib input parameter to the module will take precedence over the value specified in the environment\_vars.
+    | **required**: False
+    | **type**: str
+    | **choices**: DELETE, KEEP, CATLG, UNCATLG
 
 
-  delete_dbd_by_version (False, list, None)
-    Delete DBD instances based on the specified name and version. If ANALYSIS mode is specified, it will generate DELETE DBD statements in the SYSUT1 data set along with any other delete statements based off the retention criteria. If PURGE or BOTH mode is specified, it will write the delete statements to the SYSUT1 data set and then execute them.
+  type
+    The type of data set.
 
+    | **required**: False
+    | **type**: str
+    | **choices**: SEQ, BASIC, LARGE, PDS, PDSE, LIBRARY, LDS, RRDS, ESDS, KSDS
 
-    member_name (True, str, None)
-      The 8 character name of the DBD that you are deleting a version from.
 
+  volumes
+    A list of volume serials. When providing multiple volumes, processing will begin with the first volume in the provided list. Offline volumes are not considered.
 
-    version_number (True, int, None)
-      The version number of the DBD that you are deleting. The value must match the version number that is specified on the DBVER keyword in the DBD generation statement of the version that you are deleting.
+    | **required**: False
+    | **type**: list
+    | **elements**: str
 
 
+  storage_class
+    The storage class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
 
-  update_retention_criteria (False, list, None)
-    Use this statement to set the retention criteria for DBD or PSB records in the catalog database. You can submit any number of update statements. You cannot specify this option if PURGE mode is selected. If used with any other mode options, it will update the retention criteria first.
+    | **required**: False
+    | **type**: str
 
 
-    resource (True, str, None)
-      Specifies whether a DBD or PSB should be updated.
+  management_class
+    The management class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
 
+    | **required**: False
+    | **type**: str
 
-    member_name (True, str, None)
-      The 8 character IMS name of the DBD or PSB resource. Wildcards are supported.
 
+  data_class
+    The data class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
 
-    instances (True, int, None)
-      The number of instances of a DBD or PSB that must be retained in the DBD or PSB record.
+    | **required**: False
+    | **type**: str
 
 
-    days (False, int, None)
-      The number of days that an instance of a DBD or PSB must be retained before it can be purged.
 
+psb_lib
+  Defines the IMS.PSBLIB data set.
 
+  | **required**: True
+  | **type**: list
+  | **elements**: str
 
-  delete (False, list, None)
-    Specifies a DBD or PSB instance or an entire DBD or PSB record to delete from the IMS catalog database.
 
-    This option must be used with PURGE mode and overrides any retention criteria, hence you can remove any DBD or PSB that would not otherwise be eligible for deletion.
+dbd_lib
+  Defines the IMS.DBDLIB data sets.
 
+  | **required**: True
+  | **type**: list
+  | **elements**: str
 
-    resource (True, str, None)
-      Specify whether you want to delete a DBD or PSB.
 
+proclib
+  Defines the IMS.PROCLIB data set that contains the DFSDFxxx member. The DFSDFxxx member defines various attributes of the IMS catalog that are required by the utility.
 
-    member_name (True, str, None)
-      The 8 character IMS name of the DBD or PSB resource. Wildcards are supported.
+  | **required**: True
+  | **type**: list
+  | **elements**: str
 
 
-    time_stamp (True, int, None)
-      The ACB timestamp that identifies the specific DBD or PSB instance to purge.
+steplib
+  Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules.
 
+  The steplib parameter can also be specified in the target inventory's environment_vars.
 
+  The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
 
-  managed_acbs (False, bool, None)
-    Specifies whether deleting DBD and PSB instances from the IMS catalog causes the corresponding DBD and PSB instances in the IMS directory to be deleted. If 'analysis\_mode' is true, the DBD and PSB instances will not be deleted from the IMS directory.
+  | **required**: False
+  | **type**: list
+  | **elements**: str
 
 
-  resource_chkp_freq (False, int, None)
-    Specifies the number of resource instances to be deleted or updated between checkpoints. Can be a 1 to 8 digit numeric value between 1 to 99999999. The default value is 200.
+delete_dbd_by_version
+  Delete DBD instances based on the specified name and version. If ANALYSIS mode is specified, it will generate DELETE DBD statements in the SYSUT1 data set along with any other delete statements based off the retention criteria. If PURGE or BOTH mode is specified, it will write the delete statements to the SYSUT1 data set and then execute them.
 
+  | **required**: False
+  | **type**: list
+  | **elements**: dict
 
-  sysut1 (False, dict, None)
-    The data set where delete statements are written to. Written either by the purge utility when specifying ANALYSIS or BOTH mode, or by the user when specifying PURGE mode.
 
+  member_name
+    The 8 character name of the DBD that you are deleting a version from.
 
-    dataset_name (True, str, None)
-      Describes the name of the data set.
+    | **required**: True
+    | **type**: str
 
 
-    disposition (False, str, None)
-      The status of the data set.
+  version_number
+    The version number of the DBD that you are deleting. The value must match the version number that is specified on the DBVER keyword in the DBD generation statement of the version that you are deleting.
 
+    | **required**: True
+    | **type**: int
 
-    block_size (False, int, None)
-      The block size.
 
 
-    primary (False, int, None)
-      The amount of primary space to allocate for the data set.
+update_retention_criteria
+  Use this statement to set the retention criteria for DBD or PSB records in the catalog database. You can submit any number of update statements. You cannot specify this option if PURGE mode is selected. If used with any other mode options, it will update the retention criteria first.
 
+  | **required**: False
+  | **type**: list
+  | **elements**: dict
 
-    primary_unit (False, str, None)
-      The unit of size to use when specifying primary space.
 
+  resource
+    Specifies whether a DBD or PSB should be updated.
 
-    secondary (False, int, None)
-      The amount of secondary space to allocate for the data set.
+    | **required**: True
+    | **type**: str
+    | **choices**: DBD, PSB
 
 
-    secondary_unit (False, str, None)
-      The unit of size to use when specifying secondary space.
+  member_name
+    The 8 character IMS name of the DBD or PSB resource. Wildcards are supported.
 
+    | **required**: True
+    | **type**: str
 
-    normal_disposition (False, str, None)
-      Data set action after normal termination.
 
+  instances
+    The number of instances of a DBD or PSB that must be retained in the DBD or PSB record.
 
-    abnormal_disposition (False, str, None)
-      Data set action after abnormal termination.
+    | **required**: True
+    | **type**: int
 
 
-    type (False, str, None)
-      The type of the data set.
+  days
+    The number of days that an instance of a DBD or PSB must be retained before it can be purged.
 
+    | **required**: False
+    | **type**: int
 
-    volumes (False, list, None)
-      A list of volume serials. When providing multiple volumes, processing will begin with the first volume in the provided list. Offline volumes are not considered.
 
 
-    storage_class (False, str, None)
-      The storage class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
+delete
+  Specifies a DBD or PSB instance or an entire DBD or PSB record to delete from the IMS catalog database.
 
+  This option must be used with PURGE mode and overrides any retention criteria, hence you can remove any DBD or PSB that would not otherwise be eligible for deletion.
 
-    management_class (False, str, None)
-      The management class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
+  | **required**: False
+  | **type**: list
+  | **elements**: dict
 
 
-    data_class (False, str, None)
-      The data class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
+  resource
+    Specify whether you want to delete a DBD or PSB.
 
+    | **required**: True
+    | **type**: str
+    | **choices**: DBD, PSB
 
 
+  member_name
+    The 8 character IMS name of the DBD or PSB resource. Wildcards are supported.
 
+    | **required**: True
+    | **type**: str
 
 
-Notes
------
+  time_stamp
+    The ACB timestamp that identifies the specific DBD or PSB instance to purge.
 
-.. note::
-   - The \ :emphasis:`steplib`\  parameter can also be specified in the target inventory's environment\_vars.
-   - The \ :emphasis:`steplib`\  input parameter to the module will take precedence over the value specified in the environment\_vars.
-   - If only the \ :emphasis:`steplib`\  parameter is specified, then only the \ :emphasis:`steplib`\  concatenation will be used to resolve the IMS RESLIB data set.
-   - Specifying only \ :emphasis:`reslib`\  without \ :emphasis:`steplib`\  is not supported.
+    | **required**: True
+    | **type**: int
+
+
+
+managed_acbs
+  Specifies whether deleting DBD and PSB instances from the IMS catalog causes the corresponding DBD and PSB instances in the IMS directory to be deleted. If 'analysis_mode' is true, the DBD and PSB instances will not be deleted from the IMS directory.
+
+  | **required**: False
+  | **type**: bool
+
+
+resource_chkp_freq
+  Specifies the number of resource instances to be deleted or updated between checkpoints. Can be a 1 to 8 digit numeric value between 1 to 99999999. The default value is 200.
+
+  | **required**: False
+  | **type**: int
+
+
+sysut1
+  The data set where delete statements are written to. Written either by the purge utility when specifying ANALYSIS or BOTH mode, or by the user when specifying PURGE mode.
+
+  | **required**: False
+  | **type**: dict
+
+
+  dataset_name
+    Describes the name of the data set.
+
+    | **required**: True
+    | **type**: str
+
+
+  disposition
+    The status of the data set.
+
+    | **required**: False
+    | **type**: str
+    | **choices**: NEW, OLD, SHR, EXCL
+
+
+  block_size
+    The block size.
+
+    | **required**: False
+    | **type**: int
+
+
+  primary
+    The amount of primary space to allocate for the data set.
+
+    | **required**: False
+    | **type**: int
+
+
+  primary_unit
+    The unit of size to use when specifying primary space.
+
+    | **required**: False
+    | **type**: str
+
+
+  secondary
+    The amount of secondary space to allocate for the data set.
+
+    | **required**: False
+    | **type**: int
+
+
+  secondary_unit
+    The unit of size to use when specifying secondary space.
+
+    | **required**: False
+    | **type**: str
+
+
+  normal_disposition
+    Data set action after normal termination.
+
+    | **required**: False
+    | **type**: str
+    | **choices**: DELETE, KEEP, CATLG, UNCATLG
+
+
+  abnormal_disposition
+    Data set action after abnormal termination.
+
+    | **required**: False
+    | **type**: str
+    | **choices**: DELETE, KEEP, CATLG, UNCATLG
+
+
+  type
+    The type of the data set.
+
+    | **required**: False
+    | **type**: str
+    | **choices**: SEQ, BASIC, LARGE, PDS, PDSE, LIBRARY, LDS, RRDS, ESDS, KSDS
+
+
+  volumes
+    A list of volume serials. When providing multiple volumes, processing will begin with the first volume in the provided list. Offline volumes are not considered.
+
+    | **required**: False
+    | **type**: list
+    | **elements**: str
+
+
+  storage_class
+    The storage class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
+
+    | **required**: False
+    | **type**: str
+
+
+  management_class
+    The management class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
+
+    | **required**: False
+    | **type**: str
+
+
+  data_class
+    The data class for an SMS-managed data set. Not valid for data sets that are not SMS-managed.
+
+    | **required**: False
+    | **type**: str
+
 
 
 
@@ -287,132 +474,149 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
-    - name: Purge the IMS Catalog of DBDs beginning with 'DB'
-      ims_catalog_purge:
-        reslib:
-          - SOME.IMS.SDFSRESL
-        steplib:
-          - SOME.IMS.SDFSRESL
-        proclib:
-          - SOME.IMS.PROCLIB
-        dbd_lib:
-          - SOME.IMS.DBDLIB
-        psb_lib:
-          - SOME.IMS.PSBLIB
-        buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
-        dfsdf_member: "CAT"
-        primary_log_dataset:
-          dataset_name: SOME.IMS.LOG1
-        mode: PURGE
-        delete:
-          - resource: DBD
-            member_name: 'AUTODB'
-            time_stamp: 500
+   
+   - name: Purge the IMS Catalog of DBDs beginning with 'DB'
+     ims_catalog_purge:
+       reslib:
+         - SOME.IMS.SDFSRESL
+       steplib:
+         - SOME.IMS.SDFSRESL
+       proclib:
+         - SOME.IMS.PROCLIB
+       dbd_lib:
+         - SOME.IMS.DBDLIB
+       psb_lib:
+         - SOME.IMS.PSBLIB
+       buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+       dfsdf_member: "CAT"
+       primary_log_dataset:
+         dataset_name: SOME.IMS.LOG1
+       mode: PURGE
+       delete:
+         - resource: DBD
+           member_name: 'AUTODB'
+           time_stamp: 500
 
-    - name: Purge the IMS Catalog and the IMS Directory of DBDs beginning with 'DB'
-      ims_catalog_purge:
-        reslib:
-          - SOME.IMS.SDFSRESL
-        steplib:
-          - SOME.IMS.SDFSRESL
-        proclib:
-          - SOME.IMS.PROCLIB
-        dbd_lib:
-          - SOME.IMS.DBDLIB
-        psb_lib:
-          - SOME.IMS.PSBLIB
-        buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
-        dfsdf_member: "CAT"
-        primary_log_dataset:
-          dataset_name: SOME.IMS.LOG1
-        mode: PURGE
-        delete:
-          - resource: DBD
-            member_name: AUTODB
-            time_stamp: 500
-        managed_acbs: true
+   - name: Purge the IMS Catalog and the IMS Directory of DBDs beginning with 'DB'
+     ims_catalog_purge:
+       reslib:
+         - SOME.IMS.SDFSRESL
+       steplib:
+         - SOME.IMS.SDFSRESL
+       proclib:
+         - SOME.IMS.PROCLIB
+       dbd_lib:
+         - SOME.IMS.DBDLIB
+       psb_lib:
+         - SOME.IMS.PSBLIB
+       buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+       dfsdf_member: "CAT"
+       primary_log_dataset:
+         dataset_name: SOME.IMS.LOG1
+       mode: PURGE
+       delete:
+         - resource: DBD
+           member_name: AUTODB
+           time_stamp: 500
+       managed_acbs: true
 
-    - name: Analyze the IMS Catalog and generate delete statements for resources eligible for deletion
-      ims_catalog_purge:
-        reslib:
-          - SOME.IMS.SDFSRESL
-        steplib:
-          - SOME.IMS.SDFSRESL
-        proclib:
-          - SOME.IMS.PROCLIB
-        dbd_lib:
-          - SOME.IMS.DBDLIB
-        psb_lib:
-          - SOME.IMS.PSBLIB
-        buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
-        dfsdf_member: "CAT"
-        primary_log_dataset:
-          dataset_name: SOME.IMS.LOG1
-        mode: ANALYSIS
+   - name: Analyze the IMS Catalog and generate delete statements for resources eligible for deletion
+     ims_catalog_purge:
+       reslib:
+         - SOME.IMS.SDFSRESL
+       steplib:
+         - SOME.IMS.SDFSRESL
+       proclib:
+         - SOME.IMS.PROCLIB
+       dbd_lib:
+         - SOME.IMS.DBDLIB
+       psb_lib:
+         - SOME.IMS.PSBLIB
+       buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+       dfsdf_member: "CAT"
+       primary_log_dataset:
+         dataset_name: SOME.IMS.LOG1
+       mode: ANALYSIS
 
-    - name: Update resource retention criteria for resources in the IMS Catalog while running as BMP
-      ims_catalog_purge:
-        online_batch: True
-        ims_id: IMS1
-        reslib:
-          - SOME.IMS.SDFSRESL
-        steplib:
-          - SOME.IMS.SDFSRESL
-        proclib:
-          - SOME.IMS.PROCLIB
-        dbd_lib:
-          - SOME.IMS.DBDLIB
-        psb_lib:
-          - SOME.IMS.PSBLIB
-        buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
-        dfsdf_member: "CAT"
-        primary_log_dataset:
-          dataset_name: SOME.IMS.LOG1
-        mode: ANALYSIS
-        update_retention_criteria:
-          - resource: DBD
-            member_name: AUTODB
-            instances: 0
-            days: 0
-          - resource: PSB
-            member_name: DBF000
-            instances: 0
-            days: 0
+   - name: Update resource retention criteria for resources in the IMS Catalog while running as BMP
+     ims_catalog_purge:
+       online_batch: True
+       ims_id: IMS1
+       reslib:
+         - SOME.IMS.SDFSRESL
+       steplib:
+         - SOME.IMS.SDFSRESL
+       proclib:
+         - SOME.IMS.PROCLIB
+       dbd_lib:
+         - SOME.IMS.DBDLIB
+       psb_lib:
+         - SOME.IMS.PSBLIB
+       buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+       dfsdf_member: "CAT"
+       primary_log_dataset:
+         dataset_name: SOME.IMS.LOG1
+       mode: ANALYSIS
+       update_retention_criteria:
+         - resource: DBD
+           member_name: AUTODB
+           instances: 0
+           days: 0
+         - resource: PSB
+           member_name: DBF000
+           instances: 0
+           days: 0
+
+
+
+
+Notes
+-----
+
+.. note::
+   The *steplib* parameter can also be specified in the target inventory's environment_vars.
+
+   The *steplib* input parameter to the module will take precedence over the value specified in the environment_vars.
+
+   If only the *steplib* parameter is specified, then only the *steplib* concatenation will be used to resolve the IMS RESLIB data set.
+
+   Specifying only *reslib* without *steplib* is not supported.
+
+
+
+
 
 
 
 Return Values
 -------------
 
-content (always, str, DFS4810I ALL OF THE MEMBER INSTANCES THAT ARE REFERENCED IN THE SYSUT1 DATA SET WERE DELETED FROM THE IMS CATALOG.)
+
+content
   The standard output returned running the IMS Catalog Purge utility.
 
+  | **returned**: always
+  | **type**: str
+  | **sample**: DFS4810I ALL OF THE MEMBER INSTANCES THAT ARE REFERENCED IN THE SYSUT1 DATA SET WERE DELETED FROM THE IMS CATALOG.
 
-rc (sometimes, str, 0)
+rc
   The return code from the IMS Catalog Purge utility.
 
+  | **returned**: sometimes
+  | **type**: str
+  | **sample**: 0
 
-stderr (sometimes, str, 12.27.08 STC00143  +DFS671I OMVSADM8.STEP1. - FOR THIS EXECUTION, DBRC IS SET TO NO     IMS1)
+stderr
   The standard error output returned from running the IMS Catalog Purge utility.
 
+  | **returned**: sometimes
+  | **type**: str
+  | **sample**: 12.27.08 STC00143  +DFS671I OMVSADM8.STEP1. - FOR THIS EXECUTION, DBRC IS SET TO NO     IMS1
 
-msg (sometimes, str, You must specify a buffer pool parameter data set when running as DLI.)
+msg
   Messages returned from the IMS Catalog Purge module.
 
-
-
-
-
-Status
-------
-
-
-
-
-
-Authors
-~~~~~~~
-
-- Jerry Li (@th365thli)
+  | **returned**: sometimes
+  | **type**: str
+  | **sample**: You must specify a buffer pool parameter data set when running as DLI.
 
