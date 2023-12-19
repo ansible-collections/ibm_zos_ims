@@ -27,7 +27,7 @@ application deployment in one easy-to-use platform.
 community supported.
 
 For **guides** and **reference**, please visit [the documentation
-site](https://ansible-collections.github.io/ibm_zos_ims/).
+site](https://ibm.github.io/z_ansible_collections_doc/index.html).
 
 Features
 ========
@@ -40,7 +40,7 @@ and ansible-doc to automate tasks on IMS.
 Ansible version compatibility
 ==============================
 
-This collection has been tested against the following Ansible versions: >=2.9,<=2.14.1.
+This collection has been tested against the following Ansible versions: >=2.14.0,<2.16.0.
 
 
 Copyright

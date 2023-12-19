@@ -67,6 +67,12 @@ options:
       - Defines the buffer pool parameters data set. This option is required if you are running the utility as a DLI.
     type: str
     required: false
+  dfsdf_member:
+    description:
+      - The DFSDFxxx member in the IMS.PROCLIB data set where the CATALOG section is defined.
+        For example, dfsdf_member is "CAT" specifies the DFSDFCAT member of the PROCLIB data set.
+    type: str
+    required: false
   primary_log_dataset:
     description:
       - Defines the primary IMS log data set. This option is required if you are running the utility as a DLI.
@@ -440,6 +446,7 @@ EXAMPLES = r'''
     psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+    dfsdf_member: "CAT"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG1
     mode: PURGE
@@ -461,6 +468,7 @@ EXAMPLES = r'''
     psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+    dfsdf_member: "CAT"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG1
     mode: PURGE
@@ -483,6 +491,7 @@ EXAMPLES = r'''
     psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+    dfsdf_member: "CAT"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG1
     mode: ANALYSIS
@@ -502,6 +511,7 @@ EXAMPLES = r'''
     psb_lib:
       - SOME.IMS.PSBLIB
     buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+    dfsdf_member: "CAT"
     primary_log_dataset:
       dataset_name: SOME.IMS.LOG1
     mode: ANALYSIS
@@ -554,6 +564,7 @@ def run_module():
         irlm_id=dict(type="str", required=False),
         reslib=dict(type="list", elements="str", required=False),
         buffer_pool_param_dataset=dict(type="str", required=False),
+        dfsdf_member=dict(type="str", required=False),
         primary_log_dataset=dict(type="dict", required=True),
         psb_lib=dict(type="list", elements="str", required=True),
         dbd_lib=dict(type="list", elements="str", required=True),

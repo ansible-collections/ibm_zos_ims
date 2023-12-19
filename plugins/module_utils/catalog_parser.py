@@ -1,6 +1,13 @@
 from __future__ import (absolute_import, division, print_function)
-from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.better_arg_parser import BetterArgParser   # pylint: disable=import-error
+from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import (
+    MissingZOAUImport
+)
+
+try:
+    from zoautil_py import datasets
+except ImportError:
+    datasets = MissingZOAUImport()
 
 __metaclass__ = type
 
@@ -20,6 +27,7 @@ class catalog_parser(object):
                 irlm_id=dict(arg_type="str", required=False),
                 reslib=dict(arg_type="list", elements="data_set", required=False),
                 buffer_pool_param_dataset=dict(arg_type="data_set", required=False),
+                dfsdf_member=dict(arg_type="str", required=False),
                 primary_log_dataset=dict(arg_type="dict", required=False,
                                          options=dict(
                                              dataset_name=dict(arg_type="data_set", required=True),
@@ -52,6 +60,11 @@ class catalog_parser(object):
 
             parser = BetterArgParser(module_defs)
             self.parsed_args = parser.parse_args(self.params)
+
+            if self.parsed_args.get("dfsdf_member") is not None:
+                self._validate_length("dfsdf_member", 3)
+                self._validate_alphanumeric("dfsdf_member")
+                self._validate_member_exist("dfsdf_member", self.parsed_args.get("proclib"))
 
         except ValueError as error:
             self.result['msg'] = error.args
@@ -296,6 +309,27 @@ class catalog_parser(object):
             self.module.fail_json(**self.result)
 
         return self.parsed_args
+
+    def _validate_length(self, input, length):
+        if len(self.parsed_args.get(input)) != length:
+            self.result['msg'] = str(self.parsed_args.get(input)) + " is not equal to length " + str(length)
+            self.result['rc'] = 1
+            self.module.fail_json(**self.result)
+
+    def _validate_alphanumeric(self, input):
+        if not (self.parsed_args.get(input)).isalnum():
+            self.result['msg'] = str(input) + " input cannot contain special characters, it must be alphanumeric"
+            self.result['rc'] = 1
+            self.module.fail_json(**self.result)
+
+    def _validate_member_exist(self, input, proc):
+        member = self.parsed_args.get(input)
+        member = "DFSDF" + member
+        rc = datasets.find_member(member, proc[0])
+        if rc is None:
+            self.result['msg'] = str(input) + " " + str(member) + " input does not exist"
+            self.result['rc'] = 1
+            self.module.fail_json(**self.result)
 
     def _validate_directory_staging_dataset(self):
         if len(self.parsed_args.get("directory_datasets")) > 20:

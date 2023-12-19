@@ -43,11 +43,13 @@ command_input
 compression
   PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
 
+  The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used
+
   The default is none.
 
   | **required**: False
   | **type**: str
-  | **choices**: precomp, postcomp, precomp,postcomp, PRECOMP, POSTCOMP, PRECOMP,POSTCOMP
+  | **choices**: PRECOMP, POSTCOMP
 
 
 psb_name

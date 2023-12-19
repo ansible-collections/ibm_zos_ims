@@ -64,7 +64,7 @@ member_list
   Elements are of the list are str or dict with single key-value pair
 
   | **required**: False
-  | **type**: list
+  | **type**: raw
 
 
 psb_name
@@ -126,7 +126,7 @@ batch
     Elements are of the list are str or dict with single key-value
 
     | **required**: False
-    | **type**: list
+    | **type**: raw
 
 
   psb_name
