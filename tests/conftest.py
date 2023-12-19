@@ -6,6 +6,7 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 import pytest
+from pprint import pprint
 from ibm_zos_ims.tests.helpers.ztest import ZTestHelper
 import sys
 from mock import MagicMock
@@ -21,8 +22,13 @@ def pytest_addoption(parser):
 @pytest.fixture(scope="session")
 def z_python_interpreter(request):
     """ Generate temporary shell wrapper for python interpreter. """
+    pprint("CONFTEST VARIABLES:    ")
     path = request.config.getoption("--zinventory")
+    pprint(path)
     helper = ZTestHelper.from_yaml_file(path)
+
+    pprint(helper)
+    pprint(ZTestHelper)
     interpreter_str = helper.build_interpreter_string()
     inventory = helper.get_inventory_info()
     ims_vars = helper.build_ims_dict()

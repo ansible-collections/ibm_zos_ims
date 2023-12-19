@@ -14,7 +14,8 @@ Ansible® Automation to IBM Z through the offering
 The **IBM z/OS IMS collection** supports tasks such as generating
 IMS Database Descriptors (DBD), Program Specification Blocks (PSB),
 Application Control Blocks (ACB), running IMS commands
-(type-1, type-2, DBRC), and interacting with the IMS Catalog.
+(type-1, type-2, DBRC), interacting with the IMS Catalog, and
+the IMS Data Definition Language Utility (DDL).
 
 The Ansible modules in this collection are written in Python and
 interact with the `IBM z/OS core collection`_ and

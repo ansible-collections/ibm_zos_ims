@@ -3,7 +3,6 @@ __metaclass__ = type
 import re
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import (  # pylint: disable=import-error
     DDStatement,
-    FileDefinition,
     DatasetDefinition,
     StdoutDefinition,
     StdinDefinition

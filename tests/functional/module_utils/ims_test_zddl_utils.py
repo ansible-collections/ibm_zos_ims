@@ -13,28 +13,28 @@ class ZDDLInputParameters():
     RESLIB = ["IMSTESTL.IMS1.SDFSRESL"]
     PROCLIB = ["IMSTESTL.IMS1.PROCLIB"]
     SQL_INPUT = "CREATE DATABASE SVL1;"
-    SQL_INPUTS = ["CREATE DATABASE SVL2;", 
-                  "CREATE TABLE IMS1(DB INT PRIMARY KEY) IN DATABASE SVL2;", 
+    SQL_INPUTS = ["CREATE DATABASE SVL2;",
+                  "CREATE TABLE IMS1(DB INT PRIMARY KEY) IN DATABASE SVL2;",
                   "COMMIT DDL;"
                   ]
-    
 
 
-    SQL_FULL_INPUTS = [ "CREATE DATABASE DEMODB1;", 
+
+    SQL_FULL_INPUTS = [ "CREATE DATABASE DEMODB1;",
                         "CREATE TABLE T1(C1 INT PRIMARY KEY);",
                         "USER.DDL(TESTDB02)",
-                        "USER.DDL(TESTDB03)", 
-                        "DROP PROGRAMVIEW DEMOPSB1 IF EXISTS;", 
-                        "CREATE PROGRAMVIEW DEMOPSB1", 
-                        "(CREATE SCHEMA S1 USING DEMODB1 AS S1", 
-                        "(CREATE SENSEGVIEW T1)", 
+                        "USER.DDL(TESTDB03)",
+                        "DROP PROGRAMVIEW DEMOPSB1 IF EXISTS;",
+                        "CREATE PROGRAMVIEW DEMOPSB1",
+                        "(CREATE SCHEMA S1 USING DEMODB1 AS S1",
+                        "(CREATE SENSEGVIEW T1)",
                         ") LANGASSEM;"
-                       ] 
+                       ]
 
     VERBOSE = False
     AUTO_COMMIT = False
     SIMULATE = False
-    CREATE_PROGRAM_VIEW = False # All the Control statementsn are false as default, even thougt create_program_view is the only one specified as default
+    dynamic_programview = False # All the Control statements are false as default, even though create_programview is the only one specified as default
     # INVALID VALUES
     INVALID_IMS_ID = "INVALID"
     INVALID_IRLM_ID = "INVALID"
@@ -42,8 +42,8 @@ class ZDDLInputParameters():
     INVALID_RESLIB = ["INVALID.SDFSRESL"]
     INVALID_PROCLIB = ["INVALID.PROCLIB"]
     INVALID_SQL_INPUT = ["jhhhjjbnjbhjbi"]
-    MIXED_SQL_INPUT =[  "CREATE DATABASE SVL1;", 
-                        "CREATE TABLE IMS1(DB INT PRIMARY KEY) IN DATABASE SVL1;", 
+    MIXED_SQL_INPUT =[  "CREATE DATABASE SVL1;",
+                        "CREATE TABLE IMS1(DB INT PRIMARY KEY) IN DATABASE SVL1;",
                         "njdsnfjsndjfgsfng"]
     EMPTY_STEPLIB = "IMSTESTL.ANS.EMPTY.STEPLIB"
     EMPTY_SQL_INPUT = []

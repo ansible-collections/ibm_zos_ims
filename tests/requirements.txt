@@ -2,13 +2,15 @@
 # Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
 # oyaml==0.9
+
+ansible==8.5.0
 pyyaml==5.4
-pytest==5.3.0
+pytest==7.4.2
 shellescape==3.8.1
 pytest_mock==1.12.1
 mock==3.0.5
-ansible-core==2.14.4
-pytest-ansible==2.2.2
+# ansible-core==2.15.5
+# pytest-ansible==4.0.0
 voluptuous==0.12.1
-pylint>=2.5
+pylint>=3.0.0
 pycodestyle==2.7.0

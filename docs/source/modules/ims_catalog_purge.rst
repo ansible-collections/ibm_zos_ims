@@ -79,6 +79,13 @@ buffer_pool_param_dataset
   | **type**: str
 
 
+dfsdf_member
+  The DFSDFxxx member in the IMS.PROCLIB data set where the CATALOG section is defined. For example, dfsdf_member is "CAT" specifies the DFSDFCAT member of the PROCLIB data set.
+
+  | **required**: False
+  | **type**: str
+
+
 primary_log_dataset
   Defines the primary IMS log data set. This option is required if you are running the utility as a DLI.
 
@@ -481,6 +488,7 @@ Examples
        psb_lib:
          - SOME.IMS.PSBLIB
        buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+       dfsdf_member: "CAT"
        primary_log_dataset:
          dataset_name: SOME.IMS.LOG1
        mode: PURGE
@@ -502,6 +510,7 @@ Examples
        psb_lib:
          - SOME.IMS.PSBLIB
        buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+       dfsdf_member: "CAT"
        primary_log_dataset:
          dataset_name: SOME.IMS.LOG1
        mode: PURGE
@@ -524,6 +533,7 @@ Examples
        psb_lib:
          - SOME.IMS.PSBLIB
        buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+       dfsdf_member: "CAT"
        primary_log_dataset:
          dataset_name: SOME.IMS.LOG1
        mode: ANALYSIS
@@ -543,6 +553,7 @@ Examples
        psb_lib:
          - SOME.IMS.PSBLIB
        buffer_pool_param_dataset: "SOME.IMS1.PROCLIB(DFSVSMHP)"
+       dfsdf_member: "CAT"
        primary_log_dataset:
          dataset_name: SOME.IMS.LOG1
        mode: ANALYSIS
