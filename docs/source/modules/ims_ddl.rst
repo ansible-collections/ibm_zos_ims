@@ -133,7 +133,7 @@ Examples
 
    
    - name: Example of DDL statements are in a dataset
-     ims_data_definition:
+     ims_ddl:
        online: True
        ims_id: IMS1
        reslib:
@@ -144,7 +144,7 @@ Examples
          - SOME.IMS.PROCLIB
        sql_input: SOME.IMS.SQL
    - name: Example of DDL statements in which VERBOSE and AUTOCOMMIT control options are specified
-     ims_data_definition:
+     ims_ddl:
        online: True
        ims_id: IMS1
        reslib:
@@ -158,7 +158,7 @@ Examples
        auto_commit: true
 
    - name: Example of DDL statements in which SIMULATE control options is specified
-     ims_data_definition:
+     ims_ddl:
        online: True
        ims_id: IMS1
        reslib:
@@ -171,7 +171,7 @@ Examples
        simulate: true
 
    - name: Example of DDL statements in which DYNAMIC_PROGRAMVIEW control option is specified
-     ims_data_definition:
+     ims_ddl:
        online: True
        ims_id: IMS1
        reslib:
