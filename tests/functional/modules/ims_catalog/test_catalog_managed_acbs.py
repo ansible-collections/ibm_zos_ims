@@ -112,7 +112,7 @@ def test_catalog_define_bootstrap(ansible_zos_module):
     for result in response.contacted.values():
         assert result['message'] == ''
         if result['changed'] is False:
-            response = hosts.all.zos_data_set(name=cp.BSDS, state="absent", volume="SCR03")
+            response = hosts.all.zos_data_set(name=cp.BSDS, state="absent", volume="222222")
 
     # Load catalog while defining the bootstrap dataset
     load_catalog(hosts,
@@ -178,7 +178,7 @@ def test_catalog_define_staging(ansible_zos_module):
     for result in response.contacted.values():
         assert result['message'] == ''
         if result['changed'] is False:
-            response = hosts.all.zos_data_set(name=cp.STAGE, state="absent", volume="SCR03")
+            response = hosts.all.zos_data_set(name=cp.STAGE, state="absent", volume="222222")
 
     # Load catalog while defining the staging dataset
     load_catalog(hosts,
@@ -242,17 +242,17 @@ def test_catalog_define_directory(ansible_zos_module):
 
     # Delete the directory datasets first
     # response = hosts.all.zos_data_set(batch=cp.DIR_BATCH) 
-    response1 = hosts.all.zos_data_set(name=cp.DIR1, state="absent", volumes="222222") 
+    response1 = hosts.all.zos_data_set(name=cp.DIR1, state="absent") 
     for result in response1.contacted.values():
         assert result['message'] == ''
         if result['changed'] is False:
-            response1 = hosts.all.zos_data_set(name=cp.DIR1, state="uncataloged", volumes="222222")
+            response1 = hosts.all.zos_data_set(name=cp.DIR1, state="uncataloged")
 
-    response2 = hosts.all.zos_data_set(name=cp.DIR2, state="absent", volumes="222222") 
+    response2 = hosts.all.zos_data_set(name=cp.DIR2, state="absent") 
     for result in response2.contacted.values():
         assert result['message'] == ''
         if result['changed'] is False:
-            response2 = hosts.all.zos_data_set(name=cp.DIR2, state="uncataloged", volumes="222222")
+            response2 = hosts.all.zos_data_set(name=cp.DIR2, state="uncataloged")
 
     # Load catalog while defining the directory datasets
     load_catalog(hosts,
