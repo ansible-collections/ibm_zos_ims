@@ -6,6 +6,43 @@
 Releases
 ========
 
+
+Version 1.3.0
+====================
+
+Notes
+-----
+
+* Update recommended
+
+  * No changes from version 1.3.0-beta.1 release. Collection promoted to certified content with version 1.3.0.
+
+Availability
+------------
+
+* `Automation Hub`_
+* `Galaxy`_
+* `GitHub`_
+
+Reference
+---------
+
+* Supported by IBM z/OS core collection v1.4.0 or later
+* Supported by IBM Z Open Enterprise Python for z/OS 3.9 - 3.12
+* Supported by IBM Z Open Automation Utilities 1.1.1 - 1.2.5
+* Supported by z/OS V2R4
+* The z/OS® shell
+
+.. _centralized content:
+   https://ibm.github.io/z_ansible_collections_doc/index.html
+
+.. _GitHub:
+   https://github.com/ansible-collections/ibm_zos_ims
+
+.. _Galaxy:
+   https://galaxy.ansible.com/ibm/ibm_zos_ims
+
+
 Version 1.3.0-beta.1
 ====================
 
