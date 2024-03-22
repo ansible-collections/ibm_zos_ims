@@ -40,7 +40,7 @@ and ansible-doc to automate tasks on IMS.
 Ansible version compatibility
 ==============================
 
-This collection has been tested against the following Ansible versions: >=2.14.0.
+This collection has been tested against the following Ansible versions: >=2.14.0,<2.17.0.
 
 
 Copyright
