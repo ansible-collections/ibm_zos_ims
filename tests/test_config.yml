@@ -9,11 +9,11 @@ environment:
   _TAG_REDIR_OUT: txt
   STEPLIB: IMSBLD.I15RTSMM.COMRESL1
   LANG: C
-  ZOAU_ROOT:    "/zoau/v1.2.3"
-  ZOAU_HOME:    "/zoau/v1.2.3"
-  LIBPATH:      "/zoau/v1.2.3/lib:/allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz/lib:/lib:/usr/lib:."
-  PYTHONPATH:   "/zoau/v1.2.3/lib"
-  PATH:         "/zoau/v1.2.3/bin:/allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
+  ZOAU_ROOT: "/zoau/v1.2.3"
+  ZOAU_HOME: "/zoau/v1.2.3"
+  LIBPATH: "/zoau/v1.2.3/lib:/allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz/lib:/lib:/usr/lib:."
+  PYTHONPATH: "/zoau/v1.2.3/lib"
+  PATH: "/zoau/v1.2.3/bin:/allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
 extra_args:
   JOB_CARD: |-
     //ANSIBLE JOB 'testing',
