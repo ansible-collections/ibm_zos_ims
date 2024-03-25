@@ -15,7 +15,7 @@ Notes
 
 * Update recommended
 
-  * type() was replaced by isinstance() in the code for gen utilities since python ansible-core 3.12 deprecreated type() funtion.
+  * type() was replaced by isinstance() in the code for gen utilities since ansible-core 2.16 supports Python 3.12 and that version deprecated type() function. 
   * No other changes from version 1.3.0-beta.1 release. Collection promoted to certified content with version 1.3.0.
 
 Availability
