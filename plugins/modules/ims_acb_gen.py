@@ -36,13 +36,16 @@ options:
   compression:
     description:
       - PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
-      - The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used
       - The default is none.
     type: str
     required: false
     choices:
+      - precomp
+      - postcomp
+      - precomp,postcomp
       - PRECOMP
       - POSTCOMP
+      - PRECOMP,POSTCOMP
   psb_name:
     description:
       - The name of the PSB(s). Specifies that blocks are built or deleted for all PSBs that are named on this control statement.

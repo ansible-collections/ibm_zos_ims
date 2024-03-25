@@ -7,4 +7,3 @@ plugins/modules/ims_dbrc.py validate-modules:missing-gplv3-license # Licensed un
 plugins/modules/ims_catalog_populate.py validate-modules:missing-gplv3-license # Licensed under Apache 2.0
 plugins/modules/ims_catalog_purge.py validate-modules:missing-gplv3-license # Licensed under Apache 2.0
 plugins/modules/ims_ddl.py validate-modules:missing-gplv3-license # Licensed under Apache 2.0
-plugins/modules/ims_acb_gen.py validate-modules:doc-choices-do-not-match-spec
