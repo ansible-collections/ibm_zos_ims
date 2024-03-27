@@ -129,13 +129,11 @@ class CatalogInputParameters():
     DIR_BATCH = [
         {
             'name': DIR1,
-            'state': 'absent',
-            'volumes': '222222'
+            'state': 'absent'
         },
         {
             'name': DIR2,
-            'state': 'absent',
-            'volumes': '222222'
+            'state': 'absent'
         }
     ]
     RETENTION = [
