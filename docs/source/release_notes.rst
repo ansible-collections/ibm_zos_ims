@@ -31,7 +31,8 @@ Reference
 * Supported by IBM z/OS core collection v1.5.0 or later
 * Supported by IBM Z Open Enterprise Python for z/OS 3.9 - 3.12
 * Supported by IBM Z Open Automation Utilities 1.2.2 or later (but prior to 1.3)
-* Supported by z/OS V2R4
+    * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see: https://github.com/ansible-collections/ibm_zos_core/releases
+* Supported by z/OS V2R4 (or later) but prior to version V3R1
 * The z/OS® shell
 
 .. _centralized content:
@@ -81,7 +82,8 @@ Reference
 * Supported by IBM z/OS core collection v1.5.0 or later
 * Supported by IBM Z Open Enterprise Python for z/OS: 3.9 or later
 * Supported by IBM Z Open Automation Utilities 1.2.2 or later (but prior to 1.3)
-* Supported by z/OS V2R4
+    * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see: https://github.com/ansible-collections/ibm_zos_core/releases
+* Supported by z/OS V2R4 (or later) but prior to version V3R1
 * The z/OS® shell
 
 .. _centralized content:
