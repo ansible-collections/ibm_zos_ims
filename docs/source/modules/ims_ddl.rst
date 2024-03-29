@@ -66,9 +66,9 @@ proclib
 steplib
   Points to IMS.SDFSRESL, which contains the IMS nucleus and required IMS modules.
 
-  The steplib parameter can also be specified in the target inventory's environment_vars.
+  The steplib parameter can also be specified in the target inventory's environment\_vars.
 
-  The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
+  The steplib input parameter to the module will take precedence over the value specified in the environment\_vars.
 
   | **required**: False
   | **type**: list
@@ -191,13 +191,13 @@ Notes
 -----
 
 .. note::
-   The *steplib* parameter can also be specified in the target inventory's environment_vars.
+   The \ :emphasis:`steplib`\  parameter can also be specified in the target inventory's environment\_vars.
 
-   The *steplib* input parameter to the module will take precedence over the value specified in the environment_vars.
+   The \ :emphasis:`steplib`\  input parameter to the module will take precedence over the value specified in the environment\_vars.
 
-   If only the *steplib* parameter is specified, then only the *steplib* concatenation will be used to resolve the IMS RESLIB data set.
+   If only the \ :emphasis:`steplib`\  parameter is specified, then only the \ :emphasis:`steplib`\  concatenation will be used to resolve the IMS RESLIB data set.
 
-   Specifying only *reslib* without *steplib* is not supported.
+   Specifying only \ :emphasis:`reslib`\  without \ :emphasis:`steplib`\  is not supported.
 
    Currently ddl error messages are returned within the content block of the module response.
 
