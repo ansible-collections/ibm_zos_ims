@@ -25,6 +25,16 @@ Availability
 * `Galaxy`_
 * `GitHub`_
 
+
+
+Known Issues
+------------
+
+- ``ims_command`` - STEPLIB is required and needs to be defined as an environment variable.
+- ``ims_command`` - Currently, this module requires to have plex parameter defined.
+
+
+
 Reference
 ---------
 
