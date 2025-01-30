@@ -90,7 +90,9 @@ This release of the collection was tested with the following dependencies.
 
 ## Contributing
 
-We welcome your contributions to improve the IBM z/OS IMS collection. Please open GitHub issues for bugs, comments, or feature requests.
+We are not currently accepting community contributions. However, we encourage you to open git issues for bugs, comments or feature requests.
+
+Review this content periodically to learn when and how to make contributions in the future. For the latest information on open issues, see: [git issues](https://github.com/ansible-collections/ibm_zos_ims/issues).
 
 ## Support
 
