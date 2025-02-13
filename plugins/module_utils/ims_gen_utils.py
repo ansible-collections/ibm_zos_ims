@@ -328,7 +328,7 @@ def execute_gen_command(source, dest, syslib_list, run_command, module, result):
                         return src, return_code, return_text, failed
 
                     for item in source['member_list']:
-                        if type(item) == str:
+                        if isinstance(item, str):
                             # set target name same as src
                             src_member = item
                             target_name = item

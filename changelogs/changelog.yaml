@@ -69,7 +69,6 @@ releases:
         \n"
     fragments:
     - v1.2.0_summary.yml
-    - v1.2.0_summary.yml
     release_date: '2023-03-31'
   1.2.0-beta.1:
     changes:
@@ -93,3 +92,33 @@ releases:
     fragments:
     - v1.2.0-beta2_summary.yml
     release_date: '2022-12-22'
+  1.3.0:
+    changes:
+      release_summary: "Release Date: '2024-04-10'\nThis changelog describes all changes
+        made to the modules and plugins included\nin this collection.\nFor additional
+        details such as required dependencies and availability review\nthe collections
+        `release notes <https://github.com/ansible-collections/ibm_zos_ims/blob/dev/docs/source/release_notes.rst>`__
+        \n"
+    fragments:
+    - v1.3.0_summary.yml
+    release_date: '2024-04-10'     
+  1.3.0-beta.1:
+    changes:
+      major_changes:
+      - Added new module 'ims_ddl'
+      - Added new member dfsdf_member in the ims_catalog_populate and ims_catalog_purge modules.
+        The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
+      - Documentation update, minor updates to compression parameter in the ims_acbgen module where
+        PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
+        The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used.
+      - Improved test and ansible-sanity coverage.
+      - Subset of the test cases were updated to support for Ansible 2.15.
+      - Additional support for test cases in ims_catalog_populate and ims_catalog_purge modules to 
+        support dfsdf_member parameter.
+      - This update also has updated prerequisites for Ansible 2.14 or newer and ZOAU 1.2.2 or newer 
+        but prior to version 1.3.
+    fragments:
+    - v1.3.0-beta1_summary.yml
+    release_date: '2023-12-15'
+  
+    
