@@ -870,7 +870,7 @@ notes:
 EXAMPLES = '''
 - name: Example of a loading the IMS Catalog running as a BMP
   ims_catalog_populate:
-    online_batch: True
+    online_batch: true
     ims_id: IMS1
     mode: LOAD
     acb_lib:

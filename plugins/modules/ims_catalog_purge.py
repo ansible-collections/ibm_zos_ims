@@ -498,7 +498,7 @@ EXAMPLES = r'''
 
 - name: Update resource retention criteria for resources in the IMS Catalog while running as BMP
   ims_catalog_purge:
-    online_batch: True
+    online_batch: true
     ims_id: IMS1
     reslib:
       - SOME.IMS.SDFSRESL
