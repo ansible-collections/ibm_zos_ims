@@ -1,10 +1,10 @@
 # IBM® z/OS® IMS collection
 
-The IBM z/OS IMS collection enables Ansible to interact with IBM Information Management System (IMS). The collection focuses on IMS system management operations such as generating database descriptors, program specifications, and executing IMS commands.
+The IBM z/OS IMS collection enables Ansible to interact with IBM Information Management System. The collection focuses on system management operations such as generating database descriptors, program specifications, Application Control Blocks (ACB), data definition language (DDL), catalog operations, submitting DBRC commands, and executing commands.
 
 ## Description
 
-The **IBM z/OS IMS** collection is part of the **Red Hat® Ansible Certified Content for IBM Z®** offering that brings Ansible automation to IBM Z®. This collection enables automation of IMS tasks such as generating IMS Database Descriptors (DBD), Program Specification Blocks (PSB), Application Control Blocks (ACB), and running IMS type-1 & type-2 commands.
+The IBM z/OS IMS collection is part of the Red Hat® Ansible Certified Content for IBM Z® offering that brings Ansible automation to IBM Z®. This collection enables automation of IMS tasks such as generating IMS Database Descriptors (DBD), Program Specification Blocks (PSB), Application Control Blocks (ACB), managing DDL, catalog operations, submitting DBRC commands, and running IMS type-1 & type-2 commands.
 
 System programmers can automate IMS system management tasks while database administrators can streamline database operations. The collection works seamlessly with other IBM Z collections like IBM z/OS core to deliver comprehensive z/OS automation solutions.
 
@@ -17,7 +17,7 @@ The collection requires the following on the managed node:
 - IBM Open Enterprise SDK for Python
 - IBM Z Open Automation Utilities (ZOAU)
 
-> For more details about the specific versions required on the controller and managed node please visit https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/resources/releases_maintenance.html.
+The control node requires the IBM z/OS core collection to be installed before installing the IMS collection. Please refer to the [IBM z/OS collections support matrix](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/resources/releases_maintenance.html#support-matrix) for specific version requirements.
 
 ## Installation
 
@@ -40,10 +40,10 @@ Note that if you install the collection from Ansible Galaxy, it will not be upgr
 ansible-galaxy collection install ibm.ibm_zos_ims --upgrade
 ```
 
-You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version 1.0.0:
+You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version 1.2.0:
 
 ```sh
-ansible-galaxy collection install ibm.ibm_zos_ims:1.0.0
+ansible-galaxy collection install ibm.ibm_zos_ims:1.2.0
 ```
 
 ## Use Cases
@@ -77,6 +77,26 @@ ansible-galaxy collection install ibm.ibm_zos_ims:1.0.0
     * Apply maintenance
     * Validate changes
     * Generate maintenance report
+
+* Use Case Name: IMS Catalog Population
+  * Actors: Database Administrator
+  * Description: A database administrator can automate the population and maintenance of the IMS catalog
+  * Flow:
+    * Prepare catalog datasets
+    * Use DDL to define database structures
+    * Populate catalog with database metadata
+    * Verify catalog entries
+    * Update catalog documentation
+
+* Use Case Name: IMS Database Recovery Control
+  * Actors: System Administrator
+  * Description: A system administrator can automate DBRC operations for database recovery and backup management
+  * Flow:
+    * Submit DBRC commands for database registration
+    * Monitor backup status through DBRC queries
+    * Automate recovery scenarios
+    * Manage RECON datasets
+    * Generate DBRC reports
 
 ## Testing
 
