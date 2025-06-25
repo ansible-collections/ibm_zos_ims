@@ -25,9 +25,10 @@ Availability
 Reference
 ---------
 
+* Supported by IBM z/OS version until 3.1
 * Supported by IBM z/OS core collection v1.5.0 or later
 * Supported by IBM Z Open Enterprise Python for z/OS 3.9 - 3.12
-* Supported by IBM Z Open Automation Utilities untill 1.3.1 
+* Supported by IBM Z Open Automation Utilities until 1.3.1 
 * Supported by IBM IMS v15.5
 
   * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see: https://github.com/ansible-collections/ibm_zos_core/releases
