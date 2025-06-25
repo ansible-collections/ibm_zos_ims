@@ -12,9 +12,17 @@ Version 1.3.1
 Notes
 -----
 
-* Update recommended
+ * Compatability to the latest dependencies versions 
 
-  * ZOAU, IBM z/OS core, Python, and Ansible.
+   * Support for z/OS core upgraded from 1.5 to 1.10 or later.
+   * Support for Python upgraded from 3.9 to 3.11 or later.
+   * Support for ZOAU upgraded from 1.2.0 to 1.3.0 or later.
+   * Support for Ansible 2.16 or later.
+
+ * Updated README file based on the RedHat Readme Template.
+ 
+ * Documentation Page Update
+
 
 Availability
 ------------
@@ -25,14 +33,13 @@ Availability
 Reference
 ---------
 
-* Supported by IBM z/OS version until 3.1
-* Supported by IBM z/OS core collection v1.5.0 or later
-* Supported by IBM Z Open Enterprise Python for z/OS 3.9 - 3.12
-* Supported by IBM Z Open Automation Utilities until 1.3.1 
-* Supported by IBM IMS v15.5
+* Supported by IBM IMS upto v15.5
+* Supported by IBM z/OS core collection v1.10.0 or later
+* Supported by IBM Z Open Enterprise Python for z/OS 3.11 - 3.13
+* Supported by IBM Z Open Automation Utilities (ZOAU) until 1.3.4
 
-  * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see: https://github.com/ansible-collections/ibm_zos_core/releases
-* Supported by z/OS V2R4 (or later) but prior to version V3R1
+  *  ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see: https://github.com/ansible-collections/ibm_zos_core/releases
+* Supported by z/OS V2R4 (or later)
 * The z/OS® shell
 
 .. _centralized content:
