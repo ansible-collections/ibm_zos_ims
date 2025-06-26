@@ -10,7 +10,7 @@ System programmers can automate IMS system management tasks while database admin
 
 ## Requirements
 
-This collection has been tested against the following Ansible versions: >=2.14.0,<2.17.3.
+This collection is tested against the following Ansible versions: >=2.14.0,<2.17.3.
 
 The collection requires the following on the managed node:
 - IBM z/OS IMS
@@ -124,7 +124,8 @@ Release notes and changelogs are maintained in the [documentation](https://ibm.g
 
 ## Related Information
 
-For guides and reference information, please visit:
+For guides and reference information, Refer to:
+
 - [IBM z/OS collections documentation](https://ibm.github.io/z_ansible_collections_doc/index.html)
 - [Ansible sample playbooks using the z/OS IMS collection](https://github.com/IBM/z_ansible_collections_samples/tree/main/zos_subsystems/ims)
 
