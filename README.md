@@ -125,6 +125,7 @@ Release notes and changelogs are maintained in the [documentation](https://ibm.g
 ## Related Information
 
 For guides and reference information, Refer to:
+
 - [IBM z/OS collections documentation](https://ibm.github.io/z_ansible_collections_doc/index.html)
 - [Ansible sample playbooks using the z/OS IMS collection](https://github.com/IBM/z_ansible_collections_samples/tree/main/zos_subsystems/ims)
 
