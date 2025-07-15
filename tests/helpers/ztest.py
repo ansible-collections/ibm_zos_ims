@@ -24,9 +24,10 @@ from yaml import safe_load
 class ZTestHelper(object):
     """ ZTestHelper provides helper methods to deal with added complexities when testing against a z/OS system. """
 
-    def __init__(self, host, user, python_path, environment, **extra_args):
+    def __init__(self, host, user, port, python_path, environment, **extra_args):
         self._host = host
         self._user = user
+        self._port = port
         self._python_path = python_path
         self._environment = environment
         self._extra_args = extra_args
@@ -43,7 +44,7 @@ class ZTestHelper(object):
         """ Returns dictionary containing basic info needed to generate a single-host inventory file. """
         inventory_info = {
             'user': self._user,
-            'inventory': '{0},'.format(self._host),
+            'inventory': f"{self._host} ansible_user={self._user} ansible_port={self._port}",
         }
         inventory_info.update(self._extra_args)
         return inventory_info
