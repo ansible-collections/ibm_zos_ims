@@ -45,6 +45,7 @@ def ansible_zos_module(request, z_python_interpreter):
         host.vars['ansible_python_interpreter'] = interpreter
         host.vars['ansible_port'] = inventory["ansible_port"]
         host.vars['ansible_ssh_private_key_file'] = "/home/jenkins/.ssh/id_rsa"
+        host.vars['ansible_ssh_extra_args'] = "-o StrictHostKeyChecking=no"
         host.vars['STEPLIB'] = ims_variables["STEPLIB"]
         host.vars['JOB_CARD'] = ims_variables["JOB_CARD"]
         print(host.__dict__)
