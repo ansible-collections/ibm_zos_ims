@@ -1,10 +1,9 @@
 # Copyright (c) IBM Corporation 2019, 2020
 # Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
-oyaml==0.9
-
+oyaml==1.0
 ansible==8.5.0
-pyyaml==5.4
+pyyaml==6.0
 pytest==7.4.2
 shellescape==3.8.1
 pytest_mock==1.12.1
