@@ -33,9 +33,10 @@ from oyaml import safe_load
 class ZTestHelper(object):
     """ ZTestHelper provides helper methods to deal with added complexities when testing against a z/OS system. """
 
-    def __init__(self, host, user, python_path, environment, **extra_args):
+    def __init__(self, host, user, port, python_path, environment, **extra_args):
         self._host = host
         self._user = user
+        self._port = port
         self._python_path = python_path
         self._environment = environment
         self._extra_args = extra_args
@@ -142,7 +143,8 @@ class ZTestHelper(object):
         """ Returns dictionary containing basic info needed to generate a single-host inventory file. """
         inventory_info = {
             "user": self._user,
-            "inventory": "{0},".format(self._host),
+            "inventory": "zdt-ims-cicd1.fyre.ibm.com,",
+            "ansible_port": self._port
         }
         inventory_info.update(self._extra_args)
         return inventory_info
@@ -152,7 +154,7 @@ class ZTestHelper(object):
         This is useful in situations where no environment variables are assumed to be set. """
         interpreter_string = ""
         for key, value in self._environment.items():
-            interpreter_string += "export {0}={1} ; ".format(key, value)
+            interpreter_string += "{0}={1} ".format(key, value)
         interpreter_string += self._python_path
         return interpreter_string
 
@@ -176,3 +178,10 @@ class ZTestHelper(object):
                     message = f"Invalid value for use with property [{key}], value must be type list[]."
                     raise ValueError(message)
                 return value
+
+    def build_ims_dict(self):
+            ims_info = {
+                'STEPLIB': self._environment.get("STEPLIB"),
+                'JOB_CARD': self._extra_args.get("extra_args").get("JOB_CARD"),
+            }
+            return ims_info

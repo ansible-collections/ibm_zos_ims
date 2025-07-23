@@ -1,19 +1,25 @@
-host: "ec01105a.vmec.svl.ibm.com"
-user: "omvsadm"
-python_path: "/allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz/bin/python3"
+host: zdt-ims-cicd1.fyre.ibm.com
+user: ibmuser
+port: 2022
+
+python_path: /usr/lpp/IBM/cyp/v3r12/pyz/bin/python3.12
+# ansible_ssh_private_key_file: 
+
+PYZ: /usr/lpp/IBM/cyp/v3r12/pyz
+ZOAU: /usr/lpp/IBM/zoau
 environment:
   _BPXK_AUTOCVT: "ON"
-  _CEE_RUNOPTS: "'FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'"
-  _TAG_REDIR_ERR: txt
-  _TAG_REDIR_IN: txt
-  _TAG_REDIR_OUT: txt
-  STEPLIB: IMSBLD.I15RTSMM.COMRESL1
-  LANG: C
-  ZOAU_ROOT: "/zoau/v1.2.3"
-  ZOAU_HOME: "/zoau/v1.2.3"
-  LIBPATH: "/zoau/v1.2.3/lib:/allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz/lib:/lib:/usr/lib:."
-  PYTHONPATH: "/zoau/v1.2.3/lib"
-  PATH: "/zoau/v1.2.3/bin:/allpython/3.9/usr/lpp/IBM/cyp/v3r9/pyz/bin:/bin:/var/bin:/usr/lpp/java/J8.0/bin"
+  ZOAU_HOME: "/usr/lpp/IBM/zoau"
+  PYTHONPATH: "/usr/lpp/IBM/zoau/lib/3.12"
+  LIBPATH: "/usr/lpp/IBM/zoau/lib:/usr/lpp/IBM/cyp/v3r12/pyz/lib:/lib:/usr/lib:."
+  PATH: "/usr/lpp/IBM/zoau/bin:/usr/lpp/IBM/cyp/v3r12/pyz/bin:/bin:/var/bin"
+  # _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
+  _TAG_REDIR_ERR: "txt"
+  _TAG_REDIR_IN: "txt"
+  _TAG_REDIR_OUT: "txt"
+  PYTHONSTDINENCODING: "cp1047"
+  STEPLIB: "IMSTEST.IMS1.SDFSRESL"
+
 extra_args:
   JOB_CARD: |-
     //ANSIBLE JOB 'testing',
