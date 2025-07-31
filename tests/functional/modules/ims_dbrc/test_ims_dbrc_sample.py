@@ -11,7 +11,7 @@ __metaclass__ = type
 def test_ims_dbrc_sample(ansible_zos_module):
     hosts = ansible_zos_module
     # Create the JCLOUT data set if it's not already present
-    response = hosts.all.zos_data_set(name=ip.GENJCL_OUTPUT_DS, state="present", type="SEQ", replace=True)
+    response = hosts.all.zos_data_set(name=ip.GENJCL_OUTPUT_DS, state="present", type="seq", replace=True)
     for ds_result in response.contacted.values():
         assert ds_result['changed']
 
