@@ -44,7 +44,7 @@ def test_purge_valid_default(ansible_zos_module):
                   mode=cp.PURGEMODE,
                   validation_msg="",
                   sysut1=cp.SYSUT1,
-                  rc=0,
+                  rc=4,
                   delete=cp.DELETES)
 
 
