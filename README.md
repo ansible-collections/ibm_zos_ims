@@ -10,7 +10,7 @@ System programmers can automate IMS system management tasks while database admin
 
 ## Requirements
 
-This collection is tested against the following Ansible versions: >=2.14.0,<2.17.3.
+This collection is tested against the following Ansible versions: >=2.15.0, <2.18
 
 The collection requires the following on the managed node:
 - IBM z/OS IMS
