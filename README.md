@@ -46,6 +46,40 @@ You can also install a specific version of the collection, for example, if you n
 ansible-galaxy collection install ibm.ibm_zos_ims:1.3.0
 ```
 
+<br/>As part of the installation, the collection [requirements](#Requirements) must be made available to Ansible through the use of environment variables. The preferred configuration is to place the environment variables in `group_vars` and `host_vars`, you can find examples of this configuration under any [playbook project](https://github.com/IBM/z_ansible_collections_samples).
+
+<br/>If you are testing a configuration, it can be helpful to set the environment variables in a playbook, an example of that can be reviewed [here](https://github.com/ansible-collections/ibm_zos_core/discussions/657).
+
+<br/>To learn more about the ZOAU Python wheel installation method, review the [documentation](https://www.ibm.com/docs/en/zoau/1.3.x?topic=installing-zoau#python-wheel-installation-method).
+
+<br/>If the wheel is installed using the `--target` option, it will install the package into the specified target directory. The environment variable `PYTHONPATH` will have to be configured to where the packages is installed, e.g; `PYTHONPATH: /usr/zoau/wheels`. Using `--target` is recommended, else the wheel will be installed in Python's home directory which may not have write permissions or persist
+after an update.
+
+<br/>If the wheel is installed using the `--user` option, it will install the package into the user directory. The environment variable `PYTHONPATH` will have to be configured to where the packages is installed, e.g; `PYTHONPATH: /u/user`.
+
+<br/>Environment variables:
+
+```sh
+PYZ: "path_to_python_installation_on_zos_target"
+ZOAU: "path_to_zoau_installation_on_zos_target"
+ZOAU_PYTHON_LIBRARY_PATH: "path_to_zoau_wheel_installation_directory"
+
+ansible_python_interpreter: "{{ PYZ }}/bin/python3"
+
+environment_vars:
+  _BPXK_AUTOCVT: "ON"
+  ZOAU_HOME: "{{ ZOAU }}"
+  PYTHONPATH: "{{ ZOAU_PYTHONPATH }}"
+  LIBPATH: "{{ ZOAU }}/lib:{{ PYZ }}/lib:/lib:/usr/lib:."
+  PATH: "{{ ZOAU }}/bin:{{ PYZ }}/bin:/bin:/var/bin"
+  _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
+  _TAG_REDIR_ERR: "txt"
+  _TAG_REDIR_IN: "txt"
+  _TAG_REDIR_OUT: "txt"
+  LANG: "C"
+  PYTHONSTDINENCODING: "cp1047"
+```
+
 ## Use Cases
 
 * Use Case Name: IMS Database Generation
@@ -102,15 +136,15 @@ ansible-galaxy collection install ibm.ibm_zos_ims:1.3.0
 
 This release of the collection was tested with the following dependencies.
 
-- ansible-core v2.17.x
+- ansible-core v2.16.x
 - Python 3.13.x
 - IBM Open Enterprise SDK for Python 3.11.x
-- IBM Z Open Automation Utilities (ZOAU) 1.2.x
+- IBM Z Open Automation Utilities (ZOAU) 1.3.x
 - z/OS V2R5
 
 ## Contributing
 
-We are not currently accepting community contributions. However, we encourage you to open git issues for bugs, comments or feature requests.
+This community is not currently accepting contributions. However, we encourage you to open git issues for bugs, comments or feature requests.
 
 Review this content periodically to learn when and how to make contributions in the future. For the latest information on open issues, see: [git issues](https://github.com/ansible-collections/ibm_zos_ims/issues).
 
