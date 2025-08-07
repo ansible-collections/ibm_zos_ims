@@ -134,13 +134,20 @@ environment_vars:
 
 ## Testing
 
+All releases will meet the following test criteria.
+
+* 100% success for [Functional](https://github.com/ansible-collections/ibm_zos_ims/tree/dev/tests/functional) tests.
+* 100% success for [Unit](https://github.com/ansible-collections/ibm_zos_ims/tree/dev/tests/units) tests.
+* 100% success for [Sanity](https://docs.ansible.com/ansible/latest/dev_guide/testing/sanity/index.html#all-sanity-tests) tests as part of[ansible-test](https://docs.ansible.com/ansible/latest/dev_guide/testing.html#run-sanity-tests).
+* 100% success for [ansible-lint](https://ansible.readthedocs.io/projects/lint/) allowing only false 
+
 This release of the collection was tested with the following dependencies.
 
-- ansible-core v2.16.x
+- ansible-core v2.15.x
 - Python 3.13.x
 - IBM Open Enterprise SDK for Python 3.11.x
 - IBM Z Open Automation Utilities (ZOAU) 1.3.x
-- z/OS V2R5
+- z/OS V2R4 or later
 
 ## Contributing
 
