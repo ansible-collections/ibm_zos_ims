@@ -29,7 +29,7 @@ ansible-galaxy collection install ibm.ibm_zos_ims
 
 You can also include it in a requirements.yml file and install it with `ansible-galaxy collection install -r requirements.yml`, using the format:
 
-```yaml
+```sh
 collections:
   - name: ibm.ibm_zos_ims
 ```
