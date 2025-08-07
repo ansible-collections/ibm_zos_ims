@@ -10,7 +10,7 @@ System programmers can automate IMS system management tasks while database admin
 
 ## Requirements
 
-This collection is tested against the following Ansible versions: >=2.15.0, <2.18
+This collection is tested against the following Ansible versions: 2.15.0 or later
 
 The collection requires the following on the managed node:
 - IBM z/OS IMS
@@ -155,9 +155,20 @@ This community is not currently accepting contributions. However, we encourage y
 
 Review this content periodically to learn when and how to make contributions in the future. For the latest information on open issues, see: [git issues](https://github.com/ansible-collections/ibm_zos_ims/issues).
 
+## Communication
+
+If you would like to communicate with this community, you can do so through the following options.
+
+* GitHub [discussions](https://github.com/ansible-collections/ibm_zos_ims/discussions).
+* GitHub [issues](https://github.com/ansible-collections/ibm_zos_ims/issues/new/choose).
+
 ## Support
 
-As Red Hat Ansible Certified Content, this collection is entitled to support through Ansible Automation Platform (AAP). After creating a Red Hat support case, if it is determined the issue belongs to IBM, Red Hat will instruct you to create an IBM support case and share the case number with Red Hat so that a collaboration can begin between Red Hat and IBM.
+As Red Hat Ansible [Certified Content](https://catalog.redhat.com/software/search?target_platforms=Red%20Hat%20Ansible%20Automation%20Platform), this collection is entitled to [support](https://access.redhat.com/support/) through [Ansible Automation Platform](https://www.redhat.com/en/technologies/management/ansible) (AAP). After creating a Red Hat support case, if it is determined the issue belongs to IBM, Red Hat will instruct you to create an [IBM support case](https://www.ibm.com/mysupport/s/createrecord/NewCase) and share the case number with Red Hat so that a collaboration can begin between Red Hat and IBM.
+
+<br/>If a support case cannot be opened with Red Hat and the collection has been obtained either from [Galaxy](https://galaxy.ansible.com/ui/) or [GitHub](https://github.com/ansible-collections/ibm_zos_core), there is community support available at no charge. Community support is limited to the collection; community support does not include any of the Ansible Automation Platform components, [IBM Z Open Automation Utilities](https://www.ibm.com/docs/en/zoau), [IBM Open Enterprise SDK for Python](https://www.ibm.com/products/open-enterprise-python-zos) or [ansible-ims](https://github.com/ansible/ansible).
+
+<br/>The current supported versions of this collection can be found listed under the [release section](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html).
 
 ## Release Notes and Roadmap
 
