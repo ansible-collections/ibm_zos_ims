@@ -35,7 +35,7 @@ Reference
 * Supported by IBM Z Open Enterprise Python for z/OS v3.11 - v3.13.
 * Supported by IBM Z Open Automation Utilities (ZOAU) through v1.3.0 or later.
 
-  *  ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see `release-v1.15.0-beta.1`_.
+  *  ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see `z/OS Core Releases`_.
 * Supported by z/OS V2R4 (or later)
 * The z/OS® shell
 
@@ -48,7 +48,7 @@ Reference
 .. _Galaxy:
    https://galaxy.ansible.com/ibm/ibm_zos_ims
 
-.. _release-v1.15.0-beta.1:
+.. _z/OS Core Releases:
    https://github.com/ansible-collections/ibm_zos_core/releases
 
 Version 1.3.0
@@ -76,7 +76,7 @@ Reference
 * Supported by IBM Z Open Enterprise Python for z/OS v3.9 - v3.12.
 * Supported by IBM Z Open Automation Utilities 1.2.2 or later (but prior to 1.3).
 
-  * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see `release-v1.15.0-beta.1`_.
+  * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see `z/OS Core Releases`_.
 * Supported by z/OS V2R4 (or later) but prior to version V3R1.
 * The z/OS® shell.
 
@@ -89,6 +89,6 @@ Reference
 .. _Galaxy:
    https://galaxy.ansible.com/ibm/ibm_zos_ims
     
-.. _release-v1.15.0-beta.1:
+.. _z/OS Core Releases:
    https://github.com/ansible-collections/ibm_zos_core/releases
 
