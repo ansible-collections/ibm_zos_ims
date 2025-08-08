@@ -44,7 +44,7 @@ Release Date: '2023-03-31'
 This changelog describes all changes made to the modules and plugins included
 in this collection.
 For additional details such as required dependencies and availability review
-the collections `Release notes for 1.3.0`_
+the collections `Release notes for v1.3.0`_
 
 
 Major Changes
