@@ -162,7 +162,7 @@ class dbrc():
                 try:
                     start_index = re.search(r'\d+\s', unformatted_key).end()
                     key = unformatted_key[start_index:].strip()
-                except Exception as e:
+                except Exception:
                     key = unformatted_key.strip()
             if len(elements) != 2 and \
                 (elements[i + 1][0:2] == double_space or
@@ -249,7 +249,7 @@ class dbrc():
                     failure_detected = True
                 elif re.search(success_pattern, line, re.IGNORECASE):
                     self._changed = True
-        except Exception as e:
+        except Exception:
             # print(repr(e))
             output_fields = {}
             failure_detected = True
