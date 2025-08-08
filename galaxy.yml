@@ -19,6 +19,7 @@ authors:
   - Bryant Panyarachun <bpanyar@us.ibm.com>
   - Dipti Gandhi <ddgandhi@us.ibm.com>
   - Ketan Kelkar <ketan.kelkar@ibm.com>
+  - Abhirami H <Abhirami.H@ibm.com>
 
 # Description
 description: The IBM z/OS IMS collection includes modules and sample playbooks to automate tasks for IBM IMS.
