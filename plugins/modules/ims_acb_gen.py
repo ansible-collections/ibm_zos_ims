@@ -292,7 +292,7 @@ def run_module():
             steplib_str = env_fallback('STEPLIB')
             list_str = steplib_str.split(" ")
             steplib += list_str
-        except AnsibleFallbackNotFound as e:
+        except AnsibleFallbackNotFound:
             module.fail_json(
                 msg=(
                     "The input option 'steplib' is not provided. Please provide it in the environment"

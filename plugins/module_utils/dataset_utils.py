@@ -4,7 +4,7 @@ import tempfile
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.import_handler import (  # pylint: disable=import-error
     MissingZOAUImport,
 )
-import tempfile
+
 try:
     from zoautil_py import Datasets
 except Exception:
