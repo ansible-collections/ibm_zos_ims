@@ -36,8 +36,11 @@ Reference
 * Supported by IBM Z Open Automation Utilities (ZOAU) through v1.3.0 or later.
 
   *  ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see `z/OS Core Releases`_.
-* Supported by z/OS V2R4 (or later)
+* Supported by z/OS V2R5 (or later)
 * The z/OS® shell
+
+.. _Automation Hub:
+   https://www.redhat.com/en/technologies/management/ansible/automation-hub?sc_cid=7015Y000003t7aWQAQ
 
 .. _centralized content:
    https://ibm.github.io/z_ansible_collections_doc/index.html
@@ -79,6 +82,9 @@ Reference
   * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see `z/OS Core Releases`_.
 * Supported by z/OS V2R4 (or later) but prior to version V3R1.
 * The z/OS® shell.
+
+.. _Automation Hub:
+   https://www.redhat.com/en/technologies/management/ansible/automation-hub?sc_cid=7015Y000003t7aWQAQ
 
 .. _centralized content:
    https://ibm.github.io/z_ansible_collections_doc/index.html

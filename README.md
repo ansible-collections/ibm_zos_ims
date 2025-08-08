@@ -17,7 +17,7 @@ The collection requires the following on the managed node:
 - IBM Open Enterprise SDK for Python
 - IBM Z Open Automation Utilities (ZOAU)
 
-The control node requires the IBM z/OS core collection to be installed before installing the IMS collection. Please refer to the [IBM z/OS collections support matrix](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/resources/releases_maintenance.html#support-matrix) for specific version requirements.
+The control node requires the IBM z/OS core collection to be installed before installing the IMS collection. Refer to the [IBM z/OS collection requirements](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/collection-requirements.html) for specific version requirements.
 
 ## Installation
 
@@ -43,12 +43,18 @@ ansible-galaxy collection install ibm.ibm_zos_ims --upgrade
 You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version 1.3.0:
 
 ```sh
-ansible-galaxy collection install ibm.ibm_zos_ims:1.3.0
+ansible-galaxy collection install ibm.ibm_zos_ims:1.1.0
+```
+
+You can also install a beta version of the collection. A beta version is only available on Galaxy and is only supported by the community until it is promoted to General Availability (GA). Use the following syntax to install a beta version:
+
+```sh
+ansible-galaxy collection install ibm.ibm_zos_ims:1.1.0-beta.1
 ```
 
 <br/>As part of the installation, the collection [requirements](#Requirements) must be made available to Ansible through the use of environment variables. The preferred configuration is to place the environment variables in `group_vars` and `host_vars`, you can find examples of this configuration under any [playbook project](https://github.com/IBM/z_ansible_collections_samples).
 
-<br/>If you are testing a configuration, it can be helpful to set the environment variables in a playbook, an example of that can be reviewed [here](https://github.com/ansible-collections/ibm_zos_core/discussions/657).
+<br/>If you are testing a configuration, it can be helpful to set the environment variables in a playbook, for an example to review, refer [Discussions](https://github.com/ansible-collections/ibm_zos_core/discussions/657).
 
 <br/>To learn more about the ZOAU Python wheel installation method, review the [documentation](https://www.ibm.com/docs/en/zoau/1.3.x?topic=installing-zoau#python-wheel-installation-method).
 
@@ -138,7 +144,7 @@ All releases will meet the following test criteria.
 
 * 100% success for [Functional](https://github.com/ansible-collections/ibm_zos_ims/tree/dev/tests/functional) tests.
 * 100% success for [Unit](https://github.com/ansible-collections/ibm_zos_ims/tree/dev/tests/units) tests.
-* 100% success for [Sanity](https://docs.ansible.com/ansible/latest/dev_guide/testing/sanity/index.html#all-sanity-tests) tests as part of[ansible-test](https://docs.ansible.com/ansible/latest/dev_guide/testing.html#run-sanity-tests).
+* 100% success for [Sanity](https://docs.ansible.com/ansible/latest/dev_guide/testing/sanity/index.html#all-sanity-tests) tests as part of [ansible-test](https://docs.ansible.com/ansible/latest/dev_guide/testing.html#run-sanity-tests).
 * 100% success for [ansible-lint](https://ansible.readthedocs.io/projects/lint/) allowing only false 
 
 This release of the collection was tested with the following dependencies.
@@ -147,7 +153,7 @@ This release of the collection was tested with the following dependencies.
 - Python 3.13.x
 - IBM Open Enterprise SDK for Python 3.11.x
 - IBM Z Open Automation Utilities (ZOAU) 1.3.x
-- z/OS V2R4 or later
+- z/OS V2R5 or later
 
 ## Contributing
 
@@ -161,6 +167,9 @@ If you would like to communicate with this community, you can do so through the 
 
 * GitHub [discussions](https://github.com/ansible-collections/ibm_zos_ims/discussions).
 * GitHub [issues](https://github.com/ansible-collections/ibm_zos_ims/issues/new/choose).
+* [Ansible Forum](https://forum.ansible.com/), please use the `zos` tag to ensure proper awareness.
+* Discord [System Z Enthusiasts](https://discord.gg/sze) room `ansible`.
+* Matrix general usage questions [room](https://matrix.to/#/#users:ansible.com).
 
 ## Support
 
@@ -172,21 +181,14 @@ As Red Hat Ansible [Certified Content](https://catalog.redhat.com/software/searc
 
 ## Release Notes and Roadmap
 
-The collection's cumulative release notes can be reviewed [here](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html). Note, some collections release before an ansible-core version reaches End of Life (EOL), thus the version of ansible-core that is supported must be a version that is currently supported.
-
-For AAP users, to see the supported ansible-core versions, review the [AAP Life Cycle](https://access.redhat.com/support/policy/updates/ansible-automation-platform).
-
-For Galaxy and GitHub users, to see the supported ansible-core versions, review the [ansible-core support matrix](https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix).
+For the collection's cumulative, refer [release notes](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html) are an easy way to review changes. The collection [Life Cycle](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/life-cycle_ims.html) also referred to as the Roadmap contains changelog details, support dates and the current level of support
+for each collection. For a complete guide to support, review the **Ansible for IBM Z** [Collection Life Cycles](https://ibm.github.io/z_ansible_collections_doc/collections_content/collection-life-cycles.html#life-cycles).
 
 ## Related Information
 
-For guides and reference information, Refer to:
-
-- [IBM z/OS collections documentation](https://ibm.github.io/z_ansible_collections_doc/index.html)
-- [Ansible sample playbooks using the z/OS IMS collection](https://github.com/IBM/z_ansible_collections_samples/tree/main/zos_subsystems/ims)
+Example playbooks and use cases can be be found in the [Ansible sample playbooks using the z/OS IMS collection](https://github.com/IBM/z_ansible_collections_samples/tree/main/zos_subsystems/ims). For supplemental content on getting started with Ansible, architecture and use cases, refer to [IBM z/OS collections documentation](https://ibm.github.io/z_ansible_collections_doc/index.html).
 
 ## License Information
 
-© Copyright IBM Corporation 2025
-
-This collection is licensed under [Apache License, Version 2.0](https://opensource.org/licenses/Apache-2.0).
+Some portions of this collection are licensed under [GNU General Public License, Version 3.0](https://opensource.org/licenses/GPL-3.0), and other portions of this collection are licensed under [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+See individual files for applicable licenses.
