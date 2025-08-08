@@ -101,7 +101,7 @@ releases:
         \n"
     fragments:
     - v1.3.0_summary.yml
-    release_date: '2024-04-10'     
+    release_date: '2024-04-10'
   1.3.0-beta.1:
     changes:
       major_changes:
@@ -120,5 +120,13 @@ releases:
     fragments:
     - v1.3.0-beta1_summary.yml
     release_date: '2023-12-15'
-  
-    
+  1.3.1:
+    changes:
+      release_summary: "Release Date: '2025-08-08'\nThis changelog describes all changes
+        made to the modules and plugins included\nin this collection.\nFor additional
+        details such as required dependencies and availability review\nthe collections
+        `release notes <https://github.com/ansible-collections/ibm_zos_ims/blob/dev/docs/source/release_notes.rst>`__
+        \n"
+    fragments:
+    - v1.3.1_summary.yml
+    release_date: '2023-08-08'

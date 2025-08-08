@@ -22,13 +22,9 @@ def pytest_addoption(parser):
 @pytest.fixture(scope="session")
 def z_python_interpreter(request):
     """ Generate temporary shell wrapper for python interpreter. """
-    pprint("CONFTEST VARIABLES:    ")
     path = request.config.getoption("--zinventory")
-    pprint(path)
     helper = ZTestHelper.from_yaml_file(path)
 
-    pprint(helper)
-    pprint(ZTestHelper)
     interpreter_str = helper.build_interpreter_string()
     inventory = helper.get_inventory_info()
     ims_vars = helper.build_ims_dict()
@@ -47,8 +43,12 @@ def ansible_zos_module(request, z_python_interpreter):
     hosts = adhoc['options']['inventory_manager']._inventory.hosts
     for host in hosts.values():
         host.vars['ansible_python_interpreter'] = interpreter
+        host.vars['ansible_port'] = inventory["ansible_port"]
+        host.vars['ansible_ssh_private_key_file'] = "/home/jenkins/.ssh/id_rsa"
+        host.vars['ansible_ssh_extra_args'] = "-o StrictHostKeyChecking=no"
         host.vars['STEPLIB'] = ims_variables["STEPLIB"]
         host.vars['JOB_CARD'] = ims_variables["JOB_CARD"]
+        print(host.__dict__)
     yield adhoc
 
 
