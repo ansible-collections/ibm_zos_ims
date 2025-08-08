@@ -16,7 +16,7 @@ in this collection.
 For additional details such as required dependencies and availability review
 the collections, see `Release notes for v1.3.1`_ 
 
-.. _Release notes:
+.. _Release notes for v1.3.1:
    https://github.com/ansible-collections/ibm_zos_ims/blob/release-asa-v1.3.1/docs/source/release_notes.rst
 
 Major Changes
@@ -25,8 +25,7 @@ Major Changes
 - Added new module 'ims_ddl'
 - Added new member dfsdf_member in the ims_catalog_populate and ims_catalog_purge modules.
 - The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
-- Documentation update, minor updates to compression parameter in the ims_acbgen module where
-- PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
+- Documentation update, minor updates to compression parameter in the ims_acbgen module where PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
 - The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used.
 - Improved test and ansible-sanity coverage.
 - Subset of the test cases were updated to support for Ansible 2.15.
@@ -53,8 +52,7 @@ Major Changes
 - Added new module 'ims_ddl'
 - Added new member dfsdf_member in the ims_catalog_populate and ims_catalog_purge modules.
 - The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
-- Documentation update, minor updates to compression parameter in the ims_acbgen module where
-- PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
+- Documentation update, minor updates to compression parameter in the ims_acbgen module where PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
 - The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used.
 - Improved test and ansible-sanity coverage.
 - Subset of the test cases were updated to support for Ansible 2.15.
