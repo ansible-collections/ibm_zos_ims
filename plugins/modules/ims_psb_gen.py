@@ -164,10 +164,10 @@ EXAMPLES = r"""
         src: OMVSADM.IMSTESTU.ANSIBLE.PSB.SQ
         location: DATA_SET
         psb_name: SEQ
-      dest: IMSBANK.IMS1.PSBLIB
-      sys_lib:
-        - IMSBLD.I15RTSMM.SDFSMAC
-        - SYS1.MACLIB
+    dest: IMSBANK.IMS1.PSBLIB
+    sys_lib:
+      - IMSBLD.I15RTSMM.SDFSMAC
+      - SYS1.MACLIB
 """
 
 RETURN = r"""
