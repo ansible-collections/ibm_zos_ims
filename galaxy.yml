@@ -80,3 +80,6 @@ build_ignore:
   - Jenkinsfile
   - '*@tmp'
   - ibm_zos_ims
+  - venv*
+  - ansible_collections
+  - '*.log'
