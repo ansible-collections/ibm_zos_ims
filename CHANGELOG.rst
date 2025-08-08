@@ -4,6 +4,67 @@ ibm.ibm_zos_ims Release Notes
 
 .. contents:: Topics
 
+v1.3.1
+======
+
+Release Summary
+---------------
+
+Release Date: '2023-03-31'
+This changelog describes all changes made to the modules and plugins included
+in this collection.
+For additional details such as required dependencies and availability review
+the collections, see `Release notes for v1.3.1`_ 
+
+.. _Release notes:
+   https://github.com/ansible-collections/ibm_zos_ims/blob/release-asa-v1.3.1/docs/source/release_notes.rst
+
+Major Changes
+-------------
+
+- Added new module 'ims_ddl'
+- Added new member dfsdf_member in the ims_catalog_populate and ims_catalog_purge modules.
+- The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
+- Documentation update, minor updates to compression parameter in the ims_acbgen module where
+- PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
+- The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used.
+- Improved test and ansible-sanity coverage.
+- Subset of the test cases were updated to support for Ansible 2.15.
+- Additional support for test cases in ims_catalog_populate and ims_catalog_purge modules to 
+  support dfsdf_member parameter.
+- This update also has updated prerequisites for Ansible 2.14 or newer and ZOAU 1.2.2 or newer 
+  but prior to version 1.3.
+
+v1.3.0
+======
+
+Release Summary
+---------------
+
+Release Date: '2023-03-31'
+This changelog describes all changes made to the modules and plugins included
+in this collection.
+For additional details such as required dependencies and availability review
+the collections `Release notes for 1.3.0`_
+
+
+Major Changes
+-------------
+- Added new module 'ims_ddl'
+- Added new member dfsdf_member in the ims_catalog_populate and ims_catalog_purge modules.
+- The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
+- Documentation update, minor updates to compression parameter in the ims_acbgen module where
+- PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
+- The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used.
+- Improved test and ansible-sanity coverage.
+- Subset of the test cases were updated to support for Ansible 2.15.
+- Additional support for test cases in ims_catalog_populate and ims_catalog_purge modules to 
+  support dfsdf_member parameter.
+- This update also has updated prerequisites for Ansible 2.14 or newer and ZOAU 1.2.2 or newer 
+  but prior to version 1.3.
+
+.. _Release notes for v1.3.0:
+   https://github.com/ansible-collections/ibm_zos_ims/blob/dev/docs/source/release_notes.rst
 
 v1.2.0
 ======
@@ -27,6 +88,7 @@ Major Changes
 - Fixed sanity test error for ims_dbdgen and ims_psbgen modules after the member_list argument type was updated to 'raw' from 'list' since the element type can either be str or key:value pair
 - Improved JSON keys for ims_command_utils to replace whitespaces with underscores to help make the output more parsable
 
+.. _Release notes for v1.2.0
 v1.1.0
 ======
 

@@ -39,6 +39,9 @@ Reference
 * Supported by z/OS V2R4 (or later)
 * The z/OS® shell
 
+.. _Automation Hub:
+   https://www.redhat.com/en/technologies/management/ansible/automation-hub?sc_cid=7015Y000003t7aWQAQ
+
 .. _centralized content:
    https://ibm.github.io/z_ansible_collections_doc/index.html
 
@@ -80,6 +83,9 @@ Reference
 * Supported by z/OS V2R4 (or later) but prior to version V3R1.
 * The z/OS® shell.
 
+.. _Automation Hub:
+   https://www.redhat.com/en/technologies/management/ansible/automation-hub?sc_cid=7015Y000003t7aWQAQ
+   
 .. _centralized content:
    https://ibm.github.io/z_ansible_collections_doc/index.html
 
