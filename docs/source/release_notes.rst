@@ -1,5 +1,5 @@
 .. ...........................................................................
-.. © Copyright IBM Corporation 2020                                          .
+.. © Copyright IBM Corporation 2025                                          .
 .. ...........................................................................
 
 ========
@@ -14,31 +14,28 @@ Notes
 
  * Compatability to the latest dependencies versions 
 
-   * Support for z/OS core upgraded from 1.5 to 1.10 or later.
-   * Support for Python upgraded from 3.9 to 3.11 or later.
-   * Support for ZOAU upgraded from 1.2.0 to 1.3.0 or later.
-   * Support for Ansible 2.16 or later.
-
- * Updated README file based on the RedHat Readme Template.
- 
- * Documentation Page Update
+   * Support for z/OS core v1.10 or later.
+   * Support for Python v3.11 or later.
+   * Support for ZOAU v1.3.0 or later.
+   * Support for Ansible 2.15 or later.
 
 
 Availability
 ------------
 
+* `Automation Hub`_
 * `Galaxy`_
 * `GitHub`_
 
 Reference
 ---------
 
-* Supported by IBM IMS upto v15.5
-* Supported by IBM z/OS core collection v1.10.0 or later
-* Supported by IBM Z Open Enterprise Python for z/OS 3.11 - 3.13
-* Supported by IBM Z Open Automation Utilities (ZOAU) until 1.3.4
+* Supported by IBM IMS through v15.5.
+* Supported by IBM z/OS core collection v1.10.0 or later.
+* Supported by IBM Z Open Enterprise Python for z/OS v3.11 - v3.13.
+* Supported by IBM Z Open Automation Utilities (ZOAU) through v1.3.0 or later.
 
-  *  ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see: https://github.com/ansible-collections/ibm_zos_core/releases
+  *  ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see `z/OS Core Releases`_.
 * Supported by z/OS V2R4 (or later)
 * The z/OS® shell
 
@@ -50,6 +47,9 @@ Reference
 
 .. _Galaxy:
    https://galaxy.ansible.com/ibm/ibm_zos_ims
+
+.. _z/OS Core Releases:
+   https://github.com/ansible-collections/ibm_zos_core/releases
 
 Version 1.3.0
 ====================
@@ -72,65 +72,13 @@ Availability
 Reference
 ---------
 
-* Supported by IBM z/OS core collection v1.5.0 or later
-* Supported by IBM Z Open Enterprise Python for z/OS 3.9 - 3.12
-* Supported by IBM Z Open Automation Utilities 1.2.2 or later (but prior to 1.3)
+* Supported by IBM z/OS core collection v1.5.0 or later.
+* Supported by IBM Z Open Enterprise Python for z/OS v3.9 - v3.12.
+* Supported by IBM Z Open Automation Utilities 1.2.2 or later (but prior to 1.3).
 
-  * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see: https://github.com/ansible-collections/ibm_zos_core/releases
-* Supported by z/OS V2R4 (or later) but prior to version V3R1
-* The z/OS® shell
-
-.. _centralized content:
-   https://ibm.github.io/z_ansible_collections_doc/index.html
-
-.. _GitHub:
-   https://github.com/ansible-collections/ibm_zos_ims
-
-.. _Galaxy:
-   https://galaxy.ansible.com/ibm/ibm_zos_ims
-
-
-Version 1.3.0-beta.1
-====================
-
-Notes
------
-
-* Update recommended
-* New module
-
-  * ``ims_ddl``
-* Bug fixes and enhancements
-
-  * Added new member ``dfsdf_member`` in the ``ims_catalog_populate`` and ``ims_catalog_purge`` modules.
-    The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
-  
-* Documentation updates
-
-  * Minor updates to ``compression`` parameter in the ``ims_acbgen`` module where PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
-    The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used.
-* Improved test and ansible-sanity coverage.
-* Subset of the test cases were updated to support for Ansible 2.15.
-* Additional support for test cases in ``ims_catalog_populate`` and ``ims_catalog_purge`` modules to support ``dfsdf_member`` parameter.
-
-* This update also has updated prerequisites for Ansible 2.14 or newer and ZOAU 1.2.2 or newer but prior to version 1.3.
-
-Availability
-------------
-
-* `Galaxy`_
-* `GitHub`_
-
-Reference
----------
-
-* Supported by IBM z/OS core collection v1.5.0 or later
-* Supported by IBM Z Open Enterprise Python for z/OS: 3.9 or later
-* Supported by IBM Z Open Automation Utilities 1.2.2 or later (but prior to 1.3)
-
-  * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see: https://github.com/ansible-collections/ibm_zos_core/releases
-* Supported by z/OS V2R4 (or later) but prior to version V3R1
-* The z/OS® shell
+  * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see `z/OS Core Releases`_.
+* Supported by z/OS V2R4 (or later) but prior to version V3R1.
+* The z/OS® shell.
 
 .. _centralized content:
    https://ibm.github.io/z_ansible_collections_doc/index.html
@@ -140,297 +88,7 @@ Reference
 
 .. _Galaxy:
    https://galaxy.ansible.com/ibm/ibm_zos_ims
-
-
-Version 1.2.0
-====================
-
-Notes
------
-
-* Update recommended
-* Bug fixes and enhancements
-
-  * No changes from version 1.2.0-beta.2 release. Collection promoted to certified content with version 1.2.0.
-
-Availability
-------------
-
-* `Automation Hub`_
-* `Galaxy`_
-* `GitHub`_
-
-Reference
----------
-
-* Supported by IBM z/OS core collection v1.4.0 or later
-* Supported by IBM Z Open Enterprise Python for z/OS 3.9 - 3.11
-* Supported by IBM Z Open Automation Utilities 1.1.1 - 1.2.2
-* Supported by z/OS V2R3
-* The z/OS® shell
-
-.. _centralized content:
-   https://ibm.github.io/z_ansible_collections_doc/index.html
-
-.. _GitHub:
-   https://github.com/ansible-collections/ibm_zos_ims
-
-.. _Galaxy:
-   https://galaxy.ansible.com/ibm/ibm_zos_ims
-
-Version 1.2.0-beta.2
-====================
-
-Notes
------
-
-* Update recommended
-* Bug fixes and enhancements
-
-  * Fixed sanity test error for ``dbdgen`` and ``psbgen`` modules after the member_list argument type was updated to ``raw`` from ``list`` since the element type can either be str or key:value pair.
-  * DBDGEN sample2 testcase file was deleted since it was a duplicate and contained an invalid testcase.
-  * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.1.
-
-Availability
-------------
-
-* `Galaxy`_
-* `GitHub`_
-
-Reference
----------
-
-* Supported by IBM z/OS core collection v1.4.0 or later
-* Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
-* Supported by IBM Z Open Automation Utilities 1.1.1 PTF
-* Supported by z/OS V2R3
-* The z/OS® shell
-
-.. _centralized content:
-   https://ibm.github.io/z_ansible_collections_doc/index.html
-
-.. _GitHub:
-   https://github.com/ansible-collections/ibm_zos_ims
-
-.. _Galaxy:
-   https://galaxy.ansible.com/ibm/ibm_zos_ims
-
-Version 1.2.0-beta.1
-====================
-
-Notes
------
-
-* Update recommended
-* Bug fixes and enhancements
-
-  * Adds support for Ansible 4 (ansible-core 2.11)
-  * Fixed bug in ``ims_catalog_populate`` where ``check_timestamp: false`` would cause module calls to return an IMS error.
-  * Improved JSON keys for ``ims_command_utils`` to replace whitespaces with underscores to help make the output more parsable.
-  * This update also has updated prerequisites for Ansible 2.11 and ZOAU 1.1.0 or later.
-
-Availability
-------------
-
-* `Galaxy`_
-* `GitHub`_
-
-Reference
----------
-
-* Supported by IBM z/OS core collection v1.3.0 or later
-* Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
-* Supported by IBM Z Open Automation Utilities 1.1.0 PTF or later
-* Supported by z/OS V2R3
-* The z/OS® shell
-
-.. _centralized content:
-   https://ibm.github.io/z_ansible_collections_doc/index.html
-
-.. _GitHub:
-   https://github.com/ansible-collections/ibm_zos_ims
-
-.. _Galaxy:
-   https://galaxy.ansible.com/ibm/ibm_zos_ims
-
-Version 1.1.0
-====================
-
-Notes
------
-
-  * Update recommended
-  * Module changes
-
-    * ``ims_catalog_populate`` - improved pep8 and Ansible Sanity compliance
-    * ``ims_catalog_purge`` - improved pep8 and Ansible Sanity compliance
-    * ``ims_dbrc`` - improved pep8 and Ansible Sanity compliance
-    * ``ims_dbd_gen`` - added usage of Python tempdir libraries instead of fixed string
-    * ``ims_psb_gen`` - added usage of Python tempdir libraries instead of fixed string
-  * Documentation updates
-  * Improved test and security coverage
-
-Availability
-------------
-
-  * `Automation Hub`_
-  * `Galaxy`_
-  * `GitHub`_
-
-Reference
----------
-
-  * Supported by IBM z/OS core collection v1.2.1
-  * Supported by IBM Z Open Enterprise SDK for Python for z/OS: 3.8.2 or later
-  * Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435
-  * Supported by z/OS V2R3
-  * The z/OS® shell
-
-.. _Automation Hub:
-   https://www.ansible.com/products/automation-hub
-
-.. _Galaxy:
-   https://galaxy.ansible.com/ibm/ibm_zos_ims
-
-.. _GitHub:
-   https://github.com/ansible-collections/ibm_zos_ims
-
-Version 1.0.1
-====================
-
-Notes
------
-
-  * Update recommended
-
-    * ``ims_acb_gen``
-    * ``ims_dbd_gen``
-    * ``ims_psb_gen``
-    * ``ims_command``
-  * Documentation updates
-  * Improved test and security coverage
-
-Availability
-------------
-
-  * `Automation Hub`_
-  * `Galaxy`_
-  * `GitHub`_
-
-Reference
----------
-
-  * Supported by IBM z/OS core collection v1.2.1 or later
-  * Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
-  * Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435 or later
-  * Supported by z/OS V2R3
-  * The z/OS® shell
-
-.. _Automation Hub:
-   https://www.ansible.com/products/automation-hub
-
-.. _Galaxy:
-   https://galaxy.ansible.com/ibm/ibm_zos_ims
-
-.. _GitHub:
-   https://github.com/ansible-collections/ibm_zos_ims
-
-Version 1.1.0-beta.1
-====================
-
-Notes
------
-
-* Update recommended
-* New modules
-
-  * ``ims_catalog_populate``
-  * ``ims_catalog_purge``
-  * ``ims_dbrc``
-* Documentation
-
-  * Update documentation in support of `centralized content`_.
-* Updated sample playbook
-
-Availability
-------------
-
-* `Galaxy`_
-* `GitHub`_
-
-Reference
----------
-
-* Supported by IBM z/OS core collection v1.2.0-beta.1 or later
-* Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
-* Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435 or later
-* Supported by z/OS V2R3
-* The z/OS® shell
-
-.. _centralized content:
-   https://ibm.github.io/z_ansible_collections_doc/index.html
-
-.. _GitHub:
-   https://github.com/ansible-collections/ibm_zos_ims
-
-.. _Galaxy:
-   https://galaxy.ansible.com/ibm/ibm_zos_ims
-
-Version 1.0.0-beta3
-====================
-
-Notes
-  * Update recommended
-  * Enhancement
-
-    * ims_acb_gen
-    * ims_dbd_gen
-    * ims_psb_gen
-  * Documentation updates
-  * Updated sample playbook
-
-Availability
-  * Galaxy
-  * GitHub
-
-Reference
-  * Supported by IBM z/OS core collection v1.2.0-beta.1 or later
-  * Supported by IBM Z Open Enterprise Python for z/OS: 3.8.2 or later
-  * Supported by IBM Z Open Automation Utilities 1.0.3 PTF UI70435 or later
-  * Supported by z/OS V2R3
-  * The z/OS® shell
-
-Version 1.0.0-beta2
-====================
-
-Notes
-  * Update recommended
-  * New modules
-
-    * ims_acb_gen
-  * Bug fixes
-  * Documentation updates
-  * Updated sample playbook
-
-Availability
-  * Galaxy
-  * GitHub
-
-Reference
-  * Supported by IBM z/OS core collection 1.0.0 or later
-
-Version 1.0.0-beta1
-====================
-
-Notes
-  * Initial beta release of IBM z/OS IMS collection, referred to as ibm_zos_ims
-    which is part of the broader offering
-    Red Hat® Ansible Certified Content for IBM Z.
-  * New modules
-
-    * ims_dbd_gen, ims_psb_gen, ims_command
-
-Availability
-  * Galaxy
-  * GitHub
+    
+.. _z/OS Core Releases:
+   https://github.com/ansible-collections/ibm_zos_core/releases
 
