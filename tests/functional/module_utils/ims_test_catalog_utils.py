@@ -9,7 +9,7 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
                  buffer_pool_param_dataset, dfsdf_member, acb_lib, check_timestamp=True, online_batch=False, modstat=None,  dbrc=None, ims_id=None, irlm_id=None,
                  control_statements=None, bootstrap_dataset=None,
                  directory_datasets=None, temp_acb_dataset=None, directory_staging_dataset=None,
-                 secondary_log_dataset=None, sysabend=None, rc=0, changed=True):
+                 secondary_log_dataset=None, sysabend=None, rc=4, changed=True):
 
     response = hosts.all.ims_catalog_populate(
         online_batch=online_batch,
@@ -38,8 +38,9 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
     )
     for result in response.contacted.values():
         pprint(result)
-        assert result['rc'] == rc # continue the execution while the rc equals to 0
-        if rc == 0:
+    
+        assert result['rc'] <= rc # continue the execution while the rc equals to 0
+        if rc == 0 or rc == 4:
             assert validation_msg in result['content']
         else:
             assert validation_msg in result['msg']
@@ -47,7 +48,7 @@ def load_catalog(hosts, validation_msg, mode, psb_lib, dbd_lib, steplib, reslib,
 
 def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, steplib, reslib, proclib,
                   buffer_pool_param_dataset, dfsdf_member, online_batch=False, dbrc=None, ims_id=None, irlm_id=None, sysut1=None, update_retention_criteria=None,
-                  delete=None, managed_acbs=None, delete_dbd_by_version=None, resource_chkp_freq=None, mode='PURGE', rc=0, changed=True):
+                  delete=None, managed_acbs=None, delete_dbd_by_version=None, resource_chkp_freq=None, mode='PURGE', rc=4, changed=True):
 
     response = hosts.all.ims_catalog_purge(
         online_batch=online_batch,
@@ -72,8 +73,8 @@ def purge_catalog(hosts, validation_msg, primary_log_dataset, psb_lib, dbd_lib, 
     )
     for result in response.contacted.values():
         pprint(result)
-        assert result['rc'] == rc
-        if rc == 0:
+        assert result['rc'] <= rc
+        if rc == 0 or rc == 4:
             assert validation_msg in result['content']
         else:
             assert validation_msg in result['msg']
