@@ -17,7 +17,7 @@ For additional details such as required dependencies and availability review
 the collections, see `Release notes for v1.3.1`_.
 
 .. _Release notes for v1.3.1:
-   https://github.com/ansible-collections/ibm_zos_ims/blob/release-asa-v1.3.1/docs/source/release_notes.rst
+   https://github.com/ansible-collections/ibm_zos_ims/blob/v1.3.1/docs/source/release_notes.rst
 
 Major Changes
 -------------
@@ -56,7 +56,7 @@ Major Changes
   but prior to version 1.3.
 
 .. _Release notes for v1.3.0:
-   https://github.com/ansible-collections/ibm_zos_ims/blob/dev/docs/source/release_notes.rst
+   https://github.com/ansible-collections/ibm_zos_ims/blob/v1.3.1/docs/source/release_notes.rst
 
 v1.2.0
 ======
