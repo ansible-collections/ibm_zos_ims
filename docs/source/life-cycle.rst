@@ -9,7 +9,7 @@ Life cycle
 ==========
 
 The IBM z/OS® IMS (``ibm_zos_ims``) collection is developed and released on a flexible release cycle. Occasionally, the cycle may be extended to properly implement and test larger 
-changes before a new release is made available. End of Life (EOL) for this collection generally depends on the Z Open Automation Utilties and IBM z/OS Core end of service.
+changes before a new release is made available.
 
 Product life cycle
 ==================
