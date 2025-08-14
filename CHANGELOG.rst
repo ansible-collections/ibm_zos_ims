@@ -17,7 +17,7 @@ For additional details such as required dependencies and availability review
 the collections, see `Release notes for v1.3.1`_.
 
 .. _Release notes for v1.3.1:
-   https://github.com/ansible-collections/ibm_zos_ims/blob/v1.3.1/docs/source/release_notes.rst
+   https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html
 
 Major Changes
 -------------
@@ -56,7 +56,7 @@ Major Changes
   but prior to version 1.3.
 
 .. _Release notes for v1.3.0:
-   https://github.com/ansible-collections/ibm_zos_ims/blob/v1.3.1/docs/source/release_notes.rst
+   https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html
 
 v1.2.0
 ======
@@ -68,7 +68,7 @@ Release Date: '2023-03-31'
 This changelog describes all changes made to the modules and plugins included
 in this collection.
 For additional details such as required dependencies and availability review
-the collections `release notes <https://github.com/ansible-collections/ibm_zos_ims/blob/dev/docs/source/release_notes.rst>`__ 
+the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__ 
 
 
 Major Changes
