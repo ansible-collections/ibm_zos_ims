@@ -11,17 +11,13 @@ Release Summary
 ---------------
 
 Release Date: '2023-03-31'
-This changelog describes all changes made to the modules and plugins included
-in this collection.
+This changelog describes all changes made to the modules and plugins included in this collection.
 For additional details such as required dependencies and availability review
-the collections, see `Release notes for v1.3.1`_.
-
-.. _Release notes for v1.3.1:
-   https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html
+the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__
 
 Major Changes
 -------------
- - Compatability to the latest dependencies versions 
+ - Compatibility to the latest dependencies versions
 
    - Support for z/OS core v1.10 or later.
    - Support for Python v3.11 or later.
@@ -35,10 +31,9 @@ Release Summary
 ---------------
 
 Release Date: '2023-03-31'
-This changelog describes all changes made to the modules and plugins included
-in this collection.
+This changelog describes all changes made to the modules and plugins included in this collection.
 For additional details such as required dependencies and availability review
-the collections `Release notes for v1.3.0`_.
+the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__
 
 
 Major Changes
@@ -50,13 +45,8 @@ Major Changes
 - The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used.
 - Improved test and ansible-sanity coverage.
 - Subset of the test cases were updated to support for Ansible 2.15.
-- Additional support for test cases in ims_catalog_populate and ims_catalog_purge modules to 
-  support dfsdf_member parameter.
-- This update also has updated prerequisites for Ansible 2.14 or newer and ZOAU 1.2.2 or newer 
-  but prior to version 1.3.
-
-.. _Release notes for v1.3.0:
-   https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html
+- Additional support for test cases in ims_catalog_populate and ims_catalog_purge modules to support dfsdf_member parameter.
+- This update also has updated prerequisites for Ansible 2.14 or newer and ZOAU 1.2.2 or newer but prior to version 1.3.
 
 v1.2.0
 ======
@@ -65,10 +55,9 @@ Release Summary
 ---------------
 
 Release Date: '2023-03-31'
-This changelog describes all changes made to the modules and plugins included
-in this collection.
+This changelog describes all changes made to the modules and plugins included in this collection.
 For additional details such as required dependencies and availability review
-the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__ 
+the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__
 
 
 Major Changes
