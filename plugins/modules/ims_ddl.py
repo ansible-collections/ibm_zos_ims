@@ -106,7 +106,7 @@ notes:
 EXAMPLES = '''
 - name: Example of DDL statements are in a dataset
   ims_ddl:
-    online: True
+    online: true
     ims_id: IMS1
     reslib:
       - SOME.IMS.SDFSRESL
@@ -117,7 +117,7 @@ EXAMPLES = '''
     sql_input: SOME.IMS.SQL
 - name: Example of DDL statements in which VERBOSE and AUTOCOMMIT control options are specified
   ims_ddl:
-    online: True
+    online: true
     ims_id: IMS1
     reslib:
       - SOME.IMS.SDFSRESL
@@ -131,7 +131,7 @@ EXAMPLES = '''
 
 - name: Example of DDL statements in which SIMULATE control options is specified
   ims_ddl:
-    online: True
+    online: true
     ims_id: IMS1
     reslib:
       - SOME.IMS.SDFSRESL
@@ -144,7 +144,7 @@ EXAMPLES = '''
 
 - name: Example of DDL statements in which DYNAMIC_PROGRAMVIEW control option is specified
   ims_ddl:
-    online: True
+    online: true
     ims_id: IMS1
     reslib:
       - SOME.IMS.SDFSRESL
@@ -154,7 +154,6 @@ EXAMPLES = '''
       - SOME.IMS.PROCLIB
     sql_input: SOME.IMS.SQL
     dynamic_programview: true
-
 '''
 
 RETURN = '''
@@ -257,7 +256,7 @@ def run_module():
             steplib_str = env_fallback('STEPLIB')
             list_str = steplib_str.split(" ")
             steplib += list_str
-        except AnsibleFallbackNotFound as e:
+        except AnsibleFallbackNotFound:
             module.fail_json(
                 msg=(
                     "The input option 'steplib' is not provided. Please provide it in the environment"

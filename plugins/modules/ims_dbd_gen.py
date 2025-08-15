@@ -186,10 +186,10 @@ EXAMPLES = r'''
       -
         src: SOME.DATA.SET.DBD.SRC
         location: DATA_SET
-        member_list: [DSMEMBR1, DSMEMBR2 : target2, DSMEMBR3]
+        member_list: [DSMEMBR1, DSMEMBR2: target2, DSMEMBR3]
       -
         src: SOME.DATA.SET.DBD.SRC
-        member_list: [DSMEMBR4 : target4]
+        member_list: [DSMEMBR4: target4]
         'replace': true
       -
         src: SOME.DATA.SET.DBD.SEQ

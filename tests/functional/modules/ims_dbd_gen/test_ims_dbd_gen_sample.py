@@ -38,7 +38,14 @@ def test_ims_dbd_gen_sample_normal(ansible_zos_module):
     for copy_result in copy_result.contacted.values():
         pprint(copy_result)
 
-    results = hosts.all.ims_dbd_gen(src=SOURCE, location="DATA_SET", member_list=["DEDBJN21", "DEDBJN21"], dest=dest, sys_lib=sys_lib)
+    # results = hosts.all.ims_dbd_gen(src=SOURCE, location="DATA_SET", member_list=["DEDBJN21", "DEDBJN21"], dest=dest, sys_lib=sys_lib)
+    results = getattr(hosts.all, "ibm.ibm_zos_ims.ims_dbd_gen")(
+        src=SOURCE,
+        location="DATA_SET",
+        member_list=["DEDBJN21", "DEDBJN21"],
+        dest=dest,
+        sys_lib=sys_lib
+    )
     for result in results.contacted.values():
         pprint(result)
         assert result['changed']
@@ -61,7 +68,12 @@ def test_ims_dbd_gen_sample_batch(ansible_zos_module):
                     'dbd_name': 'SEQ1'}]
     dest = DESTINATION
     sys_lib = SYSLIB
-    results = hosts.all.ims_dbd_gen(batch=src_list, dest=dest, sys_lib=sys_lib)
+    # results = hosts.all.ims_dbd_gen(batch=src_list, dest=dest, sys_lib=sys_lib)
+    results = getattr(hosts.all, "ibm.ibm_zos_ims.ims_dbd_gen")(
+    batch=src_list,
+    dest=dest,
+    sys_lib=sys_lib
+)
     for result in results.contacted.values():
         pprint(result)
         assert result['changed']
