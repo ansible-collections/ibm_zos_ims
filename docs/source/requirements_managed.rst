@@ -77,12 +77,7 @@ and required by **IBM z/OS IMS Collection**.
 .. note::
 
    Currently, IBM Open Enterprise Python for z/OS is the supported and
-   recommended Python distribution for use on z/OS with Ansible and ZOAU. If
-   Rocket Python is the only available python on the target, review the
-   `recommended environment variables`_ for Rocket Python.
-
-.. _recommended environment variables:
-   playbook_group_vars.html
+   recommended Python distribution for use on z/OS with Ansible and ZOAU.
 
 ZOAU
 ----
