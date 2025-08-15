@@ -14,7 +14,7 @@ changes before a new release is made available.
 Product life cycle
 ==================
 
-Review this matrix for the status of the IBM z/OS IMD collection version,
+Review this matrix for the status of the IBM z/OS IMS collection version,
 its critical dates, and which type of support it's currently eligible for.
 
 +--------------+----------------+-----------------------+------------------+-------------------+-------------------------+
