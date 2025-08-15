@@ -8,8 +8,8 @@
 Life cycle
 ==========
 
-The IBM z/OS® IMS doc collection is developed and released on a flexible release cycle. Occasionally, the cycle may be extended to properly implement and test larger 
-changes before a new release is made available. End of Life (EOL) for this collection generally depends on the Z Open Automation Utilties and IBM z/OS Core end of service.
+The IBM z/OS® IMS (``ibm_zos_ims``) collection is developed and released on a flexible release cycle. Occasionally, the cycle may be extended to properly implement and test larger 
+changes before a new release is made available.
 
 Product life cycle
 ==================
@@ -20,15 +20,13 @@ its critical dates, and which type of support it's currently eligible for.
 +--------------+----------------+-----------------------+------------------+-------------------+-------------------------+
 | Version      | Status         | Changelogs            | GA Date          | EOL Date          | Life Cycle Phase        |
 +==============+================+=======================+==================+===================+=========================+
-| 1.3.1        | Released       | `1.3.x changelogs`_   | 27 June 2025     | 27 June 2027      | `Full support`_         |
-+--------------+----------------+-----------------------+------------------+-------------------+-------------------------+
-| 1.3.0        | Released       | `1.3.x changelogs`_   | 10 April 2024    | 10 April 2026     | `Full support`_         |
+| 1.3.x        | Released       | `1.3.x changelogs`_   | 10 April 2024    | 10 April 2026     | `Full support`_         |
 +--------------+----------------+-----------------------+------------------+-------------------+-------------------------+
 
 .. .............................................................................
 .. Global Links
 .. .............................................................................
 .. _1.3.x changelogs:
-    https://github.com/ansible-collections/ibm_zos_ims/blob/release-asa-v1.3.1/CHANGELOG.rst
+    https://github.com/ansible-collections/ibm_zos_ims/blob/v1.3.1/CHANGELOG.rst
 .. _Full support:
     ../../../collections_content/collection-life-cycles.html#life-cycle-phase
