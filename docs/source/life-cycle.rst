@@ -27,6 +27,6 @@ its critical dates, and which type of support it's currently eligible for.
 .. Global Links
 .. .............................................................................
 .. _1.3.x changelogs:
-    https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html
+    https://github.com/ansible-collections/ibm_zos_ims/blob/v1.3.1/CHANGELOG.rst
 .. _Full support:
     ../../../collections_content/collection-life-cycles.html#life-cycle-phase
