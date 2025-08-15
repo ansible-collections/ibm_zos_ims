@@ -17,7 +17,7 @@ The collection requires the following on the managed node:
 - IBM Open Enterprise SDK for Python
 - IBM Z Open Automation Utilities (ZOAU)
 
-The control node requires the IBM z/OS core collection to be installed before installing the IMS collection. Refer to the [IBM z/OS collection requirements](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/collection-requirements.html) for specific version requirements.
+The control node requires the IBM z/OS core collection to be installed before installing the IMS collection. Refer to the [IBM z/OS Core collection requirements](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/collection-requirements.html) for specific version requirements.
 
 ## Installation
 
@@ -40,7 +40,7 @@ Note that if you install the collection from Ansible Galaxy, it will not be upgr
 ansible-galaxy collection install ibm.ibm_zos_ims --upgrade
 ```
 
-You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version 1.3.0:
+You can also install a specific version of the collection, for example, if you need to install a different version. Use the following syntax to install version 1.0.0:
 
 ```sh
 ansible-galaxy collection install ibm.ibm_zos_ims:1.1.0
@@ -145,7 +145,7 @@ All releases will meet the following test criteria.
 * 100% success for [Functional](https://github.com/ansible-collections/ibm_zos_ims/tree/dev/tests/functional) tests.
 * 100% success for [Unit](https://github.com/ansible-collections/ibm_zos_ims/tree/dev/tests/units) tests.
 * 100% success for [Sanity](https://docs.ansible.com/ansible/latest/dev_guide/testing/sanity/index.html#all-sanity-tests) tests as part of [ansible-test](https://docs.ansible.com/ansible/latest/dev_guide/testing.html#run-sanity-tests).
-* 100% success for [ansible-lint](https://ansible.readthedocs.io/projects/lint/) allowing only false 
+* 100% success for [ansible-lint](https://ansible.readthedocs.io/projects/lint/) allowing only false.
 
 This release of the collection was tested with the following dependencies.
 
