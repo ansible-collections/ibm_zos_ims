@@ -37,3 +37,4 @@ Thumbs.db
 
 venv/
 .ansible/
+tests/output/
