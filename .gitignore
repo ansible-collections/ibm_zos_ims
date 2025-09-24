@@ -34,3 +34,7 @@ Thumbs.db
 
 # Development files
 .keep
+
+venv/
+.ansible/
+tests/output/
