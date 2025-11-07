@@ -143,7 +143,7 @@ class ZTestHelper(object):
         """ Returns dictionary containing basic info needed to generate a single-host inventory file. """
         inventory_info = {
             "user": self._user,
-            "inventory": "zdt-ims-cicd1.fyre.ibm.com,",
+            "inventory": f"{self._host},",
             "ansible_port": self._port
         }
         inventory_info.update(self._extra_args)
