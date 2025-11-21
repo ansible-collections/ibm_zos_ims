@@ -83,3 +83,4 @@ build_ignore:
   - venv*
   - ansible_collections
   - '*.log'
+  - .venv
