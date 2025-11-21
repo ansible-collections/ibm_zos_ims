@@ -1,4 +1,4 @@
-# IBM® z/OS® IMS collection
+# IBM® z/OS® IMS collection Test
 
 The IBM z/OS IMS collection enables Ansible to interact with IBM Information Management System. The collection focuses on system management operations such as generating database descriptors, program specifications, Application Control Blocks (ACB), data definition language (DDL), catalog operations, submitting DBRC commands, and executing commands.
 
