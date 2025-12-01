@@ -12,7 +12,7 @@
 Configuration
 =============
 
-After installing the IBM z/OS core collection, configure the files 
+After you install the IBM z/OS core collection, configure the files 
 so the collection can locate the dependencies required to run the modules on the managed node.
 
 Step 1: Directory Structure
@@ -73,7 +73,7 @@ Step 2: Host variables (host_vars)
     :color: primary
     :icon: file-code
 
-    This section describes the host_vars files. Ansible automatically expands them into environment 
+    This section describes the host_vars files. Ansible expands them automatically into environment 
     variables that tell the collection where to find the required dependencies:
     - IBM `Open Enterprise SDK for Python`_ 
     - IBM `Z Open Automation Utilities`_ (ZOAU) dependencies.
@@ -86,7 +86,7 @@ Step 2: Host variables (host_vars)
     Before you continue, gather the following information:
 
         #. The absolute path of where **IBM Open Enterprise SDK for Python** is installed.
-        #. The IBM Open Enterprise SDK for Python **version** installed, eg 3.12
+        #. The IBM Open Enterprise SDK for Python **version** installed, eg v3.12.
         #. The absolute path of where **Z Open Automation Utilities** (ZOAU) is installed.
         #. The absolute path of **ZOAU python package** (zoautil-py) which can vary
            depending if ``pip3`` was used to install the python package.
@@ -117,11 +117,11 @@ Step 2: Host variables (host_vars)
     ``zos_host.yml`` located at ``/tmp/playbooks/inventories/host_vars/zos_host.yml``
     that was created in '**Step 1: Directory Structure**'.
 
-    .. dropdown:: You will need to configure the following properties ... (expand for more)
+    .. dropdown:: You need to configure the following properties ... (expand for more)
         :color: info
         :icon: file-code
 
-        You will need to configure the following properties.
+        You need to configure the following properties.
 
         PYZ
             - The python installation home path on the z/OS manage node.
@@ -258,14 +258,14 @@ Step 4: Inventory
     The following inventory is explained.
 
     - **systems** is a group that contains one managed host, **zos1**.
-    - **zos1** is the name chosen for managed node, you can choose any name. \
+    - **zos1** is the name chosen for managed node, you can choose any name. 
     - **ansible_host** is an ansible reserved keyword that is the hostname ansible
-      will connect to and run automated tasks on, it can be an LPAR, ZVM, etc.
-    - **ansible_user** is an ansible reserved keyword that is the user Ansible will
-      use to connect to the managed node, generally and OMVS segment.
+      connects to and run automated tasks on, it can be an LPAR, ZVM, etc.
+    - **ansible_user** is an ansible reserved keyword that is the user Ansible
+      uses to connect to the managed node, generally and OMVS segment.
 
     Edit the file ``inventory.yml`` located at ``/tmp/playbooks/inventories/inventory.yml``
-    and paste the following below. You will need to update the properties
+    and paste the following below. You need to update the properties
     **ansible_host** and **ansible_user**.
 
     .. code-block:: sh
@@ -328,21 +328,21 @@ Step 5: User
         The following section explains the RACF operands used in the above RACF commands.
 
         uuuuuuuu
-            - Specifies the user to be defined to RACF. 1 - 8 alphanumeric characters. A
-              user id can contain any of the supported symbols A-Z, 0-9, #, $, or @.
+            - Specifies the user that is defined to RACF. 1 - 8 alphanumeric characters. A
+              user ID can contain any of the supported symbols A-Z, 0-9, #, $, or @.
         gggggggg
-            - Specifies the name of a RACF-defined group to be used as the default
+            - Specifies the name of a RACF-defined group that is used as the default
               group for the user. If you do not specify a group, RACF uses your current connect
               group as the default. 1 - 8 alphanumeric characters, beginning with an alphabetic
               character. A group name can contain any of the supported symbols A-Z, 0-9, #, $, or @.
         nnnnnnnn
-            - Specifies a RACF-defined user or group to be assigned as the owner of the
+            - Specifies a RACF-defined user or group that is assigned as the owner of the
               new group. If you do not specify an owner, you are defined as the owner of the group.
         pppppppp
-            - Specifies the user's initial logon password. This password is always set
+            - Specifies the initial logon password of the uer. This password is always set
               expired, thus requiring the user to change the password at initial logon.
         aaaaaaaa
-            - Specifies the user's default TSO account number. The account number you
+            - Specifies the default TSO account number of the user. The account number you
               specify must be protected by a profile in the ACCTNUM general resource class, and
               the user must be granted READ access to the profile.
 
