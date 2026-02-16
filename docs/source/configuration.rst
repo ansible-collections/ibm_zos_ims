@@ -167,7 +167,7 @@ Step 2: Host variables (host_vars)
 
     .. admonition:: Use environment variables in a playbook
 
-        If you are testing a configuration, it can be helpful to set the environment variables
+        If you are testing a configuration, set the environment variables
         in a playbook. For this option, see: `How to put environment variables in a playbook`_.
 
 Step 3: Group variables (group_vars)
@@ -178,13 +178,13 @@ Step 3: Group variables (group_vars)
     :icon: file-code
 
     The following section discusses ``group_vars``, part of the
-    environment variables which instruct the collection where it can find
+    environment variables which instructs the location of the collection
     IBM `Open Enterprise SDK for Python`_ and IBM
     `Z Open Automation Utilities`_ (ZOAU) dependencies.
 
     In the ``all.yml`` file located at ``/tmp/playbooks/inventories/group_vars/all.yml``,
     paste the following below, there is no need to edit this content. The ``host_vars``
-    variables from the previous step will be automatically substituted into the
+    variables from the previous is substituted automatically into the
     environment variables (below) by ansible.
 
     Notice the indentation, ensure it is retained before you save the file.
@@ -342,9 +342,9 @@ Step 5: User
             - Specifies the initial logon password of the uer. This password is always set
               expired, thus requiring the user to change the password at initial logon.
         aaaaaaaa
-            - Specifies the default TSO account number of the user. The account number you
-              specify must be protected by a profile in the ACCTNUM general resource class, and
-              the user must be granted READ access to the profile.
+            - Specifies the default TSO account number of the user. Ensure that the account number you
+              specify is protected by a profile in the ACCTNUM general resource class, and
+              ensure that the user is granted READ access to the profile.
 
 Step 6: Security
 ================
