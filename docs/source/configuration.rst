@@ -357,7 +357,7 @@ Step 6: Security
     Some of the modules in the collection will perform operations that require the
     playbook user to have appropriate authority with various RACF resource classes.
     Each module documents which access is needed in the **notes** section. A user
-    is described as the remote SSH user executing playbook tasks, who can also
+    is described as the remote SSH user executing playbook tasks, who can
     obtain escalated privileges to execute as another user.
 
     In RACF, a *class* refers to a collection of resources that share similar
@@ -613,8 +613,8 @@ Step 7: Run a playbook
     node (host) to be managed with Ansible.
 
     If you have completed steps 1 - 6 above, then you are ready to run a playbook. In the
-    folllowing playbook, there are two tasks, the first one will perform a simple ping
-    operation using `ibm_zos_core.zos_ping`_ and the following operation will use the
+    folllowing playbook, there are two tasks, the first one performs a simple ping
+    operation using `ibm_zos_core.zos_ping`_ and the following operation uses the
     `ibm_zos_core.zos_operator`_ command to display the local time of day and the date.
 
     .. code-block:: sh
@@ -644,7 +644,7 @@ Step 7: Run a playbook
 
 
     Copy the above playbook into a file, call it **sample.yml** and to run it,
-    use he Ansible command ``ansible-playbook`` with the inventory you definewd
+    use the Ansible command ``ansible-playbook`` with the inventory you defined
     in step 4 along with a reqeust for a password using opiton ``--ask-pass``.
 
     The command syntax is ``ansible-playbook -i <inventory> <playbook> --ask-pass``,
@@ -671,7 +671,7 @@ Step 7: Run a playbook
         ``v`` increases logging verbosity similar to traditional logging levels **INFO**,
         **WARN**, **ERROR**, **DEBUG**.
 
-        Using the previous example, the following will set the highest level of
+        Using the previous example, the following sets the highest level of
         verbosity.
 
         .. code-block:: sh
