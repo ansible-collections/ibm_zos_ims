@@ -122,9 +122,6 @@ class zddl(object):
             control_cards.append("DYNAMICPROGRAMVIEW=(CREATEYES)")
 
         if control_cards:
-            # "VERBOSE AUTOCOMMIT SIMULATE"
-            print("control_cards: ")
-            print(control_cards)
             stdin = StdinDefinition([" ".join(control_cards)])
             zddl_utility_fields.append(
                 DDStatement("SYSINID", StdinDefinition([" ".join(control_cards)]))
