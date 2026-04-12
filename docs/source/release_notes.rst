@@ -5,6 +5,38 @@
 ========
 Releases
 ========
+Version 1.3-Beta.2
+=============
+
+Notes
+-----
+
+* Bug fixes and enhancements
+    * Fixed issues with control statement options (auto-commit, verbose, simulate, and dynamic_programview) in the DDL module; all parameters now function as expected.
+* Compatibility to the latest dependencies versions
+    * Support for z/OS core v1.10 or later.
+    * Support for Python v3.12 or later.
+    * Support for ZOAU v1.3.0 or later.
+    * Support for Ansible 2.16 or later.
+
+Availability
+------------
+
+* `Automation Hub`_
+* `Galaxy`_
+* `GitHub`_
+
+Reference
+---------
+
+* Supported by IBM IMS through v15.6.
+* Supported by IBM z/OS core collection v1.10.0 or later.
+* Supported by IBM Z Open Enterprise Python for z/OS v3.11 - v3.13.
+* Supported by IBM Z Open Automation Utilities (ZOAU) v1.3.0 or later.
+    * ZOAU minimum supported version may vary depending on the z/OS core collection version that is chosen. For details on z/OS core collection requirements, see z/OS Core Releases.
+* Supported by z/OS V2R5 (or later)
+* The z/OS® sh
+
 
 Version 1.3.1
 =============
