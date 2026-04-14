@@ -15,7 +15,7 @@ Notes
 * Bug fixes and enhancements
     * Fixed issues with control statement options (auto-commit, verbose, simulate, and dynamic_programview) in the DDL module; all parameters now function as expected.
 * Documentation updates
-    * Added configuration page for IMS Collection.        
+    * Added configuration page for IMS Collection.
 * Compatibility to the latest dependencies versions
     * Support for z/OS core v1.10 or later.
     * Support for Python v3.12 or later.
