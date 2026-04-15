@@ -2,7 +2,8 @@ from __future__ import (absolute_import, division, print_function)
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.dd_statement import (  # pylint: disable=import-error
     DDStatement,
     DatasetDefinition,
-    StdoutDefinition
+    StdoutDefinition,
+    StdinDefinition
 )
 from ansible_collections.ibm.ibm_zos_core.plugins.module_utils.zos_mvs_raw import MVSCmd  # pylint: disable=import-error
 
@@ -109,6 +110,22 @@ class zddl(object):
             zddl_utility_fields.append(sql_input_data_set_definitions)
         sysprint = DDStatement("SYSPRINT", StdoutDefinition())
         zddl_utility_fields.append(sysprint)
+
+        control_cards = []
+        if self.verbose:
+            control_cards.append("VERBOSE")
+        if self.auto_commit:
+            control_cards.append("AUTOCOMMIT")
+        if self.simulate:
+            control_cards.append("SIMULATE")
+        if self.dynamic_programview:
+            control_cards.append("DYNAMICPROGRAMVIEW=(CREATEYES)")
+
+        if control_cards:
+            stdin = StdinDefinition([" ".join(control_cards)])
+            zddl_utility_fields.append(
+                DDStatement("SYSINID", StdinDefinition([" ".join(control_cards)]))
+            )
         return zddl_utility_fields
 
     def combine_results(self, result):
