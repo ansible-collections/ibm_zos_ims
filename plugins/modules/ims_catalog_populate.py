@@ -865,6 +865,19 @@ notes:
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
   - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB data set.
   - Specifying only I(reslib) without I(steplib) is not supported.
+  - Modes and supported options:
+      LOAD
+        - Uses the setup option
+        - Catalog Only: Supported in both online and offline modes
+        - managed_acbs: setup is supported only in offline mode (requires offline IMS)
+      UPDATE
+        - Catalog Only: Supported in both online and offline modes
+        - managed_acbs:
+            stage option: Supported in both online and offline modes
+            update option: Supported only in offline mode
+      READ
+        - Applies to both Catalog and mACB
+        - Supported in both online and offline modes
 '''
 
 EXAMPLES = '''
