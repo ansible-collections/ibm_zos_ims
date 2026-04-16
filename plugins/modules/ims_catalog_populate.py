@@ -24,6 +24,16 @@ options:
   mode:
     description:
       - Indicates the mode in which the Catalog Populate utility must be run.
+      - For module option I(mode=LOAD), the setup option is used:
+          - catalog only is supported in both online and offline modes.
+          - managed_acbs is supported only in offline mode (requires offline IMS).
+      - For module option I(mode=UPDATE):
+          - catalog only is supported in both online and offline modes.
+          - managed_acbs (stage option) is supported in both online and offline modes.
+          - managed_acbs (update option) is supported only in offline mode.
+      - For module option I(mode=READ):
+          - Applies to both catalog and managed_acbs.
+          - Supported in both online and offline modes.
     type: str
     required: true
     choices:
@@ -724,7 +734,7 @@ options:
       - The steplib parameter can also be specified in the target inventory's environment_vars.
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     type: list
-    required: False
+    required: false
     elements: str
   sysabend:
     description:
@@ -865,19 +875,7 @@ notes:
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
   - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB data set.
   - Specifying only I(reslib) without I(steplib) is not supported.
-  - Modes and supported options:
-      LOAD
-        - Uses the setup option
-        - Catalog Only: Supported in both online and offline modes
-        - managed_acbs: setup is supported only in offline mode (requires offline IMS)
-      UPDATE
-        - Catalog Only: Supported in both online and offline modes
-        - managed_acbs:
-            stage option: Supported in both online and offline modes
-            update option: Supported only in offline mode
-      READ
-        - Applies to both Catalog and mACB
-        - Supported in both online and offline modes
+
 '''
 
 EXAMPLES = '''
