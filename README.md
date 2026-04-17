@@ -10,7 +10,7 @@ System programmers can automate IMS system management tasks while database admin
 
 ## Requirements
 
-This collection is tested against the following Ansible versions: 2.15.0 or later
+This collection is tested against the following Ansible versions: 2.16.0 or later
 
 The collection requires the following on the managed node:
 - IBM z/OS IMS
@@ -149,7 +149,7 @@ All releases will meet the following test criteria.
 
 This release of the collection was tested with the following dependencies.
 
-- ansible-core v2.15.x
+- ansible-core v2.16.x
 - Python 3.13.x
 - IBM Open Enterprise SDK for Python 3.11.x
 - IBM Z Open Automation Utilities (ZOAU) 1.3.x
