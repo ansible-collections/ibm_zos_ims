@@ -107,7 +107,7 @@ releases:
       major_changes:
         - Added new module 'ims_ddl'
         - Added new member dfsdf_member in the ims_catalog_populate and ims_catalog_purge modules.
-          The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
+          The DFSDFxxx member is in the IMS.PROCLIB dataset where the CATALOG section is defined.
         - Documentation update, minor updates to compression parameter in the ims_acbgen module where
           PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
           The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used.

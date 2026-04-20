@@ -12,7 +12,7 @@
 Configuration
 =============
 
-After you install the IBM z/OS IMS collection, configure the files 
+After you install the IBM z/OS core collection, configure the files 
 so the collection can locate the dependencies required to run the modules on the managed node.
 
 Step 1: Directory Structure
@@ -288,10 +288,9 @@ Step 5: Run a playbook
     An `Ansible playbook`_ consists of organized instructions that define work for a managed
     node (host) to be managed with Ansible.
 
-    After completing steps 1–4, you are ready to run a playbook. The following example demonstrates 
-    a simple Type-1 display command that retrieves databases with names beginning with AUTODB by 
-    using the `ibm_zos_ims.ims_command`_ module. The module then processes the command and returns 
-    the corresponding database information.
+    After completing steps 1–4, you are ready to run a playbook. The following example demonstrates
+    a simple Type-2 command that queries all programs for IMS1 in PLEX1 by using the
+    `ibm_zos_ims.ims_command`_ module. The module processes the command and returns the corresponding program details for PLEX1.
 
     .. code-block:: sh
 
@@ -303,16 +302,16 @@ Step 5: Run a playbook
           environment: "{{ environment_vars }}"
 
           tasks:
-            - name: IMS Command
+            - name: IMS Command - Query all programs for IMS1 in PLEX1
               ims_command:
-                command: DISPLAY DB AUTODB
+                command: QUERY PGM SHOW(ALL)
                 plex: PLEX1
                 route: IMS1
 
 
     Copy the above playbook into a file, call it **sample.yml** and to run it,
     use the Ansible command ``ansible-playbook`` with the inventory you defined
-    in step 4 along with a request for a password using option ``--ask-pass``.
+    in step 4 along with a reqeust for a password using opiton ``--ask-pass``.
 
     The command syntax is ``ansible-playbook -i <inventory> <playbook> --ask-pass``,
     for example;
@@ -357,7 +356,7 @@ Step 5: Run a playbook
 .. _Z Open Automation Utilities:
    https://www.ibm.com/docs/en/zoau/latest
 .. _inventory:
-   https://ibm.github.io/z_ansible_collections_doc/welcome/basic-concepts.html#term-Inventory
+   https://docs.ansible.com/projects/ansible/latest/getting_started/basic_concepts.html#inventory
 .. _Building Ansible inventories:
    https://docs.ansible.com/ansible/latest/inventory_guide/index.html#
 .. _Ansible playbook:
