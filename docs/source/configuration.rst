@@ -12,7 +12,7 @@
 Configuration
 =============
 
-After you install the IBM z/OS core collection, configure the files 
+After you install the IBM z/OS IMS collection, configure the files 
 so the collection can locate the dependencies required to run the modules on the managed node.
 
 Step 1: Directory Structure
