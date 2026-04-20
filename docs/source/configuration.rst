@@ -1,5 +1,5 @@
 .. ...........................................................................
-.. © Copyright IBM Corporation 2020, 2025
+.. © Copyright IBM Corporation 2026
 ..
 .. This is an orphaned page because its not included in any toctree
 .. 'orphan' if set, warnings about this file not being included in any toctree
@@ -276,371 +276,43 @@ Step 4: Inventory
                 ansible_host: zos_managed_node_host_name_or_ip
                 ansible_user: zos_managed_node_ssh_user
 
-Step 5: User
-============
 
-.. dropdown:: The following section discusses how the collection connects to the managed node over SSH ... (expand for more)
-    :color: primary
-    :icon: command-palette
-
-    The following section discusses how the collection connects to the
-    managed node over SSH via the ansible user defined in inventory or optionally
-    the command line, thus requiring access to z/OS UNIX System Services (USS).
-    From a security perspective, the collection will require both an OMVS segment
-    and TSO segment in the users profile.
-
-    With the RACF **ADDGROUP** command you can:
-
-    - Define a new group to RACF.
-    - Add a profile for the new group to the RACF database.
-    - Specify z/OS UNIX System Services information for the group being defined to RACF.
-    - specify that RACF is to automatically assign an unused GID value to the group.
-
-    With the RACF **ADDUSER** command you can:
-
-    - Define a new user to RACF.
-    - Add a profile for the new user to the RACF database.
-    - Create a connect profile that connects the user to the default group.
-    - Create an OMVS segment.
-    - Create a TSO segment.
-
-    When issuing RACF commands, you might require sufficient authority to the proper
-    resources. It is recommended you review the `RACF language reference`_.
-
-    You can define a new group to RACF with command:
-
-    .. code-block:: sh
-
-       ADDGROUP gggggggg OMVS(AUTOGID)
-
-    You can add a new user with RACF command:
-
-    .. code-block:: sh
-
-       ADDUSER uuuuuuuu DFLTGRP(gggggggg) OWNER(nnnnnnnn) PASSWORD(pppppppp) TSO(ACCTNUM(aaaaaaaa) PROC(pppppppp)) OMVS(HOME(/u/uuuuuuuu) PROGRAM('/bin/sh')) AUTOUID
-
-    To learn more about creating users with RACF, see `RACF command syntax`_.
-
-    .. dropdown:: The following section explains the RACF operands ... (expand for more)
-        :color: info
-        :icon: file-code
-
-        The following section explains the RACF operands used in the above RACF commands.
-
-        uuuuuuuu
-            - Specifies the user that is defined to RACF. 1 - 8 alphanumeric characters. A
-              user ID can contain any of the supported symbols A-Z, 0-9, #, $, or @.
-        gggggggg
-            - Specifies the name of a RACF-defined group that is used as the default
-              group for the user. If you do not specify a group, RACF uses your current connect
-              group as the default. 1 - 8 alphanumeric characters, beginning with an alphabetic
-              character. A group name can contain any of the supported symbols A-Z, 0-9, #, $, or @.
-        nnnnnnnn
-            - Specifies a RACF-defined user or group that is assigned as the owner of the
-              new group. If you do not specify an owner, you are defined as the owner of the group.
-        pppppppp
-            - Specifies the initial logon password of the uer. This password is always set
-              expired, thus requiring the user to change the password at initial logon.
-        aaaaaaaa
-            - Specifies the default TSO account number of the user. Ensure that the account number you
-              specify is protected by a profile in the ACCTNUM general resource class, and
-              ensure that the user is granted READ access to the profile.
-
-Step 6: Security
-================
-
-.. dropdown:: The following section discusses how the collection secures interaction using RACF ... (expand for more)
-    :color: primary
-    :icon: command-palette
-
-    The following section discusses how the collection secures interaction using RACF.
-    Some of the modules in the collection will perform operations that require the
-    playbook user to have appropriate authority with various RACF resource classes.
-    Each module documents which access is needed in the **notes** section. A user
-    is described as the remote SSH user executing playbook tasks, who can
-    obtain escalated privileges to execute as another user.
-
-    In RACF, a *class* refers to a collection of resources that share similar
-    characteristics, while a *resource class profile* is a set of access controls
-    belonging a class. In other words, a class is a group of related things, and a
-    resource class profile are rules managing access to those things within that group.
-
-    .. dropdown:: Enabling RACF resource classes for module *zos_apf* ... (expand for more)
-        :color: info
-        :icon: command-palette
-
-        Enabling RACF resource classes for module ``zos_apf`` requires that
-        library *libname*, you have **UPDATE** authority to the RACF **FACILITY**
-        resource class entity **CSVAPF.libname**, or there must be no **FACILITY**
-        class profile that protects that entity. Once access for **CSVAPF.libname**
-        has been determined:
-
-        .. dropdown:: To control who can make the APF list dynamic ... (expand for more)
-            :icon: command-palette
-
-            To control who can make the **APF list dynamic** using module ``zos_apf``,
-            the RACF security administrator can:
-
-            Establish a profile for the following FACILITY class with command:
-
-            .. code-block:: sh
-
-                RDEFINE FACILITY CSVAPF.MVS.SETPROG.FORMAT.DYNAMIC UACC(NONE)
-
-            Then permit the RACF-defined user or group profile *iiiiiiii* to use the class
-            with command:
-
-            .. code-block:: sh
-
-                PERMIT CSVAPF.MVS.SETPROG.FORMAT.DYNAMIC CLASS(FACILITY) ID(iiiiiiii) ACCESS(UPDATE)
-
-
-            If the FACILITY class is not active, issue the command:
-
-            .. code-block:: sh
-
-                SETROPTS CLASSACT(FACILITY)
-
-
-            To verify the FACILITY class is active, issue command:
-
-            .. code-block:: sh
-
-                SETROPTS LIST
-
-            To refresh the FACILITY resource class, issue command:
-
-            .. code-block:: sh
-
-                SETROPTS RACLIST(FACILITY) REFRESH
-
-        .. dropdown:: To control who can make the APF list static ... (expand for more)
-            :icon: command-palette
-
-            To control who can make the **APF list dynamic** using module ``zos_apf``,
-            the RACF security administrator can:
-
-            Establish a profile for the following FACILITY class with command:
-
-            .. code-block:: sh
-
-                RDEFINE FACILITY CSVAPF.MVS.SETPROG.FORMAT.STATIC UACC(NONE)
-
-            Then permit the RACF-defined user or group profile *iiiiiiii* to use the class
-            with command:
-
-            .. code-block:: sh
-
-                PERMIT CSVAPF.MVS.SETPROG.FORMAT.STATIC CLASS(FACILITY) ID(iiiiiiii) ACCESS(UPDATE)
-
-
-            If the FACILITY class is not active, issue the command:
-
-            .. code-block:: sh
-
-                SETROPTS CLASSACT(FACILITY)
-
-
-            To verify the FACILITY class is active, issue command:
-
-            .. code-block:: sh
-
-                SETROPTS LIST
-
-            To refresh the FACILITY resource class, issue command:
-
-            .. code-block:: sh
-
-                SETROPTS RACLIST(FACILITY) REFRESH
-
-
-        To learn more about enabling users APF dynamic and static access, see
-        controlling `static and dynamic access`_.
-
-    .. dropdown:: Enabling RACF resource class for module *zos_backup_restore* ... (expand for more)
-        :color: info
-        :icon: command-palette
-
-        Enabling RACF resource class for module ``zos_backup_restore`` requires that
-        library **STGADMIN.ADR.DUMP.TOLERATE.ENQF** have **READ** authority or there
-        must be no **FACILITY** class profile that protects that entity to use the
-        module option recover=true.
-
-        Establish a profile for the following FACILITY class with command:
-
-        .. code-block:: sh
-
-            RDEFINE FACILITY STGADMIN.ADR.DUMP.TOLERATE.ENQF UACC(NONE)
-
-        Then permit the RACF-defined user or group profile *iiiiiiii* to use the class
-        with command:
-
-        .. code-block:: sh
-
-            PERMIT STGADMIN.ADR.DUMP.TOLERATE.ENQF CLASS(FACILITY) ID(iiiiiiii) ACCESS(READ)
-
-        If the FACILITY class is not active, issue the command:
-
-        .. code-block:: sh
-
-            SETROPTS CLASSACT(FACILITY)
-
-        To verify the FACILITY class is active, issue command:
-
-        .. code-block:: sh
-
-            SETROPTS LIST
-
-        To refresh the FACILITY resource class, issue command:
-
-        .. code-block:: sh
-
-            SETROPTS RACLIST(FACILITY) REFRESH
-
-    .. dropdown:: Enabling RACF resource class for module *zos_copy* ... (expand for more)
-        :color: info
-        :icon: command-palette
-
-        Enabling RACF resource class for module ``zos_copy`` requires that library
-        **MVS.MCSOPER.ZOAU** have **READ** authority or there must be no **OPERCMDS**
-        class profile that protects that entity to use the module.
-
-        Establish a profile for the following OPERCMDS class with command:
-
-        .. code-block:: sh
-
-            RDEFINE OPERCMDS MVS.MCSOPER.ZOAU UACC(NONE)
-
-        Then permit the RACF-defined user or group profile *iiiiiiii* to use the class
-        with command:
-
-        .. code-block:: sh
-
-            PERMIT MVS.MCSOPER.ZOAU CLASS(OPERCMDS) ID(iiiiiiii) ACCESS(READ)
-
-        If the OPERCMDS class is not active, issue the command:
-
-        .. code-block:: sh
-
-            SETROPTS CLASSACT(OPERCMDS)
-
-        To verify the OPERCMDS class is active, issue command:
-
-        .. code-block:: sh
-
-            SETROPTS LIST
-
-        To refresh the OPERCMDS resource class, issue command:
-
-        .. code-block:: sh
-
-            SETROPTS RACLIST(OPERCMDS) REFRESH
-
-    .. dropdown:: Enabling RACF resource class for module *zos_volume_init* ... (expand for more)
-        :color: info
-        :icon: command-palette
-
-        Enabling RACF resource class for module ``zos_volume_init`` requires
-        that library **STGADMIN.ICK.INIT** have **READ** authority or there must
-        be no **FACILITY** class profile that protects that entity to use the module.
-
-        Establish a profile for the following FACILITY class with command:
-
-        .. code-block:: sh
-
-            RDEFINE FACILITY STGADMIN.ICK.INIT UACC(NONE)
-
-        Then permit the RACF-defined user or group profile *iiiiiiii* to use the class
-        with command:
-
-        .. code-block:: sh
-
-            PERMIT STGADMIN.ICK.INIT CLASS(FACILITY) ID(iiiiiiii) ACCESS(READ)
-
-        If the FACILITY class is not active, issue the command:
-
-        .. code-block:: sh
-
-            SETROPTS CLASSACT(FACILITY)
-
-        To verify the FACILITY class is active, issue command:
-
-        .. code-block:: sh
-
-            SETROPTS LIST
-
-        To refresh the FACILITY resource class, issue command:
-
-        .. code-block:: sh
-
-            SETROPTS RACLIST(FACILITY) REFRESH
-
-
-    .. dropdown:: Use the RLIST command to display information on resources ... (expand for more)
-        :color: success
-        :icon: info
-
-        Use the RLIST command to display information on resources belonging to RACF classes.
-
-        To see information on class OPERCMDS, resource class profile MVS.MCSOPER.ZOAU,
-        issue command:
-
-        .. code-block:: sh
-
-            RLIST OPERCMDS MVS.MCSOPER.ZOAU
-
-        RLIST command result:
-
-        .. code-block:: sh
-
-            CLASS      NAME
-            -----      ----
-            OPERCMDS   MVS.MCSOPER.ZOAU
-
-            LEVEL  OWNER      UNIVERSAL ACCESS  YOUR ACCESS  WARNING
-            -----  --------   ----------------  -----------  -------
-            00     RACEC      READ              READ         NO
-
-Step 7: Run a playbook
+Step 5: Run a playbook
 ======================
 
 .. dropdown:: The following section discusses how to run an run an Ansible playbook ... (expand for more)
     :color: primary
     :icon: command-palette
 
-    The following section discusses how to use the IBM z/OS Core collection in an Ansible playbook.
+    The following section discusses how to use the IBM z/OS IMS collection in an Ansible playbook.
     An `Ansible playbook`_ consists of organized instructions that define work for a managed
     node (host) to be managed with Ansible.
 
-    If you have completed steps 1 - 6 above, then you are ready to run a playbook. In the
-    folllowing playbook, there are two tasks, the first one performs a simple ping
-    operation using `ibm_zos_core.zos_ping`_ and the following operation uses the
-    `ibm_zos_core.zos_operator`_ command to display the local time of day and the date.
+    If you have completed steps 1 - 4 above, then you are ready to run a playbook. In the
+    folllowing playbook, there are two tasks, the first one performs a simple query command
+    using `ibm_zos_ims.ims_command`_ and the following operation uses the
+    `ibm_zos_ims.command_`_ command to display the query results.
+
+    After completing steps 1–4, you are ready to run a playbook. The following example demonstrates 
+    a simple Type-1 display command that retrieves databases with names beginning with AUTODB by 
+    using the `ibm_zos_ims.ims_command`_ module. The module then processes the command and returns 
+    the corresponding database information.
 
     .. code-block:: sh
 
         ---
         - hosts: all
+          collections:
+            - ibm.ibm_zos_ims
+            - ibm.ibm_zos_core
           environment: "{{ environment_vars }}"
 
           tasks:
-            - name: Ping host - {{ inventory_hostname }}
-              ibm.ibm_zos_core.zos_ping:
-              register: result
-            - name: Response
-              debug:
-                msg: "{{ result.ping }}"
-
-            - name: Display system limits
-            zos_operator:
-                cmd: 'D OMVS,LIMITS'
-            register: result
-            tags: sys_limit_info
-
-            - name: Result display system limits
-            debug:
-                msg: "{{result}}"
-            tags: sys_limit_info
+            - name: IMS Command
+              ims_command:
+                command: DISPLAY DB AUTODB
+                plex: PLEX1
+                route: IMS1
 
 
     Copy the above playbook into a file, call it **sample.yml** and to run it,
@@ -693,18 +365,10 @@ Step 7: Run a playbook
    https://ibm.github.io/z_ansible_collections_doc/welcome/basic-concepts.html#term-Inventory
 .. _Building Ansible inventories:
    https://docs.ansible.com/ansible/latest/inventory_guide/index.html#
-.. _RACF command syntax:
-   https://www.ibm.com/docs/en/zos/3.1.0?topic=syntax-addgroup-add-group-profile
-.. _RACF language reference:
-   https://www.ibm.com/docs/en/zos/3.1.0?topic=racf-zos-security-server-command-language-reference
-.. _static and dynamic access:
-   https://www.ibm.com/docs/en/zos/3.1.0?topic=lists-controlling-how-change-apf-list-format
 .. _Ansible playbook:
    https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html#playbooks-intro
-.. _ibm_zos_core.zos_ping:
-    https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/modules/zos_ping.html
-.. _ibm_zos_core.zos_operator:
-   https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/modules/zos_operator.html
+.. _ibm_zos_ims.ims_command:
+    https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/modules/ims_command.html
 .. _setting up SSH keys:
    https://docs.ansible.com/ansible/latest/inventory_guide/connection_details.html#setting-up-ssh-keys
 .. _Ansible playbooks:
