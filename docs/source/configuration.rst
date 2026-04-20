@@ -288,11 +288,6 @@ Step 5: Run a playbook
     An `Ansible playbook`_ consists of organized instructions that define work for a managed
     node (host) to be managed with Ansible.
 
-    If you have completed steps 1 - 4 above, then you are ready to run a playbook. In the
-    folllowing playbook, there are two tasks, the first one performs a simple query command
-    using `ibm_zos_ims.ims_command`_ and the following operation uses the
-    `ibm_zos_ims.command_`_ command to display the query results.
-
     After completing steps 1–4, you are ready to run a playbook. The following example demonstrates 
     a simple Type-1 display command that retrieves databases with names beginning with AUTODB by 
     using the `ibm_zos_ims.ims_command`_ module. The module then processes the command and returns 
@@ -317,7 +312,7 @@ Step 5: Run a playbook
 
     Copy the above playbook into a file, call it **sample.yml** and to run it,
     use the Ansible command ``ansible-playbook`` with the inventory you defined
-    in step 4 along with a reqeust for a password using opiton ``--ask-pass``.
+    in step 4 along with a request for a password using option ``--ask-pass``.
 
     The command syntax is ``ansible-playbook -i <inventory> <playbook> --ask-pass``,
     for example;
