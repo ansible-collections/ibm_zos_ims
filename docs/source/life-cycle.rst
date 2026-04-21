@@ -22,11 +22,15 @@ its critical dates, and which type of support it's currently eligible for.
 +==============+================+=======================+==================+===================+=========================+
 | 1.3.x        | Released       | `1.3.x changelogs`_   | 10 April 2024    | 10 April 2026     | `Full support`_         |
 +--------------+----------------+-----------------------+------------------+-------------------+-------------------------+
+| 1.4.x        | Released       | `1.4.x changelogs`_   | 22 April 2026    | 22 April 2028     | `Full support`_         |
++--------------+----------------+-----------------------+------------------+-------------------+-------------------------+
 
 .. .............................................................................
 .. Global Links
 .. .............................................................................
 .. _1.3.x changelogs:
     https://github.com/ansible-collections/ibm_zos_ims/blob/v1.3.1/CHANGELOG.rst
+.. _1.4.x changelogs:
+    https://github.com/ansible-collections/ibm_zos_ims/blob/v1.4.0/CHANGELOG.rst
 .. _Full support:
     ../../../collections_content/collection-life-cycles.html#life-cycle-phase

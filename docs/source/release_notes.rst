@@ -6,7 +6,7 @@
 ========
 Releases
 ========
-Version 1.3.2-Beta.1
+Version 1.4.0
 =============
 
 Notes
