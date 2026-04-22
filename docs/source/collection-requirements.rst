@@ -82,7 +82,7 @@ Managed Node
       to change the default shell is unsupported. Other shells are not supported
       because they handle the reading and writing of untagged files differently.
 
-.. _ibm-zos-core-collection-requirements-dependency-matrix:
+.. _ibm-zos-ims-collection-requirements-dependency-matrix:
 
 Dependency Matrix
 -----------------
