@@ -50,6 +50,10 @@ Control Node
    `Red Hat Ansible Automation Platform Life Cycle`_ to select a supported
    AAP version.
 
+   The control node requires the IBM z/OS core collection to be installed before installing 
+   the IMS collection. 
+   Refer to the `IBM z/OS Core collection requirements`_ for specific version requirements.
+
 .. _ibm-zos-ims-collection-requirements-managed-node:
 
 Managed Node
@@ -64,6 +68,7 @@ Managed Node
 
       - `z/OS shell`_
       - `z/OS OpenSSH`_
+      - IBM z/OS IMS
       - IBM `Open Enterprise SDK for Python`_
       - IBM `Z Open Automation Utilities`_ (ZOAU)
 
@@ -120,6 +125,8 @@ Dependency Matrix
    https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix
 .. _Red Hat Ansible Automation Platform Life Cycle:
    https://access.redhat.com/support/policy/updates/ansible-automation-platform
+.. _IBM z/OS Core collection requirements:
+   https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/collection-requirements.html
 .. _IBM Support product lifecycle:
     https://www.ibm.com/support/pages/lifecycle/search/
 .. _5655-PYT:
