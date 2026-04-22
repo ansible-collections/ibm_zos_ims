@@ -104,8 +104,7 @@ Dependency Matrix
    |         |- `ansible-core`_ >=2.16.x  |- `z/OS shell`_                                      |
    |         |- `Ansible`_ >=8.0.x        |- `z/OS OpenSSH`_                                    |
    |         |- `AAP`_ >=2.4              |- IBM `Open Enterprise SDK for Python`               |
-   |         |                            |_ IBM `Z Open Automation Utilities`_ >=1.3.0, <1.4.0 |
-   |         |                            |-                                                    |
+   |         |                            |- IBM `Z Open Automation Utilities`_ >=1.3.0, <1.4.0 |
    +---------+----------------------------+-----------------------------------------------------+
    | 1.13.x  |- `ibm_zos_core` _ >=1.10.0 |- `z/OS`_ V2R5 - V3Rx                                |
    |         |- `ansible-core`_ >=2.15.x  |- `z/OS shell`_                                      |
