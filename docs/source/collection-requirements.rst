@@ -68,7 +68,7 @@ Managed Node
 
       - `z/OS shell`_
       - `z/OS OpenSSH`_
-      - IBM z/OS IMS
+      - IBM `z/OS IMS`_
       - IBM `Open Enterprise SDK for Python`_
       - IBM `Z Open Automation Utilities`_ (ZOAU)
 
@@ -105,13 +105,13 @@ Dependency Matrix
    +---------+----------------------------+-----------------------------------------------------+
    | Version | Control Node               | Managed Node                                        |
    +=========+============================+=====================================================+
-   | 1.14.x  |- `ibm_zos_core` _ >=1.10.0 |- `z/OS`_ V2R5 - V3Rx (IBM IMS through v15.6)        |
+   | 1.14.x  |- `ibm_zos_core`_ >=1.12.0 |- `z/OS`_ V2R5 - V3Rx (IBM IMS through v15.6)        |
    |         |- `ansible-core`_ >=2.16.x  |- `z/OS shell`_                                      |
    |         |- `Ansible`_ >=8.0.x        |- `z/OS OpenSSH`_                                    |
-   |         |- `AAP`_ >=2.4              |- IBM `Open Enterprise SDK for Python`               |
+   |         |- `AAP`_ >=2.4              |- IBM `Open Enterprise SDK for Python`_               |
    |         |                            |- IBM `Z Open Automation Utilities`_ >=1.3.0, <1.4.0 |
    +---------+----------------------------+-----------------------------------------------------+
-   | 1.13.x  |- `ibm_zos_core` _ >=1.10.0 |- `z/OS`_ V2R5 - V3Rx (IBM IMS through v15.5)        |
+   | 1.13.x  |- `ibm_zos_core`_ >=1.10.0 |- `z/OS`_ V2R5 - V3Rx (IBM IMS through v15.5)        |
    |         |- `ansible-core`_ >=2.15.x  |- `z/OS shell`_                                      |
    |         |- `Ansible`_ >=8.0.x        |- `z/OS OpenSSH`_                                    |
    |         |- `AAP`_ >=2.4              |- IBM `Open Enterprise SDK for Python`_              |
@@ -136,6 +136,8 @@ Dependency Matrix
 .. _AAP:
    https://access.redhat.com/support/policy/updates/ansible-automation-platform
 .. _Automation Hub:
+   https://www.ansible.com/products/automation-hub
+.. _z/OS IMS:
    https://www.ansible.com/products/automation-hub
 .. _Open Enterprise SDK for Python:
    https://www.ibm.com/products/open-enterprise-python-zos
