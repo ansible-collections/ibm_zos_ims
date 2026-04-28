@@ -1,6 +1,6 @@
 # IBM® z/OS® IMS collection
 
-The IBM z/OS IMS collection enables Ansible to interact with IBM Information Management System. The collection focuses on system management operations such as generating database descriptors, program specifications, Application Control Blocks (ACB), data definition language (DDL), catalog operations, submitting DBRC commands, and executing commands.
+The IBM z/OS IMS collection enables Ansible to interact with IBM Information Management System. The collection focuses on system management operations such as generating database descriptors, program specifications, Application Control Blocks (ACB), data definition language (DDL), catalog operations, submitting DBRC commands, and executing IMS commands.
 
 ## Description
 
@@ -151,7 +151,7 @@ This release of the collection was tested with the following dependencies.
 
 - ansible-core v2.16.x
 - Python 3.13.x
-- IBM Open Enterprise SDK for Python 3.11.x
+- IBM Open Enterprise SDK for Python 3.12.x
 - IBM Z Open Automation Utilities (ZOAU) 1.3.x
 - z/OS V2R5 or later
 
