@@ -280,7 +280,7 @@ Step 4: Inventory
 Step 5: Run a playbook
 ======================
 
-.. dropdown:: The following section discusses how to run an run an Ansible playbook ... (expand for more)
+.. dropdown:: The following section discusses how to run an Ansible playbook ... (expand for more)
     :color: primary
     :icon: command-palette
 

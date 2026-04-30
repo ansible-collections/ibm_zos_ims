@@ -14,12 +14,12 @@ Notes
 
 * Bug fixes and enhancements
 
-    * Fixed issues with control statement options (auto-commit, verbose, simulate, and dynamic_programview) in the DDL module; all parameters now function as expected.
+    * Resolved issues with control statement options (auto-commit, verbose, simulate, and dynamic_programview) in the DDL module. All parameters now function as expected.
 
 * Documentation updates
 
-    * Added configuration page for IMS collection.
-    * Added dependency matrix for IMS collection.
+    * Introduced a configuration page for the IMS collection
+    * Added a dependency matrix for IMS collection
 
 Availability
 ------------
