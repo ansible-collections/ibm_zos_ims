@@ -123,7 +123,7 @@ Dependency Matrix
 .. .............................................................................
 .. _ansible-core support matrix:
    https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix
-.. _ibm_zos_core support matrix:
+.. _ibm_zos_core:
    https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/collection-requirements.html
 .. _Red Hat Ansible Automation Platform Life Cycle:
    https://access.redhat.com/support/policy/updates/ansible-automation-platform
