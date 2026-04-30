@@ -106,15 +106,15 @@ Dependency Matrix
    | Version | Control Node               | Managed Node                                        |
    +=========+============================+=====================================================+
    | 1.14.x  |- `ibm_zos_core`_ >1.12.0   |- `z/OS`_ V2R5 - V3Rx                                |
-   |         |- `ansible-core`_ >=2.16.x  |- IBM IMS >= v15.6                                   |
+   |         |- `ansible-core`_ >=2.16.x  |- `IBM IMS`_ >= v15.6                                |
    |         |- `Ansible`_ >=9.0.x        |- `z/OS shell`_                                      |
    |         |- `AAP`_ >=2.4              |- `z/OS OpenSSH`_                                    |
    |         |                            |- IBM `Open Enterprise SDK for Python`_              |
    |         |                            |- IBM `Z Open Automation Utilities`_ >=1.3.0, <1.4.0 |
    +---------+----------------------------+-----------------------------------------------------+
    | 1.13.x  |- `ibm_zos_core`_ >1.10.0   |- `z/OS`_ V2R5 - V3Rx                                |
-   |         |- `ansible-core`_ >=2.15.x  |- IBM IMS through v15.5                              |
-   |         |- `Ansible`_ >=9.0.x        |- `z/OS shell`_                                      |
+   |         |- `ansible-core`_ >=2.15.x  |- `IBM IMS`_ through v15.5                           |
+   |         |- `Ansible`_ >=8.0.x        |- `z/OS shell`_                                      |
    |         |- `AAP`_ >=2.4              |- `z/OS OpenSSH`_                                    |
    |         |                            |- IBM `Open Enterprise SDK for Python`_              |
    |         |                            |- IBM `Z Open Automation Utilities`_ >=1.3.0, <1.3.4 |
@@ -129,6 +129,8 @@ Dependency Matrix
    https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/collection-requirements.html
 .. _Red Hat Ansible Automation Platform Life Cycle:
    https://access.redhat.com/support/policy/updates/ansible-automation-platform
+.. _IBM IMS:
+   https://www.ibm.com/products/ims
 .. _IBM z/OS Core collection requirements:
    https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/collection-requirements.html
 .. _IBM Support product lifecycle:
