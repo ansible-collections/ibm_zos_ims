@@ -18,8 +18,8 @@ Notes
 
 * Documentation updates
 
-    * Introduced a configuration page for the IMS collection
-    * Added a dependency matrix for IMS collection
+    * Introduced a configuration page for the IMS collection.
+    * Added a dependency matrix for IMS collection.
 
 Availability
 ------------
