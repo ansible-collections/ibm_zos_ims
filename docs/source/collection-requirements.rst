@@ -63,7 +63,7 @@ Managed Node
    :color: primary
    :icon: info
 
-   The :term:`managed node<Managed node>` requires the following be installed and
+   The :term:`managed node<Managed node>` requires the following to be installed and
    configured:
 
       - `z/OS shell`_
