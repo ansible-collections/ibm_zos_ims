@@ -14,7 +14,8 @@ managed node as the **host** or **target**.
 Control node
 ============
 The controller is where the Ansible engine that runs the playbook is installed.
-Refer to RedHat Ansible Certified Content documentation for more on the `controllers dependencies`_.
+For more information on the `controllers dependencies`_, refer to RedHat Ansible 
+Certified Content documentation .
 
 .. _controllers dependencies:
    https://ibm.github.io/z_ansible_collections_doc/requirements/requirements_controller.html
