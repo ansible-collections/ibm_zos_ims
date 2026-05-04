@@ -276,8 +276,77 @@ Step 4: Inventory
                 ansible_host: zos_managed_node_host_name_or_ip
                 ansible_user: zos_managed_node_ssh_user
 
+Step 5: User
+============
 
-Step 5: Run a playbook
+.. dropdown:: The following section discusses how the collection connects to the managed node over SSH ... (expand for more)
+    :color: primary
+    :icon: command-palette
+
+    The following section discusses how the collection connects to the
+    managed node over SSH via the ansible user defined in inventory or optionally
+    the command line, thus requiring access to z/OS UNIX System Services (USS).
+    From a security perspective, the collection will require both an OMVS segment
+    and TSO segment in the users profile.
+
+    With the RACF **ADDGROUP** command you can:
+
+    - Define a new group to RACF.
+    - Add a profile for the new group to the RACF database.
+    - Specify z/OS UNIX System Services information for the group being defined to RACF.
+    - specify that RACF is to automatically assign an unused GID value to the group.
+
+    With the RACF **ADDUSER** command you can:
+
+    - Define a new user to RACF.
+    - Add a profile for the new user to the RACF database.
+    - Create a connect profile that connects the user to the default group.
+    - Create an OMVS segment.
+    - Create a TSO segment.
+
+    When issuing RACF commands, you might require sufficient authority to the proper
+    resources. It is recommended you review the `RACF language reference`_.
+
+    You can define a new group to RACF with command:
+
+    .. code-block:: sh
+
+       ADDGROUP gggggggg OMVS(AUTOGID)
+
+    You can add a new user with RACF command:
+
+    .. code-block:: sh
+
+       ADDUSER uuuuuuuu DFLTGRP(gggggggg) OWNER(nnnnnnnn) PASSWORD(pppppppp) TSO(ACCTNUM(aaaaaaaa) PROC(pppppppp)) OMVS(HOME(/u/uuuuuuuu) PROGRAM('/bin/sh')) AUTOUID
+
+    To learn more about creating users with RACF, see `RACF command syntax`_.
+
+    .. dropdown:: The following section explains the RACF operands ... (expand for more)
+        :color: info
+        :icon: file-code
+
+        The following section explains the RACF operands used in the above RACF commands.
+
+        uuuuuuuu
+            - Specifies the user to be defined to RACF. 1 - 8 alphanumeric characters. A
+              user id can contain any of the supported symbols A-Z, 0-9, #, $, or @.
+        gggggggg
+            - Specifies the name of a RACF-defined group to be used as the default
+              group for the user. If you do not specify a group, RACF uses your current connect
+              group as the default. 1 - 8 alphanumeric characters, beginning with an alphabetic
+              character. A group name can contain any of the supported symbols A-Z, 0-9, #, $, or @.
+        nnnnnnnn
+            - Specifies a RACF-defined user or group to be assigned as the owner of the
+              new group. If you do not specify an owner, you are defined as the owner of the group.
+        pppppppp
+            - Specifies the user's initial logon password. This password is always set
+              expired, thus requiring the user to change the password at initial logon.
+        aaaaaaaa
+            - Specifies the user's default TSO account number. The account number you
+              specify must be protected by a profile in the ACCTNUM general resource class, and
+              the user must be granted READ access to the profile.
+
+Step 6: Run a playbook
 ======================
 
 .. dropdown:: The following section discusses how to run an Ansible playbook ... (expand for more)
