@@ -78,9 +78,9 @@ Managed Node
 
    .. note::
 
-      Only the `z/OS shell`_ is supported, using ``ansible_shell_executable``
-      to change the default shell is unsupported. Other shells are not supported
-      because they handle the reading and writing of untagged files differently.
+      Only the `z/OS shell`_ is supported. Changing the default shell using ``ansible_shell_executable`` 
+      is not supported. Other shells are not supported because they handle the reading and writing of 
+      untagged files differently.
 
 .. _ibm-zos-ims-collection-requirements-dependency-matrix:
 
