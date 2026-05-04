@@ -302,7 +302,7 @@ Step 5: Run a playbook
           environment: "{{ environment_vars }}"
 
           tasks:
-            - name: IMS Command - Query all programs for IMS1 in PLEX1
+            - name: IMS command - query all programs for IMS1 in PLEX1
               ims_command:
                 command: QUERY PGM SHOW(ALL)
                 plex: PLEX1
