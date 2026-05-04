@@ -59,7 +59,7 @@ Control Node
 Managed Node
 ------------
 
-.. dropdown:: The managed requires the following to be installed ... (expand for more)
+.. dropdown:: The managed node requires the following to be installed ... (expand for more)
    :color: primary
    :icon: info
 
