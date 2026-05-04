@@ -51,7 +51,7 @@ Control Node
    AAP version.
 
    The control node requires the IBM z/OS Core collection to be installed before installing
-   the IMS collection. 
+   the z/OS IMS collection. 
    Refer to the `IBM z/OS Core collection requirements`_ for specific version requirements.
 
 .. _ibm-zos-ims-collection-requirements-managed-node:
