@@ -52,7 +52,7 @@ Control Node
 
    The control node requires the IBM z/OS Core collection to be installed before installing
    the z/OS IMS collection. 
-   Refer to the `IBM z/OS Core collection requirements`_ for specific version requirements.
+   Refer to the `IBM z/OS Core collection requirements`_ for specific requirements.
 
 .. _ibm-zos-ims-collection-requirements-managed-node:
 
