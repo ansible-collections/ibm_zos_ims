@@ -91,15 +91,15 @@ Dependency Matrix
    :color: primary
    :icon: info
 
-   The dependency matrix lists the dependencies for both, the :term:`control node<Control node>`
+   The dependency matrix lists the dependencies for both the :term:`control node<Control node>`
    and :term:`managed node<Managed node>`.
 
-   Over time, dependencies will reach EOL, for IBM product lifecycle information,
-   you can search for products using the product's name, version or ID on
-   the `IBM Support product lifecycle`_ page.
+   Over time, dependencies reach EOL. For IBM product lifecycle information,
+   you can search for products using the name, version or ID on the 
+   `IBM Support product lifecycle`_ page.
 
-   For the lifecycle of **IBM Open Enterprise SDK for Python**, search on product
-   ID `5655-PYT`_ and for **IBM Z Open Automation Utilities**, search on product
+   For the lifecycle of **IBM Open Enterprise SDK for Python**, search for product
+   ID `5655-PYT`_ and for **IBM Z Open Automation Utilities**, search for product
    ID `5698-PA1`_.
 
    +---------+-------------------------------------+-----------------------------------------------------+
