@@ -33,4 +33,6 @@ its critical dates, and which type of support it's currently eligible for.
 .. _1.4.x changelogs:
     https://github.com/ansible-collections/ibm_zos_ims/blob/v1.4.0/CHANGELOG.rst
 .. _Full support:
-    ../../../collections_content/collection-life-cycles.html#life-cycle-phase
+../../../collections_content/collection-life-cycles.html#life-cycle-phase
+.. _End of life:
+../../../collections_content/collection-life-cycles.html#life-cycle-phase
