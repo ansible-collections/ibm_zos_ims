@@ -307,6 +307,11 @@ Step 5: Run a playbook
                 command: QUERY PGM SHOW(ALL)
                 plex: PLEX1
                 route: IMS1
+              register: result
+              
+            - name: Display all IMS programs for IMS1 in PLEX1
+               debug:
+                 msg: "{{result}}"
 
 
     Copy the above playbook into a file, call it **sample.yml** and to run it,
