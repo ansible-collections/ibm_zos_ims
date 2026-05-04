@@ -141,8 +141,6 @@ Dependency Matrix
    https://www.ibm.com/support/pages/lifecycle/search?q=5698-PA1
 .. _AAP:
    https://access.redhat.com/support/policy/updates/ansible-automation-platform
-.. _Automation Hub:
-   https://www.ansible.com/products/automation-hub
 .. _z/OS IMS:
    https://www.ibm.com/products/ims
 .. _Open Enterprise SDK for Python:
