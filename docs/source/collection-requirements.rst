@@ -50,7 +50,7 @@ Control Node
    `Red Hat Ansible Automation Platform Life Cycle`_ to select a supported
    AAP version.
 
-   The control node requires the IBM z/OS core collection to be installed before installing 
+   The control node requires the IBM z/OS Core collection to be installed before installing
    the IMS collection. 
    Refer to the `IBM z/OS Core collection requirements`_ for specific version requirements.
 
