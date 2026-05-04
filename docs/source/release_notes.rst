@@ -14,7 +14,7 @@ Notes
 
 * Bug fixes and enhancements
 
-    * Resolved issues with control statement options (auto-commit, verbose, simulate, and dynamic_programview) in the DDL module. All parameters now function as expected.
+    * Resolved issues with control statement options (auto-commit, verbose, simulate, and dynamic_programview) in the DDL module. All parameters function as expected.
 
 * Documentation updates
 
