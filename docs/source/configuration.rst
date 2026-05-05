@@ -429,6 +429,8 @@ Step 6: Run a playbook
    https://www.ibm.com/products/open-enterprise-python-zos
 .. _Z Open Automation Utilities:
    https://www.ibm.com/docs/en/zoau/latest
+.. _RACF command syntax:
+   https://www.ibm.com/docs/en/zos/3.1.0?topic=syntax-addgroup-add-group-profile   
 .. _inventory:
    https://docs.ansible.com/projects/ansible/latest/getting_started/basic_concepts.html#inventory
 .. _Building Ansible inventories:

@@ -72,13 +72,12 @@ Version 1.3.0
 
 New Modules
 -----------
-- ``ims_ddl``
-    * The IMS Data Definition utility (DFS3ID00) utility writes the metadata for your application programs (PSBs) and databases definitions to the IMS Catalog records and the runtime blocks to the staging directory dataset.
+- ``ims_ddl`` -  The IMS Data Definition utility (DFS3ID00) utility writes the metadata for your application programs (PSBs) and databases definitions to the IMS Catalog records and the runtime blocks to the staging directory dataset.
 
 Bugfixes
 --------
-* Added new member ``dfsdf_member`` in the ``ims_catalog_populate`` and ``ims_catalog_purge`` modules.
-    The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
+    * Added new member ``dfsdf_member`` in the ``ims_catalog_populate`` and ``ims_catalog_purge`` modules.
+      The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
 
 
 Minor Changes
