@@ -9,17 +9,20 @@ Releases
 Version 1.4.0
 =============
 
-Notes
------
 
-* Bug fixes and enhancements
+Bugfixes
+--------
 
-    * Resolved issues with control statement options (auto-commit, verbose, simulate, and dynamic_programview) in the DDL module. All parameters function as expected.
+    * Resolved issues with control statement options (auto-commit, verbose, simulate, 
+      and dynamic_programview) in the DDL module. All parameters function as expected.
 
-* Documentation updates
+Minor Changes
+-------------
+    * Documentation updates
 
-    * Introduced a configuration page for the IMS collection.
-    * Added a dependency matrix for IMS collection.
+        * Introduced a configuration page for the IMS collection.
+        * Added a dependency matrix for IMS collection.
+
 
 Availability
 ------------
@@ -28,11 +31,12 @@ Availability
 * `Galaxy`_
 * `GitHub`_
 
+
 Version 1.3.1
 =============
 
-Notes
------
+Minor Changes
+-------------
 
  * Compatibility to the latest dependencies versions
 
@@ -64,19 +68,20 @@ Reference
 Version 1.3.0
 =============
 
-Notes
------
 
-* New module
-
-  * ``ims_ddl``
-
+New Modules
+-----------
+- ``ims_ddl``
     * The IMS Data Definition utility (DFS3ID00) utility writes the metadata for your application programs (PSBs) and databases definitions to the IMS Catalog records and the runtime blocks to the staging directory dataset.
 
-* Bug fixes and enhancements
-
-  * Added new member ``dfsdf_member`` in the ``ims_catalog_populate`` and ``ims_catalog_purge`` modules.
+Bugfixes
+--------
+* Added new member ``dfsdf_member`` in the ``ims_catalog_populate`` and ``ims_catalog_purge`` modules.
     The DFSDFxxx member is in the IMS.PROCLIB data set where the CATALOG section is defined.
+
+
+Minor Changes
+-------------
 
 * Documentation updates
 
@@ -88,6 +93,7 @@ Notes
 * Additional support for test cases in ``ims_catalog_populate`` and ``ims_catalog_purge`` modules to support ``dfsdf_member`` parameter.
 * Source ``type()`` was replaced by ``isinstance()`` in the code for gen utilities since ansible-core 2.16 supports Python 3.12 and that version deprecated ``type()`` function.
 * This update also has updated prerequisites for Ansible 2.14 or later and ZOAU 1.2.2 or later but prior to version 1.3.
+
 
 Availability
 ------------
