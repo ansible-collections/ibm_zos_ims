@@ -112,13 +112,6 @@ Dependency Matrix
    |         |                                     |- IBM `Open Enterprise SDK for Python`_              |
    |         |                                     |- IBM `Z Open Automation Utilities`_ >=1.3.0, <1.4.0 |
    +---------+-------------------------------------+-----------------------------------------------------+
-   | 1.3.x   |- `ibm_zos_core`_ >1.10.0            |- `z/OS`_ V2R5 - V3Rx                                |
-   |         |- `ansible-core`_ >=2.15.x           |- `IBM IMS`_ through v15.5                           |
-   |         |- `Ansible`_ >=8.0.x                 |- `z/OS shell`_                                      |
-   |         |- `AAP`_ >=2.4                       |- `z/OS OpenSSH`_                                    |
-   |         |                                     |- IBM `Open Enterprise SDK for Python`_              |
-   |         |                                     |- IBM `Z Open Automation Utilities`_ >=1.3.0, <1.3.4 |
-   +---------+-------------------------------------+-----------------------------------------------------+
 
 .. .............................................................................
 .. Global Links
