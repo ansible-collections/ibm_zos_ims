@@ -357,7 +357,7 @@ Step 6: Run a playbook
     An `Ansible playbook`_ consists of organized instructions that define work for a managed
     node (host) to be managed with Ansible.
 
-    After completing steps 1–4, you are ready to run a playbook. The following example demonstrates
+    After completing steps 1–5, you are ready to run a playbook. The following example demonstrates
     a simple Type-2 command that queries all programs for IMS1 in PLEX1 by using the
     `ibm_zos_ims.ims_command`_ module. The module processes the command and returns the corresponding program details for PLEX1.
 
