@@ -4,13 +4,31 @@ ibm.ibm_zos_ims Release Notes
 
 .. contents:: Topics
 
+
+v1.4.0
+======
+
+Release Summary
+---------------
+
+Release Date: '2026-05-15'
+This changelog describes all changes made to the modules and plugins included in this collection.
+For additional details such as required dependencies and availability review
+the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__
+
+Major Changes
+-------------
+ - Fixed issues with control statement options (auto-commit, verbose, simulate, and dynamic_programview) 
+   in the DDL module; all parameters now function as expected.
+
+
 v1.3.1
 ======
 
 Release Summary
 ---------------
 
-Release Date: '2023-03-31'
+Release Date: '2025-08-08'
 This changelog describes all changes made to the modules and plugins included in this collection.
 For additional details such as required dependencies and availability review
 the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__
@@ -24,13 +42,14 @@ Major Changes
    - Support for ZOAU v1.3.0 or later.
    - Support for Ansible 2.15 or later.
 
+
 v1.3.0
 ======
 
 Release Summary
 ---------------
 
-Release Date: '2023-03-31'
+Release Date: '2023-12-15'
 This changelog describes all changes made to the modules and plugins included in this collection.
 For additional details such as required dependencies and availability review
 the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__
@@ -47,6 +66,7 @@ Major Changes
 - Subset of the test cases were updated to support for Ansible 2.15.
 - Additional support for test cases in ims_catalog_populate and ims_catalog_purge modules to support dfsdf_member parameter.
 - This update also has updated prerequisites for Ansible 2.14 or newer and ZOAU 1.2.2 or newer but prior to version 1.3.
+
 
 v1.2.0
 ======
@@ -69,7 +89,7 @@ Major Changes
 - Fixed sanity test error for ims_dbdgen and ims_psbgen modules after the member_list argument type was updated to 'raw' from 'list' since the element type can either be str or key:value pair
 - Improved JSON keys for ims_command_utils to replace whitespaces with underscores to help make the output more parsable
 
-.. _Release notes for v1.2.0
+
 v1.1.0
 ======
 
@@ -90,6 +110,7 @@ New Modules
 - ibm.ibm_zos_ims.ims_catalog_populate - Add records to the  IMS Catalog
 - ibm.ibm_zos_ims.ims_catalog_purge - Purge records from the IMS Catalog
 - ibm.ibm_zos_ims.ims_dbrc - Submit IMS DBRC Commands
+
 
 v1.0.1
 ======
