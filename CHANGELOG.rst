@@ -49,7 +49,7 @@ v1.3.0
 Release Summary
 ---------------
 
-Release Date: '2023-12-15'
+Release Date: '2025-06-26'
 This changelog describes all changes made to the modules and plugins included in this collection.
 For additional details such as required dependencies and availability review
 the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__
@@ -93,6 +93,15 @@ Major Changes
 v1.1.0
 ======
 
+Release Summary
+---------------
+
+Release Date: '2021-02-05'
+This changelog describes all changes made to the modules and plugins included in this collection.
+For additional details such as required dependencies and availability review
+the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__
+
+
 Major Changes
 -------------
 
@@ -114,6 +123,15 @@ New Modules
 
 v1.0.1
 ======
+
+Release Summary
+---------------
+
+Release Date: '2020-10-02'
+This changelog describes all changes made to the modules and plugins included in this collection.
+For additional details such as required dependencies and availability review
+the collections `release notes <https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html>`__
+
 
 Major Changes
 -------------
