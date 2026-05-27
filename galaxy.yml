@@ -83,3 +83,5 @@ build_ignore:
   - venv*
   - ansible_collections
   - '*.log'
+  - .DS_Store
+  - .ansible-lint
