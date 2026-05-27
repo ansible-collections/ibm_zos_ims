@@ -124,7 +124,7 @@
 
       - name: Test ims_catalog_populate
         ims_catalog_populate:
-          mode: LOAD
+          mode: READ
           dbrc: false
           acb_lib: [
             IMSTESTL.IMS1.ACBLIB

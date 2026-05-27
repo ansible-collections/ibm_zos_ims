@@ -1,6 +1,6 @@
 # IBM® z/OS® IMS collection
 
-The IBM z/OS IMS collection enables Ansible to interact with IBM Information Management System. The collection focuses on system management operations such as generating database descriptors, program specifications, Application Control Blocks (ACB), data definition language (DDL), catalog operations, submitting DBRC commands, and executing commands.
+The IBM z/OS IMS collection enables Ansible to interact with IBM Information Management System. The collection focuses on system management operations such as generating database descriptors, program specifications, Application Control Blocks (ACB), data definition language (DDL), catalog operations, submitting DBRC commands, and executing IMS commands.
 
 ## Description
 
@@ -10,7 +10,7 @@ System programmers can automate IMS system management tasks while database admin
 
 ## Requirements
 
-This collection is tested against the following Ansible versions: 2.15.0 or later
+This collection is tested against the following Ansible versions: 2.16.0 or later
 
 The collection requires the following on the managed node:
 - IBM z/OS IMS
@@ -149,9 +149,9 @@ All releases will meet the following test criteria.
 
 This release of the collection was tested with the following dependencies.
 
-- ansible-core v2.15.x
+- ansible-core v2.16.x
 - Python 3.13.x
-- IBM Open Enterprise SDK for Python 3.11.x
+- IBM Open Enterprise SDK for Python 3.12.x
 - IBM Z Open Automation Utilities (ZOAU) 1.3.x
 - z/OS V2R5 or later
 
@@ -173,12 +173,15 @@ If you would like to communicate with this community, you can do so through the 
 
 ## Support
 
-As Red Hat Ansible [Certified Content](https://catalog.redhat.com/software/search?target_platforms=Red%20Hat%20Ansible%20Automation%20Platform), this collection is entitled to [support](https://access.redhat.com/support/) through [Ansible Automation Platform](https://www.redhat.com/en/technologies/management/ansible) (AAP). After creating a Red Hat support case, if it is determined the issue belongs to IBM, Red Hat will instruct you to create an [IBM support case](https://www.ibm.com/mysupport/s/createrecord/NewCase) and share the case number with Red Hat so that a collaboration can begin between Red Hat and IBM.
+As Red Hat Ansible [Certified Content](https://catalog.redhat.com/software/search?target_platforms=Red%20Hat%20Ansible%20Automation%20Platform), this collection is entitled to [support](https://access.redhat.com/support/) through [Ansible Automation Platform](https://www.redhat.com/en/technologies/management/ansible) (AAP) using the **Create issue** button on the top right corner. After creating a Red Hat support case, if it is determined the issue belongs to IBM, Red Hat will instruct you to create an [IBM support case](https://www.ibm.com/mysupport/s/createrecord/NewCase) and share the case number with Red Hat so that a collaboration can begin between Red Hat and IBM.
 
-<br/>If a support case cannot be opened with Red Hat and the collection has been obtained either from [Galaxy](https://galaxy.ansible.com/ui/) or [GitHub](https://github.com/ansible-collections/ibm_zos_core), there is community support available at no charge. Community support is limited to the collection; community support does not include any of the Ansible Automation Platform components, [IBM Z Open Automation Utilities](https://www.ibm.com/docs/en/zoau), [IBM Open Enterprise SDK for Python](https://www.ibm.com/products/open-enterprise-python-zos) or [ansible-ims](https://github.com/ansible/ansible).
+<br/>If a support case cannot be opened with Red Hat and the collection has been obtained either from [Galaxy](https://galaxy.ansible.com/ui/) or [GitHub](https://github.com/ansible-collections/ibm_zos_ims), there is community support available at no charge. Community support is limited to the collection; community support does not include any of the Ansible Automation Platform components, [IBM Z Open Automation Utilities](https://www.ibm.com/docs/en/zoau), [IBM Open Enterprise SDK for Python](https://www.ibm.com/products/open-enterprise-python-zos).
 
 <br/>The current supported versions of this collection can be found listed under the [release section](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html).
 
+## Release Notes and Roadmap
+For the collection's cumulative, refer [release notes](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html) are an easy way to review changes. The collection [Life Cycle](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/life-cycle.html) also referred to as the Roadmap contains changelog details, support dates and the current level of support
+for each collection. For a complete guide to support, review the **Ansible for IBM Z** [Collection Life Cycles](https://ibm.github.io/z_ansible_collections_doc/collections_content/collection-life-cycles.html#life-cycles).
 ## Release Notes and Roadmap
 
 For the collection's cumulative, refer [release notes](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html) are an easy way to review changes. The collection [Life Cycle](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/life-cycle_ims.html) also referred to as the Roadmap contains changelog details, support dates and the current level of support

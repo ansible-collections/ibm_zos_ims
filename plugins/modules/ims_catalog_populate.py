@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) IBM Corporation 2020
+# Copyright (c) IBM Corporation 2020, 2026
 # Apache License, Version 2.0 (see https://opensource.org/licenses/Apache-2.0)
 
 from __future__ import (absolute_import, division, print_function)
@@ -24,6 +24,16 @@ options:
   mode:
     description:
       - Indicates the mode in which the Catalog Populate utility must be run.
+      - For module option I(mode=LOAD), the setup option is used:
+          - catalog only is supported in both online and offline modes.
+          - managed_acbs is supported only in offline mode (requires offline IMS).
+      - For module option I(mode=UPDATE):
+          - catalog only is supported in both online and offline modes.
+          - managed_acbs (stage option) is supported in both online and offline modes.
+          - managed_acbs (update option) is supported only in offline mode.
+      - For module option I(mode=READ):
+          - Applies to both catalog and managed_acbs.
+          - Supported in both online and offline modes.
     type: str
     required: true
     choices:
@@ -724,7 +734,7 @@ options:
       - The steplib parameter can also be specified in the target inventory's environment_vars.
       - The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
     type: list
-    required: False
+    required: false
     elements: str
   sysabend:
     description:
@@ -865,6 +875,7 @@ notes:
   - The I(steplib) input parameter to the module will take precedence over the value specified in the environment_vars.
   - If only the I(steplib) parameter is specified, then only the I(steplib) concatenation will be used to resolve the IMS RESLIB data set.
   - Specifying only I(reslib) without I(steplib) is not supported.
+
 '''
 
 EXAMPLES = '''
