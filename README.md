@@ -180,6 +180,9 @@ As Red Hat Ansible [Certified Content](https://catalog.redhat.com/software/searc
 <br/>The current supported versions of this collection can be found listed under the [release section](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html).
 
 ## Release Notes and Roadmap
+For the collection's cumulative, refer [release notes](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html) are an easy way to review changes. The collection [Life Cycle](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_core/docs/source/life-cycle.html) also referred to as the Roadmap contains changelog details, support dates and the current level of support
+for each collection. For a complete guide to support, review the **Ansible for IBM Z** [Collection Life Cycles](https://ibm.github.io/z_ansible_collections_doc/collections_content/collection-life-cycles.html#life-cycles).
+## Release Notes and Roadmap
 
 For the collection's cumulative, refer [release notes](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/release_notes.html) are an easy way to review changes. The collection [Life Cycle](https://ibm.github.io/z_ansible_collections_doc/ibm_zos_ims/docs/source/life-cycle_ims.html) also referred to as the Roadmap contains changelog details, support dates and the current level of support
 for each collection. For a complete guide to support, review the **Ansible for IBM Z** [Collection Life Cycles](https://ibm.github.io/z_ansible_collections_doc/collections_content/collection-life-cycles.html#life-cycles).
