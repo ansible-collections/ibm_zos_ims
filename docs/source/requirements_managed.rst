@@ -11,7 +11,7 @@ to each release of the **IBM z/OS IMS collection**. Review the details of the
 dependencies before you proceed to install the IBM z/OS IMS collection.
 
 * `IBM Open Enterprise Python for z/OS`_
-* z/OS `V2R3`_ or `later`_
+* `z/OS`_ V2R5 - V3Rx
 * `IBM Z Open Automation Utilities`_ (ZOAU)
 
   * IBM z/OS IMS collections are dependent on specific versions of ZOAU.
@@ -19,39 +19,20 @@ dependencies before you proceed to install the IBM z/OS IMS collection.
     `release notes`_.
 
 * `z/OS OpenSSH`_
-* The z/OS® shell
+* The z/OS shell
 * `IBM IMS V15 or later`_
 
 .. note::
-   Currently, only ``z/OS® shell`` is supported . Using ``ansible_shell_executable``
-   to change the default shell is discouraged. For more information, see
-   `Ansible documentation`_.
 
-   Shells such as ``bash`` are not supported because they handle the reading and
-   writing of untagged files differently. ``bash`` added enhanced ASCII support
-   in 4.3 and thus differs from 4.2. If ``bash`` shell is the only shell
-   available, you will need to control how the new and existing files are tagged
-   and encoded. This can be controlled by
-   setting both "_ENCODE_FILE_NEW" and "_ENCODE_FILE_EXISTING".
-   For example,
-
-   * _ENCODE_FILE_NEW: "IBM-1047"
-   * _ENCODE_FILE_EXISTING: "IBM-1047"
-
-   Please review the README.ZOS guide included with the ported ``bash`` shell
-   for further configurations.
+   Only the `z/OS shell`_ is supported, using ``ansible_shell_executable``
+   to change the default shell is unsupported. Other shells are not supported
+   because they handle the reading and writing of untagged files differently.
 
 .. _Ansible documentation:
    https://docs.ansible.com/ansible/2.7/user_guide/intro_inventory.html
 
-.. _Python on z/OS:
-   requirements_managed.html#id1
-
-.. _V2R3:
-   https://www.ibm.com/support/knowledgecenter/SSLTBW_2.3.0/com.ibm.zos.v2r3/en/homepage.html
-
-.. _later:
-   https://www.ibm.com/support/knowledgecenter/SSLTBW
+.. _z/OS:
+   https://www.ibm.com/docs/en/zos
 
 .. _IBM Z Open Automation Utilities:
    requirements_managed.html#zoau
@@ -64,6 +45,9 @@ dependencies before you proceed to install the IBM z/OS IMS collection.
 
 .. _release notes:
    release_notes.html
+
+.. _z/OS shell:
+   https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.4.0/com.ibm.zos.v2r4.bpxa400/part1.htm
 
 Python on z/OS
 --------------
@@ -93,12 +77,7 @@ and required by **IBM z/OS IMS Collection**.
 .. note::
 
    Currently, IBM Open Enterprise Python for z/OS is the supported and
-   recommended Python distribution for use on z/OS with Ansible and ZOAU. If
-   Rocket Python is the only available python on the target, review the
-   `recommended environment variables`_ for Rocket Python.
-
-.. _recommended environment variables:
-   playbook_group_vars.html
+   recommended Python distribution for use on z/OS with Ansible and ZOAU.
 
 ZOAU
 ----

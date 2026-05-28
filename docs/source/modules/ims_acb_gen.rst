@@ -16,8 +16,8 @@ ims_acb_gen -- Generate IMS ACB
 
 Synopsis
 --------
-- The ims_acb_gen module generates an IMS application control block (ACB) necessary for an IMS application program to be scheduled and run.
-- The ims_dbd_gen and ims_psb_gen modules can be used to generate the associated IMS database descriptors (DBDs) and program specification block (PSBs) to be used with the ims_acb_gen module.
+- The ims\_acb\_gen module generates an IMS application control block (ACB) necessary for an IMS application program to be scheduled and run.
+- The ims\_dbd\_gen and ims\_psb\_gen modules can be used to generate the associated IMS database descriptors (DBDs) and program specification block (PSBs) to be used with the ims\_acb\_gen module.
 - The DBD and PSB control blocks will be merged and expanded into an IMS internal format called application control blocks (ACBs).
 
 
@@ -43,17 +43,15 @@ command_input
 compression
   PRECOMP,POSTCOMP, in any combination, cause the required in-place compression.
 
-  The choices are not mutually exclusive -- PRECOMP or POSTCOMP or PRECOMP,POSTCOMP can be used
-
   The default is none.
 
   | **required**: False
   | **type**: str
-  | **choices**: PRECOMP, POSTCOMP
+  | **choices**: precomp, postcomp, precomp,postcomp, PRECOMP, POSTCOMP, PRECOMP,POSTCOMP
 
 
 psb_name
-  The name of the PS**s**. Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
+  The name of the PSB(s). Specifies that blocks are built or deleted for all PSBs that are named on this control statement.
 
   This field requires "ALL" or a list of psb names to be specified.
 
@@ -73,7 +71,7 @@ dbd_name
 acb_lib
   The ACB Maintenance utility maintains the prebuilt blocks (ACB) library (IMS.ACBLIB). The ACB library is a consolidated library of program (PSB) and database (DBD) descriptions.
 
-  The IMS acb_lib must be used exclusively. The module can only be executed using an ACB library which is not concurrently allocated to an active IMS system.
+  The IMS acb\_lib must be used exclusively. The module can only be executed using an ACB library which is not concurrently allocated to an active IMS system.
 
   | **required**: True
   | **type**: str
@@ -82,7 +80,7 @@ acb_lib
 psb_lib
   The ACB Maintenance utility receives input from the IMS PSBLIB data set.
 
-  The ACB Maintenance utility does not change the PS**s** in PSBLIB. If changes are made in PSBs or DBDs that require changes in the associated PSB, make these changes before running the module.
+  The ACB Maintenance utility does not change the PSB(s) in PSBLIB. If changes are made in PSBs or DBDs that require changes in the associated PSB, make these changes before running the module.
 
   Changes in PSBs might also require modifications to the affected application programs. For example, if a DBD has a segment name changed, all PSBs which are sensitive to that segment must have their SENSEG statements changed.
 
@@ -102,11 +100,11 @@ dbd_lib
 
 
 steplib
-  Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries that are concatenated to SDFSRESL, you must specify the *reslib* parameter.
+  Points to the IMS SDFSRESL data set, which contains the IMS nucleus and required IMS modules. If STEPLIB is unauthorized by having unauthorized libraries that are concatenated to SDFSRESL, you must specify the \ :emphasis:`reslib`\  parameter.
 
-  The steplib parameter can also be specified in the target inventory's environment_vars.
+  The steplib parameter can also be specified in the target inventory's environment\_vars.
 
-  The steplib input parameter to the module will take precedence over the value specified in the environment_vars.
+  The steplib input parameter to the module will take precedence over the value specified in the environment\_vars.
 
   | **required**: False
   | **type**: list
@@ -122,11 +120,11 @@ reslib
 
 
 build_psb
-  Specifies whether ims_acb_gen rebuilds all PSBs that reference a changed DBD in the *dbdname* parameter.
+  Specifies whether ims\_acb\_gen rebuilds all PSBs that reference a changed DBD in the \ :emphasis:`dbdname`\  parameter.
 
-  TRUE indicates that ims_acb_gen rebuilds all PSBs that reference the changed DBD on the *dbdname* parameter.
+  TRUE indicates that ims\_acb\_gen rebuilds all PSBs that reference the changed DBD on the \ :emphasis:`dbdname`\  parameter.
 
-  FALSE indicates that ims_acb_gen does not rebuild PSBs that reference the changed DBD if the changed DBD does not change the physical structure of the database.
+  FALSE indicates that ims\_acb\_gen does not rebuild PSBs that reference the changed DBD if the changed DBD does not change the physical structure of the database.
 
   | **required**: False
   | **type**: bool
@@ -201,15 +199,15 @@ Notes
 -----
 
 .. note::
-   The *steplib* parameter can also be specified in the target inventory's environment_vars.
+   The \ :emphasis:`steplib`\  parameter can also be specified in the target inventory's environment\_vars.
 
-   The *steplib* input parameter to the module will take precedence over the value specified in the environment_vars.
+   The \ :emphasis:`steplib`\  input parameter to the module will take precedence over the value specified in the environment\_vars.
 
-   If only the *steplib* parameter is specified, then only the *steplib* concatenation will be used to resolve the IMS RESLIB dataset.
+   If only the \ :emphasis:`steplib`\  parameter is specified, then only the \ :emphasis:`steplib`\  concatenation will be used to resolve the IMS RESLIB dataset.
 
-   If both *steplib* and *reslib* are specified, then both parameters will be used by the ACB Maintenenace Utility and *reslib* will be used to resolve the IMS RESLIB dataset.
+   If both \ :emphasis:`steplib`\  and \ :emphasis:`reslib`\  are specified, then both parameters will be used by the ACB Maintenenace Utility and \ :emphasis:`reslib`\  will be used to resolve the IMS RESLIB dataset.
 
-   Specifying only *reslib* without *steplib* is not supported.
+   Specifying only \ :emphasis:`reslib`\  without \ :emphasis:`steplib`\  is not supported.
 
    The ACB Maintenenace utility SYSUT3/SYSUT4 DD options are not supported by this module.
 
@@ -224,7 +222,7 @@ Return Values
 
 
 msg
-  Execution result message from the ims_acb_gen module.
+  Execution result message from the ims\_acb\_gen module.
 
   | **returned**: always
   | **type**: str
@@ -254,7 +252,7 @@ changed
 debug
   additional messages returned from ZOAU.
 
-  For more information, refer to the `ZOAU messages documentation <https://www.ibm.com/support/knowledgecenter/en/SSKFYE_1.0.0/bgy.html>`_
+  For more information, refer to the \ `ZOAU messages documentation <https://www.ibm.com/support/knowledgecenter/en/SSKFYE_1.0.0/bgy.html>`__\ 
 
   | **returned**: always
   | **type**: str

@@ -6,7 +6,7 @@ namespace: ibm
 name: ibm_zos_ims
 
 # The collection version
-version: 1.3.0-beta.1
+version: 1.4.0
 
 # Collection README file
 readme: README.md
@@ -19,6 +19,7 @@ authors:
   - Bryant Panyarachun <bpanyar@us.ibm.com>
   - Dipti Gandhi <ddgandhi@us.ibm.com>
   - Ketan Kelkar <ketan.kelkar@ibm.com>
+  - Abhirami H <Abhirami.H@ibm.com>
 
 # Description
 description: The IBM z/OS IMS collection includes modules and sample playbooks to automate tasks for IBM IMS.
@@ -33,7 +34,7 @@ tags: [ibm, z, zos, z_os, core, zos_core, data_set, jcl, uss, mvs, ims, zos_ims,
 
 # Collections that this collection requires to be installed for it to be usable.
 dependencies:
-    "ibm.ibm_zos_core": ">=1.5.0"
+  "ibm.ibm_zos_core": ">=1.10.0"
 
 # The URL of the originating SCM repository
 repository: https://github.com/ansible-collections/ibm_zos_ims
@@ -61,6 +62,12 @@ build_ignore:
   - tests/functional
   - tests/helpers
   - tests/units
+  - tests/sanity/ignore-2.9.txt
+  - tests/sanity/ignore-2.10.txt
+  - tests/sanity/ignore-2.11.txt
+  - tests/sanity/ignore-2.12.txt
+  - tests/sanity/ignore-2.13.txt
+  - tests/sanity/ignore-2.14.txt
   - tests/*.py
   - tests/*.ini
   - tests/requirements.txt
@@ -73,3 +80,8 @@ build_ignore:
   - Jenkinsfile
   - '*@tmp'
   - ibm_zos_ims
+  - venv*
+  - ansible_collections
+  - '*.log'
+  - .DS_Store
+  - .ansible-lint

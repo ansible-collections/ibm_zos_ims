@@ -54,7 +54,7 @@ def test_catalog_update_mode_boostrap_data_set(ansible_zos_module):
         'disposition': 'SHR',
         'normal_disposition': 'CATLG',
         'primary': 350,
-        'volumes': ['222222']
+        'volumes': ['USER03']
     }
     load_catalog(hosts,
                  psb_lib=cp.PSBLIB,
@@ -90,14 +90,14 @@ def test_catalog_update_mode_directory_data_set(ansible_zos_module):
             'disposition': 'NEW',
             'normal_disposition': 'CATLG',
             'primary': 200,
-            'volumes': ['222222']
+            'volumes': ['USER03']
         },
         {
             'dataset_name': cp.DIR2,
             'disposition': 'NEW',
             'normal_disposition': 'CATLG',
             'primary': 200,
-            'volumes': ['222222']
+            'volumes': ['USER03']
         },
     ]
     load_catalog(hosts,
@@ -133,7 +133,7 @@ def test_catalog_update_mode_directory_staging_data_set(ansible_zos_module):
         'disposition': 'NEW',
         'normal_disposition': 'CATLG',
         'primary': 300,
-        'volumes': ['222222']
+        'volumes': ['USER03']
     }
     load_catalog(hosts,
                  psb_lib=cp.PSBLIB,

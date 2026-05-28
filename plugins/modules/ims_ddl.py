@@ -13,7 +13,7 @@ DOCUMENTATION = r'''
 
 module: ims_ddl
 short_description: Submits Data Definition Language (DDL) SQL statements.
-version_added: "1.1.0"
+version_added: "1.3.0"
 description:
   - The IMS Data Definition utility (DFS3ID00) utility writes the metadata for your application programs (PSBs) and databases
     definitions to the IMS Catalog records and the runtime blocks to the staging directory dataset.
@@ -105,8 +105,8 @@ notes:
 
 EXAMPLES = '''
 - name: Example of DDL statements are in a dataset
-  ims_data_definition:
-    online: True
+  ims_ddl:
+    online: true
     ims_id: IMS1
     reslib:
       - SOME.IMS.SDFSRESL
@@ -116,8 +116,8 @@ EXAMPLES = '''
       - SOME.IMS.PROCLIB
     sql_input: SOME.IMS.SQL
 - name: Example of DDL statements in which VERBOSE and AUTOCOMMIT control options are specified
-  ims_data_definition:
-    online: True
+  ims_ddl:
+    online: true
     ims_id: IMS1
     reslib:
       - SOME.IMS.SDFSRESL
@@ -130,8 +130,8 @@ EXAMPLES = '''
     auto_commit: true
 
 - name: Example of DDL statements in which SIMULATE control options is specified
-  ims_data_definition:
-    online: True
+  ims_ddl:
+    online: true
     ims_id: IMS1
     reslib:
       - SOME.IMS.SDFSRESL
@@ -143,8 +143,8 @@ EXAMPLES = '''
     simulate: true
 
 - name: Example of DDL statements in which DYNAMIC_PROGRAMVIEW control option is specified
-  ims_data_definition:
-    online: True
+  ims_ddl:
+    online: true
     ims_id: IMS1
     reslib:
       - SOME.IMS.SDFSRESL
@@ -154,7 +154,6 @@ EXAMPLES = '''
       - SOME.IMS.PROCLIB
     sql_input: SOME.IMS.SQL
     dynamic_programview: true
-
 '''
 
 RETURN = '''
@@ -257,7 +256,7 @@ def run_module():
             steplib_str = env_fallback('STEPLIB')
             list_str = steplib_str.split(" ")
             steplib += list_str
-        except AnsibleFallbackNotFound as e:
+        except AnsibleFallbackNotFound:
             module.fail_json(
                 msg=(
                     "The input option 'steplib' is not provided. Please provide it in the environment"

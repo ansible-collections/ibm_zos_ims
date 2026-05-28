@@ -178,7 +178,6 @@ unformatted_output:
   returned: always
 '''
 
-from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.dbrc import dbrc  # pylint: disable=import-error
 from ansible_collections.ibm.ibm_zos_ims.plugins.module_utils.ims_module_error_messages import DBRCErrorMessages as em  # pylint: disable=import-error
 from ansible.module_utils.basic import AnsibleModule, env_fallback, AnsibleFallbackNotFound
