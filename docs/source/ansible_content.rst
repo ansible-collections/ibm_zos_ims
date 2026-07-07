@@ -33,4 +33,4 @@ interact with the `IBM z/OS core collection`_ and
    :maxdepth: 1
    :caption: Collection Content
 
-   source/modules
+   modules
